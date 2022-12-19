@@ -29,9 +29,8 @@ body{
 .App-content{ 
   position: relative;
   padding: 10px;
-  padding-left: 0px;
-  left: 50px;
-  width: calc(100% - 120px);
+  left: 61px;
+  width: calc(100% - 125px);
   height: 55px; 
   display: inline-table;
 }
@@ -74,4 +73,22 @@ body{
   to {
     transform: rotate(360deg);
   }
+}
+
+.form-padre {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  position: relative;
+  left: 120px;
+  width: calc(100% - 120px);
+}
+
+.form-login {
+  width: 400px;
+  border: 2px solid #639fc7;
+  padding: 15px;
+  border-radius: 2%;
+  box-shadow: 2px 2px 10px;
 }
