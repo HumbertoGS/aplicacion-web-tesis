@@ -5,8 +5,9 @@ import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 
 import "./designer/theme.css";
+import { Link } from "react-router-dom";
 
-function BasicExample() {
+function Iniciar() {
   return (
     <>
       <div className="form-login">
@@ -51,10 +52,20 @@ function BasicExample() {
               </Form>
             </Col>
           </Row>
+          <Row>
+            <Col className="mt-3">
+              <Form.Text style={{ color: "#1167e5" }}>
+                Eres Cliente!?,
+                <Link to="registrar">
+                  registra tus datos para realizar las compras
+                </Link>
+              </Form.Text>
+            </Col>
+          </Row>
         </Container>
       </div>
     </>
   );
 }
 
-export default BasicExample;
+export default Iniciar;
