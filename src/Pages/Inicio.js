@@ -7,7 +7,7 @@ import Form from "react-bootstrap/Form";
 import "./designer/theme.css";
 import { Link } from "react-router-dom";
 
-function Iniciar() {
+export default function Iniciar() {
   return (
     <>
       <div className="form-login">
@@ -66,6 +66,4 @@ function Iniciar() {
       </div>
     </>
   );
-}
-
-export default Iniciar;
+};

@@ -6,7 +6,7 @@ import Form from "react-bootstrap/Form";
 
 import "./designer/theme.css";
 
-function Registrar() {
+const Registrar = () => {
   return (
     <>
       <div className="form-login">
