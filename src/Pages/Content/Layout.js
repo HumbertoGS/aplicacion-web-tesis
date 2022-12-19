@@ -6,9 +6,9 @@ import { Outlet } from "react-router-dom";
 export default function Layout() {
   return (
     <div className="App">
-      {/* <Header />*/}
       <MenuL /> 
-      <div className="App-content">
+      {/* <div className="App-content"> */}
+      <div className="form-padre">
         <Outlet />
       </div>
     </div>
