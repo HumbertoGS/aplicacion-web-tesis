@@ -1,27 +1,24 @@
 import React from "react";
-import logo from "./logo.svg";
-import { Button } from "react-bootstrap";
-import "./App.css";
-import ColorSchemesExample from "./pages/navegacion";
-
-let data = { value: "Veces presionado: " };
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import Layout from "./Pages/Content/Layout";
+import Inicio from "./Pages/Inicio";
+import Registrar from "./Pages/Registrar";
+import NoPage from "./Pages/NoPage";
 
 function App() {
-  const [enumerar, setEnumerar] = React.useState(0);
-
-  const eventClick = () => {
-    setEnumerar(enumerar + 1);
-  };
-
   return (
-    <div className="App">
-      <header className="App-header">
-<ColorSchemesExample/>
-        <Button variant="primary" onClick={eventClick}>
-          {data.value} {enumerar}
-        </Button>
-      </header>
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Layout />}>
+          <Route index element={<Inicio />} />
+          {/* <Route path="catalogo" element={<Catalogo />} />
+          <Route path="carrito" element={<Carrito />} /> */}
+          <Route path="registrar" element={<Registrar />} />
+          <Route path="noPage" element={<NoPage />} />
+          <Route path="*" element={<Navigate to="noPage" />} />
+        </Route>
+      </Routes>
+    </BrowserRouter>
   );
 
 
