@@ -6,17 +6,22 @@ import Figure from "react-bootstrap/Figure";
 import { Link } from "react-router-dom";
 import "../designer/theme.css";
 
+import image from "../../assets/logo-negocio.jpeg";
+
 const MenuLateral = (
   <Stack>
     <Navbar bg="dark" variant="dark">
       <Stack>
+        {/* <div>
+          <img src={image} />
+        </div> */}
         <Container>
           <Figure>
             <Figure.Image
               width={100}
               height={100}
               alt="Imagen del negocio"
-              src="https://media.geeksforgeeks.org/wp-content/uploads/20210425000233/test-300x297.png"
+              src={"logo512.png"}
             />
           </Figure>
         </Container>
