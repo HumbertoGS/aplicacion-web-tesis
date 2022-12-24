@@ -19,6 +19,8 @@ import {
   styleBtns,
 } from "../../src/Pages/designer/styleBtn";
 
+import ModalVentasDetalles from "./ModalVentasDetalles";
+
 const columns = [
   { name: "N°" },
   { name: "Identificacion" },
@@ -39,6 +41,20 @@ const datos = [
     estado: true, //Cambia true cuando este aprobado
     validado: false,
     numero_transferencia: "",
+    detalles: [
+      {
+        producto: "camisa",
+        precio_unidad: "15.00",
+        cantidad: "1",
+        total: "15.00",
+      },
+      {
+        producto: "camisa",
+        precio_unidad: "17.00",
+        cantidad: "1",
+        total: "17.00",
+      },
+    ],
   },
   {
     id: 2,
@@ -49,6 +65,38 @@ const datos = [
     estado: true, //Cambia true cuando este aprobado
     validado: true,
     numero_transferencia: "0024834763872",
+    detalles: [
+      {
+        producto: "camisa",
+        precio_unidad: "15.00",
+        cantidad: "1",
+        total: "15.00",
+      },
+      {
+        producto: "camisa",
+        precio_unidad: "17.00",
+        cantidad: "1",
+        total: "17.00",
+      },
+      {
+        producto: "camisa",
+        precio_unidad: "15.00",
+        cantidad: "1",
+        total: "15.00",
+      },
+      {
+        producto: "camisa",
+        precio_unidad: "17.00",
+        cantidad: "1",
+        total: "17.00",
+      },
+      {
+        producto: "camisa",
+        precio_unidad: "15.00",
+        cantidad: "1",
+        total: "15.00",
+      },
+    ],
   },
   {
     id: 3,
@@ -59,6 +107,14 @@ const datos = [
     estado: true, //Cambia true cuando este aprobado
     validado: false,
     numero_transferencia: "",
+    detalles: [
+      {
+        producto: "camisa",
+        precio_unidad: "15.00",
+        cantidad: "1",
+        total: "15.00",
+      },
+    ],
   },
 ];
 
@@ -69,6 +125,7 @@ const style = {
 
 const RegistroVentas = () => {
   const [modal, setModal] = useState(false);
+  const [datosDetalles, setDatosDetalles] = useState([]);
   const [valido, setValido] = useState(false);
   const [numero, setNumero] = useState("");
 
@@ -103,7 +160,7 @@ const RegistroVentas = () => {
                       <Button
                         style={styleBtn}
                         onClick={() => {
-                          console.log(item.id);
+                          setDatosDetalles(item);
                           setModal(true);
                         }}
                       >
@@ -170,6 +227,15 @@ const RegistroVentas = () => {
           </Table>
         </Card>
       </Card>
+      {modal ? (
+        <ModalVentasDetalles
+          detalles={datosDetalles}
+          show={modal}
+          onHide={() => setModal(false)}
+        />
+      ) : (
+        <></>
+      )}
     </>
   );
 };
