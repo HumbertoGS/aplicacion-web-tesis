@@ -208,7 +208,7 @@ const RegistroVentas = () => {
                             display: item.validado ? "none" : "block",
                           }}
                           onClick={() => {
-                            item.estado = false;
+                            // item.estado = false;
                             console.log(
                               "ID:" + item.id + " Estado:" + item.estado
                             );
