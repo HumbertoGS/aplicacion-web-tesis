@@ -82,7 +82,7 @@ const Registrar = () => {
           <Row>
             <Col className="mt-3">
               <Form.Text>
-                Todos los datos registrados son para la compra del carrito
+                Todos los datos requeridos son para la compra del carrito
               </Form.Text>
             </Col>
           </Row>
