@@ -19,13 +19,21 @@ const ModalVentasDetalles = (props) => {
       centered
     >
       <Modal.Header closeButton>
-        <Modal.Title id="contained-modal-title-vcenter">
+        <Modal.Title
+          id="contained-modal-title-vcenter"
+          style={{ fontSize: "17px" }}
+        >
           Detalles de pedido
         </Modal.Title>
       </Modal.Header>
-      <Modal.Body>
-        <h5>Cliente: {detalles.cliente}</h5>
-
+      <Modal.Body style={{ fontSize: "15px" }}>
+        {/* <p>CLIENTE: {detalles.cliente}</p> */}
+        <InputGroup size="sm" className="mb-3">
+          <InputGroup.Text style={{ width: "150px" }}>CLIENTE</InputGroup.Text>
+          <InputGroup.Text style={{ background: "#fff", width: "300px" }}>
+            {detalles.cliente}
+          </InputGroup.Text>
+        </InputGroup>
         <Tabs
           id="controlled-tab-example"
           activeKey={key}
@@ -40,13 +48,13 @@ const ModalVentasDetalles = (props) => {
                 eventKey={"Producto" + (index + 1)}
                 title={"Producto #" + (index + 1)}
               >
-                <div>
+                <div key={index}>
                   <InputGroup size="sm" className="mb-3">
                     <InputGroup.Text style={{ width: "150px" }}>
                       Producto
                     </InputGroup.Text>
                     <InputGroup.Text
-                      style={{ background: "#fff", width: "250px" }}
+                      style={{ background: "#fff", width: "300px" }}
                     >
                       {item.producto}
                     </InputGroup.Text>
@@ -56,7 +64,7 @@ const ModalVentasDetalles = (props) => {
                       Precio x Unidad
                     </InputGroup.Text>
                     <InputGroup.Text
-                      style={{ background: "#fff", width: "250px" }}
+                      style={{ background: "#fff", width: "300px" }}
                     >
                       {item.precio_unidad}
                     </InputGroup.Text>
@@ -66,7 +74,7 @@ const ModalVentasDetalles = (props) => {
                       Cantidad
                     </InputGroup.Text>
                     <InputGroup.Text
-                      style={{ background: "#fff", width: "250px" }}
+                      style={{ background: "#fff", width: "300px" }}
                     >
                       {item.cantidad}
                     </InputGroup.Text>
@@ -76,7 +84,7 @@ const ModalVentasDetalles = (props) => {
                       Total
                     </InputGroup.Text>
                     <InputGroup.Text
-                      style={{ background: "#fff", width: "250px" }}
+                      style={{ background: "#fff", width: "300px" }}
                     >
                       {item.total}
                     </InputGroup.Text>
