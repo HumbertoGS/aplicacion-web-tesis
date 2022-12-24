@@ -24,8 +24,8 @@ body{
 .App-content{ 
   position: relative;
   padding: 10px;
-  left: 61px;
-  width: calc(100% - 125px);
+  left: 95px;
+  width: calc(100% - 190px);
   height: 55px; 
   display: inline-table;
 }
@@ -35,7 +35,7 @@ body{
   padding: 8px 0;
   bottom: 0;
   position: fixed;
-  width: 120px;
+  width: 180px;
   text-align: center;
   color: #23648f;
   font-size: small;
@@ -45,9 +45,9 @@ body{
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
+  height: 90vh;
   position: relative;
-  left: 120px;
+  left: 90px;
   width: calc(100% - 120px);
 }
 
