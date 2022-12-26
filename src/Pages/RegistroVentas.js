@@ -20,6 +20,7 @@ import {
 } from "../../src/Pages/designer/styleBtn";
 
 import ModalVentasDetalles from "./ModalVentasDetalles";
+import ModalBtns from "./ModalBtns";
 
 const columns = [
   { name: "N°" },
@@ -129,6 +130,8 @@ const RegistroVentas = () => {
   const [valido, setValido] = useState(false);
   const [numero, setNumero] = useState("");
 
+  const [modalShow, setModalShow] = useState(false);
+
   return (
     <>
       <Card body style={style}>
@@ -196,7 +199,11 @@ const RegistroVentas = () => {
                           }
                           style={{ ...styleBtn, ...styleBtnSave }}
                           onClick={() => {
-                            console.log(item);
+                            setDatosDetalles({
+                              titulo: "Guardar registro de venta!!",
+                              ...item,
+                            });
+                            setModalShow(true);
                           }}
                         >
                           <BsCheck2 />
@@ -208,10 +215,12 @@ const RegistroVentas = () => {
                             display: item.validado ? "none" : "block",
                           }}
                           onClick={() => {
-                            // item.estado = false;
-                            console.log(
-                              "ID:" + item.id + " Estado:" + item.estado
-                            );
+                            setDatosDetalles({
+                              titulo: "Eliminar registro de venta!!",
+                              id: item.id,
+                              estado: item.estado,
+                            });
+                            setModalShow(true);
                           }}
                         >
                           <IoMdClose />
@@ -232,6 +241,12 @@ const RegistroVentas = () => {
           detalles={datosDetalles}
           show={modal}
           onHide={() => setModal(false)}
+        />
+      ) : modalShow ? (
+        <ModalBtns
+          detalles={datosDetalles}
+          show={modalShow}
+          onHide={() => setModalShow(false)}
         />
       ) : (
         <></>
