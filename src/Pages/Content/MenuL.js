@@ -9,8 +9,8 @@ import "../designer/theme.css";
 import image from "../../assets/logo-negocio.jpeg";
 
 const MenuLateral = (
-  <Stack>
-    <Navbar bg="dark" variant="dark">
+  <Stack style={{ backgroundColor: "#e0c8db", width: "180px" }}>
+    <Navbar variant="white" style={{ backgroundColor: "#e0c8db" }}>
       <Stack>
         {/* <div>
           <img src={image} />
@@ -18,8 +18,8 @@ const MenuLateral = (
         <Container>
           <Figure>
             <Figure.Image
-              width={100}
-              height={100}
+              width={150}
+              // height={300}
               alt="Imagen del negocio"
               src={"logo512.png"}
             />
@@ -38,6 +38,11 @@ const MenuLateral = (
         <Container>
           <Nav className="me-auto">
             <Nav.Link href="carrito">Carrito</Nav.Link>
+          </Nav>
+        </Container>
+        <Container>
+          <Nav className="me-auto">
+            <Nav.Link href="registro-ventas">Registro de Ventas</Nav.Link>
           </Nav>
         </Container>
       </Stack>
@@ -62,8 +67,7 @@ function MenuL() {
           <span>
             Developed by
             <br />
-            Guiracocha
-            <br /> & Herrera
+            Guiracocha & Herrera
           </span>
         </div>
       </div>
