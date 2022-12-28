@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Layout from "./Pages/Content/Layout";
 import Inicio from "./Pages/Inicio";
 import Registrar from "./Pages/Registrar";
+import RegistroVentas from "./Pages/RegistroVentas"
 import NoPage from "./Pages/NoPage";
 import Catalogo from "./Pages/Catalogo";
 

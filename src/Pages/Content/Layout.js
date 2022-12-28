@@ -7,8 +7,8 @@ export default function Layout() {
   return (
     <div className="App">
       <MenuL /> 
-      {/* <div className="App-content"> */}
-      <div className="form-padre">
+      <div className="App-content">
+      {/* <div className="form-padre"> */}
         <Outlet />
       </div>
     </div>
