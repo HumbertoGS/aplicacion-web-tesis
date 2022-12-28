@@ -40,6 +40,11 @@ const MenuLateral = (
             <Nav.Link href="carrito">Carrito</Nav.Link>
           </Nav>
         </Container>
+        <Container>
+          <Nav className="me-auto">
+            <Nav.Link href="registro-ventas">Registro de Ventas</Nav.Link>
+          </Nav>
+        </Container>
       </Stack>
     </Navbar>
 
