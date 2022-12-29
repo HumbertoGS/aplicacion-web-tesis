@@ -15,14 +15,27 @@ function MenuDespe() {
     const handleShow = () => setShow(true);
 
     const [modal, setModal] = useState(false);
+
+    const filtro = [
+
+        { name: "Zapatos" },
+        { name: "Vestidos" },
+        { name: "Camisas" },
+        { name: "Pantalones" }
+    ];
     return (
         <Navbar bg="light" expand="lg" className="mb-3">
             <Container fluid>
                 <DropdownButton id="dropdown-basic-button" title="Filtrar">
-                    <Dropdown.Item href="#/zapatos">Zapatos</Dropdown.Item>
-                    <Dropdown.Item href="#/vestidos">Vestidos</Dropdown.Item>
-                    <Dropdown.Item href="#/pantalones">Camisas</Dropdown.Item>
-                    <Dropdown.Item href="#/pantalones">Pantalones</Dropdown.Item>
+                    {filtro.map((item, index) => {
+                        return <Dropdown.Item key={index} onClick={(event) => {
+                            console.log(event.target.value)
+                        }}
+                        value={item.name}
+                        >{item.name}
+
+                        </Dropdown.Item>;
+                    })}
                 </DropdownButton>
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav">
@@ -30,12 +43,7 @@ function MenuDespe() {
                         <Nav.Link href="/">Inicio</Nav.Link>
                     </Nav>
                     <Form className="d-flex">
-                        <Form.Control
-                            type="search"
-                            placeholder="Buscar producto"
-                            className="me-2"
-                            aria-label="Search"
-                        />
+                        
                         <Button variant="outline-success">Buscar</Button>
 
                         <Button onClick={handleShow}  /*onClick={(handleShow) => {setModal(true);}*/ >
