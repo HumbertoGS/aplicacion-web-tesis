@@ -7,6 +7,7 @@ import Form from "react-bootstrap/Form";
 import "./designer/theme.css";
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
+import { FaCartPlus } from 'react-icons/fa';
 import Catalogo from "./Catalogo";
 
 
@@ -16,24 +17,33 @@ const ProductoImagen = () => {
             <Row>
                 <Col className="mb-3">
                     <Form>
+
                         <Form.Group
                             as={Row}
                             className="mb-3"
                             controlId="formPlaintextInput1"
                         >
-                            <Form.Label column sm="3">
-                                {/*que se llame el nombre del producto de lo que se ingresa al publicar el producto */}
-                            </Form.Label>
-                            <Navbar bg="secondary" variant="dark">
-                                <Container>
-                                    <Navbar.Brand href="#home">Tacos Rosa</Navbar.Brand>
-                                    <Nav className="me-auto">
-                                        
 
-                                        <Button variant="dark" >Agregar al Carrito</Button>
-                                    </Nav>
+                            <Navbar bg="secondary" variant="dark" >
+                                <Container className="me-auto">
+                                    <Navbar.Brand >Tacos Rosa</Navbar.Brand>
+                                    <Navbar.Brand>Valor:</Navbar.Brand>
+                                    <fieldset disabled>
+                                        <Form.Control id="disabledTextInput" placeholder="$15.00" htmlSize="12" />
+                                    </fieldset>
+                                    
+                                    <Navbar.Brand>Cantidad: </Navbar.Brand>
+                                    
+                                    <input type='number' ></input>
+                                    
+
                                 </Container>
+                                
+                                <Nav className="me-auto">
+                                    <Button variant="dark" ><h4><FaCartPlus /></h4></Button>
+                                </Nav>
                             </Navbar>
+
                             <Figure>
                                 <Figure.Image
                                     width={800}

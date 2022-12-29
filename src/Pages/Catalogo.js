@@ -3,8 +3,8 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Form from "react-bootstrap/Form";
 import ProductoCatalogo from "./Producto-Catalogo";
-import MenuDespe from "./designer/MenuDesplegable";
-import paginacionCatalogo from "./Paginacion";
+import MenuDespe from "./Content/MenuDesplegable";
+//import paginacionCatalogo from "./Paginacion";
 import "./designer/theme.css";
 
 
@@ -13,7 +13,7 @@ const Catalogo = () => {
     return (
         <>
             <div className="form-catalogo">
-                <Container >
+                <Container fluid>
                     <Row>
                         <Col className="mb-3">
                             <Form.Text>
@@ -21,6 +21,7 @@ const Catalogo = () => {
                             </Form.Text>
                         </Col>
                     </Row>
+
                     <MenuDespe />
                     {/* llamar la cantidad de veces que haya un producto */}
                     <ProductoCatalogo />

@@ -7,24 +7,27 @@ import Offcanvas from 'react-bootstrap/Offcanvas';
 import React, { useState } from 'react';
 import Dropdown from 'react-bootstrap/Dropdown';
 import DropdownButton from 'react-bootstrap/DropdownButton';
+import { FaShoppingCart } from 'react-icons/fa';
 
 function MenuDespe() {
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
+
+    const [modal, setModal] = useState(false);
     return (
         <Navbar bg="light" expand="lg" className="mb-3">
             <Container fluid>
                 <DropdownButton id="dropdown-basic-button" title="Filtrar">
                     <Dropdown.Item href="#/zapatos">Zapatos</Dropdown.Item>
                     <Dropdown.Item href="#/vestidos">Vestidos</Dropdown.Item>
-                    <Dropdown.Item href="#/niños">Niños</Dropdown.Item>
+                    <Dropdown.Item href="#/pantalones">Camisas</Dropdown.Item>
                     <Dropdown.Item href="#/pantalones">Pantalones</Dropdown.Item>
-                    </DropdownButton>
+                </DropdownButton>
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav">
                     <Nav className="me-auto">
-                        <Nav.Link href="#home">Home</Nav.Link>
+                        <Nav.Link href="/">Inicio</Nav.Link>
                     </Nav>
                     <Form className="d-flex">
                         <Form.Control
@@ -34,7 +37,11 @@ function MenuDespe() {
                             aria-label="Search"
                         />
                         <Button variant="outline-success">Buscar</Button>
-                        <Button variant="success" onClick={handleShow} >icono de Carrito</Button>
+
+                        <Button onClick={handleShow}  /*onClick={(handleShow) => {setModal(true);}*/ >
+                            <FaShoppingCart />
+                        </Button>
+
                         <Offcanvas show={show} onHide={handleClose} placement={'end'}>
                             <Offcanvas.Header closeButton>
                                 <Offcanvas.Title>LLamar a Carrito</Offcanvas.Title>

@@ -15,6 +15,7 @@ function App() {
           <Route index element={<Inicio />} />
           <Route path="catalogo" element={<Catalogo/>} />
            {/*<Route path="carrito" element={<Carrito />} /> */}
+          <Route path="registro-ventas" element={<RegistroVentas />} /> 
           <Route path="registrar" element={<Registrar />} />
           <Route path="noPage" element={<NoPage />} />
           <Route path="*" element={<Navigate to="noPage" />} />

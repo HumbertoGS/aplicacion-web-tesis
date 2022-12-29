@@ -18,4 +18,4 @@ const styleBtnCancel = {
   backgroundColor: "#d53a33",
 };
 
-export { styleBtns, styleBtn, styleBtnSave, styleBtnCancel };
+export { styleBtns, styleBtn, styleBtnSave, styleBtnCancel};
