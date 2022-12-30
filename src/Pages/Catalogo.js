@@ -1,4 +1,6 @@
 import Container from "react-bootstrap/Container";
+import Breadcrumb from "react-bootstrap/Breadcrumb";
+import Card from "react-bootstrap/Card";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Form from "react-bootstrap/Form";
@@ -46,78 +48,91 @@ const producto = [
   },
 ];
 
+const filtro = [
+  { name: "Zapatos" },
+  { name: "Vestidos" },
+  { name: "Camisas" },
+  { name: "Pantalones" },
+];
+
 const Catalogo = () => {
   const [show, setShow] = useState(false);
   const [datos, setDatos] = useState([]);
   const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
+  const handleShow = () => {
+    setDatos(datosA);
+    setShow(true);
+  };
 
   const [modal, setModal] = useState(false);
 
-  const filtro = [
-    { name: "Zapatos" },
-    { name: "Vestidos" },
-    { name: "Camisas" },
-    { name: "Pantalones" },
-  ];
   let datosA = [];
+
   const datosCarrito = (valores) => {
-    //datosA.push(valores);
-    setDatos(valores);
-    //console.log(datosA);
+    datosA.push(valores);
   };
+
   return (
     <>
-      <div className="form-catalogo">
-        <Container fluid>
-          <Row>
-            <Col className="mb-3">
-              <Form.Text>
-                <h2>Cátologo de productos</h2>
-              </Form.Text>
-            </Col>
-          </Row>
-          <div style={{display: "flex", justifyContent:"space-between" }}>
-            <DropdownButton id="dropdown-basic-button" title="Filtrar">
-              {filtro.map((item, index) => {
-                return (
-                  <Dropdown.Item
-                    key={index}
-                    onClick={(event) => {
-                      console.log(event.target.value);
-                    }}
-                    value={item.name}
-                  >
-                    {item.name}
-                  </Dropdown.Item>
-                );
-              })}
-            </DropdownButton>
-
-            <Button
-              onClick={
-                handleShow
-              } /*onClick={(handleShow) => {setModal(true);}*/
+      <Card body className="Card">
+        <Breadcrumb>
+          <Breadcrumb.Item href="/">Inicio</Breadcrumb.Item>
+          <Breadcrumb.Item active>Catalogo</Breadcrumb.Item>
+        </Breadcrumb>
+        <div className="form-catalogo">
+          <Container fluid>
+            <Row>
+              <Col className="mb-3">
+                <Form.Text>
+                  <h2>Cátologo de productos</h2>
+                </Form.Text>
+              </Col>
+            </Row>
+            <div
+              style={{ display: "flex", justifyContent: "space-between" }}
+              className="mb-3"
             >
-              <FaShoppingCart />
-            </Button>
-          </div>
+              <DropdownButton id="dropdown-basic-button" title="Filtrar">
+                {filtro.map((item, index) => {
+                  return (
+                    <Dropdown.Item
+                      key={index}
+                      onClick={(event) => {
+                        console.log(event.target.value);
+                      }}
+                      value={item.name}
+                    >
+                      {item.name}
+                    </Dropdown.Item>
+                  );
+                })}
+              </DropdownButton>
 
-          {show ? (
-            <MenuDespe show={show} handleClose={handleClose} datos={datos} />
-          ) : (
-            <></>
-          )}
+              <Button
+                onClick={
+                  handleShow
+                } /*onClick={(handleShow) => {setModal(true);}*/
+              >
+                <FaShoppingCart />
+              </Button>
+            </div>
 
-          {/* llamar la cantidad de veces que haya un producto */}
-          {producto.map((item, index) => {
-            return (
-              <ProductoCatalogo producto={item} datosCarrito={datosCarrito} />
-            );
-          })}
-        </Container>
-        {/*<paginacionCatalogo />*/}
-      </div>
+            {show ? (
+              <MenuDespe show={show} handleClose={handleClose} datos={datos} />
+            ) : (
+              <></>
+            )}
+
+            {/* llamar la cantidad de veces que haya un producto */}
+            {producto.map((item, index) => {
+              return (
+                <ProductoCatalogo producto={item} datosCarrito={datosCarrito} />
+              );
+            })}
+          </Container>
+          {/*<paginacionCatalogo />*/}
+        </div>
+      </Card>
     </>
   );
 };

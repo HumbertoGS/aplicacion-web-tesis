@@ -33,7 +33,7 @@ const ProductoImagen = (props) => {
             <Form.Group
               as={Row}
               className="mb-3"
-              controlId="formPlaintextInput1"
+              // controlId="formPlaintextInput1"
             >
               <Navbar bg="secondary" variant="dark">
                 <Container className="me-auto">

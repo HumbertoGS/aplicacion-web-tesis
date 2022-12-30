@@ -9,8 +9,8 @@ import Dropdown from "react-bootstrap/Dropdown";
 import DropdownButton from "react-bootstrap/DropdownButton";
 import { FaShoppingCart } from "react-icons/fa";
 
-function MenuDespe(props) { 
-console.log(props.datos);
+const MenuDespe = (props) => {
+  console.log(props.datos);
 
   return (
     <Navbar bg="light" expand="lg" className="mb-3">
