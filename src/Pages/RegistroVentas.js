@@ -143,7 +143,7 @@ const RegistroVentas = () => {
           <h6 className="text-center">Registro de ventas</h6>
           <hr />
           <Card className="p-3" style={{ maxHeight: "70vh" }}>
-            <div style={{ overflowY: "scroll" }}>
+            <div style={{ overflowY: "auto" }}>
               <Table striped hover>
                 <thead>
                   <tr>
