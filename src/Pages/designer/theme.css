@@ -41,6 +41,14 @@ body{
   font-size: small;
 }
 
+.form-datos-carrito {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  left: -15px;
+}
+
 .form-padre {
   display: flex;
   justify-content: center;
