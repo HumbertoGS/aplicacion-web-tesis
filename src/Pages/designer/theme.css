@@ -62,7 +62,7 @@ body{
 .form-catalogo {
   display: block;
   justify-content: center;
-  align-items: center;
+  align-items: left;
   height: 90vh;
   position: relative;
   left: 70px;
