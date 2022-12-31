@@ -95,9 +95,11 @@ const Carrito = () => {
   const [nombre, setNombre] = useState("");
   const [apellido, setApellido] = useState("");
   const [direccion, setDireccion] = useState("");
-  const [referncia, setReferencia] = useState("");
+  const [referencia, setReferencia] = useState("");
 
   const [tieneDatos, setTieneDatos] = useState(false);
+
+  const [datosLlenos, setDatosLlenos] = useState(false);
 
   const VerificarDatos = () => {
     const indexOf = datosSimulado
@@ -119,6 +121,32 @@ const Carrito = () => {
       setTieneDatos(false);
     }
   };
+
+  const enviarPedido = () => {
+    console.log("click!!");
+    if (nombre && apellido && direccion && referencia && numIdent) {
+      let data = [
+        {
+          num_identificacion: numIdent,
+          nombre: nombre,
+          apellido: apellido,
+          num_pedidos: datos.datos.length,
+          detalles: datos.datos,
+        },
+      ];
+      console.log(data);
+    }
+  };
+
+  useEffect(() => {
+    // if (nombre && apellido && direccion && referencia && numIdent) {
+    //   console.log("habilitado");
+    //   setDatosLlenos(true);
+    // } else {
+    //   setDatosLlenos(false);
+    // }
+    setDatosLlenos(nombre && apellido && direccion && referencia && numIdent);
+  }, [nombre, apellido, direccion, referencia, numIdent]);
 
   return (
     <>
@@ -261,13 +289,15 @@ const Carrito = () => {
                   <InputGroup.Text>Referencia</InputGroup.Text>
                   <Form.Control
                     disabled={tieneDatos}
-                    value={referncia}
+                    value={referencia}
                     onChange={(e) => {
                       setReferencia(e.target.value);
                     }}
                   />
                 </InputGroup>
-                <Button>Enviar Pedido</Button>
+                <Button disabled={!datosLlenos} onClick={enviarPedido}>
+                  Enviar Pedido
+                </Button>
               </Card>
             </Col>
           </Row>
