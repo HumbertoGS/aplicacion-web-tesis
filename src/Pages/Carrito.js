@@ -123,12 +123,6 @@ const Carrito = () => {
   };
 
   useEffect(() => {
-    // if (nombre && apellido && direccion && referencia && numIdent) {
-    //   console.log("habilitado");
-    //   setDatosLlenos(true);
-    // } else {
-    //   setDatosLlenos(false);
-    // }
     setDatosLlenos(nombre && apellido && direccion && referencia && numIdent);
   }, [nombre, apellido, direccion, referencia, numIdent]);
 
@@ -144,7 +138,7 @@ const Carrito = () => {
           <Row>
             <Col xs={8}>
               <div className="m-4">
-                <h6 className="text-center">Datos del Carrito</h6>
+                <h5 className="text-center">Datos del Carrito</h5>
                 <hr />
                 <Card className="p-3" style={{ maxHeight: "74vh" }}>
                   <div style={{ overflowY: "auto" }}>
@@ -226,6 +220,8 @@ const Carrito = () => {
             </Col>
             <Col className="form-datos-carrito">
               <Card className="p-4 m-3">
+                <h5>Registrar Datos</h5>
+                <hr />
                 <h6 className="text-center">Numero Identificación</h6>
                 <InputGroup className="mb-3">
                   <Form.Control
