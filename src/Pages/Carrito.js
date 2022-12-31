@@ -43,22 +43,6 @@ const datos = {
       talla: "S",
       total: "15.00",
     },
-    {
-      imagen: "logo512.png",
-      producto: "camisa roja",
-      precio_unidad: "17.00",
-      cantidad: "1",
-      talla: "S",
-      total: "17.00",
-    },
-    {
-      imagen: "logo512.png",
-      producto: "camisa",
-      precio_unidad: "17.20",
-      cantidad: "1",
-      talla: "M",
-      total: "17.20",
-    },
   ],
   totales: [
     { name: "Subtotal", totales: "49.20" },
@@ -150,22 +134,22 @@ const Carrito = () => {
 
   return (
     <>
-      <Card body className="Card" style={{ border: "0" }}>
+      <Card body className="Card">
         <Breadcrumb>
           <Breadcrumb.Item href="/">Inicio</Breadcrumb.Item>
           <Breadcrumb.Item active>Carrito</Breadcrumb.Item>
         </Breadcrumb>
         {/* contenedores para el cuerpo */}
-        <Card style={{ height: "86vh" }}>
+        <Card style={{ height: "87vh" }}>
           <Row>
             <Col xs={8}>
               <div className="m-4">
                 <h6 className="text-center">Datos del Carrito</h6>
                 <hr />
-                <Card className="p-3" style={{ maxHeight: "72vh" }}>
+                <Card className="p-3" style={{ maxHeight: "74vh" }}>
                   <div style={{ overflowY: "auto" }}>
                     <Table striped hover>
-                      <thead>
+                      <thead className="theadTable">
                         <tr>
                           {columns.map((item, index) => {
                             return (

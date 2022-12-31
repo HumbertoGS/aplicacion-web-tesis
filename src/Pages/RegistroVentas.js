@@ -139,13 +139,13 @@ const RegistroVentas = () => {
           <Breadcrumb.Item href="/">Inicio</Breadcrumb.Item>
           <Breadcrumb.Item active>Data</Breadcrumb.Item>
         </Breadcrumb>
-        <Card body style={{ height: "86vh" }}>
+        <Card body style={{ height: "87vh" }}>
           <h6 className="text-center">Registro de ventas</h6>
           <hr />
           <Card className="p-3" style={{ maxHeight: "70vh" }}>
             <div style={{ overflowY: "auto" }}>
               <Table striped hover>
-                <thead>
+                <thead className="theadTable">
                   <tr>
                     {columns.map((item, index) => {
                       return <th key={index}>{item.name}</th>;
