@@ -86,7 +86,7 @@ const Carrito = () => {
   const [direccion, setDireccion] = useState("");
   const [referencia, setReferencia] = useState("");
 
-  const [tieneDatos, setTieneDatos] = useState(false);
+  const [tieneDatos, setTieneDatos] = useState(true);
 
   const [datosLlenos, setDatosLlenos] = useState(false);
 
@@ -94,6 +94,7 @@ const Carrito = () => {
     if (numIdent == "") {
       setVariant("info");
       setMensaje("Ingresa numero identificacion");
+      setTieneDatos(true);
     } else {
       const indexOf = datosSimulado
         .map((item) => item.identificacion)
@@ -101,9 +102,7 @@ const Carrito = () => {
 
       if (indexOf != -1) {
         setVariant("success");
-        setMensaje(
-          "datos ya registrados"
-        );
+        setMensaje("datos ya registrados");
 
         setNombre(datosSimulado[indexOf].nombre);
         setApellido(datosSimulado[indexOf].apellidos);
@@ -138,6 +137,11 @@ const Carrito = () => {
           detalles: datos.datos,
         },
       ];
+
+      setVariant("success");
+      setMensaje(
+        "Los datos de tu pedido ha sido registrado, por favor envianos el comprobante al numero 593xxxxxxxxx"
+      );
     }
   };
 
@@ -304,7 +308,11 @@ const Carrito = () => {
                     }}
                   />
                 </InputGroup>
-                <Button disabled={!datosLlenos} onClick={enviarPedido}>
+                <Button
+                  disabled={!datosLlenos}
+                  onClick={enviarPedido}
+                  // href="https://api.whatsapp.com/send?phone=593979930524&text=Hola, quisiera estos pedidos"
+                >
                   Enviar Pedido
                 </Button>
               </Card>
