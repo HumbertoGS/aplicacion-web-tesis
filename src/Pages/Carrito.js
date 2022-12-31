@@ -237,7 +237,7 @@ const Carrito = () => {
                       {datos.totales.map((item, index) => {
                         return (
                           <tr key={index}>
-                            <td></td>
+                            <td width={"300px"}></td>
                             <td>
                               <b>{item.name}</b>
                             </td>
