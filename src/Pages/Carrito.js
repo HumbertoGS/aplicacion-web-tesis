@@ -9,6 +9,8 @@ import Form from "react-bootstrap/Form";
 import InputGroup from "react-bootstrap/InputGroup";
 import Table from "react-bootstrap/Table";
 
+import MensajeAlert from "./MensajeAlert";
+
 const datos = {
   datos: [
     {
@@ -75,6 +77,9 @@ const datosSimulado = [
 ];
 
 const Carrito = () => {
+  const [mensaje, setMensaje] = useState("");
+  const [variant, setVariant] = useState("");
+
   const [numIdent, setNumIdent] = useState("");
   const [nombre, setNombre] = useState("");
   const [apellido, setApellido] = useState("");
@@ -86,23 +91,38 @@ const Carrito = () => {
   const [datosLlenos, setDatosLlenos] = useState(false);
 
   const VerificarDatos = () => {
-    const indexOf = datosSimulado
-      .map((item) => item.identificacion)
-      .indexOf(numIdent);
-
-    if (indexOf != -1) {
-      setNombre(datosSimulado[indexOf].nombre);
-      setApellido(datosSimulado[indexOf].apellidos);
-      setDireccion(datosSimulado[indexOf].direccion);
-      setReferencia(datosSimulado[indexOf].referencia);
-
-      setTieneDatos(true);
+    if (numIdent == "") {
+      setVariant("info");
+      setMensaje("Ingresa numero identificacion");
     } else {
-      setNombre("");
-      setApellido("");
-      setDireccion("");
-      setReferencia("");
-      setTieneDatos(false);
+      const indexOf = datosSimulado
+        .map((item) => item.identificacion)
+        .indexOf(numIdent);
+
+      if (indexOf != -1) {
+        setVariant("success");
+        setMensaje(
+          "datos ya registrados"
+        );
+
+        setNombre(datosSimulado[indexOf].nombre);
+        setApellido(datosSimulado[indexOf].apellidos);
+        setDireccion(datosSimulado[indexOf].direccion);
+        setReferencia(datosSimulado[indexOf].referencia);
+
+        setTieneDatos(true);
+      } else {
+        setNombre("");
+        setApellido("");
+        setDireccion("");
+        setReferencia("");
+        setTieneDatos(false);
+
+        setVariant("info");
+        setMensaje(
+          "numero identificacion no está registrado, completa los datos requeridos"
+        );
+      }
     }
   };
 
@@ -118,7 +138,6 @@ const Carrito = () => {
           detalles: datos.datos,
         },
       ];
-      console.log(data);
     }
   };
 
@@ -126,9 +145,19 @@ const Carrito = () => {
     setDatosLlenos(nombre && apellido && direccion && referencia && numIdent);
   }, [nombre, apellido, direccion, referencia, numIdent]);
 
+  useEffect(() => {
+    if (variant) {
+      const interval = setTimeout(() => {
+        setVariant("");
+      }, 4000);
+      return () => clearInterval(interval);
+    }
+  }, [variant]);
+
   return (
     <>
       <Card body className="Card">
+        {variant ? <MensajeAlert variant={variant} mensaje={mensaje} /> : <></>}
         <Breadcrumb>
           <Breadcrumb.Item href="/">Inicio</Breadcrumb.Item>
           <Breadcrumb.Item active>Carrito</Breadcrumb.Item>
