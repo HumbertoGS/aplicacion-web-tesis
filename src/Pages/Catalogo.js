@@ -79,7 +79,8 @@ const Catalogo = () => {
           <Breadcrumb.Item href="/">Inicio</Breadcrumb.Item>
           <Breadcrumb.Item active>Catalogo</Breadcrumb.Item>
         </Breadcrumb>
-        <div className="form-catalogo">
+        <Card style={{ height: "90vh" }} className="pt-4 pb-2">
+        <div className="form-catalogo" style={{ overflowY: "auto" }}>
           <Container fluid>
             <Row>
               <Col className="mb-3">
@@ -132,6 +133,7 @@ const Catalogo = () => {
           </Container>
           {/*<paginacionCatalogo />*/}
         </div>
+      </Card>
       </Card>
     </>
   );
