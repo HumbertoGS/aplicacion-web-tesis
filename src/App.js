@@ -6,14 +6,16 @@ import Registrar from "./Pages/Registrar";
 import RegistroVentas from "./Pages/RegistroVentas"
 import Carrito from "./Pages/Carrito";
 import NoPage from "./Pages/NoPage";
+import Catalogo from "./Pages/Catalogo";
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Layout />}>
-          <Route index element={<Inicio />} />
-          {/* <Route path="catalogo" element={<Catalogo />} />*/}
+          {/*<Route index element={<Inicio />} />*/}
+          <Route path="catalogo" element={<Catalogo/>} />
+           {/*<Route path="carrito" element={<Carrito />} /> */}
           <Route path="registro-ventas" element={<RegistroVentas />} /> 
           <Route path="carrito" element={<Carrito />} />
           <Route path="registrar" element={<Registrar />} />
@@ -23,6 +25,8 @@ function App() {
       </Routes>
     </BrowserRouter>
   );
+
+
 }
 
 export default App;

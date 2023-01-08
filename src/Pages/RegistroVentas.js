@@ -119,10 +119,10 @@ const datos = [
   },
 ];
 
-const style = {
-  fontSize: "13px",
-  border: "0px",
-};
+// const style = {
+//   fontSize: "13px",
+//   border: "0px",
+// };
 
 const RegistroVentas = () => {
   const [modal, setModal] = useState(false);
@@ -134,10 +134,10 @@ const RegistroVentas = () => {
 
   return (
     <>
-      <Card body style={style}>
+      <Card body className="Card">
         <Breadcrumb>
           <Breadcrumb.Item href="/">Inicio</Breadcrumb.Item>
-          <Breadcrumb.Item active>Data</Breadcrumb.Item>
+          <Breadcrumb.Item active>Registro_Ventas</Breadcrumb.Item>
         </Breadcrumb>
         <Card body style={{ height: "87vh" }}>
           <h5 className="text-center">Registro de ventas</h5>
