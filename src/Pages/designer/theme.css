@@ -2,6 +2,7 @@ html, body{
   background-color: #F2F2F2; 
   margin: 0;
   height: 100%;
+  font-size: 14px;
 }
 body{ 
   font: 400 12px/20px Roboto, "Helvetica Neue", sans-serif; 
@@ -11,6 +12,10 @@ body{
 
 .App {
   text-align: center;
+}
+
+.Card {
+  border: 0 !important;
 }
 
 .App-menu{
@@ -30,7 +35,6 @@ body{
   display: inline-table;
 }
 
-
 .footer-menu { 
   padding: 8px 0;
   bottom: 0;
@@ -39,6 +43,20 @@ body{
   text-align: center;
   color: #23648f;
   font-size: small;
+}
+
+.form-datos-carrito {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  left: -15px;
+}
+
+.theadTable {
+  position: sticky;
+  top: 0px;
+  background: #fff;
 }
 
 .form-padre {
