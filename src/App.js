@@ -4,6 +4,7 @@ import Layout from "./Pages/Content/Layout";
 import Inicio from "./Pages/Inicio";
 import Registrar from "./Pages/Registrar";
 import RegistroVentas from "./Pages/RegistroVentas"
+import Carrito from "./Pages/Carrito";
 import NoPage from "./Pages/NoPage";
 import Catalogo from "./Pages/Catalogo";
 
@@ -16,6 +17,7 @@ function App() {
           <Route path="catalogo" element={<Catalogo/>} />
            {/*<Route path="carrito" element={<Carrito />} /> */}
           <Route path="registro-ventas" element={<RegistroVentas />} /> 
+          <Route path="carrito" element={<Carrito />} />
           <Route path="registrar" element={<Registrar />} />
           <Route path="noPage" element={<NoPage />} />
           <Route path="*" element={<Navigate to="noPage" />} />

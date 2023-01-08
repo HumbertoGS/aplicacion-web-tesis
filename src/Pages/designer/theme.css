@@ -35,7 +35,6 @@ body{
   display: inline-table;
 }
 
-
 .footer-menu { 
   padding: 8px 0;
   bottom: 0;
@@ -44,6 +43,20 @@ body{
   text-align: center;
   color: #23648f;
   font-size: small;
+}
+
+.form-datos-carrito {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  left: -15px;
+}
+
+.theadTable {
+  position: sticky;
+  top: 0px;
+  background: #fff;
 }
 
 .form-padre {
