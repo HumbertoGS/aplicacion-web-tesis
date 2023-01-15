@@ -7,18 +7,21 @@ import Form from "react-bootstrap/Form";
 import Card from "react-bootstrap/Card";
 
 import "../designer/theme.css";
-import "../../assets/logo-negocio.jpeg";
+//import "../../assets/logo-negocio.jpeg";
+
 import { Link } from "react-router-dom";
 
 function CardsInicio() {
   //cards para presentar admin, gerente y usuario/cliente.
   return (
     <div className="CardsInicio">
+      {/*<img src="bg2.jpg" width={1560} height={150}/>
+      <img src="bg-cat.jpg" width={1560} height={890}/> */}
       <div className="container d-flex justify-content-center align-items-center h-100">
         <div className="row">
           <div className="col-md-4">
             <Card>
-              <Card.Img variant="center" src="logo512.png"/>
+              <Card.Img variant="center" src="admin.png"/>
               <Card.Body className="OneCard">
                 <Card.Title>Admin</Card.Title>
                 {/*<Card.Text>
@@ -30,7 +33,7 @@ function CardsInicio() {
           </div>
           <div className="col-md-4">
             <Card >
-              <Card.Img variant="top" src="logo512.png" />
+              <Card.Img variant="top" src="icono-cliente.png" />
               <Card.Body className="OneCard">
                 <Card.Title>Soy Cliente</Card.Title>
                <Card.Text>
@@ -42,7 +45,7 @@ function CardsInicio() {
           </div>
           <div className="col-md-4">
             <Card >
-              <Card.Img  variant="align-center" src="logo512.png" />
+              <Card.Img  variant="align-center" src="icono-cliente.png" />
               <Card.Body className="OneCard">
                 <Card.Title>Quiero ser Cliente</Card.Title>
                 <Card.Text>

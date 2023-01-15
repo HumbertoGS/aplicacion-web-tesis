@@ -19,13 +19,22 @@ body{
   border: 0 !important;
 }
 
+/* cssgradient.io para hacer degradado de colores */
 .CardsInicio{
   height: 100vh;
+  background-image: url('../../../public/bg-cat.jpg');
+  background: rgb(31,1,61);
+  background: rgb(34,193,195);
+  background: linear-gradient(
+  0deg,
+  rgba(34,193,195,1) 0%, 
+  rgba(146,118,213,1) 51%, 
+  rgba(253,45,230,1) 100%
+  );
 }
 
 .OneCard{
-  background-color:#639fc7;
-  width: "18rem";
+  width: "25rem";
 }
 
 .App-menu{
@@ -34,6 +43,7 @@ body{
   position: fixed;
   z-index: 2;
   background-color: #e0c8db;
+  
 }
 
 .App-content{ 
