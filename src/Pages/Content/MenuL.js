@@ -52,6 +52,11 @@ const MenuLateral = (
             <Nav.Link href="Registro-Ventas">Registro de Ventas</Nav.Link>
           </Nav>
         </Container>
+        <Container>
+          <Nav className="me-auto">
+            <Nav.Link href="Status-Pedido">Status del Pedido</Nav.Link>
+          </Nav>
+        </Container>
       </Stack>
     </Navbar>
 

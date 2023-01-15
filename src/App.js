@@ -8,6 +8,7 @@ import Carrito from "./Pages/Carrito";
 import NoPage from "./Pages/NoPage";
 import Catalogo from "./Pages/Catalogo/Catalogo";
 import RegistroProducto from "./Pages/RegistroProducto";
+import StatusPedido from "./Pages/StatusPedido";
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
           <Route path="Carrito" element={<Carrito />} />
           <Route path="Registrar-Productos" element={<RegistroProducto />} />
           <Route path="Registrar" element={<Registrar />} />
+          <Route path="Status-Pedido" element={<StatusPedido />} />
           <Route path="No-Page" element={<NoPage />} />
           <Route path="*" element={<Navigate to="No-Page" />} />
         </Route>
