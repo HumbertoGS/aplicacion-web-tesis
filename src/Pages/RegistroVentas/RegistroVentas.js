@@ -17,7 +17,7 @@ import {
   styleBtnCancel,
   styleBtnSave,
   styleBtns,
-} from "../../src/Pages/designer/styleBtn";
+} from "../designer/styleBtn";
 
 import ModalVentasDetalles from "./ModalVentasDetalles";
 import ModalBtns from "./ModalBtns";

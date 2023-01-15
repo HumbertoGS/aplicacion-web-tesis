@@ -4,7 +4,7 @@ import Modal from "react-bootstrap/Modal";
 import {
   styleBtnSave,
   styleBtnCancel,
-} from "../../src/Pages/designer/styleBtn";
+} from "../designer/styleBtn";
 
 const botons = { display: "flex", justifyContent: "space-evenly" };
 const btnStandar = { width: "100px", border: "0px" };
