@@ -42,6 +42,13 @@ const MenuLateral = (
         </Container>
         <Container>
           <Nav className="me-auto">
+            <Nav.Link href="Registrar-Productos">
+              Registro de Productos
+            </Nav.Link>
+          </Nav>
+        </Container>
+        <Container>
+          <Nav className="me-auto">
             <Nav.Link href="Registro-Ventas">Registro de Ventas</Nav.Link>
           </Nav>
         </Container>

@@ -7,6 +7,7 @@ import RegistroVentas from "./Pages/RegistroVentas/RegistroVentas";
 import Carrito from "./Pages/Carrito";
 import NoPage from "./Pages/NoPage";
 import Catalogo from "./Pages/Catalogo/Catalogo";
+import RegistroProducto from "./Pages/RegistroProducto";
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
           {/*<Route path="carrito" element={<Carrito />} /> */}
           <Route path="Registro-Ventas" element={<RegistroVentas />} />
           <Route path="Carrito" element={<Carrito />} />
+          <Route path="Registrar-Productos" element={<RegistroProducto />} />
           <Route path="Registrar" element={<Registrar />} />
           <Route path="No-Page" element={<NoPage />} />
           <Route path="*" element={<Navigate to="No-Page" />} />
