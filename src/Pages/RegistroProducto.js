@@ -8,19 +8,25 @@ import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import InputGroup from "react-bootstrap/InputGroup";
 import Dropdown from "react-bootstrap/Dropdown";
-import DropdownButton from "react-bootstrap/DropdownButton";
+import Table from "react-bootstrap/Table";
 
 import MensajeAlert from "./MensajeAlert";
-import { Table } from "react-bootstrap";
+
+import {
+  styleBtn,
+  styleBtnCancel,
+  styleBtnSave,
+  styleBtns,
+} from "./designer/styleBtn";
 
 const Categorias = [
-  { name: "Zapatos", estado: "activo" },
-  { name: "Vestidos", estado: "activo" },
-  { name: "Camisas", estado: "activo" },
-  { name: "Pantalones", estado: "activo" },
+  { id: 1, name: "Zapatos", estado: true },
+  { id: 2, name: "Vestidos", estado: true },
+  { id: 3, name: "Camisas", estado: true },
+  { id: 4, name: "Pantalones", estado: true },
 ];
 
-const producto = [
+const productoTabla = [
   {
     id: 1,
     categoria: 3,
@@ -28,7 +34,8 @@ const producto = [
     talla: "S",
     precio: 15.0,
     imagen: "tacos-rosa.png",
-    stock: "3", estado: "activo"
+    stock: "3",
+    estado: true,
   },
   {
     id: 2,
@@ -37,7 +44,8 @@ const producto = [
     talla: "36",
     precio: 25.0,
     imagen: "tacos-rosa.png",
-    stock: "3", estado: "activo"
+    stock: "3",
+    estado: true,
   },
   {
     id: 3,
@@ -46,7 +54,8 @@ const producto = [
     talla: "S",
     precio: 30.0,
     imagen: "tacos-rosa.png",
-    stock: "3", estado: "activo"
+    stock: "3",
+    estado: true,
   },
   {
     id: 4,
@@ -55,7 +64,8 @@ const producto = [
     talla: "S",
     precio: 30.0,
     imagen: "tacos-rosa.png",
-    stock: "3", estado: "activo"
+    stock: "3",
+    estado: true,
   },
   {
     id: 5,
@@ -64,7 +74,8 @@ const producto = [
     talla: "S",
     precio: 30.0,
     imagen: "tacos-rosa.png",
-    stock: "3", estado: "activo"
+    stock: "3",
+    estado: true,
   },
   {
     id: 6,
@@ -73,7 +84,8 @@ const producto = [
     talla: "S",
     precio: 30.0,
     imagen: "tacos-rosa.png",
-    stock: "3", estado: "activo"
+    stock: "3",
+    estado: true,
   },
   {
     id: 7,
@@ -82,34 +94,38 @@ const producto = [
     talla: "S",
     precio: 30.0,
     imagen: "tacos-rosa.png",
-    stock: "3", estado: "activo"
+    stock: "3",
+    estado: true,
   },
   {
     id: 8,
-    categoria: 2,
+    categoria: 4,
     nombre: "Pantalones",
     talla: "S",
     precio: 30.0,
     imagen: "tacos-rosa.png",
-    stock: "3", estado: "activo"
+    stock: "3",
+    estado: true,
   },
   {
     id: 9,
-    categoria: 2,
+    categoria: 4,
     nombre: "Pantalones",
     talla: "S",
     precio: 30.0,
     imagen: "tacos-rosa.png",
-    stock: "3", estado: "activo"
+    stock: "3",
+    estado: true,
   },
   {
     id: 14,
-    categoria: 2,
+    categoria: 4,
     nombre: "Pantalones",
     talla: "S",
     precio: 30.0,
     imagen: "tacos-rosa.png",
-    stock: "3", estado: "activo"
+    stock: "3",
+    estado: true,
   },
 ];
 
@@ -118,6 +134,20 @@ const RegistroProducto = () => {
   const [variant, setVariant] = useState("");
 
   const [filtro, setFiltro] = useState("Selecciona categoria");
+
+  const [producto, setProducto] = useState(productoTabla);
+  const [filtrarTabla, setFiltrarTabla] = useState("Filtro");
+
+  const Buscar = (idCategoria) => {
+    let filtrado = productoTabla.filter(
+      (data) => data.categoria == idCategoria
+    );
+    if (filtrado.length > 0) {
+      setProducto(filtrado);
+    } else {
+      setProducto(productoTabla);
+    }
+  };
 
   const [nuevaCat, setNuevaCat] = useState("");
 
@@ -273,11 +303,22 @@ const RegistroProducto = () => {
                       </thead>
                       <tbody>
                         {Categorias.map((item, index) => {
+                          let style = item.estado
+                            ? styleBtnSave
+                            : styleBtnCancel;
                           return (
                             <tr key={index}>
                               <td>{item.name}</td>
                               <td>
-                                <Button>{item.estado}</Button>
+                                <Button
+                                  style={{
+                                    border: "0px",
+                                    width: "70px",
+                                    ...style,
+                                  }}
+                                >
+                                  {item.estado ? "Activo" : "Inactivo"}
+                                </Button>
                               </td>
                             </tr>
                           );
@@ -290,36 +331,88 @@ const RegistroProducto = () => {
             </Row>
             <Row className="p-4">
               <Col>
-                <Table>
-                  <thead className="theadTable">
-                    <tr>
-                      <th>Codigo</th>
-                      <th>Nombre</th>
-                      <th>Categoria</th>
-                      <th>Talla</th>
-                      <th>Precio</th>
-                      <th>Stock</th>
-                      <th>Estado</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {producto.map((item, index) => {
-                      return (
-                        <tr key={index}>
-                          <td>{item.id}</td>
-                          <td>{item.nombre}</td>
-                          <td>{item.categoria}</td>
-                          <td>{item.talla}</td>
-                          <td>{item.precio}</td>
-                          <td>{item.stock}</td>
-                          <td>
-                            <Button>{item.estado}</Button>
-                          </td>
-                        </tr>
-                      );
-                    })}
-                  </tbody>
-                </Table>
+                <div className="d-flex">
+                  <Dropdown>
+                    <Dropdown.Toggle
+                      variant="outline"
+                      style={{
+                        width: "160px",
+                        border: "1px solid #dfe3e7",
+                      }}
+                    >
+                      {filtrarTabla}
+                    </Dropdown.Toggle>
+                    <Dropdown.Menu>
+                      {Categorias.map((item, index) => {
+                        return (
+                          <Dropdown.Item
+                            key={index}
+                            onClick={() => {
+                              setFiltrarTabla(item.name);
+                              Buscar(item.id);
+                            }}
+                          >
+                            {item.name}
+                          </Dropdown.Item>
+                        );
+                      })}
+                    </Dropdown.Menu>
+                  </Dropdown>
+                  {filtrarTabla !== "Filtrar" ? (
+                    <Button
+                      className="mx-2"
+                      onClick={() => {
+                        setFiltrarTabla("Filtrar");
+                        setProducto(productoTabla);
+                      }}
+                    >
+                      Limpiar Filtros
+                    </Button>
+                  ) : (
+                    <></>
+                  )}
+                </div>
+                <div style={{ overflowY: "auto", height: "300px" }}>
+                  <Table>
+                    <thead className="theadTable">
+                      <tr>
+                        <th>Codigo</th>
+                        <th>Nombre</th>
+                        <th>Categoria</th>
+                        <th>Talla</th>
+                        <th>Precio</th>
+                        <th>Stock</th>
+                        <th>Estado</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {producto.map((item, index) => {
+                        let style = item.estado ? styleBtnSave : styleBtnCancel;
+                        return (
+                          <tr key={index}>
+                            <td>{item.id}</td>
+                            <td>{item.nombre}</td>
+                            <td>{item.categoria}</td>
+                            <td>{item.talla}</td>
+                            <td>{item.precio}</td>
+                            <td>{item.stock}</td>
+                            <td>
+                              <Button
+                                style={{
+                                  border: "0px",
+                                  width: "70px",
+                                  ...style,
+                                }}
+                              >
+                                {item.estado ? "Activo" : "Inactivo"}
+                              </Button>
+                            </td>
+                          </tr>
+                        );
+                      })}
+                    </tbody>
+                  </Table>
+                </div>
               </Col>
             </Row>
           </div>
