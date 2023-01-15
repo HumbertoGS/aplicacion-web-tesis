@@ -25,7 +25,7 @@ const ModalCatalogo = (props) => {
       cantidad: cantidad,
       total: producto.precio_unidad * cantidad,
     };
-    
+    setCantidad(0);
     props.datosCarrito(Carrito);
   };
 
@@ -73,11 +73,14 @@ const ModalCatalogo = (props) => {
                     onChange={(event) => {
                       setCantidad(event.target.value);
                     }}
+                    placeholder={cantidad}
+                    value={cantidad == 0 ? "" : cantidad}
                   />
                 </InputGroup>
               </div>
               <Button
                 variant="dark"
+                disabled={cantidad == 0}
                 style={{
                   width: "100%",
                 }}
