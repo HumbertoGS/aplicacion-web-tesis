@@ -13,17 +13,23 @@ const MenuDespe = (props) => {
   console.log(props.datos);
 
   return (
-    <Navbar bg="light" expand="lg" className="mb-3">
-      <Container fluid>
-        <Offcanvas  show={props.show} onHide={props.handleClose} placement={"end"}>
-          <Offcanvas.Header closeButton>
-            <Offcanvas.Title>LLamar a Carrito</Offcanvas.Title>
-          </Offcanvas.Header>{" "}
-          {/*<Offcanvas.Body> Body carrito */}
-        </Offcanvas>
-      </Container>
-    </Navbar>
+    <>
+      <Navbar bg="light" expand="lg" className="mb-3">
+        <Container fluid>
+          <Offcanvas
+            show={props.show}
+            onHide={props.handleClose}
+            placement={"end"}
+          >
+            <Offcanvas.Header closeButton>
+              <Offcanvas.Title>LLamar a Carrito</Offcanvas.Title>
+            </Offcanvas.Header>{" "}
+            {/*<Offcanvas.Body> Body carrito */}
+          </Offcanvas>
+        </Container>
+      </Navbar>
+    </>
   );
-}
+};
 
 export default MenuDespe;
