@@ -6,7 +6,7 @@ import Registrar from "./Pages/Registrar";
 import RegistroVentas from "./Pages/RegistroVentas";
 import Carrito from "./Pages/Carrito";
 import NoPage from "./Pages/NoPage";
-import Catalogo from "./Pages/Catalogo";
+import Catalogo from "./Pages/Catalogo/Catalogo";
 
 function App() {
   return (

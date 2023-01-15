@@ -8,7 +8,7 @@ import InputGroup from "react-bootstrap/InputGroup";
 import { FaCartPlus } from "react-icons/fa";
 
 import ModalCatalogo from "./ModalCatalogo";
-import "./designer/theme.css";
+import "../designer/theme.css";
 
 const ProductoImagen = (props) => {
   const producto = props.producto;

@@ -12,9 +12,9 @@ import DropdownButton from "react-bootstrap/DropdownButton";
 import { FaShoppingCart } from "react-icons/fa";
 
 import ProductoCatalogo from "./Producto-Catalogo";
-import MenuDespe from "./Content/MenuDesplegable";
-import MensajeAlert from "./MensajeAlert";
-import "./designer/theme.css";
+import MenuDespe from "./MenuDesplegable";
+import MensajeAlert from "../MensajeAlert";
+import "../designer/theme.css";
 
 const producto = [
   {

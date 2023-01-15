@@ -1,19 +1,13 @@
-import React from "react";
+import { useState } from "react";
+
 import Card from "react-bootstrap/Card";
-import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
-import Figure from "react-bootstrap/Figure";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
-import "./designer/theme.css";
-import Nav from "react-bootstrap/Nav";
-import Navbar from "react-bootstrap/Navbar";
-import { FaAddressCard, FaCartPlus } from "react-icons/fa";
-import Catalogo from "./Catalogo";
-import { useState } from "react";
-import { InputGroup } from "react-bootstrap";
-
 import Modal from "react-bootstrap/Modal";
+import InputGroup from "react-bootstrap/InputGroup";
+import { FaCartPlus } from "react-icons/fa";
+
+import "../designer/theme.css";
 
 const ModalCatalogo = (props) => {
   const producto = props.producto;
