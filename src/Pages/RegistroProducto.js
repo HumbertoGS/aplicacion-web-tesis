@@ -248,43 +248,42 @@ const RegistroProducto = () => {
                           />
                         </InputGroup>
                         <div className="d-flex">
-                          <InputGroup
-                            className="mb-3"
-                            style={{ width: "270px" }}
-                          >
+                          <InputGroup className="mb-3" style={{ width: "50%" }}>
                             <InputGroup.Text style={{ width: "100px" }}>
                               Categoria
                             </InputGroup.Text>
-                            <Dropdown>
-                              <Dropdown.Toggle
-                                variant="outline"
-                                style={{
-                                  width: "160px",
-                                  border: "1px solid #dfe3e7",
-                                }}
-                              >
-                                {filtro}
-                              </Dropdown.Toggle>
-                              <Dropdown.Menu>
-                                {Categorias.map((item, index) => {
-                                  return (
-                                    <Dropdown.Item
-                                      key={index}
-                                      onClick={() => {
-                                        setFiltro(item.name);
-                                        values.categoria = item.id;
-                                      }}
-                                    >
-                                      {item.name}
-                                    </Dropdown.Item>
-                                  );
-                                })}
-                              </Dropdown.Menu>
-                            </Dropdown>
+                            <div style={{ width: "60%" }}>
+                              <Dropdown>
+                                <Dropdown.Toggle
+                                  variant="outline"
+                                  style={{
+                                    width: "100%",
+                                    border: "1px solid #dfe3e7",
+                                  }}
+                                >
+                                  {filtro}
+                                </Dropdown.Toggle>
+                                <Dropdown.Menu>
+                                  {Categorias.map((item, index) => {
+                                    return (
+                                      <Dropdown.Item
+                                        key={index}
+                                        onClick={() => {
+                                          setFiltro(item.name);
+                                          values.categoria = item.id;
+                                        }}
+                                      >
+                                        {item.name}
+                                      </Dropdown.Item>
+                                    );
+                                  })}
+                                </Dropdown.Menu>
+                              </Dropdown>
+                            </div>
                           </InputGroup>
                           <InputGroup
                             className="mb-3"
-                            style={{ marginLeft: "12px", width: "260px" }}
+                            style={{ marginLeft: "12px", width: "50%" }}
                           >
                             <InputGroup.Text style={{ width: "100px" }}>
                               Stock
@@ -298,22 +297,21 @@ const RegistroProducto = () => {
                           </InputGroup>
                         </div>
                         <div className="d-flex">
-                          <InputGroup
-                            className="mb-3"
-                            style={{ width: "260px" }}
-                          >
+                          <InputGroup className="mb-3" style={{ width: "50%" }}>
                             <InputGroup.Text style={{ width: "100px" }}>
                               Precio
                             </InputGroup.Text>
-                            <Form.Control
-                              name="precio"
-                              value={values.precio}
-                              onChange={handleChange}
-                            />
+                            <div style={{ width: "60%" }}>
+                              <Form.Control
+                                name="precio"
+                                value={values.precio}
+                                onChange={handleChange}
+                              />
+                            </div>
                           </InputGroup>
                           <InputGroup
                             className="mb-3"
-                            style={{ marginLeft: "22px", width: "260px" }}
+                            style={{ marginLeft: "12px", width: "50%" }}
                           >
                             <InputGroup.Text style={{ width: "100px" }}>
                               Talla
