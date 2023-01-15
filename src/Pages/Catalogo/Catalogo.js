@@ -16,7 +16,7 @@ import MenuDespe from "./MenuDesplegable";
 import MensajeAlert from "../MensajeAlert";
 import "../designer/theme.css";
 
-const producto = [
+const productoTabla = [
   {
     id: 1,
     categoria: 3,
@@ -24,6 +24,8 @@ const producto = [
     talla: "S",
     precio_unidad: 15.0,
     imagen: "tacos-rosa.png",
+    stock: "3",
+    estado: true,
   },
   {
     id: 2,
@@ -32,6 +34,8 @@ const producto = [
     talla: "36",
     precio_unidad: 25.0,
     imagen: "tacos-rosa.png",
+    stock: "3",
+    estado: true,
   },
   {
     id: 3,
@@ -40,6 +44,8 @@ const producto = [
     talla: "S",
     precio_unidad: 30.0,
     imagen: "tacos-rosa.png",
+    stock: "3",
+    estado: true,
   },
   {
     id: 4,
@@ -48,6 +54,8 @@ const producto = [
     talla: "S",
     precio_unidad: 30.0,
     imagen: "tacos-rosa.png",
+    stock: "3",
+    estado: true,
   },
   {
     id: 5,
@@ -56,6 +64,8 @@ const producto = [
     talla: "S",
     precio_unidad: 30.0,
     imagen: "tacos-rosa.png",
+    stock: "3",
+    estado: true,
   },
   {
     id: 6,
@@ -64,6 +74,8 @@ const producto = [
     talla: "S",
     precio_unidad: 30.0,
     imagen: "tacos-rosa.png",
+    stock: "3",
+    estado: true,
   },
   {
     id: 7,
@@ -72,39 +84,47 @@ const producto = [
     talla: "S",
     precio_unidad: 30.0,
     imagen: "tacos-rosa.png",
+    stock: "3",
+    estado: true,
   },
   {
     id: 8,
-    categoria: 2,
+    categoria: 4,
     producto: "Pantalones",
     talla: "S",
     precio_unidad: 30.0,
     imagen: "tacos-rosa.png",
+    stock: "3",
+    estado: true,
   },
   {
     id: 9,
-    categoria: 2,
+    categoria: 4,
     producto: "Pantalones",
     talla: "S",
     precio_unidad: 30.0,
     imagen: "tacos-rosa.png",
+    stock: "3",
+    estado: true,
   },
   {
     id: 14,
-    categoria: 2,
+    categoria: 4,
     producto: "Pantalones",
     talla: "S",
     precio_unidad: 30.0,
     imagen: "tacos-rosa.png",
+    stock: "3",
+    estado: true,
   },
 ];
 
 //Datos desde Tabla categoria
 const Categorias = [
-  { name: "Zapatos" },
-  { name: "Vestidos" },
-  { name: "Camisas" },
-  { name: "Pantalones" },
+  { id: 1, name: "Zapatos", estado: true },
+  { id: 2, name: "Vestidos", estado: true },
+  { id: 3, name: "Camisas", estado: true },
+  { id: 4, name: "Pantalones", estado: true },
 ];
 
 let datosA = { datos: [], totales: [] };
@@ -116,6 +136,8 @@ const Catalogo = () => {
   const [show, setShow] = useState(false);
   const [datos, setDatos] = useState({ datos: [], totales: [] });
   const [modal, setModal] = useState(false);
+
+  const [producto, setProducto] = useState(productoTabla);
   const [filtro, setFiltro] = useState("Filtrar");
 
   const [buscar, setBuscar] = useState("");
@@ -123,6 +145,17 @@ const Catalogo = () => {
   const handleClose = () => setShow(false);
   const handleShow = () => {
     setShow(true);
+  };
+
+  const BuscarFiltro = (idCategoria) => {
+    let filtrado = productoTabla.filter(
+      (data) => data.categoria == idCategoria
+    );
+    if (filtrado.length > 0) {
+      setProducto(filtrado);
+    } else {
+      setProducto(productoTabla);
+    }
   };
 
   const busqueda = () => {
@@ -199,6 +232,7 @@ const Catalogo = () => {
                           key={index}
                           onClick={() => {
                             setFiltro(item.name);
+                            BuscarFiltro(item.id)
                           }}
                         >
                           {item.name}
@@ -211,6 +245,7 @@ const Catalogo = () => {
                       className="mx-2"
                       onClick={() => {
                         setFiltro("Filtrar");
+                        setProducto(productoTabla);
                       }}
                     >
                       Limpiar Filtros
