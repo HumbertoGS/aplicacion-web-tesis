@@ -107,25 +107,64 @@ const Categorias = [
   { name: "Pantalones" },
 ];
 
-let datosA = [];
+let datosA = { datos: [], totales: [] };
 
 const Catalogo = () => {
   const [mensaje, setMensaje] = useState("");
   const [variant, setVariant] = useState("");
 
   const [show, setShow] = useState(false);
-  const [datos, setDatos] = useState([]);
+  const [datos, setDatos] = useState({ datos: [], totales: [] });
   const [modal, setModal] = useState(false);
   const [filtro, setFiltro] = useState("Filtrar");
 
   const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
+  const handleShow = () => {
+    setShow(true);
+  };
+
+  const guardarDatos = (datosA) => {
+    let Total = datosA.datos.reduce(
+      (acumulador, actual) => acumulador + actual.total,
+      0
+    );
+
+    let datosGuardar = {
+      datos: datosA.datos,
+      totales: [
+        { name: "Subtotal", totales: Total },
+        { name: "Descuento", totales: "0.0" },
+        { name: "Total", totales: Total },
+      ],
+    };
+    setDatos(datosGuardar);
+    localStorage.setItem("datosCarrito", JSON.stringify(datosGuardar));
+  };
 
   const datosCarrito = (valores) => {
-    datosA.push(valores);
+    console.log(datosA);
+    datosA.datos.push(valores);
+
+    guardarDatos(datosA);
+
+    // let Total = datosA.datos.reduce(
+    //   (acumulador, actual) => acumulador + actual.total,
+    //   0
+    // );
+
+    // let datosGuardar = {
+    //   datos: datosA.datos,
+    //   totales: [
+    //     { name: "Subtotal", totales: Total },
+    //     { name: "Descuento", totales: "0.0" },
+    //     { name: "Total", totales: Total },
+    //   ],
+    // };
+    // setDatos(datosGuardar);
+    // localStorage.setItem("datosCarrito", JSON.stringify(datosGuardar));
+
     setVariant("success");
     setMensaje("Agregado al carrito");
-    setDatos(datosA);
   };
 
   useEffect(() => {
@@ -136,6 +175,16 @@ const Catalogo = () => {
       return () => clearInterval(interval);
     }
   }, [variant]);
+
+  useEffect(() => {
+    const datosCarro = JSON.parse(localStorage.getItem("datosCarrito"));
+    if (datosCarro) {
+      if (datosCarro.datos.length > 0) {
+        datosA = datosCarro;
+        setDatos(datosA);
+      }
+    } else setDatos({ datos: [], totales: [] });
+  }, []);
 
   return (
     <>
@@ -203,7 +252,12 @@ const Catalogo = () => {
             </Card>
 
             {show ? (
-              <MenuDespe show={show} handleClose={handleClose} datos={datos} />
+              <MenuDespe
+                show={show}
+                handleClose={handleClose}
+                datos={datos}
+                guardarDatos={guardarDatos}
+              />
             ) : (
               <></>
             )}
