@@ -11,47 +11,6 @@ import Table from "react-bootstrap/Table";
 
 import MensajeAlert from "./MensajeAlert";
 
-const datos = {
-  datos: [
-    {
-      imagen: "logo512.png",
-      producto: "camisa",
-      precio_unidad: "15.00",
-      cantidad: "1",
-      talla: "S",
-      total: "15.00",
-    },
-    {
-      imagen: "logo512.png",
-      producto: "camisa roja",
-      precio_unidad: "17.00",
-      cantidad: "1",
-      talla: "S",
-      total: "17.00",
-    },
-    {
-      imagen: "logo512.png",
-      producto: "camisa",
-      precio_unidad: "17.20",
-      cantidad: "1",
-      talla: "M",
-      total: "17.20",
-    },
-    {
-      imagen: "logo512.png",
-      producto: "camisa",
-      precio_unidad: "15.00",
-      cantidad: "1",
-      talla: "S",
-      total: "15.00",
-    },
-  ],
-  totales: [
-    { name: "Subtotal", totales: "49.20" },
-    { name: "Total", totales: "49.20" },
-  ],
-};
-
 const columns = [
   { name: "PRODUCTO" },
   { name: "PRECIO" },
@@ -79,6 +38,13 @@ const datosSimulado = [
 const Carrito = () => {
   const [mensaje, setMensaje] = useState("");
   const [variant, setVariant] = useState("");
+
+  const datosCarro = JSON.parse(localStorage.getItem("datosCarrito"));
+  const datos = datosCarro
+    ? datosCarro.length == 0
+      ? { datos: [], totales: [] }
+      : datosCarro
+    : { datos: [], totales: [] };
 
   const [numIdent, setNumIdent] = useState("");
   const [nombre, setNombre] = useState("");
@@ -167,105 +133,107 @@ const Carrito = () => {
           <Breadcrumb.Item active>Carrito</Breadcrumb.Item>
         </Breadcrumb>
         {/* contenedores para el cuerpo */}
-        <Card style={{ height: "87vh" }}>
+        <Card>
           <Row>
-            <Col xs={8}>
+            <Col xs={7}>
               <div className="m-4">
                 <h5 className="text-center">Datos del Carrito</h5>
                 <hr />
-                <Card className="p-3" style={{ maxHeight: "74vh" }}>
-                  <div style={{ overflowY: "auto" }}>
-                    <Table striped hover>
-                      <thead className="theadTable">
-                        <tr>
-                          {columns.map((item, index) => {
-                            return (
-                              <th
-                                key={index}
-                                width={
-                                  item.name === "PRODUCTO" ? "300px" : "auto"
-                                }
-                              >
-                                {item.name}
-                              </th>
-                            );
-                          })}
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {datos.datos.map((item, index) => {
+                <div style={{ overflowY: "auto" }}>
+                  <Table striped hover>
+                    <thead className="theadTable">
+                      <tr>
+                        {columns.map((item, index) => {
                           return (
-                            <tr key={index}>
-                              <td>
+                            <th
+                              key={index}
+                              width={
+                                item.name === "PRODUCTO" ? "250px" : "auto"
+                              }
+                            >
+                              {item.name}
+                            </th>
+                          );
+                        })}
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {datos.datos.map((item, index) => {
+                        return (
+                          <tr key={index}>
+                            <td>
+                              <div
+                                style={{
+                                  display: "flex",
+                                  alignItems: "center",
+                                }}
+                              >
+                                <img src={item.imagen} width="70"></img>
                                 <div
                                   style={{
                                     display: "flex",
-                                    alignItems: "center",
+                                    flexDirection: "column",
+                                    alignItems: "flex-start",
+                                    marginLeft: "24px",
+                                    width: "70%",
                                   }}
                                 >
-                                  <img src={item.imagen} width="70"></img>
-                                  <div
-                                    style={{
-                                      display: "flex",
-                                      flexDirection: "column",
-                                      alignItems: "flex-start",
-                                      marginLeft: "24px",
-                                      width: "70%",
-                                    }}
-                                  >
-                                    <p className="text-start">
-                                      {item.producto}
-                                    </p>
-                                    <p className="text-start">
-                                      Talla {item.talla}
-                                    </p>
-                                  </div>
+                                  <p className="text-start">{item.producto}</p>
+                                  <p className="text-start">
+                                    Talla {item.talla}
+                                  </p>
                                 </div>
-                              </td>
-                              <td>${item.precio_unidad}</td>
-                              <td>{item.cantidad}</td>
-                              <td>${item.total}</td>
-                            </tr>
-                          );
-                        })}
-                      </tbody>
-                    </Table>
-                  </div>
-                  <Table striped hover>
-                    <thead></thead>
-                    <tbody>
-                      {datos.totales.map((item, index) => {
-                        return (
-                          <tr key={index}>
-                            <td width={"300px"}></td>
-                            <td>
-                              <b>{item.name}</b>
+                              </div>
                             </td>
-                            <td></td>
-                            <td>${item.totales}</td>
+                            <td>${item.precio_unidad}</td>
+                            <td>{item.cantidad}</td>
+                            <td>${item.total}</td>
                           </tr>
                         );
                       })}
                     </tbody>
                   </Table>
-                </Card>
+                </div>
+                <Table striped hover>
+                  <thead></thead>
+                  <tbody>
+                    {datos.totales.map((item, index) => {
+                      return (
+                        <tr key={index}>
+                          <td width={"300px"}></td>
+                          <td>
+                            <b>{item.name}</b>
+                          </td>
+                          <td></td>
+                          <td>${item.totales}</td>
+                        </tr>
+                      );
+                    })}
+                  </tbody>
+                </Table>
               </div>
             </Col>
             <Col className="form-datos-carrito">
               <Card className="p-4 m-3">
-                <h5>Registrar Datos</h5>
+                <h5>DATOS DE ENVIO</h5>
                 <hr />
-                <h6 className="text-center">Numero Identificación</h6>
+                <h6 className="text-center pb-2">Buscar datos registrados</h6>
                 <InputGroup className="mb-3">
+                  <InputGroup.Text style={{ width: "100px" }}>
+                    Identificación
+                  </InputGroup.Text>
                   <Form.Control
                     onChange={(e) => {
                       setNumIdent(e.target.value);
                     }}
+                    maxLength={10}
                   />
                   <Button onClick={VerificarDatos}>Buscar</Button>
                 </InputGroup>
                 <InputGroup className="mb-3">
-                  <InputGroup.Text>Nombres</InputGroup.Text>
+                  <InputGroup.Text style={{ width: "100px" }}>
+                    Nombres
+                  </InputGroup.Text>
                   <Form.Control
                     disabled={tieneDatos}
                     value={nombre}
@@ -275,7 +243,9 @@ const Carrito = () => {
                   />
                 </InputGroup>
                 <InputGroup className="mb-3">
-                  <InputGroup.Text>Apellidos</InputGroup.Text>
+                  <InputGroup.Text style={{ width: "100px" }}>
+                    Apellidos
+                  </InputGroup.Text>
                   <Form.Control
                     disabled={tieneDatos}
                     value={apellido}
@@ -285,7 +255,9 @@ const Carrito = () => {
                   />
                 </InputGroup>
                 <InputGroup className="mb-3">
-                  <InputGroup.Text>Dirección</InputGroup.Text>
+                  <InputGroup.Text style={{ width: "100px" }}>
+                    Dirección
+                  </InputGroup.Text>
                   <Form.Control
                     as="textarea"
                     aria-label="With textarea"
@@ -299,7 +271,9 @@ const Carrito = () => {
                   />
                 </InputGroup>
                 <InputGroup className="mb-3">
-                  <InputGroup.Text>Referencia</InputGroup.Text>
+                  <InputGroup.Text style={{ width: "100px" }}>
+                    Referencia
+                  </InputGroup.Text>
                   <Form.Control
                     disabled={tieneDatos}
                     value={referencia}

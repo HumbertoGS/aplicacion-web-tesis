@@ -139,105 +139,102 @@ const RegistroVentas = () => {
           <Breadcrumb.Item href="/">Inicio</Breadcrumb.Item>
           <Breadcrumb.Item active>Registro_Ventas</Breadcrumb.Item>
         </Breadcrumb>
-        <Card body style={{ height: "87vh" }}>
+        <Card body>
           <h5 className="text-center">Registro de ventas</h5>
           <hr />
-          <Card className="p-3" style={{ maxHeight: "70vh" }}>
-            <div style={{ overflowY: "auto" }}>
-              <Table striped hover>
-                <thead className="theadTable">
-                  <tr>
-                    {columns.map((item, index) => {
-                      return <th key={index}>{item.name}</th>;
-                    })}
-                  </tr>
-                </thead>
-                <tbody>
-                  {datos.map((item) => {
-                    return item.estado ? (
-                      <tr key={item.id}>
-                        <td>{item.num_venta}</td>
-                        <td>{item.num_identificacion}</td>
-                        <td>{item.cliente}</td>
-                        <td>{item.num_pedidos}</td>
-                        <td>
+          <div style={{ overflowY: "auto" }}>
+            <Table striped hover>
+              <thead className="theadTable">
+                <tr>
+                  {columns.map((item, index) => {
+                    return <th key={index}>{item.name}</th>;
+                  })}
+                </tr>
+              </thead>
+              <tbody>
+                {datos.map((item) => {
+                  return !item.validado ? (
+                    <tr key={item.id}>
+                      <td>{item.num_venta}</td>
+                      <td>{item.num_identificacion}</td>
+                      <td>{item.cliente}</td>
+                      <td>{item.num_pedidos}</td>
+                      <td>
+                        <Button
+                          style={styleBtn}
+                          onClick={() => {
+                            setDatosDetalles(item);
+                            setModal(true);
+                          }}
+                        >
+                          <FaEye />
+                        </Button>
+                      </td>
+                      <td key={item.id}>
+                        <InputGroup size="sm">
+                          <Form.Control
+                            readOnly={item.validado}
+                            disabled={item.validado}
+                            value={item.numero_transferencia}
+                            onChange={(event) => {
+                              if (event.target.value !== "") {
+                                item.numero_transferencia = event.target.value;
+                                setNumero(event.target.value);
+                                setValido(true);
+                              } else {
+                                item.numero_transferencia = "";
+                                setValido(false);
+                              }
+                            }}
+                          />
+                        </InputGroup>
+                      </td>
+                      <td>
+                        <div style={styleBtns}>
                           <Button
-                            style={styleBtn}
+                            disabled={
+                              item.validado
+                                ? true
+                                : item.numero_transferencia === ""
+                            }
+                            style={{ ...styleBtn, ...styleBtnSave }}
                             onClick={() => {
-                              setDatosDetalles(item);
-                              setModal(true);
+                              setDatosDetalles({
+                                titulo: "Guardar registro de venta!!",
+                                ...item,
+                              });
+                              setModalShow(true);
                             }}
                           >
-                            <FaEye />
+                            <BsCheck2 />
                           </Button>
-                        </td>
-                        <td key={item.id}>
-                          <InputGroup size="sm">
-                            <Form.Control
-                              readOnly={item.validado}
-                              disabled={item.validado}
-                              value={item.numero_transferencia}
-                              onChange={(event) => {
-                                if (event.target.value !== "") {
-                                  item.numero_transferencia =
-                                    event.target.value;
-                                  setNumero(event.target.value);
-                                  setValido(true);
-                                } else {
-                                  item.numero_transferencia = "";
-                                  setValido(false);
-                                }
-                              }}
-                            />
-                          </InputGroup>
-                        </td>
-                        <td>
-                          <div style={styleBtns}>
-                            <Button
-                              disabled={
-                                item.validado
-                                  ? true
-                                  : item.numero_transferencia === ""
-                              }
-                              style={{ ...styleBtn, ...styleBtnSave }}
-                              onClick={() => {
-                                setDatosDetalles({
-                                  titulo: "Guardar registro de venta!!",
-                                  ...item,
-                                });
-                                setModalShow(true);
-                              }}
-                            >
-                              <BsCheck2 />
-                            </Button>
-                            <Button
-                              style={{
-                                ...styleBtn,
-                                ...styleBtnCancel,
-                                display: item.validado ? "none" : "block",
-                              }}
-                              onClick={() => {
-                                setDatosDetalles({
-                                  titulo: "Eliminar registro de venta!!",
-                                  id: item.id,
-                                  estado: item.estado,
-                                });
-                                setModalShow(true);
-                              }}
-                            >
-                              <IoMdClose />
-                            </Button>
-                          </div>
-                        </td>
-                      </tr>
-                    ) : (
-                      <></>
-                    );
-                  })}
-                </tbody>
-              </Table>
-            </div>
-          </Card>
+                          <Button
+                            style={{
+                              ...styleBtn,
+                              ...styleBtnCancel,
+                              display: item.validado ? "none" : "block",
+                            }}
+                            onClick={() => {
+                              setDatosDetalles({
+                                titulo: "Eliminar registro de venta!!",
+                                id: item.id,
+                                estado: item.estado,
+                              });
+                              setModalShow(true);
+                            }}
+                          >
+                            <IoMdClose />
+                          </Button>
+                        </div>
+                      </td>
+                    </tr>
+                  ) : (
+                    <></>
+                  );
+                })}
+              </tbody>
+            </Table>
+          </div>
         </Card>
       </Card>
       {modal ? (
