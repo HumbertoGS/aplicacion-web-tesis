@@ -1,26 +1,20 @@
-import React from "react";
+import { useState } from "react";
 import Card from "react-bootstrap/Card";
-import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import Figure from "react-bootstrap/Figure";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
-import "./designer/theme.css";
-import Nav from "react-bootstrap/Nav";
-import Navbar from "react-bootstrap/Navbar";
-import { FaAddressCard, FaCartPlus } from "react-icons/fa";
-import Catalogo from "./Catalogo";
-import { useState } from "react";
-import { InputGroup } from "react-bootstrap";
+import InputGroup from "react-bootstrap/InputGroup";
 
-import Modal from "react-bootstrap/Modal";
+import { FaCartPlus } from "react-icons/fa";
+
 import ModalCatalogo from "./ModalCatalogo";
+import "./designer/theme.css";
 
 const ProductoImagen = (props) => {
   const producto = props.producto;
   const [cantidad, setCantidad] = useState(0);
-  const [modalShow, setModalShow] = React.useState(false);
-  const [datos, setDatos] = React.useState([]);
+  const [modalShow, setModalShow] = useState(false);
+  const [datos, setDatos] = useState([]);
 
   const addCar = () => {
     let Carrito = {
@@ -28,12 +22,10 @@ const ProductoImagen = (props) => {
       cantidad: cantidad,
       total: producto.precio_unidad * cantidad,
     };
-    console.log(Carrito);
+    setCantidad(0);
     props.datosCarrito(Carrito);
   };
-
-  const ref = React.useRef(null);
-
+  
   return (
     <>
       <Col>
@@ -71,12 +63,15 @@ const ProductoImagen = (props) => {
                   onChange={(event) => {
                     setCantidad(event.target.value);
                   }}
+                  placeholder={cantidad}
+                  value={cantidad == 0 ? "" : cantidad}
                 />
               </InputGroup>
             </div>
 
             <Button
               variant="dark"
+              disabled={cantidad == 0}
               style={{
                 width: "100px",
               }}
