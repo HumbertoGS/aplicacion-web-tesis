@@ -25,7 +25,7 @@ const MensajeAlert = (props) => {
       <div
         style={{
           position: "absolute",
-          zIndex: "2",
+          zIndex: "2000",
           width: "calc(100% - 30px)",
           display: "flex",
           justifyContent: "center",
