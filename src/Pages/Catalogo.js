@@ -118,9 +118,15 @@ const Catalogo = () => {
   const [modal, setModal] = useState(false);
   const [filtro, setFiltro] = useState("Filtrar");
 
+  const [buscar, setBuscar] = useState("");
+
   const handleClose = () => setShow(false);
   const handleShow = () => {
     setShow(true);
+  };
+
+  const busqueda = () => {
+    console.log(buscar);
   };
 
   const guardarDatos = (datosA) => {
@@ -221,8 +227,17 @@ const Catalogo = () => {
                       placeholder="Búsqueda..."
                       className="me-2"
                       aria-label="Search"
+                      onChange={(event) => {
+                        setBuscar(event.target.value);
+                      }}
                     />
-                    <Button variant="outline-success">Buscar</Button>
+                    <Button
+                      variant="outline-success"
+                      onClick={busqueda}
+                      disabled={!buscar}
+                    >
+                      Buscar
+                    </Button>
                   </Form>
                 </div>
                 <div style={{ width: "10%" }}>
