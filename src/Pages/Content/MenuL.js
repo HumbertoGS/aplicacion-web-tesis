@@ -32,17 +32,17 @@ const MenuLateral = (
         </Container>
         <Container>
           <Nav className="me-auto">
-            <Nav.Link href="catalogo">Catalogo</Nav.Link>
+            <Nav.Link href="Catalogo">Catalogo</Nav.Link>
           </Nav>
         </Container>
         <Container>
           <Nav className="me-auto">
-            <Nav.Link href="carrito">Carrito</Nav.Link>
+            <Nav.Link href="Carrito">Carrito</Nav.Link>
           </Nav>
         </Container>
         <Container>
           <Nav className="me-auto">
-            <Nav.Link href="registro-ventas">Registro de Ventas</Nav.Link>
+            <Nav.Link href="Registro-Ventas">Registro de Ventas</Nav.Link>
           </Nav>
         </Container>
       </Stack>

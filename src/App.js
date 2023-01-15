@@ -14,12 +14,12 @@ function App() {
       <Routes>
         <Route path="/" element={<Layout />}>
           {/*<Route index element={<Inicio />} />*/}
-          <Route path="catalogo" element={<Catalogo />} />
+          <Route path="Catalogo" element={<Catalogo />} />
           {/*<Route path="carrito" element={<Carrito />} /> */}
-          <Route path="registro-ventas" element={<RegistroVentas />} />
-          <Route path="carrito" element={<Carrito />} />
-          <Route path="registrar" element={<Registrar />} />
-          <Route path="noPage" element={<NoPage />} />
+          <Route path="Registro-Ventas" element={<RegistroVentas />} />
+          <Route path="Carrito" element={<Carrito />} />
+          <Route path="Registrar" element={<Registrar />} />
+          <Route path="No-Page" element={<NoPage />} />
           <Route path="*" element={<Navigate to="noPage" />} />
         </Route>
       </Routes>
