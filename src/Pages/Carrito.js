@@ -11,64 +11,6 @@ import Table from "react-bootstrap/Table";
 
 import MensajeAlert from "./MensajeAlert";
 
-const datos = {
-  datos: [
-    {
-      imagen: "logo512.png",
-      producto: "camisa",
-      precio_unidad: "15.00",
-      cantidad: "1",
-      talla: "S",
-      total: "15.00",
-    },
-    {
-      imagen: "logo512.png",
-      producto: "camisa roja",
-      precio_unidad: "17.00",
-      cantidad: "1",
-      talla: "S",
-      total: "17.00",
-    },
-    {
-      imagen: "logo512.png",
-      producto: "camisa",
-      precio_unidad: "17.20",
-      cantidad: "1",
-      talla: "M",
-      total: "17.20",
-    },
-    {
-      imagen: "logo512.png",
-      producto: "camisa roja",
-      precio_unidad: "17.00",
-      cantidad: "1",
-      talla: "S",
-      total: "17.00",
-    },
-    {
-      imagen: "logo512.png",
-      producto: "camisa",
-      precio_unidad: "17.20",
-      cantidad: "1",
-      talla: "M",
-      total: "17.20",
-    },
-    {
-      imagen: "logo512.png",
-      producto: "camisa",
-      precio_unidad: "15.00",
-      cantidad: "1",
-      talla: "S",
-      total: "15.00",
-    },
-  ],
-  totales: [
-    { name: "Subtotal", totales: "49.20" },
-    { name: "Descuento", totales: "0.0" },
-    { name: "Total", totales: "49.20" },
-  ],
-};
-
 const columns = [
   { name: "PRODUCTO" },
   { name: "PRECIO" },
@@ -96,6 +38,13 @@ const datosSimulado = [
 const Carrito = () => {
   const [mensaje, setMensaje] = useState("");
   const [variant, setVariant] = useState("");
+
+  const datosCarro = JSON.parse(localStorage.getItem("datosCarrito"));
+  const datos = datosCarro
+    ? datosCarro.length == 0
+      ? { datos: [], totales: [] }
+      : datosCarro
+    : { datos: [], totales: [] };
 
   const [numIdent, setNumIdent] = useState("");
   const [nombre, setNombre] = useState("");
