@@ -133,7 +133,7 @@ const RegistroProducto = () => {
   const [filtro, setFiltro] = useState("Selecciona categoria");
 
   const [producto, setProducto] = useState(productoTabla);
-  const [filtrarTabla, setFiltrarTabla] = useState("Filtro");
+  const [filtrarTabla, setFiltrarTabla] = useState("Filtrar");
 
   const Buscar = (idCategoria) => {
     let filtrado = productoTabla.filter(
@@ -146,10 +146,17 @@ const RegistroProducto = () => {
     }
   };
 
-  // const [nuevaCat, setNuevaCat] = useState("");
-
   const registrarCategoria = (nuevaCat) => {
     console.log(nuevaCat);
+    setVariant("success");
+    setMensaje("Se registro la categoria");
+  };
+
+  const guardarDatos = (value) => {
+    let datosGuardar = value;
+    console.log(datosGuardar);
+    setVariant("success");
+    setMensaje("Se registro el producto");
   };
 
   useEffect(() => {
@@ -160,11 +167,6 @@ const RegistroProducto = () => {
       return () => clearInterval(interval);
     }
   }, [variant]);
-
-  const guardarDatos = (value) => {
-    let datosGuardar = value;
-    console.log(datosGuardar);
-  };
 
   return (
     <>
