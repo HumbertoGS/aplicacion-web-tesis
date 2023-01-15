@@ -20,7 +20,7 @@ function App() {
           <Route path="Carrito" element={<Carrito />} />
           <Route path="Registrar" element={<Registrar />} />
           <Route path="No-Page" element={<NoPage />} />
-          <Route path="*" element={<Navigate to="noPage" />} />
+          <Route path="*" element={<Navigate to="No-Page" />} />
         </Route>
       </Routes>
     </BrowserRouter>
