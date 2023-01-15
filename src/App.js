@@ -1,7 +1,7 @@
 import React from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Layout from "./Pages/Content/Layout";
-import Inicio from "./Pages/Inicio";
+import Inicio from "./Pages/Inicio/Inicio";
 import Registrar from "./Pages/Registrar";
 import RegistroVentas from "./Pages/RegistroVentas/RegistroVentas";
 import Carrito from "./Pages/Carrito";
@@ -14,7 +14,7 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Layout />}>
-          {/*<Route index element={<Inicio />} />*/}
+          <Route index element={<Inicio />} />
           <Route path="Catalogo" element={<Catalogo />} />
           {/*<Route path="carrito" element={<Carrito />} /> */}
           <Route path="Registro-Ventas" element={<RegistroVentas />} />

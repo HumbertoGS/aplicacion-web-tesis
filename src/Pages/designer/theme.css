@@ -19,6 +19,15 @@ body{
   border: 0 !important;
 }
 
+.CardsInicio{
+  height: 100vh;
+}
+
+.OneCard{
+  background-color:#639fc7;
+  width: "18rem";
+}
+
 .App-menu{
   width: auto;
   height: 100%;
