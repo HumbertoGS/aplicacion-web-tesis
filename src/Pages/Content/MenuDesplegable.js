@@ -13,8 +13,6 @@ import { MdClose } from "react-icons/md";
 const MenuDespe = (props) => {
   const datosCarrito = props.datos;
 
-  console.log(datosCarrito);
-
   const [productSelect, setProductSelect] = useState([]);
 
   const eliminarProducto = () => {

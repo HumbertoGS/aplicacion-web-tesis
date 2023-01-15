@@ -142,26 +142,8 @@ const Catalogo = () => {
   };
 
   const datosCarrito = (valores) => {
-    console.log(datosA);
     datosA.datos.push(valores);
-
     guardarDatos(datosA);
-
-    // let Total = datosA.datos.reduce(
-    //   (acumulador, actual) => acumulador + actual.total,
-    //   0
-    // );
-
-    // let datosGuardar = {
-    //   datos: datosA.datos,
-    //   totales: [
-    //     { name: "Subtotal", totales: Total },
-    //     { name: "Descuento", totales: "0.0" },
-    //     { name: "Total", totales: Total },
-    //   ],
-    // };
-    // setDatos(datosGuardar);
-    // localStorage.setItem("datosCarrito", JSON.stringify(datosGuardar));
 
     setVariant("success");
     setMensaje("Agregado al carrito");
