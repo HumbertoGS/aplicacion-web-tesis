@@ -37,7 +37,7 @@ function CardsInicio() {
                   <Card.Title>Soy Cliente</Card.Title>
                   <Card.Text>Ya tengo una cuenta.</Card.Text>
                 </div>
-                <Button variant="outline-secondary rounded-0">
+                <Button variant="outline-secondary rounded-0" >
                   Iniciar sesión
                 </Button>
               </Card.Body>

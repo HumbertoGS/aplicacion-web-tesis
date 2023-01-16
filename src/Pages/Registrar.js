@@ -89,24 +89,12 @@ const Registrar = () => {
                       />
                     </Col>
                   </Form.Group>
-
-                  {/* <Form.Group
-                        as={Row}
-                        className="mb-3"
-                        controlId="formPlaintextInput4"
-                      >
-                        <Form.Label column sm="4" className="text-start">
-                          Dirección:
-                        </Form.Label>
-                        <Col sm="8">
-                          <Form.Control
-                            as="textarea"
-                            rows={3}
-                            style={{ resize: "none" }}
-                          />
-                        </Col>
-                      </Form.Group> */}
-                  <Button variant="primary" type="submit" className="w-100">
+                  <Button
+                    variant="primary"
+                    type="submit"
+                    className="w-100"
+                    href="/"
+                  >
                     Guardar datos
                   </Button>
                 </Form>
