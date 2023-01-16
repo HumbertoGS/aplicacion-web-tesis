@@ -21,10 +21,10 @@ body{
 
 /* cssgradient.io para hacer degradado de colores */
 .CardsInicio{
-  height: 100vh;
-  background-image: url('../../../public/bg-cat.jpg');
-  background: rgb(31,1,61);
-  background: rgb(34,193,195);
+  height: 97vh;
+  /* background-image: url('../../../public/bg-cat.jpg'); */
+  /* background: rgb(31,1,61); */
+  /* background: rgb(34,193,195); */
   background: linear-gradient(
   0deg,
   rgba(34,193,195,1) 0%, 
@@ -43,7 +43,6 @@ body{
   position: fixed;
   z-index: 2;
   background-color: #e0c8db;
-  
 }
 
 .App-content{ 
