@@ -137,7 +137,7 @@ const RegistroProducto = () => {
 
   const Buscar = (idCategoria) => {
     let filtrado = productoTabla.filter(
-      (data) => data.categoria == idCategoria
+      (data) => data.categoria === idCategoria
     );
     if (filtrado.length > 0) {
       setProducto(filtrado);
@@ -147,14 +147,13 @@ const RegistroProducto = () => {
   };
 
   const registrarCategoria = (nuevaCat) => {
-    console.log(nuevaCat);
     setVariant("success");
     setMensaje("Se registro la categoria");
   };
 
   const guardarDatos = (value) => {
     let datosGuardar = value;
-    console.log(datosGuardar);
+    console.log(datosGuardar)
     setVariant("success");
     setMensaje("Se registro el producto");
   };

@@ -119,11 +119,6 @@ const datos = [
   },
 ];
 
-// const style = {
-//   fontSize: "13px",
-//   border: "0px",
-// };
-
 const RegistroVentas = () => {
   const [modal, setModal] = useState(false);
   const [datosDetalles, setDatosDetalles] = useState([]);

@@ -70,9 +70,11 @@ const StatusPedido = () => {
   }, [variant]);
 
   const buscarPedido = () => {
-    let filtrado = Pedidos.filter((data) => data.codigo == pedido);
+    let filtrado = Pedidos.filter((data) => data.codigo === pedido);
     if (filtrado.length > 0) {
       setProducto(filtrado);
+      setVariant("success");
+      setMensaje("Pedido Encontrado");
     } else {
       setProducto([]);
       setMensajeTabla("No existe pedido");
@@ -101,13 +103,15 @@ const StatusPedido = () => {
                 maxLength={10}
                 onChange={(event) => {
                   setPedido(event.target.value);
-                  if (event.target.value == "") {
+                  if (event.target.value === "") {
                     setProducto([]);
                     setMensajeTabla("Ingresa un num pedido");
                   }
                 }}
               />
-              <Button onClick={buscarPedido}>Buscar</Button>
+              <Button onClick={buscarPedido} disabled={!pedido}>
+                Buscar
+              </Button>
             </InputGroup>
           </div>
           <div className="p-4" style={{ overflowY: "auto", height: "300px" }}>

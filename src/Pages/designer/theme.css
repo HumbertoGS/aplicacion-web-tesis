@@ -19,6 +19,20 @@ body{
   border: 0 !important;
 }
 
+.Mensaje {
+  position: absolute;
+  z-index: 2000;
+  width: calc(100% - 30px);
+  display: flex;
+  justify-content: center;
+}
+
+.Alert {
+  display: "flex"; 
+  justify-content: "center"; 
+  width: 500px;
+}
+
 /* cssgradient.io para hacer degradado de colores */
 .CardsInicio{
   height: 97vh;
