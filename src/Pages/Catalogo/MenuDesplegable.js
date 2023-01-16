@@ -19,7 +19,7 @@ const MenuDespe = (props) => {
     let index = datosCarrito.datos.findIndex((object) => {
       return object.id === productSelect.id;
     });
-    datosCarrito.datos.pop(index);
+    datosCarrito.datos.splice(index, 1);
     props.guardarDatos(datosCarrito);
   };
 
