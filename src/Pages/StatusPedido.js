@@ -9,9 +9,56 @@ import Table from "react-bootstrap/Table";
 
 import MensajeAlert from "./MensajeAlert";
 
+const Pedidos = [
+  {
+    codigo: "12345",
+    producto: "camisa",
+    precio: "15.00",
+    cantidad: "1",
+    total: "15.00",
+    status: "Pendiente",
+  },
+  {
+    codigo: "12346",
+    producto: "camisa",
+    precio: "17.00",
+    cantidad: "1",
+    total: "17.00",
+    status: "Pendiente",
+  },
+  {
+    codigo: "12347",
+    producto: "camisa",
+    precio: "15.00",
+    cantidad: "1",
+    total: "15.00",
+    status: "Pendiente",
+  },
+  {
+    codigo: "12348",
+    producto: "camisa",
+    precio: "17.00",
+    cantidad: "1",
+    total: "17.00",
+    status: "Pendiente",
+  },
+  {
+    codigo: "12349",
+    producto: "camisa",
+    precio: "15.00",
+    cantidad: "1",
+    total: "15.00",
+    status: "Pendiente",
+  },
+];
+
 const StatusPedido = () => {
   const [mensaje, setMensaje] = useState("");
   const [variant, setVariant] = useState("");
+
+  const [pedido, setPedido] = useState("");
+  const [mensajeTabla, setMensajeTabla] = useState("Ingresa un num pedido");
+  const [producto, setProducto] = useState([]);
 
   useEffect(() => {
     if (variant) {
@@ -22,6 +69,16 @@ const StatusPedido = () => {
     }
   }, [variant]);
 
+  const buscarPedido = () => {
+    let filtrado = Pedidos.filter((data) => data.codigo == pedido);
+    if (filtrado.length > 0) {
+      setProducto(filtrado);
+    } else {
+      setProducto([]);
+      setMensajeTabla("No existe pedido");
+    }
+  };
+
   return (
     <>
       <Card body className="Card">
@@ -30,7 +87,7 @@ const StatusPedido = () => {
           <Breadcrumb.Item href="/">Inicio</Breadcrumb.Item>
           <Breadcrumb.Item active>Status-Pedido</Breadcrumb.Item>
         </Breadcrumb>
-        <Card>
+        <Card style={{ height: "87vh" }}>
           <div className="mx-4 mt-4">
             <h5 className="text-center">Status de Pedidos</h5>
             <hr />
@@ -40,16 +97,18 @@ const StatusPedido = () => {
               <InputGroup.Text style={{ width: "100px" }}>
                 N° Pedido
               </InputGroup.Text>
-              <Form.Control maxLength={10} />
-              <Button>Buscar</Button>
+              <Form.Control
+                maxLength={10}
+                onChange={(event) => {
+                  setPedido(event.target.value);
+                  if (event.target.value == "") {
+                    setProducto([]);
+                    setMensajeTabla("Ingresa un num pedido");
+                  }
+                }}
+              />
+              <Button onClick={buscarPedido}>Buscar</Button>
             </InputGroup>
-            {/* <InputGroup className="mb-3">
-              <InputGroup.Text style={{ width: "100px" }}>
-                Identificación
-              </InputGroup.Text>
-              <Form.Control maxLength={10} />
-              <Button>Buscar</Button>
-            </InputGroup> */}
           </div>
           <div className="p-4" style={{ overflowY: "auto", height: "300px" }}>
             <Table>
@@ -64,33 +123,24 @@ const StatusPedido = () => {
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                </tr>
-                {/* {Categorias.map((item, index) => {
-                  let style = item.estado ? styleBtnSave : styleBtnCancel;
-                  return (
-                    <tr key={index}>
-                      <td>{item.name}</td>
-                      <td>
-                        <Button
-                          style={{
-                            border: "0px",
-                            width: "70px",
-                            ...style,
-                          }}
-                        >
-                          {item.estado ? "Activo" : "Inactivo"}
-                        </Button>
-                      </td>
-                    </tr>
-                  );
-                })} */}
+                {producto.length !== 0 ? (
+                  producto.map((item, index) => {
+                    return (
+                      <tr key={index}>
+                        <td>{item.codigo}</td>
+                        <td>{item.producto}</td>
+                        <td>{item.precio}</td>
+                        <td>{item.cantidad}</td>
+                        <td>{item.total}</td>
+                        <td>{item.status}</td>
+                      </tr>
+                    );
+                  })
+                ) : (
+                  <tr>
+                    <td colSpan={6}>{mensajeTabla}</td>
+                  </tr>
+                )}
               </tbody>
             </Table>
           </div>
