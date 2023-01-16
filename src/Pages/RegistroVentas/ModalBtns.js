@@ -1,10 +1,7 @@
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 
-import {
-  styleBtnSave,
-  styleBtnCancel,
-} from "../designer/styleBtn";
+import { styleBtnSave, styleBtnCancel } from "../designer/styleBtn";
 
 const botons = { display: "flex", justifyContent: "space-evenly" };
 const btnStandar = { width: "100px", border: "0px" };
@@ -12,6 +9,7 @@ const warn = { color: "#545454", background: "#dbdb84" };
 
 const ModalBtns = (props) => {
   const guardar = () => {
+    if (props.detalles?.validado == false) props.detalles.validado = true;
     console.log(props.detalles);
     props.onHide();
   };
