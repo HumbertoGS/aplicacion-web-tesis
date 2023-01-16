@@ -38,18 +38,18 @@ const StatusPedido = () => {
           <div className="m-4" style={{ width: "400px" }}>
             <InputGroup className="mb-3">
               <InputGroup.Text style={{ width: "100px" }}>
-                Identificación
-              </InputGroup.Text>
-              <Form.Control maxLength={10} />
-              <Button>Buscar</Button>
-            </InputGroup>
-            <InputGroup className="mb-3">
-              <InputGroup.Text style={{ width: "100px" }}>
                 N° Pedido
               </InputGroup.Text>
               <Form.Control maxLength={10} />
               <Button>Buscar</Button>
             </InputGroup>
+            {/* <InputGroup className="mb-3">
+              <InputGroup.Text style={{ width: "100px" }}>
+                Identificación
+              </InputGroup.Text>
+              <Form.Control maxLength={10} />
+              <Button>Buscar</Button>
+            </InputGroup> */}
           </div>
           <div className="p-4" style={{ overflowY: "auto", height: "300px" }}>
             <Table>
