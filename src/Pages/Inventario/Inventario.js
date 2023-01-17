@@ -1,16 +1,6 @@
-import { useState } from "react";
-
 import Table from "react-bootstrap/Table";
 import Breadcrumb from "react-bootstrap/Breadcrumb";
 import Dropdown from "react-bootstrap/Dropdown";
-import Button from "react-bootstrap/Button";
-
-import {
-  styleBtn,
-  styleBtnCancel,
-  styleBtnSave,
-  styleBtns,
-} from "../designer/styleBtn";
 
 const productoTabla = [
   {
@@ -36,8 +26,6 @@ const Categorias = [
 ];
 
 function Inventario() {
-  //const [filtrarTabla, setFiltrarTabla] = useState("Filtro");
-  //const [filtro, setFiltro] = useState("Selecciona categoria");
   return (
     <div className="Card">
       <Breadcrumb>
@@ -64,7 +52,6 @@ function Inventario() {
         </thead>
         <tbody>
           {productoTabla.map((item, index) => {
-            let style = item.estado ? styleBtnSave : styleBtnCancel;
             return (
               <tr key={index}>
                 <td>{item.id}</td>
