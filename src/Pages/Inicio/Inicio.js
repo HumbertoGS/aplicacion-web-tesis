@@ -15,43 +15,45 @@ function CardsInicio() {
   //cards para presentar admin, gerente y usuario/cliente.
   return (
     <div className="CardsInicio">
-      {/*<img src="bg2.jpg" width={1560} height={150}/>
-      <img src="bg-cat.jpg" width={1560} height={890}/> */}
       <div className="container d-flex justify-content-center align-items-center h-100">
         <div className="row">
           <div className="col-md-4">
-            <Card>
-              <Card.Img variant="center" src="admin.png"/>
+            <Card style={{ height: "430px" }}>
+              <Card.Img variant="center" src="admin.png" />
               <Card.Body className="OneCard">
-                <Card.Title>Admin</Card.Title>
-                {/*<Card.Text>
-                descripcion del admin
-              </Card.Text>  */}
+                <div className="py-2" style={{ height: "85px" }}>
+                  <Card.Title>Administrador</Card.Title>
+                  <Card.Text>Acceso solo para administrador</Card.Text>
+                </div>
                 <Button variant="outline-secondary rounded-0">Ingresar</Button>
               </Card.Body>
             </Card>
           </div>
           <div className="col-md-4">
-            <Card >
+            <Card style={{ height: "430px" }}>
               <Card.Img variant="top" src="icono-cliente.png" />
               <Card.Body className="OneCard">
-                <Card.Title>Soy Cliente</Card.Title>
-               <Card.Text>
-                Ya tengo una cuenta.
-              </Card.Text>
-                <Button variant="outline-secondary rounded-0">Iniciar sesión</Button>
+                <div className="py-2" style={{ height: "85px" }}>
+                  <Card.Title>Soy Cliente</Card.Title>
+                  <Card.Text>Ya tengo una cuenta.</Card.Text>
+                </div>
+                <Button variant="outline-secondary rounded-0" >
+                  Iniciar sesión
+                </Button>
               </Card.Body>
             </Card>
           </div>
           <div className="col-md-4">
-            <Card >
-              <Card.Img  variant="align-center" src="icono-cliente.png" />
+            <Card style={{ height: "430px" }}>
+              <Card.Img variant="align-center" src="icono-cliente.png" />
               <Card.Body className="OneCard">
-                <Card.Title>Quiero ser Cliente</Card.Title>
-                <Card.Text>
-                  Quiero tener una cuenta y ser miembro.
-                </Card.Text>
-                <Button variant="outline-secondary rounded-0">Registrarme</Button>
+                <div className="py-2" style={{ height: "85px" }}>
+                  <Card.Title>Quiero ser Cliente</Card.Title>
+                  <Card.Text>Quiero tener una cuenta y ser miembro.</Card.Text>
+                </div>
+                <Button variant="outline-secondary rounded-0" href="/Registrar">
+                  Registrarme
+                </Button>
               </Card.Body>
             </Card>
           </div>
@@ -62,7 +64,6 @@ function CardsInicio() {
 }
 
 function Iniciar() {
-  
   return (
     <>
       <div className="form-padre">

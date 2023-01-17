@@ -12,12 +12,9 @@ import Table from "react-bootstrap/Table";
 
 import MensajeAlert from "./MensajeAlert";
 
-import {
-  styleBtn,
-  styleBtnCancel,
-  styleBtnSave,
-  styleBtns,
-} from "./designer/styleBtn";
+import { Formik } from "formik";
+
+import { styleBtnCancel, styleBtnSave } from "./designer/styleBtn";
 
 const Categorias = [
   { id: 1, name: "Zapatos", estado: true },
@@ -136,11 +133,11 @@ const RegistroProducto = () => {
   const [filtro, setFiltro] = useState("Selecciona categoria");
 
   const [producto, setProducto] = useState(productoTabla);
-  const [filtrarTabla, setFiltrarTabla] = useState("Filtro");
+  const [filtrarTabla, setFiltrarTabla] = useState("Filtrar");
 
   const Buscar = (idCategoria) => {
     let filtrado = productoTabla.filter(
-      (data) => data.categoria == idCategoria
+      (data) => data.categoria === idCategoria
     );
     if (filtrado.length > 0) {
       setProducto(filtrado);
@@ -149,10 +146,16 @@ const RegistroProducto = () => {
     }
   };
 
-  const [nuevaCat, setNuevaCat] = useState("");
+  const registrarCategoria = (nuevaCat) => {
+    setVariant("success");
+    setMensaje("Se registro la categoria");
+  };
 
-  const registrarCategoria = () => {
-    console.log(nuevaCat);
+  const guardarDatos = (value) => {
+    let datosGuardar = value;
+    console.log(datosGuardar)
+    setVariant("success");
+    setMensaje("Se registro el producto");
   };
 
   useEffect(() => {
@@ -181,94 +184,179 @@ const RegistroProducto = () => {
                 <Card className="p-4 m-3">
                   <h5>Registro de Productos</h5>
                   <hr />
-                  <InputGroup className="mb-3" style={{ width: "260px" }}>
-                    <InputGroup.Text style={{ width: "100px" }}>
-                      Codigo
-                    </InputGroup.Text>
-                    <Form.Control />
-                  </InputGroup>
-                  <InputGroup className="mb-3">
-                    <InputGroup.Text style={{ width: "100px" }}>
-                      Nombre
-                    </InputGroup.Text>
-                    <Form.Control />
-                  </InputGroup>
-                  <InputGroup className="mb-3">
-                    <InputGroup.Text style={{ width: "100px" }}>
-                      Imagen
-                    </InputGroup.Text>
-                    <Form.Control />
-                  </InputGroup>
-                  <div className="d-flex">
-                    <InputGroup className="mb-3" style={{ width: "270px" }}>
-                      <InputGroup.Text style={{ width: "100px" }}>
-                        Categoria
-                      </InputGroup.Text>
-                      <Dropdown>
-                        <Dropdown.Toggle
-                          variant="outline"
-                          style={{
-                            width: "160px",
-                            border: "1px solid #dfe3e7",
-                          }}
+                  <Formik
+                    initialValues={{
+                      codigo: "",
+                      nombre: "",
+                      imagen: "",
+                      categoria: "",
+                      stock: "",
+                      precio: "",
+                      talla: "",
+                      descripcion: "",
+                    }}
+                    onSubmit={(values, { resetForm }) => {
+                      guardarDatos(values);
+                      resetForm();
+                      setFiltro("Selecciona categoria");
+                    }}
+                  >
+                    {({
+                      handleSubmit,
+                      handleChange,
+                      handleBlur,
+                      values,
+                      touched,
+                      isValid,
+                      errors,
+                    }) => (
+                      <Form noValidate onSubmit={handleSubmit}>
+                        <InputGroup className="mb-3" style={{ width: "260px" }}>
+                          <InputGroup.Text style={{ width: "100px" }}>
+                            Codigo
+                          </InputGroup.Text>
+                          <Form.Control
+                            type="text"
+                            name="codigo"
+                            value={values.codigo}
+                            onChange={handleChange}
+                          />
+                        </InputGroup>
+                        <InputGroup className="mb-3">
+                          <InputGroup.Text style={{ width: "100px" }}>
+                            Nombre
+                          </InputGroup.Text>
+                          <Form.Control
+                            type="text"
+                            name="nombre"
+                            value={values.nombre}
+                            onChange={handleChange}
+                          />
+                        </InputGroup>
+                        <InputGroup className="mb-3">
+                          <InputGroup.Text style={{ width: "100px" }}>
+                            Imagen
+                          </InputGroup.Text>
+                          <Form.Control
+                            type="file"
+                            required
+                            name="imagen"
+                            value={values.imagen}
+                            onChange={handleChange}
+                            // isInvalid={!!errors.file}
+                          />
+                        </InputGroup>
+                        <div className="d-flex">
+                          <InputGroup className="mb-3" style={{ width: "50%" }}>
+                            <InputGroup.Text style={{ width: "100px" }}>
+                              Categoria
+                            </InputGroup.Text>
+                            <div style={{ width: "60%" }}>
+                              <Dropdown>
+                                <Dropdown.Toggle
+                                  variant="outline"
+                                  style={{
+                                    width: "100%",
+                                    border: "1px solid #dfe3e7",
+                                  }}
+                                >
+                                  {filtro}
+                                </Dropdown.Toggle>
+                                <Dropdown.Menu>
+                                  {Categorias.map((item, index) => {
+                                    return (
+                                      <Dropdown.Item
+                                        key={index}
+                                        onClick={() => {
+                                          setFiltro(item.name);
+                                          values.categoria = item.id;
+                                        }}
+                                      >
+                                        {item.name}
+                                      </Dropdown.Item>
+                                    );
+                                  })}
+                                </Dropdown.Menu>
+                              </Dropdown>
+                            </div>
+                          </InputGroup>
+                          <InputGroup
+                            className="mb-3"
+                            style={{ marginLeft: "12px", width: "50%" }}
+                          >
+                            <InputGroup.Text style={{ width: "100px" }}>
+                              Stock
+                            </InputGroup.Text>
+                            <Form.Control
+                              type="text"
+                              name="stock"
+                              value={values.stock}
+                              onChange={handleChange}
+                            />
+                          </InputGroup>
+                        </div>
+                        <div className="d-flex">
+                          <InputGroup className="mb-3" style={{ width: "50%" }}>
+                            <InputGroup.Text style={{ width: "100px" }}>
+                              Precio
+                            </InputGroup.Text>
+                            <div style={{ width: "60%" }}>
+                              <Form.Control
+                                name="precio"
+                                value={values.precio}
+                                onChange={handleChange}
+                              />
+                            </div>
+                          </InputGroup>
+                          <InputGroup
+                            className="mb-3"
+                            style={{ marginLeft: "12px", width: "50%" }}
+                          >
+                            <InputGroup.Text style={{ width: "100px" }}>
+                              Talla
+                            </InputGroup.Text>
+                            <Form.Control
+                              name="talla"
+                              value={values.talla}
+                              onChange={handleChange}
+                            />
+                          </InputGroup>
+                        </div>
+                        <InputGroup className="mb-3">
+                          <InputGroup.Text style={{ width: "100px" }}>
+                            Descripcion
+                          </InputGroup.Text>
+                          <Form.Control
+                            as="textarea"
+                            aria-label="With textarea"
+                            rows={3}
+                            style={{ resize: "none" }}
+                            name="descripcion"
+                            value={values.descripcion}
+                            onChange={handleChange}
+                          />
+                        </InputGroup>
+                        <Button
+                          className="w-50"
+                          type="submit"
+                          disabled={
+                            !(
+                              values.codigo &&
+                              values.categoria &&
+                              values.descripcion &&
+                              values.imagen &&
+                              values.nombre &&
+                              values.precio &&
+                              values.stock &&
+                              values.talla
+                            )
+                          }
                         >
-                          {filtro}
-                        </Dropdown.Toggle>
-                        <Dropdown.Menu>
-                          {Categorias.map((item, index) => {
-                            return (
-                              <Dropdown.Item
-                                key={index}
-                                onClick={() => {
-                                  setFiltro(item.name);
-                                }}
-                              >
-                                {item.name}
-                              </Dropdown.Item>
-                            );
-                          })}
-                        </Dropdown.Menu>
-                      </Dropdown>
-                    </InputGroup>
-                    <InputGroup
-                      className="mb-3"
-                      style={{ marginLeft: "12px", width: "200px" }}
-                    >
-                      <InputGroup.Text style={{ width: "100px" }}>
-                        Stock
-                      </InputGroup.Text>
-                      <Form.Control />
-                    </InputGroup>
-                  </div>
-                  <div className="d-flex">
-                    <InputGroup className="mb-3" style={{ width: "260px" }}>
-                      <InputGroup.Text style={{ width: "100px" }}>
-                        Precio
-                      </InputGroup.Text>
-                      <Form.Control />
-                    </InputGroup>
-                    <InputGroup
-                      className="mb-3"
-                      style={{ marginLeft: "22px", width: "200px" }}
-                    >
-                      <InputGroup.Text style={{ width: "100px" }}>
-                        Talla
-                      </InputGroup.Text>
-                      <Form.Control />
-                    </InputGroup>
-                  </div>
-                  <InputGroup className="mb-3">
-                    <InputGroup.Text style={{ width: "100px" }}>
-                      Descripcion
-                    </InputGroup.Text>
-                    <Form.Control
-                      as="textarea"
-                      aria-label="With textarea"
-                      rows={3}
-                      style={{ resize: "none" }}
-                    />
-                  </InputGroup>
-                  <Button>Guardar</Button>
+                          Guardar
+                        </Button>
+                      </Form>
+                    )}
+                  </Formik>
                 </Card>
               </Col>
               <Col>
@@ -276,17 +364,46 @@ const RegistroProducto = () => {
                   <Card className="p-4 mt-3">
                     <h5>Registro de Categoria</h5>
                     <hr />
-                    <InputGroup className="mb-3">
-                      <InputGroup.Text style={{ width: "100px" }}>
-                        Nombre
-                      </InputGroup.Text>
-                      <Form.Control
-                        onChange={(event) => {
-                          setNuevaCat(event.target.value);
-                        }}
-                      />
-                    </InputGroup>
-                    <Button onClick={registrarCategoria}>Guardar</Button>
+                    <Formik
+                      initialValues={{
+                        nombre: "",
+                      }}
+                      onSubmit={(values, { resetForm }) => {
+                        registrarCategoria(values);
+                        resetForm();
+                      }}
+                    >
+                      {({
+                        handleSubmit,
+                        handleChange,
+                        handleBlur,
+                        values,
+                        touched,
+                        isValid,
+                        errors,
+                      }) => (
+                        <Form noValidate onSubmit={handleSubmit}>
+                          <InputGroup className="mb-3">
+                            <InputGroup.Text style={{ width: "100px" }}>
+                              Nombre
+                            </InputGroup.Text>
+                            <Form.Control
+                              type="text"
+                              name="nombre"
+                              value={values.nombre}
+                              onChange={handleChange}
+                            />
+                          </InputGroup>
+                          <Button
+                            className="w-50"
+                            type="submit"
+                            disabled={!values.nombre}
+                          >
+                            Guardar
+                          </Button>
+                        </Form>
+                      )}
+                    </Formik>
                   </Card>
                 </Row>
                 <Row className="px-4">

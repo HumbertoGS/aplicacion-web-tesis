@@ -19,7 +19,7 @@ const MenuDespe = (props) => {
     let index = datosCarrito.datos.findIndex((object) => {
       return object.id === productSelect.id;
     });
-    datosCarrito.datos.pop(index);
+    datosCarrito.datos.splice(index, 1);
     props.guardarDatos(datosCarrito);
   };
 
@@ -120,8 +120,13 @@ const MenuDespe = (props) => {
                     <h6>${datosCarrito.totales[0]?.totales}</h6>
                   </InputGroup.Text>
                 </InputGroup>
-                <Button className="w-100" variant="outline">
-                  <a href="/Carrito">Ir a Carrito</a>
+                <Button
+                  className="w-100"
+                  variant="outline-success"
+                  href="/Carrito"
+                >
+                  {/* <a href="/Carrito">Ir a Carrito</a> */}
+                  Ir a Carrito
                 </Button>
               </div>
             </ListGroup>

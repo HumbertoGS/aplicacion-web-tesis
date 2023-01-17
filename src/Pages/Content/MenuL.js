@@ -42,7 +42,6 @@ function MenuLateral() {
                 <Nav.Link href="Carrito">Carrito</Nav.Link>
               </Nav>
             </Container>
-            <br /> <br /> <br /> <br />
             <Container>
               <Nav className="me-auto">
                 <Nav.Link href="Registrar-Productos">
@@ -57,16 +56,12 @@ function MenuLateral() {
             </Container>
             <Container>
               <Nav className="me-auto">
-                <Nav.Link href="Inventario">Inventario</Nav.Link>
+                <Nav.Link href="Status-Pedido">Status del Pedido</Nav.Link>
               </Nav>
             </Container>
           </Stack>
         </Navbar>
-        <span className="footer-menu">
-          Developed by
-          <br />
-          Guiracocha & Herrera
-        </span>
+
         {/* <Link to="/">
       <Navbar bg="dark" variant="dark">
         <Container>
@@ -79,4 +74,22 @@ function MenuLateral() {
   );
 }
 
-export default MenuLateral;
+function MenuL() {
+  return (
+    <>
+      <div className="App-menu">
+        {MenuLateral}
+
+        <div className="footer-menu">
+          <span>
+            Developed by
+            <br />
+            Guiracocha & Herrera
+          </span>
+        </div>
+      </div>
+    </>
+  );
+}
+
+export default MenuL;
