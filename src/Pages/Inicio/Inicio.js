@@ -7,11 +7,10 @@ import Form from "react-bootstrap/Form";
 import Card from "react-bootstrap/Card";
 
 import "../designer/theme.css";
-//import "../../assets/logo-negocio.jpeg";
 
 import { Link } from "react-router-dom";
 
-function CardsInicio() {
+const CardsInicio = () => {
   //cards para presentar admin, gerente y usuario/cliente.
   return (
     <div className="CardsInicio">
@@ -25,7 +24,12 @@ function CardsInicio() {
                   <Card.Title>Administrador</Card.Title>
                   <Card.Text>Acceso solo para administrador</Card.Text>
                 </div>
-                <Button variant="outline-secondary rounded-0">Ingresar</Button>
+                <Button
+                  variant="outline-secondary rounded-0"
+                  href="/IngresarEmp"
+                >
+                  Ingresar
+                </Button>
               </Card.Body>
             </Card>
           </div>
@@ -37,7 +41,7 @@ function CardsInicio() {
                   <Card.Title>Soy Cliente</Card.Title>
                   <Card.Text>Ya tengo una cuenta.</Card.Text>
                 </div>
-                <Button variant="outline-secondary rounded-0" >
+                <Button variant="outline-secondary rounded-0" href="/Ingresar">
                   Iniciar sesión
                 </Button>
               </Card.Body>
@@ -61,69 +65,34 @@ function CardsInicio() {
       </div>
     </div>
   );
-}
+};
 
-function Iniciar() {
+const Iniciar = () => {
+  const logout = () => {
+    localStorage.removeItem("user");
+    window.location.href = process.env.REACT_APP_BASENAME + "Inicio";
+  };
+
   return (
     <>
       <div className="form-padre">
-        <div className="form-login">
-          <Container>
-            <Row>
-              <Col className="mb-3">
-                <Form.Text>
-                  <h5>Inicio de Sesión</h5>
-                </Form.Text>
-              </Col>
-            </Row>
-            <Row>
-              <Col>
-                <Form>
-                  <Form.Group
-                    as={Row}
-                    className="mb-3"
-                    controlId="formPlaintextInput1"
-                  >
-                    <Form.Label column sm="3">
-                      Usuario:
-                    </Form.Label>
-                    <Col sm="9">
-                      <Form.Control type="text" placeholder="usuario" />
-                    </Col>
-                  </Form.Group>
-                  <Form.Group
-                    as={Row}
-                    className="mb-3"
-                    controlId="formPlaintextPassword"
-                  >
-                    <Form.Label column sm="3">
-                      Contraseña:
-                    </Form.Label>
-                    <Col sm="9">
-                      <Form.Control type="password" placeholder="Contraseña" />
-                    </Col>
-                  </Form.Group>
-                  <Button variant="primary" type="submit">
-                    Iniciar Sesión
-                  </Button>
-                </Form>
-              </Col>
-            </Row>
-            <Row>
-              <Col className="mt-3">
-                <Form.Text style={{ color: "#1167e5" }}>
-                  Eres Cliente!?,
-                  <Link to="registrar">
-                    registra tus datos para realizar las compras
-                  </Link>
-                </Form.Text>
-              </Col>
-            </Row>
-          </Container>
-        </div>
+        <Container>
+          <Row>
+            <Col className="mb-3">
+              <Form.Text>
+                <h5>Bienvenido tal persona</h5>
+              </Form.Text>
+            </Col>
+          </Row>
+          <Row>
+            <Col>
+              <Button onClick={logout}>Cerrar Sesión</Button>
+            </Col>
+          </Row>
+        </Container>
       </div>
     </>
   );
-}
+};
 
-export default CardsInicio;
+export { CardsInicio, Iniciar };
