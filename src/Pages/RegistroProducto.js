@@ -11,17 +11,13 @@ import Dropdown from "react-bootstrap/Dropdown";
 import Table from "react-bootstrap/Table";
 
 import MensajeAlert from "./MensajeAlert";
+import { GetData } from "../custom-hooks/useFetch";
 
 import { Formik } from "formik";
 
 import { styleBtnCancel, styleBtnSave } from "./designer/styleBtn";
 
-const Categorias = [
-  { id: 1, name: "Zapatos", estado: true },
-  { id: 2, name: "Vestidos", estado: true },
-  { id: 3, name: "Camisas", estado: true },
-  { id: 4, name: "Pantalones", estado: true },
-];
+const urlCategoria = process.env.REACT_APP_API_CORE_URL + "categoria";
 
 const productoTabla = [
   {
@@ -130,6 +126,12 @@ const RegistroProducto = () => {
   const [mensaje, setMensaje] = useState("");
   const [variant, setVariant] = useState("");
 
+  const [Categorias, setCategorias] = useState([]);
+
+  GetData(urlCategoria, (dato) => {
+    setCategorias(dato.datos);
+  });
+
   const [filtro, setFiltro] = useState("Selecciona categoria");
 
   const [producto, setProducto] = useState(productoTabla);
@@ -153,7 +155,7 @@ const RegistroProducto = () => {
 
   const guardarDatos = (value) => {
     let datosGuardar = value;
-    console.log(datosGuardar)
+    console.log(datosGuardar);
     setVariant("success");
     setMensaje("Se registro el producto");
   };
@@ -172,7 +174,7 @@ const RegistroProducto = () => {
       <Card body className="Card">
         {variant ? <MensajeAlert variant={variant} mensaje={mensaje} /> : <></>}
         <Breadcrumb>
-          <Breadcrumb.Item href="/">Inicio</Breadcrumb.Item>
+          <Breadcrumb.Item href="Inicio">Inicio</Breadcrumb.Item>
           <Breadcrumb.Item active>Registro-Productos</Breadcrumb.Item>
         </Breadcrumb>
         <Card>
@@ -268,11 +270,11 @@ const RegistroProducto = () => {
                                       <Dropdown.Item
                                         key={index}
                                         onClick={() => {
-                                          setFiltro(item.name);
+                                          setFiltro(item.nombre);
                                           values.categoria = item.id;
                                         }}
                                       >
-                                        {item.name}
+                                        {item.nombre}
                                       </Dropdown.Item>
                                     );
                                   })}
@@ -425,7 +427,7 @@ const RegistroProducto = () => {
                             : styleBtnCancel;
                           return (
                             <tr key={index}>
-                              <td>{item.name}</td>
+                              <td>{item.nombre}</td>
                               <td>
                                 <Button
                                   style={{
@@ -465,11 +467,11 @@ const RegistroProducto = () => {
                           <Dropdown.Item
                             key={index}
                             onClick={() => {
-                              setFiltrarTabla(item.name);
+                              setFiltrarTabla(item.nombre);
                               Buscar(item.id);
                             }}
                           >
-                            {item.name}
+                            {item.nombre}
                           </Dropdown.Item>
                         );
                       })}
