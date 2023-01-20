@@ -134,7 +134,7 @@ const Carrito = () => {
         </Breadcrumb>
         {/* contenedores para el cuerpo */}
         <Card>
-          <Row>
+          <Row style={{ minHeight: "87vh" }}>
             <Col xs={7}>
               <div className="m-4">
                 <h5 className="text-center">Datos del Carrito</h5>

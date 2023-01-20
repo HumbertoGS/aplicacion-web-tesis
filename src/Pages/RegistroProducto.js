@@ -11,7 +11,7 @@ import Dropdown from "react-bootstrap/Dropdown";
 import Table from "react-bootstrap/Table";
 
 import MensajeAlert from "./MensajeAlert";
-import { GetData } from "../custom-hooks/useFetch";
+import { GetData, PostData, ReloadData } from "../custom-hooks/useFetch";
 
 import { Formik } from "formik";
 
@@ -126,12 +126,30 @@ const RegistroProducto = () => {
   const [mensaje, setMensaje] = useState("");
   const [variant, setVariant] = useState("");
 
+  //-------------------CATEGORIA-------------------
   const [Categorias, setCategorias] = useState([]);
+  const [updateCategori, setUpdateCategori] = useState(false);
+  const [datosCategoria, setDatosCategoria] = useState(null);
+  const [reload, setReload] = useState(true);
 
-  GetData(urlCategoria, (dato) => {
+  ReloadData(urlCategoria, reload, (dato) => {
     setCategorias(dato.datos);
+    setReload(false);
   });
 
+  const registrarCategoria = (nuevaCat) => {
+    setDatosCategoria(nuevaCat);
+    setUpdateCategori(true);
+  };
+
+  PostData(urlCategoria + "/insert", datosCategoria, updateCategori, (dato) => {
+    setUpdateCategori(false);
+    setReload(true);
+    setVariant("success");
+    setMensaje("Se registro la categoria");
+  });
+
+  //-------------------TABLA DE PRODUCTOS-------------------
   const [filtro, setFiltro] = useState("Selecciona categoria");
 
   const [producto, setProducto] = useState(productoTabla);
@@ -144,13 +162,8 @@ const RegistroProducto = () => {
     if (filtrado.length > 0) {
       setProducto(filtrado);
     } else {
-      setProducto(productoTabla);
+      setProducto([]);
     }
-  };
-
-  const registrarCategoria = (nuevaCat) => {
-    setVariant("success");
-    setMensaje("Se registro la categoria");
   };
 
   const guardarDatos = (value) => {
@@ -160,6 +173,7 @@ const RegistroProducto = () => {
     setMensaje("Se registro el producto");
   };
 
+  //-------------------MENSAJE ALERTA-------------------
   useEffect(() => {
     if (variant) {
       const interval = setTimeout(() => {
@@ -177,7 +191,7 @@ const RegistroProducto = () => {
           <Breadcrumb.Item href="Inicio">Inicio</Breadcrumb.Item>
           <Breadcrumb.Item active>Registro-Productos</Breadcrumb.Item>
         </Breadcrumb>
-        <Card>
+        <Card style={{ minHeight: "87vh" }}>
           <div className="m-4">
             <h5 className="text-center">Registro de Producto y Categorias</h5>
             <hr />
@@ -408,10 +422,10 @@ const RegistroProducto = () => {
                     </Formik>
                   </Card>
                 </Row>
-                <Row className="px-4">
+                <Row className="px-4 p-4 mt-3">
                   <div
-                    className="p-4 mt-3"
-                    style={{ overflowY: "auto", height: "300px" }}
+                    // className="p-4 mt-3"
+                    style={{ overflowY: "auto", height: "250px" }}
                   >
                     <Table>
                       <thead className="theadTable">

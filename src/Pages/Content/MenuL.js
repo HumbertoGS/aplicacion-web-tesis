@@ -13,8 +13,8 @@ import { PostData } from "../../custom-hooks/accesoMenu";
 
 const MenuLateral = ({ user }) => {
   return (
-    <Stack style={{ backgroundColor: "#e0c8db", width: "180px" }}>
-      <Navbar variant="white" style={{ backgroundColor: "#e0c8db" }}>
+    <Stack className="menu-lateral">
+      <Navbar>
         <Stack>
           {/* <div>
           <img src={image} />
@@ -22,7 +22,7 @@ const MenuLateral = ({ user }) => {
           <Container>
             <Figure>
               <Figure.Image
-                width={150}
+                width={170}
                 // height={300}
                 alt="Imagen del negocio"
                 src={"logo512.png"}

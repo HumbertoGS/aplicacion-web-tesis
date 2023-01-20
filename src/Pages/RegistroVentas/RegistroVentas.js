@@ -138,7 +138,7 @@ const RegistroVentas = () => {
           <Breadcrumb.Item href="Inicio">Inicio</Breadcrumb.Item>
           <Breadcrumb.Item active>Registro_Ventas</Breadcrumb.Item>
         </Breadcrumb>
-        <Card>
+        <Card style={{ minHeight: "87vh" }}>
           <div className="m-4">
             <h5 className="text-center">Pedidos en Espera</h5>
             <hr />
