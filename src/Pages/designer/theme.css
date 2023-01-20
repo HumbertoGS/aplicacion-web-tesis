@@ -33,6 +33,20 @@ body{
   width: 500px;
 }
 
+.nav-element{
+  color: #ac936e;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+label:hover {
+  color: #ac936e;
+}
+
+#navL:hover{
+  background-color: #fff;
+}
+
 /* cssgradient.io para hacer degradado de colores */
 .CardsInicio{
   height: 97vh;
