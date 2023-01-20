@@ -135,7 +135,7 @@ const RegistroVentas = () => {
     <>
       <Card body className="Card">
         <Breadcrumb>
-          <Breadcrumb.Item href="/">Inicio</Breadcrumb.Item>
+          <Breadcrumb.Item href="Inicio">Inicio</Breadcrumb.Item>
           <Breadcrumb.Item active>Registro_Ventas</Breadcrumb.Item>
         </Breadcrumb>
         <Card>

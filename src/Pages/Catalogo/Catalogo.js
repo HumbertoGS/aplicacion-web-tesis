@@ -212,7 +212,7 @@ const Catalogo = () => {
       <Card body className="Card">
         {variant ? <MensajeAlert variant={variant} mensaje={mensaje} /> : <></>}
         <Breadcrumb>
-          <Breadcrumb.Item href="/">Inicio</Breadcrumb.Item>
+          <Breadcrumb.Item href="Inicio">Inicio</Breadcrumb.Item>
           <Breadcrumb.Item active>Catalogo</Breadcrumb.Item>
         </Breadcrumb>
         <Card className="Card">

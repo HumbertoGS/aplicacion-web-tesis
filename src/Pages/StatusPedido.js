@@ -86,7 +86,7 @@ const StatusPedido = () => {
       <Card body className="Card">
         {variant ? <MensajeAlert variant={variant} mensaje={mensaje} /> : <></>}
         <Breadcrumb>
-          <Breadcrumb.Item href="/">Inicio</Breadcrumb.Item>
+          <Breadcrumb.Item href="Inicio">Inicio</Breadcrumb.Item>
           <Breadcrumb.Item active>Status-Pedido</Breadcrumb.Item>
         </Breadcrumb>
         <Card style={{ height: "87vh" }}>

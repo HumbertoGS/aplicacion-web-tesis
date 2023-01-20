@@ -24,7 +24,7 @@ const Plantilla = () => {
       <Card body className="Card">
         {variant ? <MensajeAlert variant={variant} mensaje={mensaje} /> : <></>}
         <Breadcrumb>
-          <Breadcrumb.Item href="/">Inicio</Breadcrumb.Item>
+          <Breadcrumb.Item href="Inicio">Inicio</Breadcrumb.Item>
           <Breadcrumb.Item active>Nombre_Seccion</Breadcrumb.Item>
         </Breadcrumb>
         {/* contenedores para el cuerpo */}
