@@ -33,6 +33,11 @@ body{
   width: 500px;
 }
 
+.menu-lateral{ 
+  background-color: #e0c8db; 
+  width: 185px;
+}
+
 .nav-element{
   color: #ac936e;
   cursor: pointer;
