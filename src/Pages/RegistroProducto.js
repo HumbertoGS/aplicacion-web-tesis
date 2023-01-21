@@ -16,6 +16,7 @@ import { GetData, PostData, ReloadData } from "../custom-hooks/useFetch";
 import { Formik } from "formik";
 
 import { styleBtnCancel, styleBtnSave } from "./designer/styleBtn";
+import { BtnCambiarEstado, BtnGuardarDatos } from "../custom-hooks/BtnAccion";
 
 const urlCategoria = process.env.REACT_APP_API_CORE_URL + "categoria";
 
@@ -280,16 +281,18 @@ const RegistroProducto = () => {
                                 </Dropdown.Toggle>
                                 <Dropdown.Menu>
                                   {Categorias.map((item, index) => {
-                                    return (
+                                    return item.estado ? (
                                       <Dropdown.Item
                                         key={index}
                                         onClick={() => {
-                                          setFiltro(item.nombre);
-                                          values.categoria = item.id;
+                                          setFiltrarTabla(item.nombre);
+                                          Buscar(item.id);
                                         }}
                                       >
                                         {item.nombre}
                                       </Dropdown.Item>
+                                    ) : (
+                                      <li key={index}></li>
                                     );
                                   })}
                                 </Dropdown.Menu>
@@ -436,22 +439,32 @@ const RegistroProducto = () => {
                       </thead>
                       <tbody>
                         {Categorias.map((item, index) => {
-                          let style = item.estado
-                            ? styleBtnSave
-                            : styleBtnCancel;
+                          // let style = item.estado
+                          //   ? styleBtnSave
+                          //   : styleBtnCancel;
                           return (
                             <tr key={index}>
                               <td>{item.nombre}</td>
                               <td>
-                                <Button
+                                <BtnCambiarEstado
+                                  item={item}
+                                  reload={() => {
+                                    setReload(true);
+                                  }}
+                                  url={urlCategoria}
+                                />
+                                {/* <Button
                                   style={{
                                     border: "0px",
                                     width: "70px",
                                     ...style,
                                   }}
+                                  onClick={() => {
+                                    CambiarEstado(item);
+                                  }}
                                 >
                                   {item.estado ? "Activo" : "Inactivo"}
-                                </Button>
+                                </Button> */}
                               </td>
                             </tr>
                           );
@@ -477,7 +490,7 @@ const RegistroProducto = () => {
                     </Dropdown.Toggle>
                     <Dropdown.Menu>
                       {Categorias.map((item, index) => {
-                        return (
+                        return item.estado ? (
                           <Dropdown.Item
                             key={index}
                             onClick={() => {
@@ -487,6 +500,8 @@ const RegistroProducto = () => {
                           >
                             {item.nombre}
                           </Dropdown.Item>
+                        ) : (
+                          <li key={index}></li>
                         );
                       })}
                     </Dropdown.Menu>
