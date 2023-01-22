@@ -17,8 +17,16 @@ import StatusPedido from "./Pages/StatusPedido";
 
 import { ProtectedRoute } from "./Pages/components/ProtectedRoute";
 
+import { PostData } from "./custom-hooks/accesoMenu";
+
 function App() {
-  const user = JSON.parse(localStorage.getItem("user"));
+  const userLocal = JSON.parse(localStorage.getItem("user"));
+
+  const [user, setUser] = useState(false);
+
+  PostData((datos) => {
+    setUser(datos);
+  });
 
   return (
     <BrowserRouter>
@@ -27,7 +35,9 @@ function App() {
           <Route index element={<Catalogo />} />
           <Route
             path="Inicio"
-            element={<Navigate to={user ? "/Perfil" : "/Pagina-Principal"} />}
+            element={
+              <Navigate to={userLocal ? "/Perfil" : "/Pagina-Principal"} />
+            }
           />
 
           <Route path="Pagina-Principal" element={<CardsInicio />} />
@@ -38,7 +48,7 @@ function App() {
           <Route
             path="Inventario"
             element={
-              <ProtectedRoute redirectTo="/">
+              <ProtectedRoute redirectTo="/" user={user}>
                 <Inventario />
               </ProtectedRoute>
             }
@@ -46,7 +56,7 @@ function App() {
           <Route
             path="Registro-Ventas"
             element={
-              <ProtectedRoute redirectTo="/">
+              <ProtectedRoute redirectTo="/" user={user}>
                 <RegistroVentas />
               </ProtectedRoute>
             }
@@ -54,7 +64,7 @@ function App() {
           <Route
             path="Registrar-Productos"
             element={
-              <ProtectedRoute redirectTo="/">
+              <ProtectedRoute redirectTo="/" user={user}>
                 <RegistroProducto />
               </ProtectedRoute>
             }
