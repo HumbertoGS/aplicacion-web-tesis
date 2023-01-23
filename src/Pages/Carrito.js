@@ -11,6 +11,10 @@ import Table from "react-bootstrap/Table";
 
 import MensajeAlert from "./MensajeAlert";
 
+import { PostData } from "../custom-hooks/useFetch.js";
+
+const url = process.env.REACT_APP_API_CORE_URL + "persona/buscar";
+
 const columns = [
   { name: "PRODUCTO" },
   { name: "PRECIO" },
@@ -18,26 +22,25 @@ const columns = [
   { name: "TOTAL" },
 ];
 
-const datosSimulado = [
-  {
-    identificacion: "12345",
-    nombre: "Luis Humberto",
-    apellidos: "Guiracocha Suarez",
-    direccion: "Lorenzo de Garaycoa y sucre",
-    referencia: "frente a tia",
-  },
-  {
-    identificacion: "123455",
-    nombre: "Roberto J.",
-    apellidos: "Suarez Torres",
-    direccion: "sucre",
-    referencia: "frente a local 1519",
-  },
-];
+const datoDefault = {
+  cedula: "",
+  nombre: "",
+  apellido: "",
+  direccion: "",
+  referencia: "",
+};
 
 const Carrito = () => {
   const [mensaje, setMensaje] = useState("");
   const [variant, setVariant] = useState("");
+
+  const [validar, setValidar] = useState(false);
+
+  const [numIdent, setNumIdent] = useState("");
+  const [nombre, setNombre] = useState("");
+  const [apellido, setApellido] = useState("");
+  const [direccion, setDireccion] = useState("");
+  const [referencia, setReferencia] = useState("");
 
   const datosCarro = JSON.parse(localStorage.getItem("datosCarrito"));
   const datos = datosCarro
@@ -46,48 +49,14 @@ const Carrito = () => {
       : datosCarro
     : { datos: [], totales: [] };
 
-  const [numIdent, setNumIdent] = useState("");
-  const [nombre, setNombre] = useState("");
-  const [apellido, setApellido] = useState("");
-  const [direccion, setDireccion] = useState("");
-  const [referencia, setReferencia] = useState("");
-
-  const [tieneDatos, setTieneDatos] = useState(true);
-
-  const [datosLlenos, setDatosLlenos] = useState(false);
-
-  const VerificarDatos = () => {
+  const validarCampo = () => {
     if (numIdent == "") {
       setVariant("info");
       setMensaje("Ingresa numero identificacion");
-      setTieneDatos(true);
+      resetCampos();
     } else {
-      const indexOf = datosSimulado
-        .map((item) => item.identificacion)
-        .indexOf(numIdent);
-
-      if (indexOf != -1) {
-        setVariant("success");
-        setMensaje("datos ya registrados");
-
-        setNombre(datosSimulado[indexOf].nombre);
-        setApellido(datosSimulado[indexOf].apellidos);
-        setDireccion(datosSimulado[indexOf].direccion);
-        setReferencia(datosSimulado[indexOf].referencia);
-
-        setTieneDatos(true);
-      } else {
-        setNombre("");
-        setApellido("");
-        setDireccion("");
-        setReferencia("");
-        setTieneDatos(false);
-
-        setVariant("info");
-        setMensaje(
-          "numero identificacion no está registrado, completa los datos requeridos"
-        );
-      }
+      setNumIdent(numIdent);
+      setValidar(true);
     }
   };
 
@@ -104,6 +73,8 @@ const Carrito = () => {
         },
       ];
 
+      console.log(data);
+
       setVariant("success");
       setMensaje(
         "Los datos de tu pedido ha sido registrado, por favor envianos el comprobante al numero 593xxxxxxxxx"
@@ -111,9 +82,35 @@ const Carrito = () => {
     }
   };
 
-  useEffect(() => {
-    setDatosLlenos(nombre && apellido && direccion && referencia && numIdent);
-  }, [nombre, apellido, direccion, referencia, numIdent]);
+  const respuesta = (datos) => {
+    setValidar(false);
+
+    if (datos.datos.length !== 0) {
+      setNumIdent(datos.datos[0].cedula);
+      setNombre(datos.datos[0].nombre);
+      setApellido(datos.datos[0].apellido);
+      setDireccion(datos.datos[0].direccion);
+      setReferencia(datos.datos[0].referencia);
+
+      setVariant("success");
+      setMensaje("datos ya registrados");
+    } else {
+      resetCampos();
+      setVariant("info");
+      setMensaje(
+        "numero identificacion no está registrado, completa los datos requeridos"
+      );
+    }
+  };
+
+  const resetCampos = () => {
+    setNombre(datoDefault.nombre);
+    setApellido(datoDefault.apellido);
+    setDireccion(datoDefault.direccion);
+    setReferencia(datoDefault.referencia);
+  };
+
+  PostData(url, { numIdent }, validar, respuesta);
 
   useEffect(() => {
     if (variant) {
@@ -228,14 +225,13 @@ const Carrito = () => {
                     }}
                     maxLength={10}
                   />
-                  <Button onClick={VerificarDatos}>Buscar</Button>
+                  <Button onClick={validarCampo}>Buscar</Button>
                 </InputGroup>
                 <InputGroup className="mb-3">
                   <InputGroup.Text style={{ width: "100px" }}>
                     Nombres
                   </InputGroup.Text>
                   <Form.Control
-                    disabled={tieneDatos}
                     value={nombre}
                     onChange={(e) => {
                       setNombre(e.target.value);
@@ -247,7 +243,6 @@ const Carrito = () => {
                     Apellidos
                   </InputGroup.Text>
                   <Form.Control
-                    disabled={tieneDatos}
                     value={apellido}
                     onChange={(e) => {
                       setApellido(e.target.value);
@@ -263,7 +258,6 @@ const Carrito = () => {
                     aria-label="With textarea"
                     rows={3}
                     style={{ resize: "none" }}
-                    disabled={tieneDatos}
                     value={direccion}
                     onChange={(e) => {
                       setDireccion(e.target.value);
@@ -275,7 +269,6 @@ const Carrito = () => {
                     Referencia
                   </InputGroup.Text>
                   <Form.Control
-                    disabled={tieneDatos}
                     value={referencia}
                     onChange={(e) => {
                       setReferencia(e.target.value);
@@ -283,7 +276,9 @@ const Carrito = () => {
                   />
                 </InputGroup>
                 <Button
-                  disabled={!datosLlenos}
+                  disabled={
+                    !(nombre && apellido && direccion && referencia && numIdent)
+                  }
                   onClick={enviarPedido}
                   // href="https://api.whatsapp.com/send?phone=593979930524&text=Hola, quisiera estos pedidos"
                 >
