@@ -24,12 +24,11 @@ const CardsInicio = () => {
                   <Card.Title>Administrador</Card.Title>
                   <Card.Text>Acceso solo para administrador</Card.Text>
                 </div>
-                <Button
-                  variant="outline-secondary rounded-0"
-                  href="/IngresarEmp"
-                >
-                  Ingresar
-                </Button>
+                <Link to="/Ingreso-Ad">
+                  <Button variant="outline-secondary rounded-0 w-50">
+                    Ingresar
+                  </Button>
+                </Link>
               </Card.Body>
             </Card>
           </div>
@@ -41,9 +40,11 @@ const CardsInicio = () => {
                   <Card.Title>Soy Cliente</Card.Title>
                   <Card.Text>Ya tengo una cuenta.</Card.Text>
                 </div>
-                <Button variant="outline-secondary rounded-0" href="/Ingresar">
-                  Iniciar sesión
-                </Button>
+                <Link to="/Ingresar">
+                  <Button variant="outline-secondary rounded-0 w-50">
+                    Iniciar sesión
+                  </Button>
+                </Link>
               </Card.Body>
             </Card>
           </div>
@@ -55,9 +56,11 @@ const CardsInicio = () => {
                   <Card.Title>Quiero ser Cliente</Card.Title>
                   <Card.Text>Quiero tener una cuenta y ser miembro.</Card.Text>
                 </div>
-                <Button variant="outline-secondary rounded-0" href="/Registrar">
-                  Registrarme
-                </Button>
+                <Link to="/Registrar">
+                  <Button variant="outline-secondary rounded-0 w-50">
+                    Registrarme
+                  </Button>
+                </Link>
               </Card.Body>
             </Card>
           </div>
