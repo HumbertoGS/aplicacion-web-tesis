@@ -41,7 +41,10 @@ function App() {
           />
 
           <Route path="Pagina-Principal" element={<CardsInicio />} />
-          <Route path="Perfil" element={<Iniciar />} />
+          <Route
+            path="Perfil"
+            element={<Iniciar user={user} usuario={userLocal} />}
+          />
 
           <Route path="Catalogo" element={<Catalogo />} />
           {/* <Route path="Inventario" element={<Inventario />} /> */}
