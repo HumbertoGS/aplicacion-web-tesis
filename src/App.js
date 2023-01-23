@@ -72,7 +72,7 @@ function App() {
           {/* <Route path="Registro-Ventas" element={<RegistroVentas />} /> */}
           <Route path="Carrito" element={<Carrito />} />
           {/* <Route path="Registrar-Productos" element={<RegistroProducto />} /> */}
-          <Route path="IngresarEmp" element={<LoginEmp />} />
+          <Route path="Ingreso-Ad" element={<LoginEmp />} />
           <Route path="Ingresar" element={<Login />} />
           <Route path="Registrar" element={<Registrar />} />
           <Route path="Status-Pedido" element={<StatusPedido />} />
