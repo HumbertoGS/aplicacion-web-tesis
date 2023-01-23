@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 
 const user = JSON.parse(localStorage.getItem("user"));
-const url = process.env.REACT_APP_API_CORE_URL + "login/acceso";
+const url = process.env.REACT_APP_API_CORE_URL + "inicio/acceso";
 
 export const PostData = (respuesta) => {
   useEffect(() => {
