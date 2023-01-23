@@ -115,10 +115,15 @@ label:hover {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 90vh;
+  height: 85vh;
   position: relative;
   left: 90px;
   width: calc(100% - 120px);
+}
+
+.btnVolver {
+  display: flex;
+  text-decoration:none;
 }
 
 .form-login {
