@@ -188,12 +188,12 @@ const RegistroProducto = () => {
     <>
       <Card body className="Card">
         {variant ? <MensajeAlert variant={variant} mensaje={mensaje} /> : <></>}
-        <Breadcrumb>
+        {/* <Breadcrumb>
           <Breadcrumb.Item href="Inicio">Inicio</Breadcrumb.Item>
           <Breadcrumb.Item active>Registro-Productos</Breadcrumb.Item>
-        </Breadcrumb>
-        <Card style={{ minHeight: "87vh" }}>
-          <div className="m-4">
+        </Breadcrumb> */}
+        {/* <Card style={{ minHeight: "87vh" }}> */}
+          <div className="m-3">
             <h5 className="text-center">Registro de Producto y Categorias</h5>
             <hr />
             <Row>
@@ -564,7 +564,7 @@ const RegistroProducto = () => {
               </Col>
             </Row>
           </div>
-        </Card>
+        {/* </Card> */}
       </Card>
     </>
   );

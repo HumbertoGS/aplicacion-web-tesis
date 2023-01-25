@@ -14,6 +14,8 @@ import { FaShoppingCart } from "react-icons/fa";
 import ProductoCatalogo from "./Producto-Catalogo";
 import MenuDespe from "./MenuDesplegable";
 import MensajeAlert from "../MensajeAlert";
+import { GetData, PostData, ReloadData } from "../../custom-hooks/useFetch";
+
 import "../designer/theme.css";
 
 const productoTabla = [
@@ -119,15 +121,9 @@ const productoTabla = [
   },
 ];
 
-//Datos desde Tabla categoria
-const Categorias = [
-  { id: 1, name: "Zapatos", estado: true },
-  { id: 2, name: "Vestidos", estado: true },
-  { id: 3, name: "Camisas", estado: true },
-  { id: 4, name: "Pantalones", estado: true },
-];
-
 let datosA = { datos: [], totales: [] };
+
+const urlCategoria = process.env.REACT_APP_API_CORE_URL + "categoria";
 
 const Catalogo = () => {
   const [mensaje, setMensaje] = useState("");
@@ -142,6 +138,17 @@ const Catalogo = () => {
 
   const [buscar, setBuscar] = useState("");
 
+  //---------------------CATEGORIA---------------------
+  const [Categorias, setCategorias] = useState([]);
+  const [reload, setReload] = useState(true);
+
+  ReloadData(urlCategoria, reload, (dato) => {
+    setCategorias(dato.datos);
+    setReload(false);
+  });
+
+  //-------------------FIN CATEGORIA-------------------
+
   const handleClose = () => setShow(false);
   const handleShow = () => {
     setShow(true);
@@ -154,7 +161,7 @@ const Catalogo = () => {
     if (filtrado.length > 0) {
       setProducto(filtrado);
     } else {
-      setProducto(productoTabla);
+      setProducto([]);
     }
   };
 
@@ -227,16 +234,18 @@ const Catalogo = () => {
                 <div style={{ width: "35%" }} className="d-flex">
                   <DropdownButton id="dropdown-basic-button" title={filtro}>
                     {Categorias.map((item, index) => {
-                      return (
+                      return item.estado ? (
                         <Dropdown.Item
                           key={index}
                           onClick={() => {
-                            setFiltro(item.name);
-                            BuscarFiltro(item.id)
+                            setFiltro(item.nombre);
+                            BuscarFiltro(item.id);
                           }}
                         >
-                          {item.name}
+                          {item.nombre}
                         </Dropdown.Item>
+                      ) : (
+                        <div key={index}></div>
                       );
                     })}
                   </DropdownButton>

@@ -6,7 +6,6 @@ import { PostData } from "../../custom-hooks/accesoMenu";
 const userLocal = JSON.parse(localStorage.getItem("user"));
 
 export const ProtectedRoute = ({children, redirectTo="/", user}) => {
-  
-  if(!user) return <Navigate to={redirectTo}/>
+  if(!user && !userLocal) return <Navigate to={redirectTo}/>
   return children
 }

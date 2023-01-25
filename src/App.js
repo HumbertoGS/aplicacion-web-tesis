@@ -30,8 +30,18 @@ function App() {
     setUser(datos);
   });
 
+  // useEffect(() => {
+  //   if (variant) {
+  //     const interval = setTimeout(() => {
+  //       setVariant("");
+  //     }, 4000);
+  //     return () => clearInterval(interval);
+  //   }
+  // }, [variant]);
+
   return (
     <BrowserRouter>
+      {/* {variant ? <MensajeAlert variant={variant} mensaje={mensaje} /> : <></>} */}
       <Routes>
         <Route path="/" element={<Layout />}>
           <Route index element={<Catalogo />} />
@@ -75,12 +85,15 @@ function App() {
             }
           />
           {/* <Route path="Registro-Ventas" element={<RegistroVentas />} /> */}
-          <Route path="Carrito" element={<Carrito />} />
+          <Route path="Carrito" element={<Carrito user={userLocal}/>} />
           {/* <Route path="Registrar-Productos" element={<RegistroProducto />} /> */}
           <Route path="Ingreso-Ad" element={<LoginEmp />} />
           <Route path="Ingresar" element={<Login />} />
           <Route path="Registrar" element={<Registrar />} />
-          <Route path="Status-Pedido" element={<StatusPedido user={user} usuario={userLocal}/>} />
+          <Route
+            path="Status-Pedido"
+            element={<StatusPedido user={user} usuario={userLocal} />}
+          />
           <Route path="No-Page" element={<NoPage />} />
           <Route path="*" element={<Navigate to="No-Page" />} />
         </Route>

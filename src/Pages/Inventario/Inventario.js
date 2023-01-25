@@ -32,22 +32,24 @@ function Inventario() {
   return (
     <Card body className="Card">
       {/* {variant ? <MensajeAlert variant={variant} mensaje={mensaje} /> : <></>} */}
-      <Breadcrumb>
+      {/* <Breadcrumb>
         <Breadcrumb.Item href="Inicio">Inicio</Breadcrumb.Item>
         <Breadcrumb.Item active>Carrito</Breadcrumb.Item>
-      </Breadcrumb>
+      </Breadcrumb> */}
       {/* contenedores para el cuerpo */}
-      <Card style={{ minHeight: "87vh" }}>
-        <Row>
-          <Col>
-            <div className="m-4">
-              <h5 className="text-center">Inventario de productos</h5>
-              <div>
-                <Dropdown.Toggle className="body">
-                  Filtro
-                  {/*{filtrarTabla} */}
-                </Dropdown.Toggle>
-              </div>
+      {/* <Card style={{ minHeight: "87vh" }}> */}
+      <Row>
+        <Col>
+          <div className="mt-3">
+            <h5 className="text-center">Inventario de productos</h5>
+            <hr/>
+            <div className="px-3 text-start">
+              <Dropdown.Toggle className="body">
+                Filtro
+                {/*{filtrarTabla} */}
+              </Dropdown.Toggle>
+            </div>
+            <div className="mt-3 px-4">
               <Table>
                 <thead className="theadTable">
                   <tr>
@@ -73,9 +75,10 @@ function Inventario() {
                 </tbody>
               </Table>
             </div>
-          </Col>
-        </Row>
-      </Card>
+          </div>
+        </Col>
+      </Row>
+      {/* </Card> */}
     </Card>
   );
 }

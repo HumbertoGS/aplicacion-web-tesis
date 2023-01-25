@@ -20,6 +20,7 @@ import {
 } from "../../custom-hooks/BtnAccion";
 
 import HeaderPerfil from "./HeaderPerfil";
+import TablaEmpleados from "./TablaEmpleados";
 
 const url = process.env.REACT_APP_API_CORE_URL + "persona";
 
@@ -53,9 +54,12 @@ const ActualizarDatos = ({ user, usuario }) => {
 
   PostData(url + "/actualizar", datos, actualizar, (x) => {
     if (x.datos.length !== 0) {
-      console.log(x.datos);
       setDatos(x.datos[0]);
-    }else{
+      localStorage.setItem(
+        "user",
+        JSON.stringify({ nombre: x.datos[0].nombre, cedula: x.datos[0].cedula })
+      );
+    } else {
       //datos no se pudieron actualizar
     }
     setActualizar(false);
@@ -66,10 +70,14 @@ const ActualizarDatos = ({ user, usuario }) => {
     <>
       <Card body style={{ height: "80vh" }} className="Card">
         <HeaderPerfil user={user} usuario={usuario} />
-        <div className="py-3" style={{ height: "70vh" }}>
-          <Card className="Card px-4">
+        <div className="py-3" style={{ height: "75vh" }}>
+          <Card className="Card">
+            <div className="mx-4" style={{ width: "50%" }}>
+              <h5 className="text-start">Datos del Perfil</h5>
+              <hr />
+            </div>
             <Row>
-              <Col className="my-3" xs={6}>
+              <Col className="my-3 px-4" xs={6}>
                 <Formik
                   enableReinitialize={true}
                   initialValues={datos}
@@ -88,10 +96,10 @@ const ActualizarDatos = ({ user, usuario }) => {
                     errors,
                   }) => (
                     <Form className="px-4" noValidate onSubmit={handleSubmit}>
-                      <Form.Text>
+                      {/* <Form.Text>
                         <h6>Datos del Perfil</h6>
                         <hr />
-                      </Form.Text>
+                      </Form.Text> */}
                       <InputGroup className="mb-3">
                         <InputGroup.Text style={{ width: "170px" }}>
                           Cédula:
@@ -172,6 +180,8 @@ const ActualizarDatos = ({ user, usuario }) => {
             </Row>
           </Card>
         </div>
+
+        {user ? <TablaEmpleados /> : <></>}
       </Card>
     </>
   );

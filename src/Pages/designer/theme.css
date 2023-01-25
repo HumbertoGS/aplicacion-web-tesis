@@ -114,7 +114,7 @@ a:link, a:visited {
 
 .App-header {
   position: fixed !important;
-  z-index: 2;
+  z-index: 20;
   left: 185px; 
   width: calc(100% - 180px);
   /* width: 100%; */
