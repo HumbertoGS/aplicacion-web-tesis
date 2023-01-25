@@ -21,10 +21,12 @@ import {
 
 import HeaderPerfil from "./HeaderPerfil";
 
-const url = process.env.REACT_APP_API_CORE_URL + "persona/buscar";
+const url = process.env.REACT_APP_API_CORE_URL + "persona";
 
 const ActualizarDatos = ({ user, usuario }) => {
-  const [validar, setValidar] = useState(true);
+  const [buscar, setBuscar] = useState(true);
+  const [actualizar, setActualizar] = useState(false);
+
   const [datos, setDatos] = useState({
     cedula: "",
     nombre: "",
@@ -35,10 +37,29 @@ const ActualizarDatos = ({ user, usuario }) => {
     correo: "",
   });
 
-  PostData(url, { numIdent: usuario.cedula }, validar, (x) => {
-    console.log(x.datos);
+  //----------CARGAMOS DATOS Y RECARGAMOS DATOS-------------
+
+  PostData(url + "/buscar", { numIdent: usuario.cedula }, buscar, (x) => {
     setDatos(x.datos[0]);
-    setValidar(false);
+    setBuscar(false);
+  });
+
+  //-----------ACTUALIZAMOS DATOS---------------
+
+  const actualizarDatos = (datos) => {
+    setDatos(datos);
+    setActualizar(true);
+  };
+
+  PostData(url + "/actualizar", datos, actualizar, (x) => {
+    if (x.datos.length !== 0) {
+      console.log(x.datos);
+      setDatos(x.datos[0]);
+    }else{
+      //datos no se pudieron actualizar
+    }
+    setActualizar(false);
+    setBuscar(true);
   });
 
   return (
@@ -53,8 +74,7 @@ const ActualizarDatos = ({ user, usuario }) => {
                   enableReinitialize={true}
                   initialValues={datos}
                   onSubmit={(values, { resetForm }) => {
-                    // iniciarSesion(values);
-                    console.log(values);
+                    actualizarDatos(values);
                     resetForm();
                   }}
                 >
@@ -77,7 +97,7 @@ const ActualizarDatos = ({ user, usuario }) => {
                           Cédula:
                         </InputGroup.Text>
                         <Form.Control
-                          disabled="true"
+                          disabled={true}
                           name="cedula"
                           value={values.cedula}
                           onChange={handleChange}
