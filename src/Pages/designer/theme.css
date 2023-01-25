@@ -44,13 +44,35 @@ body{
   font-weight: bold;
 }
 
-label:hover {
+/* #label1:hover {
   color: #ac936e;
-}
+} */
 
 #navL:hover{
   background-color: #fff;
 }
+
+
+.opc-element{
+  color: #000000;
+  cursor: pointer;
+  display: inline-block;
+  /* font-weight: bold; */
+}
+
+#navL2:hover{
+  background-color: #e9ecef;
+}
+
+#label2:hover {
+  color: #000000;
+  cursor: pointer;
+}
+
+a:link, a:visited {
+  text-decoration: none;
+}
+
 
 /* cssgradient.io para hacer degradado de colores */
 .CardsInicio{
@@ -76,15 +98,29 @@ label:hover {
   position: fixed;
   z-index: 2;
   background-color: #e0c8db;
+  /* top: 64px; */
 }
 
 .App-content{ 
   position: relative;
-  padding: 10px;
+  padding-top: 10px;
   left: 95px;
   width: calc(100% - 190px);
-  height: 55px; 
+  height: 55px;
   display: inline-table;
+  top: 55px;
+}
+
+.App-header {
+  position: fixed !important;
+  z-index: 2;
+  left: 185px; 
+  width: calc(100% - 180px);
+  /* width: 100%; */
+  background-color: #ffffff;
+  border-bottom:  1px solid #6f7275;
+  /* height: 70px;  */
+  /* display: inline-table;  */
 }
 
 .footer-menu { 
@@ -115,7 +151,7 @@ label:hover {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 85vh;
+  height: 75vh;
   position: relative;
   left: 90px;
   width: calc(100% - 120px);

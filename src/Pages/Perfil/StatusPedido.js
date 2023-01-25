@@ -7,7 +7,9 @@ import InputGroup from "react-bootstrap/InputGroup";
 import Button from "react-bootstrap/Button";
 import Table from "react-bootstrap/Table";
 
-import MensajeAlert from "./MensajeAlert";
+import MensajeAlert from "../MensajeAlert";
+
+import HeaderPerfil from "./HeaderPerfil";
 
 const Pedidos = [
   {
@@ -52,7 +54,7 @@ const Pedidos = [
   },
 ];
 
-const StatusPedido = () => {
+const StatusPedido = ({ user, usuario }) => {
   const [mensaje, setMensaje] = useState("");
   const [variant, setVariant] = useState("");
 
@@ -83,15 +85,11 @@ const StatusPedido = () => {
 
   return (
     <>
-      <Card body className="Card">
-        {variant ? <MensajeAlert variant={variant} mensaje={mensaje} /> : <></>}
-        <Breadcrumb>
-          <Breadcrumb.Item href="Inicio">Inicio</Breadcrumb.Item>
-          <Breadcrumb.Item active>Status-Pedido</Breadcrumb.Item>
-        </Breadcrumb>
-        <Card style={{ height: "87vh" }}>
+      <Card body style={{ height: "80vh" }} className="Card">
+        {/* <HeaderPerfil user={user} usuario={usuario} /> */}
+        {/* <Card style={{ height: "87vh" }}> */}
           <div className="mx-4 mt-4">
-            <h5 className="text-center">Status de Pedidos</h5>
+            <h5 className="text-center">Estado del Pedido</h5>
             <hr />
           </div>
           <div className="m-4" style={{ width: "400px" }}>
@@ -149,7 +147,7 @@ const StatusPedido = () => {
             </Table>
           </div>
         </Card>
-      </Card>
+      {/* </Card> */}
     </>
   );
 };

@@ -13,7 +13,9 @@ import NoPage from "./Pages/NoPage";
 import Catalogo from "./Pages/Catalogo/Catalogo";
 import RegistroProducto from "./Pages/RegistroProducto";
 import Inventario from "./Pages/Inventario/Inventario";
-import StatusPedido from "./Pages/StatusPedido";
+import StatusPedido from "./Pages/Perfil/StatusPedido";
+
+import ActualizarDatos from "./Pages/Perfil/ActualizarDatos";
 
 import { ProtectedRoute } from "./Pages/components/ProtectedRoute";
 
@@ -43,7 +45,7 @@ function App() {
           <Route path="Pagina-Principal" element={<CardsInicio />} />
           <Route
             path="Perfil"
-            element={<Iniciar user={user} usuario={userLocal} />}
+            element={<ActualizarDatos user={user} usuario={userLocal} />}
           />
 
           <Route path="Catalogo" element={<Catalogo />} />
@@ -78,7 +80,7 @@ function App() {
           <Route path="Ingreso-Ad" element={<LoginEmp />} />
           <Route path="Ingresar" element={<Login />} />
           <Route path="Registrar" element={<Registrar />} />
-          <Route path="Status-Pedido" element={<StatusPedido />} />
+          <Route path="Status-Pedido" element={<StatusPedido user={user} usuario={userLocal}/>} />
           <Route path="No-Page" element={<NoPage />} />
           <Route path="*" element={<Navigate to="No-Page" />} />
         </Route>

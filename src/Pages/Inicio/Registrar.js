@@ -193,9 +193,9 @@ const Registrar = () => {
               <Row>
                 <Col className="mt-3 px-4">
                   <Form.Text>
-                    Todos los datos requeridos son para la compra del carrito
-                    <br />
-                    Ya soy cliente <a href="Ingresar">iniciar sesión</a>
+                    {/* Todos los datos requeridos son para la compra del carrito 
+                    <br />*/}
+                    Ya soy cliente <Link to="/Ingresar">iniciar sesión</Link>
                   </Form.Text>
                 </Col>
               </Row>

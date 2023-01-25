@@ -98,7 +98,7 @@ const Carrito = () => {
       resetCampos();
       setVariant("info");
       setMensaje(
-        "numero identificacion no está registrado, completa los datos requeridos"
+        "No se encontraron datos, completa los campos requeridos"
       );
     }
   };
@@ -125,13 +125,13 @@ const Carrito = () => {
     <>
       <Card body className="Card">
         {variant ? <MensajeAlert variant={variant} mensaje={mensaje} /> : <></>}
-        <Breadcrumb>
+        {/* <Breadcrumb>
           <Breadcrumb.Item href="Inicio">Inicio</Breadcrumb.Item>
           <Breadcrumb.Item active>Carrito</Breadcrumb.Item>
-        </Breadcrumb>
+        </Breadcrumb> */}
         {/* contenedores para el cuerpo */}
-        <Card>
-          <Row style={{ minHeight: "87vh" }}>
+        {/* <Card> */}
+          <Row style={{ minHeight: "80vh" }}>
             <Col xs={7}>
               <div className="m-4">
                 <h5 className="text-center">Datos del Carrito</h5>
@@ -217,7 +217,7 @@ const Carrito = () => {
                 <h6 className="text-center pb-2">Buscar datos registrados</h6>
                 <InputGroup className="mb-3">
                   <InputGroup.Text style={{ width: "100px" }}>
-                    Identificación
+                    Cédula
                   </InputGroup.Text>
                   <Form.Control
                     onChange={(e) => {
@@ -225,7 +225,7 @@ const Carrito = () => {
                     }}
                     maxLength={10}
                   />
-                  <Button onClick={validarCampo}>Buscar</Button>
+                  {/* <Button onClick={validarCampo}>Buscar</Button> */}
                 </InputGroup>
                 <InputGroup className="mb-3">
                   <InputGroup.Text style={{ width: "100px" }}>
@@ -287,7 +287,7 @@ const Carrito = () => {
               </Card>
             </Col>
           </Row>
-        </Card>
+        {/* </Card> */}
       </Card>
     </>
   );

@@ -16,6 +16,7 @@ import {
   BtnCambiarEstado,
   BtnGuardarDatos,
 } from "../../custom-hooks/BtnAccion";
+import HeaderPerfil from "../Perfil/HeaderPerfil";
 
 const CardsInicio = () => {
   //cards para presentar admin, gerente y usuario/cliente.
@@ -95,11 +96,8 @@ const Iniciar = ({ user, usuario }) => {
 
   return (
     <>
-      <Card style={{ height: "95vh" }}>
-        <div className="mx-4 mt-4">
-          <h5 className="text-center">Bienvenido {usuario.nombre}</h5>
-          <hr />
-        </div>
+      <Card body style={{ height: "80vh" }} className="Card">
+        <HeaderPerfil user={user} usuario={usuario} />
         {user ? (
           <div className="py-3" style={{ height: "75vh" }}>
             <Row>
@@ -186,7 +184,7 @@ const Iniciar = ({ user, usuario }) => {
             </Row>
           </div>
         ) : (
-          <div className="py-3" style={{ height: "75vh" }}>
+          <div className="py-3" style={{ height: "70vh" }}>
             <Card className="Card px-4">
               <Row>
                 <Col className="my-3" xs={6}>
@@ -245,11 +243,11 @@ const Iniciar = ({ user, usuario }) => {
             </Card>
           </div>
         )}
-        <Row>
+        {/* <Row>
           <Col>
             <Button onClick={logout}>Cerrar Sesión</Button>
           </Col>
-        </Row>
+        </Row> */}
       </Card>
     </>
   );

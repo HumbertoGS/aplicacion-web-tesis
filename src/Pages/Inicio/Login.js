@@ -131,7 +131,7 @@ export default function Login() {
               <Row>
                 <Col className="mt-3">
                   <Form.Text style={{ color: "#1167e5" }}>
-                    No tienes cuenta!? <a href="Registrar">registrate</a>
+                    No tienes cuenta!? <Link to="/Registrar">Registrar</Link>
                   </Form.Text>
                 </Col>
               </Row>
