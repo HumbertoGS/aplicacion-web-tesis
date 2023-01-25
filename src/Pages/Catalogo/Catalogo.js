@@ -215,7 +215,7 @@ const Catalogo = () => {
           <Breadcrumb.Item href="Inicio">Inicio</Breadcrumb.Item>
           <Breadcrumb.Item active>Catalogo</Breadcrumb.Item>
         </Breadcrumb> */}
-        <Card className="Card">
+        <Card className="Card pt-2">
           <div className="px-3">
             <Row>
               <Col className="mb-3">

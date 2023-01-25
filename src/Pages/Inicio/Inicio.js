@@ -24,7 +24,7 @@ const CardsInicio = () => {
     <div className="CardsInicio">
       <div className="container d-flex justify-content-center align-items-center h-100">
         <div className="row">
-          <div className="col-md-4">
+          {/* <div className="col-md-4">
             <Card style={{ height: "430px" }}>
               <Card.Img variant="center" src="admin.png" />
               <Card.Body className="OneCard">
@@ -39,14 +39,14 @@ const CardsInicio = () => {
                 </Link>
               </Card.Body>
             </Card>
-          </div>
-          <div className="col-md-4">
-            <Card style={{ height: "430px" }}>
+          </div> */}
+          <div className="col-md-6">
+            <Card style={{ height: "400px" }}>
               <Card.Img variant="top" src="icono-cliente.png" />
               <Card.Body className="OneCard">
-                <div className="py-2" style={{ height: "85px" }}>
-                  <Card.Title>Soy Cliente</Card.Title>
-                  <Card.Text>Ya tengo una cuenta.</Card.Text>
+                <div className="pt-2" style={{ height: "50px" }}>
+                  <Card.Title>Ya tengo una cuenta</Card.Title>
+                  {/* <Card.Text>Ya tengo una cuenta.</Card.Text> */}
                 </div>
                 <Link to="/Ingresar">
                   <Button variant="outline-secondary rounded-0 w-50">
@@ -56,13 +56,13 @@ const CardsInicio = () => {
               </Card.Body>
             </Card>
           </div>
-          <div className="col-md-4">
-            <Card style={{ height: "430px" }}>
+          <div className="col-md-6">
+            <Card style={{ height: "400px" }}>
               <Card.Img variant="align-center" src="icono-cliente.png" />
               <Card.Body className="OneCard">
-                <div className="py-2" style={{ height: "85px" }}>
-                  <Card.Title>Quiero ser Cliente</Card.Title>
-                  <Card.Text>Quiero tener una cuenta y ser miembro.</Card.Text>
+                <div className="py-2" style={{ height: "50px" }}>
+                  <Card.Title>Quiero tener una cuenta</Card.Title>
+                  {/* <Card.Text>Quiero tener una cuenta y ser miembro.</Card.Text> */}
                 </div>
                 <Link to="/Registrar">
                   <Button variant="outline-secondary rounded-0 w-50">

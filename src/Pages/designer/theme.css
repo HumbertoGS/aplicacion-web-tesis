@@ -76,7 +76,8 @@ a:link, a:visited {
 
 /* cssgradient.io para hacer degradado de colores */
 .CardsInicio{
-  height: 97vh;
+  margin-left: -15px;
+  height: 90vh;
   /* background-image: url('../../../public/bg-cat.jpg'); */
   /* background: rgb(31,1,61); */
   /* background: rgb(34,193,195); */

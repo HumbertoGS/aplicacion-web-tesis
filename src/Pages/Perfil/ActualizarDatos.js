@@ -77,6 +77,7 @@ const ActualizarDatos = ({ user, usuario }) => {
                           Cédula:
                         </InputGroup.Text>
                         <Form.Control
+                          disabled="true"
                           name="cedula"
                           value={values.cedula}
                           onChange={handleChange}
