@@ -1,11 +1,13 @@
+import { Navigate } from "react-router-dom";
 
-import { useState } from "react";
-import { Navigate } from "react-router-dom"
-import { PostData } from "../../custom-hooks/accesoMenu";
-
-const userLocal = JSON.parse(localStorage.getItem("user"));
-
-export const ProtectedRoute = ({children, redirectTo="/", user}) => {
-  if(!user && !userLocal) return <Navigate to={redirectTo}/>
-  return children
-}
+export const ProtectedRoute = ({
+  children,
+  redirectTo = "/Catalogo",
+  user,
+  permisos,
+}) => {
+  if (!user) return <Navigate to={redirectTo} />;
+  if (!permisos.some((x) => x === user.permisos))
+    return <Navigate to={redirectTo} />;
+  return children;
+};

@@ -1,15 +1,12 @@
-import { useState } from "react";
+import secureLocalStorage from "react-secure-storage";
 
 import Container from "react-bootstrap/Container";
-import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import Stack from "react-bootstrap/Stack";
 import Figure from "react-bootstrap/Figure";
 import { Link } from "react-router-dom";
 
 import "../designer/theme.css";
-
-import { PostData } from "../../custom-hooks/accesoMenu";
 
 const MenuLateral = ({ user }) => {
   return (
@@ -63,18 +60,13 @@ const MenuLateral = ({ user }) => {
                   <label className="mx-2 nav-element">Registro de Ventas</label>
                 </Container>
               </Link>
-              <Link to="Inventario">
-                <Container className="py-2 text-start nav-element" id="navL">
-                  <label className="mx-2 nav-element">Inventario</label>
-                </Container>
-              </Link>
-              {/* <Container>
-                <Nav className="me-auto">
-                  <Nav.Link href="Registrar-Productos">
-                    Registro de Productos
-                  </Nav.Link>
-                </Nav>
-              </Container> */}
+              {user.permisos === 1 ? (
+                <Link to="Inventario">
+                  <Container className="py-2 text-start nav-element" id="navL">
+                    <label className="mx-2 nav-element">Inventario</label>
+                  </Container>
+                </Link>
+              ) : null}
             </div>
           ) : (
             <></>
@@ -86,11 +78,7 @@ const MenuLateral = ({ user }) => {
 };
 
 function MenuL() {
-  const [user, setUser] = useState(false);
-
-  PostData((datos) => {
-    setUser(datos);
-  });
+  const user = secureLocalStorage.getItem("user");
 
   return (
     <>

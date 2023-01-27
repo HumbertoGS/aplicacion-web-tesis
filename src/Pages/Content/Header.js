@@ -1,4 +1,5 @@
 import { useState } from "react";
+import secureLocalStorage from "react-secure-storage";
 
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
@@ -11,19 +12,13 @@ import { Link } from "react-router-dom";
 
 import "../designer/theme.css";
 
-import { PostData } from "../../custom-hooks/accesoMenu";
-
-const user = JSON.parse(localStorage.getItem("user"));
+// const user = JSON.parse(localStorage.getItem("user"));
+const user = secureLocalStorage.getItem("user");
 
 const Header = () => {
-  const [userAcceso, setUserAcceso] = useState(false);
-
-  PostData((datos) => {
-    setUserAcceso(datos);
-  });
-
   const logout = () => {
-    localStorage.removeItem("user");
+    // localStorage.removeItem("user");
+    secureLocalStorage.removeItem("user");
     window.location.href = process.env.REACT_APP_BASENAME + "Inicio";
   };
 
@@ -59,43 +54,47 @@ const Header = () => {
                   </Container>
                 </Link>
 
-                {userAcceso ? (
-                  <div>
-                    <Link to="Inventario">
-                      <Container
-                        className="py-1 text-start opc-element"
-                        id="navL2"
-                      >
-                        <label className="mx-1" id="label2">
-                          Inventario
-                        </label>
-                      </Container>
-                    </Link>
-                  </div>
-                ) : (
-                  <div>
-                    <Link to="Carrito">
-                      <Container
-                        className="py-1 text-start opc-element"
-                        id="navL2"
-                      >
-                        <label className="mx-1" id="label2">
-                          Carrito
-                        </label>
-                      </Container>
-                    </Link>
+                {user ? (
+                  user.permisos == 1 ? (
+                    <div>
+                      <Link to="Inventario">
+                        <Container
+                          className="py-1 text-start opc-element"
+                          id="navL2"
+                        >
+                          <label className="mx-1" id="label2">
+                            Inventario
+                          </label>
+                        </Container>
+                      </Link>
+                    </div>
+                  ) : (
+                    <div>
+                      <Link to="Carrito">
+                        <Container
+                          className="py-1 text-start opc-element"
+                          id="navL2"
+                        >
+                          <label className="mx-1" id="label2">
+                            Carrito
+                          </label>
+                        </Container>
+                      </Link>
 
-                    <Link to="Status-Pedido">
-                      <Container
-                        className="py-1 text-start opc-element"
-                        id="navL2"
-                      >
-                        <label className="mx-1" id="label2">
-                          Estado de Pedido
-                        </label>
-                      </Container>
-                    </Link>
-                  </div>
+                      <Link to="Status-Pedido">
+                        <Container
+                          className="py-1 text-start opc-element"
+                          id="navL2"
+                        >
+                          <label className="mx-1" id="label2">
+                            Estado de Pedido
+                          </label>
+                        </Container>
+                      </Link>
+                    </div>
+                  )
+                ) : (
+                  <></>
                 )}
 
                 <NavDropdown.Divider />

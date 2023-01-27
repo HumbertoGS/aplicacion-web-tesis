@@ -21,15 +21,15 @@ import { ProtectedRoute } from "./Pages/components/ProtectedRoute";
 
 import { PostData } from "./custom-hooks/accesoMenu";
 
+import secureLocalStorage from "react-secure-storage";
+
+const permisos = [1, 2];
+
 function App() {
-  const userLocal = JSON.parse(localStorage.getItem("user"));
+  // const user = JSON.parse(localStorage.getItem("user"));
+  const user = secureLocalStorage.getItem("user");
 
-  const [user, setUser] = useState(false);
-
-  PostData((datos) => {
-    setUser(datos);
-  });
-
+  console.log(user)
   // useEffect(() => {
   //   if (variant) {
   //     const interval = setTimeout(() => {
@@ -47,23 +47,18 @@ function App() {
           <Route index element={<Catalogo />} />
           <Route
             path="Inicio"
-            element={
-              <Navigate to={userLocal ? "/Perfil" : "/Pagina-Principal"} />
-            }
+            element={<Navigate to={user ? "/Perfil" : "/Pagina-Principal"} />}
           />
 
           <Route path="Pagina-Principal" element={<CardsInicio />} />
-          <Route
-            path="Perfil"
-            element={<ActualizarDatos user={user} usuario={userLocal} />}
-          />
+          <Route path="Perfil" element={<ActualizarDatos user={user} />} />
 
           <Route path="Catalogo" element={<Catalogo />} />
           {/* <Route path="Inventario" element={<Inventario />} /> */}
           <Route
             path="Inventario"
             element={
-              <ProtectedRoute redirectTo="/" user={user}>
+              <ProtectedRoute user={user} permisos={[1]}>
                 <Inventario />
               </ProtectedRoute>
             }
@@ -71,7 +66,7 @@ function App() {
           <Route
             path="Registro-Ventas"
             element={
-              <ProtectedRoute redirectTo="/" user={user}>
+              <ProtectedRoute user={user} permisos={permisos}>
                 <RegistroVentas />
               </ProtectedRoute>
             }
@@ -79,21 +74,15 @@ function App() {
           <Route
             path="Registrar-Productos"
             element={
-              <ProtectedRoute redirectTo="/" user={user}>
+              <ProtectedRoute user={user} permisos={permisos}>
                 <RegistroProducto />
               </ProtectedRoute>
             }
           />
-          {/* <Route path="Registro-Ventas" element={<RegistroVentas />} /> */}
-          <Route path="Carrito" element={<Carrito user={userLocal}/>} />
-          {/* <Route path="Registrar-Productos" element={<RegistroProducto />} /> */}
-          {/* <Route path="Ingreso-Ad" element={<LoginEmp />} /> */}
+          <Route path="Carrito" element={<Carrito user={user} />} />
           <Route path="Ingresar" element={<Login />} />
           <Route path="Registrar" element={<Registrar />} />
-          <Route
-            path="Status-Pedido"
-            element={<StatusPedido user={user} usuario={userLocal} />}
-          />
+          <Route path="Status-Pedido" element={<StatusPedido user={user} />} />
           <Route path="No-Page" element={<NoPage />} />
           <Route path="*" element={<Navigate to="No-Page" />} />
         </Route>

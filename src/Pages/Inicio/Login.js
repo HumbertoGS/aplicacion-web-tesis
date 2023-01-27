@@ -8,6 +8,7 @@ import Form from "react-bootstrap/Form";
 
 import { Formik } from "formik";
 import { Link } from "react-router-dom";
+import secureLocalStorage from "react-secure-storage";
 
 import "../designer/theme.css";
 import MensajeAlert from "../components/MensajeAlert";
@@ -31,7 +32,9 @@ export default function Login() {
   const comprobarInicio = (respuesta) => {
     setValidar(false);
     if (respuesta.datos.length !== 0) {
-      localStorage.setItem("user", JSON.stringify(respuesta.datos[0]));
+      secureLocalStorage.setItem("user", respuesta.datos[0]);
+
+      // localStorage.setItem("user", JSON.stringify(respuesta.datos[0]));
       window.location.href = process.env.REACT_APP_BASENAME + "Catalogo";
     } else window.location.href = process.env.REACT_APP_BASENAME + "Inicio";
   };

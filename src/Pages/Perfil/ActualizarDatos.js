@@ -1,19 +1,18 @@
 import { useState } from "react";
+import secureLocalStorage from "react-secure-storage";
 
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Card from "react-bootstrap/Card";
-import Table from "react-bootstrap/Table";
 import InputGroup from "react-bootstrap/InputGroup";
-
-import { Link } from "react-router-dom";
 
 import { Formik } from "formik";
 
 import "../designer/theme.css";
 import { PostData } from "../../custom-hooks/useFetch";
+
 import {
   BtnCambiarEstado,
   BtnGuardarDatos,
@@ -24,7 +23,7 @@ import TablaEmpleados from "./TablaEmpleados";
 
 const url = process.env.REACT_APP_API_CORE_URL + "persona";
 
-const ActualizarDatos = ({ user, usuario }) => {
+const ActualizarDatos = ({ user }) => {
   const [buscar, setBuscar] = useState(true);
   const [actualizar, setActualizar] = useState(false);
 
@@ -38,9 +37,9 @@ const ActualizarDatos = ({ user, usuario }) => {
     correo: "",
   });
 
-  //----------CARGAMOS DATOS Y RECARGAMOS DATOS-------------
+  //----------CARGAMOS DATOS-------------
 
-  PostData(url + "/buscar", { numIdent: usuario.cedula }, buscar, (x) => {
+  PostData(url + "/buscar", { numIdent: user.cedula }, buscar, (x) => {
     setDatos(x.datos[0]);
     setBuscar(false);
   });
@@ -54,22 +53,22 @@ const ActualizarDatos = ({ user, usuario }) => {
 
   PostData(url + "/actualizar", datos, actualizar, (x) => {
     if (x.datos.length !== 0) {
-      setDatos(x.datos[0]);
-      localStorage.setItem(
-        "user",
-        JSON.stringify({ nombre: x.datos[0].nombre, cedula: x.datos[0].cedula })
-      );
+      secureLocalStorage.setItem("user", {
+        nombre: x.datos[0].nombre,
+        cedula: x.datos[0].cedula,
+        permisos: x.datos[0].id_rol,
+      });
     } else {
       //datos no se pudieron actualizar
     }
     setActualizar(false);
-    setBuscar(true);
+    window.location.href = process.env.REACT_APP_BASENAME + "Inicio";
   });
 
   return (
     <>
       <Card body style={{ height: "80vh" }} className="Card">
-        <HeaderPerfil user={user} usuario={usuario} />
+        <HeaderPerfil user={user} />
         <div className="py-3" style={{ height: "75vh" }}>
           <Card className="Card">
             <div className="mx-4" style={{ width: "50%" }}>
@@ -181,7 +180,7 @@ const ActualizarDatos = ({ user, usuario }) => {
           </Card>
         </div>
 
-        {user ? <TablaEmpleados /> : <></>}
+        {user ? user.permisos == 1 ? <TablaEmpleados /> : null : <></>}
       </Card>
     </>
   );
