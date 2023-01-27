@@ -9,7 +9,7 @@ import Table from "react-bootstrap/Table";
 import InputGroup from "react-bootstrap/InputGroup";
 
 import "../designer/theme.css";
-import { ReloadData } from "../../custom-hooks/useFetch";
+import { ReloadData, PostData } from "../../custom-hooks/useFetch";
 import {
   BtnCambiarEstado,
   BtnGuardarDatos,
@@ -20,17 +20,31 @@ import HeaderPerfil from "../Perfil/HeaderPerfil";
 const url = process.env.REACT_APP_API_CORE_URL + "persona";
 
 const TablaEmpleados = () => {
+  const [numIdent, setNumIdent] = useState("");
+
   const [datosEmpleados, setDatosEmpleados] = useState([]);
   const [buscar, setBuscar] = useState(true);
+
+  const [buscarDatos, setBuscarDatos] = useState(false);
+  const [result, setResult] = useState(null);
 
   ReloadData(url + "/buscarEmpleado", buscar, (x) => {
     if (x.datos.length !== 0) setDatosEmpleados([x.datos[0]]);
     setBuscar(false);
   });
 
+  const buscarPersona = () => {
+    setBuscarDatos(true);
+  };
+
+  PostData(url + "/buscar", { numIdent }, buscarDatos, (x) => {
+    if (x.datos.length !== 0) setResult(x.datos[0]);
+    setBuscarDatos(false);
+  });
+
   return (
     <>
-      <div className="py-3" style={{ height: "85vh" }}>
+      <div className="py-3" style={{ height: "87vh" }}>
         <div className="mx-4" style={{ width: "50%" }}>
           <h5 className="text-start">Administrar Empleado</h5>
           <hr />
@@ -49,8 +63,14 @@ const TablaEmpleados = () => {
                     <InputGroup.Text style={{ width: "100px" }}>
                       Cedula:
                     </InputGroup.Text>
-                    <Form.Control />
-                    <Button variant="outline-secondary">Buscar</Button>
+                    <Form.Control
+                      onChange={(e) => {
+                        setNumIdent(e.target.value);
+                      }}
+                    />
+                    <Button variant="outline-secondary" onClick={buscarPersona}>
+                      Buscar
+                    </Button>
                   </InputGroup>
                   <hr />
                 </div>
@@ -59,13 +79,19 @@ const TablaEmpleados = () => {
                     <InputGroup.Text style={{ width: "100px" }}>
                       Nombres:
                     </InputGroup.Text>
-                    <Form.Control readOnly={true} />
+                    <Form.Control
+                      readOnly={true}
+                      value={result ? result.nombre : ""}
+                    />
                   </InputGroup>
                   <InputGroup className="mb-3">
                     <InputGroup.Text style={{ width: "100px" }}>
                       Apellidos:
                     </InputGroup.Text>
-                    <Form.Control readOnly={true} />
+                    <Form.Control
+                      readOnly={true}
+                      value={result ? result.apellido : ""}
+                    />
                   </InputGroup>
                   <Button className="w-100" variant="outline-secondary">
                     Registrar

@@ -25,7 +25,7 @@ const ProductoImagen = (props) => {
     setCantidad(0);
     props.datosCarrito(Carrito);
   };
-  
+
   return (
     <>
       <Col>
@@ -40,10 +40,59 @@ const ProductoImagen = (props) => {
           />
           <Card.Body>
             <Card.Title>
-              {producto.producto}
+              {/* {producto.producto} */}
+              <div
+                className="d-flex"
+                style={{ justifyContent: "space-around" }}
+              >
+                <div
+                  className="d-flex"
+                  style={{
+                    justifyContent: "space-around",
+                    flexDirection: "column",
+                  }}
+                >
+                  <label>
+                    <b>{producto.producto}</b>
+                  </label>
+                  <label className="pt-1" style={{ fontSize: "13px" }}>
+                    Talla: {producto.talla}
+                  </label>
+                </div>
+                <label style={{ fontSize: "16px" }}>
+                  <b>${producto.precio_unidad}</b>
+                </label>
+              </div>
               <hr />
             </Card.Title>
-            <div>
+            <Card.Text>
+              <div className="d-flex justify-content-center">
+                <InputGroup style={{ width: "140px" }}>
+                  <Form.Control
+                    onChange={(event) => {
+                      if (event.target.value > 0)
+                        setCantidad(event.target.value);
+                      else setCantidad("");
+                    }}
+                    placeholder={cantidad}
+                    value={cantidad == 0 ? "" : cantidad}
+                    maxLength={4}
+                  />
+                  <Button
+                    variant="dark"
+                    disabled={cantidad == 0}
+                    style={{
+                      width: "70px",
+                    }}
+                    onClick={addCar}
+                  >
+                    <FaCartPlus />
+                  </Button>
+                </InputGroup>
+              </div>
+            </Card.Text>
+
+            {/* <div>
               <InputGroup className="mb-3">
                 <InputGroup.Text className="w-50">Valor</InputGroup.Text>
                 <Form.Control
@@ -67,7 +116,46 @@ const ProductoImagen = (props) => {
                   value={cantidad == 0 ? "" : cantidad}
                 />
               </InputGroup>
-            </div>
+            </div> */}
+
+            {/* <Card className="py-1 Card">
+              <div
+                className="d-flex"
+                style={{ justifyContent: "space-around", alignItems: "column" }}
+              >
+                <label>
+                  <b>Precio</b>
+                </label>
+                <label>
+                  <b>Talla</b>
+                </label>
+              </div>
+              <div
+                className="d-flex"
+                style={{ justifyContent: "space-around" }}
+              >
+                <label>${producto.precio_unidad}</label>
+                <label>{producto.talla}</label>
+              </div>
+              <div
+                className="d-flex pb-2"
+                style={{ justifyContent: "space-around", alignItems: "center" }}
+              >
+                <label style={{ fontSize: "13px" }}>
+                  <b>Cantidad:</b>
+                </label>
+                <Form.Control
+                  style={{ width: "70px" }}
+                  onChange={(event) => {
+                    if (event.target.value > 0) setCantidad(event.target.value);
+                    else setCantidad("");
+                  }}
+                  placeholder={cantidad}
+                  value={cantidad == 0 ? "" : cantidad}
+                  maxLength={4}
+                />
+              </div>
+            </Card> 
 
             <Button
               variant="dark"
@@ -78,7 +166,7 @@ const ProductoImagen = (props) => {
               onClick={addCar}
             >
               <FaCartPlus />
-            </Button>
+            </Button>*/}
           </Card.Body>
         </Card>
       </Col>

@@ -133,6 +133,16 @@ const ActualizarDatos = ({ user }) => {
                       </InputGroup>
                       <InputGroup className="mb-3">
                         <InputGroup.Text style={{ width: "170px" }}>
+                          Correo:
+                        </InputGroup.Text>
+                        <Form.Control
+                          name="correo"
+                          value={values.correo}
+                          onChange={handleChange}
+                        />
+                      </InputGroup>
+                      <InputGroup className="mb-3">
+                        <InputGroup.Text style={{ width: "170px" }}>
                           Dirección:
                         </InputGroup.Text>
                         <Form.Control

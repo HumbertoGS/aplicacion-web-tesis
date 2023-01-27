@@ -1,4 +1,5 @@
 import { useState } from "react";
+import secureLocalStorage from "react-secure-storage";
 
 import Card from "react-bootstrap/Card";
 import Row from "react-bootstrap/Row";
@@ -8,7 +9,6 @@ import Form from "react-bootstrap/Form";
 
 import { Formik } from "formik";
 import { Link } from "react-router-dom";
-import secureLocalStorage from "react-secure-storage";
 
 import "../designer/theme.css";
 import MensajeAlert from "../components/MensajeAlert";
@@ -44,105 +44,90 @@ export default function Login() {
   return (
     <>
       <Card body className="Card">
-        <Link to="/Inicio" className="btnVolver">
-          <Button variant="outline-secondary">Volver</Button>
-        </Link>
         {variant ? <MensajeAlert variant={variant} mensaje={mensaje} /> : <></>}
         <div className="form-padre">
-          <div className="d-flex" style={{ width: "90%" }}>
-            <Card className="p-4" style={{ width: "450px" }}>
-              <Row>
-                <Col className="mb-3 pt-5">
-                  <Form.Text>
-                    <h5>INICIO DE SESION</h5>
-                  </Form.Text>
-                </Col>
-              </Row>
-              <Row>
-                <Col>
-                  <Formik
-                    initialValues={{
-                      num_identificacion: "",
-                      pass: "",
-                    }}
-                    onSubmit={(values, { resetForm }) => {
-                      iniciarSesion(values);
-                      resetForm();
-                    }}
-                  >
-                    {({
-                      handleSubmit,
-                      handleChange,
-                      handleBlur,
-                      values,
-                      touched,
-                      isValid,
-                      errors,
-                    }) => (
-                      <Form className="px-4" noValidate onSubmit={handleSubmit}>
-                        <Form.Group
-                          as={Row}
-                          className="mb-3 mt-2"
-                          controlId="formPlaintextInput1"
-                        >
-                          <Form.Label column sm="4" className="text-start">
-                            N° Identificación:
-                          </Form.Label>
-                          <Col sm="8">
-                            <Form.Control
-                              type="text"
-                              placeholder="Cédula"
-                              name="num_identificacion"
-                              value={values.num_identificacion}
-                              onChange={handleChange}
-                              maxLength={10}
-                            />
-                          </Col>
-                        </Form.Group>
-                        <Form.Group
-                          as={Row}
-                          className="mb-3 py-2"
-                          controlId="formPlaintextPassword"
-                        >
-                          <Form.Label column sm="4" className="text-start">
-                            Contraseña:
-                          </Form.Label>
-                          <Col sm="8">
-                            <Form.Control
-                              type="password"
-                              placeholder="Contraseña"
-                              name="pass"
-                              value={values.pass}
-                              onChange={handleChange}
-                            />
-                          </Col>
-                        </Form.Group>
-                        <Button
-                          variant="primary"
-                          type="submit"
-                          className="w-100"
-                          // href="/"
-                          disabled={!(values.pass && values.num_identificacion)}
-                        >
-                          Iniciar Sesión
-                        </Button>
-                      </Form>
-                    )}
-                  </Formik>
-                </Col>
-              </Row>
-              <Row>
-                <Col className="mt-3">
-                  <Form.Text style={{ color: "#1167e5" }}>
-                    No tienes cuenta!? <Link to="/Registrar">Registrar</Link>
-                  </Form.Text>
-                </Col>
-              </Row>
-            </Card>
-            <Card className="Card">
-              <Card.Img variant="align-center" src="logo512.png" width={350} />
-            </Card>
-          </div>
+          <Card className="p-4" style={{ width: "400px" }}>
+            <Row>
+              <Col className="mb-3 pt-5">
+                <Form.Text>
+                  <h5>INICIAR SESION</h5>
+                  <hr />
+                </Form.Text>
+              </Col>
+            </Row>
+            <Row>
+              <Col>
+                <Formik
+                  initialValues={{
+                    num_identificacion: "",
+                    pass: "",
+                  }}
+                  onSubmit={(values, { resetForm }) => {
+                    iniciarSesion(values);
+                    resetForm();
+                  }}
+                >
+                  {({
+                    handleSubmit,
+                    handleChange,
+                    handleBlur,
+                    values,
+                    touched,
+                    isValid,
+                    errors,
+                  }) => (
+                    <Form className="px-4" noValidate onSubmit={handleSubmit}>
+                      <Form.Group
+                        className="mb-3 mt-2"
+                        controlId="formPlaintextInput1"
+                      >
+                        <Col>
+                          <Form.Control
+                            type="text"
+                            placeholder="Cédula"
+                            name="num_identificacion"
+                            value={values.num_identificacion}
+                            onChange={handleChange}
+                            maxLength={10}
+                          />
+                        </Col>
+                      </Form.Group>
+                      <Form.Group
+                        className="mb-3 py-2"
+                        controlId="formPlaintextPassword"
+                      >
+                        <Col>
+                          <Form.Control
+                            type="password"
+                            placeholder="Contraseña"
+                            name="pass"
+                            value={values.pass}
+                            onChange={handleChange}
+                          />
+                        </Col>
+                      </Form.Group>
+                      <Button
+                        variant="outline-secondary"
+                        type="submit"
+                        className="w-50"
+                        // href="/"
+                        disabled={!(values.pass && values.num_identificacion)}
+                      >
+                        Iniciar Sesión
+                      </Button>
+                    </Form>
+                  )}
+                </Formik>
+              </Col>
+            </Row>
+            <Row>
+              <Col className="mt-3">
+                <Form.Text>
+                  No tienes cuenta!? <Link to="/Registrar">Registrate</Link>
+                </Form.Text>
+              </Col>
+            </Row>
+          </Card>
         </div>
       </Card>
     </>

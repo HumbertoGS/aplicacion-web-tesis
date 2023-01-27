@@ -152,9 +152,9 @@ a:link, a:visited {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 75vh;
+  height: 85vh;
   position: relative;
-  left: 90px;
+  left: 50px;
   width: calc(100% - 120px);
 }
 

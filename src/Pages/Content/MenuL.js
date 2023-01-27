@@ -48,18 +48,32 @@ const MenuLateral = ({ user }) => {
           </Link>
           {user ? (
             <div>
-              <Link to="Registrar-Productos">
-                <Container className="py-2 text-start nav-element" id="navL">
-                  <label className="mx-2 nav-element">
-                    Registro de Productos
-                  </label>
-                </Container>
-              </Link>
-              <Link to="Registro-Ventas">
-                <Container className="py-2 text-start nav-element" id="navL">
-                  <label className="mx-2 nav-element">Registro de Ventas</label>
-                </Container>
-              </Link>
+              {user.permisos !== 3 ? (
+                <>
+                  <Link to="Registrar-Productos">
+                    <Container
+                      className="py-2 text-start nav-element"
+                      id="navL"
+                    >
+                      <label className="mx-2 nav-element">
+                        Registro de Productos
+                      </label>
+                    </Container>
+                  </Link>
+                  <Link to="Registro-Ventas">
+                    <Container
+                      className="py-2 text-start nav-element"
+                      id="navL"
+                    >
+                      <label className="mx-2 nav-element">
+                        Registro de Ventas
+                      </label>
+                    </Container>
+                  </Link>
+                </>
+              ) : (
+                <></>
+              )}
               {user.permisos === 1 ? (
                 <Link to="Inventario">
                   <Container className="py-2 text-start nav-element" id="navL">
