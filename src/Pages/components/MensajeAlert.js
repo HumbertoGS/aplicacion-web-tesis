@@ -1,5 +1,5 @@
 import Alert from "react-bootstrap/Alert";
-import "./designer/theme.css";
+import "../designer/theme.css";
 
 //------ tipo mensaje ------
 // 'info',  //Para informacion

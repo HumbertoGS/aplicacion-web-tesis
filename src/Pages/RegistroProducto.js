@@ -10,7 +10,7 @@ import InputGroup from "react-bootstrap/InputGroup";
 import Dropdown from "react-bootstrap/Dropdown";
 import Table from "react-bootstrap/Table";
 
-import MensajeAlert from "./MensajeAlert";
+import MensajeAlert from "./components/MensajeAlert";
 import { GetData, PostData, ReloadData } from "../custom-hooks/useFetch";
 
 import { Formik } from "formik";

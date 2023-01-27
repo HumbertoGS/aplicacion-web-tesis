@@ -13,7 +13,7 @@ import { FaShoppingCart } from "react-icons/fa";
 
 import ProductoCatalogo from "./Producto-Catalogo";
 import MenuDespe from "./MenuDesplegable";
-import MensajeAlert from "../MensajeAlert";
+import MensajeAlert from "../components/MensajeAlert";
 import { GetData, PostData, ReloadData } from "../../custom-hooks/useFetch";
 
 import "../designer/theme.css";

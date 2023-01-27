@@ -7,7 +7,7 @@ import InputGroup from "react-bootstrap/InputGroup";
 import Button from "react-bootstrap/Button";
 import Table from "react-bootstrap/Table";
 
-import MensajeAlert from "../MensajeAlert";
+import MensajeAlert from "../components/MensajeAlert";
 
 import HeaderPerfil from "./HeaderPerfil";
 

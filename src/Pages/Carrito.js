@@ -9,7 +9,7 @@ import Form from "react-bootstrap/Form";
 import InputGroup from "react-bootstrap/InputGroup";
 import Table from "react-bootstrap/Table";
 
-import MensajeAlert from "./MensajeAlert";
+import MensajeAlert from "./components/MensajeAlert";
 
 import { PostData } from "../custom-hooks/useFetch.js";
 import { Formik } from "formik";

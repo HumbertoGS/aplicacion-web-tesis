@@ -10,7 +10,7 @@ import { Formik } from "formik";
 import { Link } from "react-router-dom";
 
 import "../designer/theme.css";
-import MensajeAlert from "../MensajeAlert";
+import MensajeAlert from "../components/MensajeAlert";
 
 import { PostData } from "../../custom-hooks/useFetch.js";
 

@@ -6,10 +6,10 @@ import Layout from "./Pages/Content/Layout";
 import { CardsInicio, Iniciar } from "./Pages/Inicio/Inicio";
 import Registrar from "./Pages/Inicio/Registrar";
 import Login from "./Pages/Inicio/Login";
-import LoginEmp from "./Pages/Inicio/LoginEmp";
+// import LoginEmp from "./Pages/Inicio/LoginEmp";
 import RegistroVentas from "./Pages/RegistroVentas/RegistroVentas";
 import Carrito from "./Pages/Carrito";
-import NoPage from "./Pages/NoPage";
+import NoPage from "./Pages/components/NoPage";
 import Catalogo from "./Pages/Catalogo/Catalogo";
 import RegistroProducto from "./Pages/RegistroProducto";
 import Inventario from "./Pages/Inventario/Inventario";
@@ -87,7 +87,7 @@ function App() {
           {/* <Route path="Registro-Ventas" element={<RegistroVentas />} /> */}
           <Route path="Carrito" element={<Carrito user={userLocal}/>} />
           {/* <Route path="Registrar-Productos" element={<RegistroProducto />} /> */}
-          <Route path="Ingreso-Ad" element={<LoginEmp />} />
+          {/* <Route path="Ingreso-Ad" element={<LoginEmp />} /> */}
           <Route path="Ingresar" element={<Login />} />
           <Route path="Registrar" element={<Registrar />} />
           <Route
