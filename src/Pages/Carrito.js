@@ -257,6 +257,7 @@ const Carrito = ({ user }) => {
                     <Button
                       className="w-100"
                       type="submit"
+                      variant="outline-secondary"
                       disabled={
                         !(
                           values.apellido &&

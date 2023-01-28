@@ -96,7 +96,13 @@ const ModalVentasDetalles = (props) => {
         </Tabs>
       </Modal.Body>
       <Modal.Footer>
-        <Button onClick={props.onHide}>Close</Button>
+        <Button
+          variant="outline-secondary"
+          className="w-25"
+          onClick={props.onHide}
+        >
+          Close
+        </Button>
       </Modal.Footer>
     </Modal>
   );

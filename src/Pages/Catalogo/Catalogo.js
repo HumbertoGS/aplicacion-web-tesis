@@ -41,7 +41,6 @@ const Catalogo = () => {
   const [filtro, setFiltro] = useState("Filtrar");
 
   ReloadData(urlProducto, buscarProductos, (dato) => {
-    console.log(dato.datos);
     setProductoTabla(dato.datos);
     setProducto(dato.datos);
     setBuscarProductos(false);

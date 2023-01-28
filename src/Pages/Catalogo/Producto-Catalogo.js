@@ -55,7 +55,7 @@ const ProductoImagen = (props) => {
                     flexDirection: "column",
                   }}
                 >
-                  <label>
+                  <label style={{ fontSize: "15px" }}>
                     <b>{producto.nombre ?? producto.nombre_categoria}</b>
                   </label>
                   <label className="pt-1" style={{ fontSize: "13px" }}>

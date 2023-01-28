@@ -35,7 +35,7 @@ const GetData = (url, respuesta) => {
           // headers: { Authorization: "Bearer " + localStorage.getItem("token") },
         });
         const json = await response.json();
-        respuesta(json)
+        respuesta(json);
       } catch (error) {
         console.log(`Error: ${error.toString()}`);
       }
@@ -66,4 +66,25 @@ const ReloadData = (url, validar, respuesta) => {
   }, [validar, url, respuesta]);
 };
 
-export  { PostData, GetData, ReloadData };
+const PostImage = (url, formData, validar, respuesta) => {
+  useEffect(() => {
+    if (validar) {
+      const updateData = async () => {
+        try {
+          const response = await fetch(url, {
+            method: "POST",
+            body: formData,
+          });
+          const json = await response.json();
+          respuesta(json);
+        } catch (error) {
+          console.log(error.toString());
+        }
+      };
+
+      updateData();
+    }
+  }, [validar, url]);
+};
+
+export { PostData, GetData, ReloadData, PostImage };

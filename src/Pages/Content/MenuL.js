@@ -20,7 +20,7 @@ const MenuLateral = ({ user }) => {
             <Figure>
               <Figure.Image
                 width={170}
-                // height={300}
+                // height={200}
                 alt="Imagen del negocio"
                 src={"logo512.png"}
               />

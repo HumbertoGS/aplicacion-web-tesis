@@ -11,12 +11,14 @@ import Dropdown from "react-bootstrap/Dropdown";
 import Table from "react-bootstrap/Table";
 
 import MensajeAlert from "./components/MensajeAlert";
-import { GetData, PostData, ReloadData } from "../custom-hooks/useFetch";
+import { PostImage, PostData, ReloadData } from "../custom-hooks/useFetch";
 
 import { Formik } from "formik";
 
 import { styleBtnCancel, styleBtnSave } from "./designer/styleBtn";
 import { BtnCambiarEstado, BtnGuardarDatos } from "../custom-hooks/BtnAccion";
+
+import { HiPencil } from "react-icons/hi";
 
 const urlCategoria = process.env.REACT_APP_API_CORE_URL + "categoria";
 const urlProducto = process.env.REACT_APP_API_CORE_URL + "producto";
@@ -49,20 +51,25 @@ const RegistroProducto = () => {
   });
 
   //-------------------TABLA DE PRODUCTOS-------------------
-  const [filtro, setFiltro] = useState("Selecciona categoria");
 
   const [productoTabla, setProductoTabla] = useState([]);
   const [buscarProductos, setBuscarProductos] = useState(true);
-
   const [producto, setProducto] = useState(productoTabla);
+
+  const [formDato, setFormDato] = useState("");
+  const [insertProducto, setInsertProducto] = useState(false);
+  const [file, setFile] = useState("");
+
+  const [filtro, setFiltro] = useState("Selecciona categoria");
   const [filtrarTabla, setFiltrarTabla] = useState("Filtrar");
 
   ReloadData(urlProducto, buscarProductos, (dato) => {
-    console.log(dato.datos);
     setProductoTabla(dato.datos);
     setProducto(dato.datos);
     setBuscarProductos(false);
   });
+
+  //-------------------FILTRO PRODUCTOS-------------------
 
   const Buscar = (idCategoria) => {
     let filtrado = productoTabla.filter(
@@ -75,8 +82,7 @@ const RegistroProducto = () => {
     }
   };
 
-  const [file, setFile] = useState("");
-  const [pathImagen, setPathImagen] = useState("");
+  //-------------------REGISTRAR PRODUCTOS-------------------
 
   const guardarDatos = (value) => {
     let datosGuardar = value;
@@ -89,21 +95,17 @@ const RegistroProducto = () => {
     formData.append("imagen", file);
     formData.append("data", JSON.stringify(datosGuardar));
 
-    fetch(urlProducto + "/insert", {
-      method: "POST",
-      body: formData,
-    })
-      .then((x) => x.json)
-      .then((x) => console.log(x))
-      .catch((err) => {
-        console.error(err);
-      });
+    setFormDato(formData);
+    setInsertProducto(true);
+  };
 
+  PostImage(urlProducto + "/insert", formDato, insertProducto, (x) => {
     setFile(null);
-
+    setInsertProducto(false);
+    setBuscarProductos(true);
     setVariant("success");
     setMensaje("Se registro el producto");
-  };
+  });
 
   //-------------------MENSAJE ALERTA-------------------
   useEffect(() => {
@@ -326,6 +328,7 @@ const RegistroProducto = () => {
                       <Button
                         className="w-50"
                         type="submit"
+                        variant="outline-secondary"
                         // disabled={
                         //   !(
                         //     //values.codigo &&
@@ -383,6 +386,7 @@ const RegistroProducto = () => {
                           className="w-50"
                           type="submit"
                           disabled={!values.nombre}
+                          variant="outline-secondary"
                         >
                           Guardar
                         </Button>
@@ -486,30 +490,47 @@ const RegistroProducto = () => {
                   <></>
                 )}
               </div>
-              <div style={{ overflowY: "auto", height: "300px" }}>
+              <div
+                style={{ overflowY: "auto", height: "300px" }}
+                className="mt-3"
+              >
+                {/* <div className="px-3 mt-2"> */}
                 <Table>
                   <thead className="theadTable">
                     <tr>
-                      <th>Codigo</th>
+                      <th>Imagen</th>
                       <th>Nombre</th>
                       <th>Categoria</th>
                       <th>Talla</th>
                       <th>Precio</th>
                       <th>cantidad</th>
+                      <th>Editar</th>
                       <th>Tiene Stock</th>
                     </tr>
                   </thead>
-                  <tbody>
+                  <tbody style={{ verticalAlign: "baseline" }}>
                     {producto.map((item, index) => {
                       let style = item.stock ? styleBtnSave : styleBtnCancel;
                       return (
                         <tr key={index}>
-                          <td>{item.id}</td>
+                          <td>
+                            <img
+                              width={50}
+                              height={50}
+                              src={item.imagen}
+                              alt={item.nombre_imagen}
+                            />
+                          </td>
                           <td>{item.nombre}</td>
                           <td>{item.nombre_categoria}</td>
                           <td>{item.talla}</td>
                           <td>{item.precio}</td>
                           <td>{item.cantidad}</td>
+                          <td>
+                            <Button variant="outline-secondary">
+                              <HiPencil />
+                            </Button>
+                          </td>
                           <td>
                             <Button
                               style={{
@@ -526,6 +547,7 @@ const RegistroProducto = () => {
                     })}
                   </tbody>
                 </Table>
+                {/* </div> */}
               </div>
             </Col>
           </Row>
