@@ -17,79 +17,106 @@ const ModalCatalogo = (props) => {
     let Carrito = {
       ...producto,
       cantidad: cantidad,
-      total: producto.precio_unidad * cantidad,
+      total: producto.precio * cantidad,
     };
     setCantidad(0);
     props.datosCarrito(Carrito);
   };
 
   return (
-    <Modal
-      show={props.show}
-      onHide={props.onHide}
-      aria-labelledby="contained-modal-title-vcenter"
-      centered
-    >
-      <Modal.Header closeButton>
-        <Modal.Title id="contained-modal-title-vcenter">Producto</Modal.Title>
-      </Modal.Header>
-      <Modal.Body>
-        <Card style={{ width: "19rem", flexDirection: "row" }}>
-          <Card.Img variant="top" src={producto.imagen} />
-          <Card.Body>
-            <div
-              style={{
-                width: "200px",
-              }}
-              className="px-3"
-            >
-              <Card.Title>
-                {producto.producto}
-                <hr />
-              </Card.Title>
-              <div>
-                <InputGroup className="mb-3">
-                  <InputGroup.Text className="w-50">Valor</InputGroup.Text>
-                  <Form.Control
-                    disabled
-                    defaultValue={"$" + producto.precio_unidad}
-                  />
-                </InputGroup>
-
-                <InputGroup className="mb-3">
-                  <InputGroup.Text className="w-50">Talla</InputGroup.Text>
-                  <Form.Control disabled defaultValue={producto.talla} />
-                </InputGroup>
-
-                <InputGroup className="mb-3">
-                  <InputGroup.Text className="w-50">Cantidad</InputGroup.Text>
-                  <Form.Control
-                    onChange={(event) => {
-                      setCantidad(event.target.value);
-                    }}
-                    placeholder={cantidad}
-                    value={cantidad == 0 ? "" : cantidad}
-                  />
-                </InputGroup>
-              </div>
-              <Button
-                variant="dark"
-                disabled={cantidad == 0}
+    <>
+      <Modal
+        show={props.show}
+        onHide={props.onHide}
+        // aria-labelledby="contained-modal-title-vcenter"
+        centered
+        size="lg"
+      >
+        <div>
+          <Modal.Header closeButton>
+            <Modal.Title id="contained-modal-title-vcenter">
+              {producto.nombre_categoria}
+            </Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <Card className="Card" style={{ flexDirection: "row" }}>
+              <Card.Img
+                variant="top"
                 style={{
-                  width: "100%",
+                  width: "500px",
+                  height: "400px",
                 }}
-                onClick={addCar}
-              >
-                <FaCartPlus />
-              </Button>
-            </div>
-          </Card.Body>
-        </Card>
-      </Modal.Body>
-      {/* <Modal.Footer>
+                src={producto.imagen}
+              />
+              <Card.Body>
+                <div className="px-2">
+                  <Card.Title>
+                    {producto.nombre ?? producto.nombre_categoria}
+                    <hr />
+                  </Card.Title>
+                  <div>
+                    <InputGroup className="mb-3">
+                      <InputGroup.Text className="w-50">Valor</InputGroup.Text>
+                      <Form.Control
+                        disabled
+                        defaultValue={"$" + producto.precio}
+                      />
+                    </InputGroup>
+
+                    <InputGroup className="mb-3">
+                      <InputGroup.Text className="w-50">Talla</InputGroup.Text>
+                      <Form.Control disabled defaultValue={producto.talla} />
+                    </InputGroup>
+
+                    <InputGroup className="mb-3">
+                      <InputGroup.Text className="w-50">
+                        Cantidad
+                      </InputGroup.Text>
+                      <Form.Control
+                        onChange={(event) => {
+                          setCantidad(event.target.value);
+                        }}
+                        placeholder={cantidad}
+                        value={cantidad == 0 ? "" : cantidad}
+                      />
+                    </InputGroup>
+                  </div>
+                  <Button
+                    variant="dark"
+                    disabled={cantidad == 0}
+                    style={{
+                      width: "100%",
+                    }}
+                    onClick={addCar}
+                  >
+                    <FaCartPlus />
+                  </Button>
+                  <div className="py-3">
+                    <InputGroup className="mb-3">
+                      <InputGroup.Text
+                        className="w-100"
+                        style={{ borderRadius: "0px" }}
+                      >
+                        Descripcion
+                      </InputGroup.Text>
+                      <Form.Control
+                        style={{ border: "0px" }}
+                        disabled
+                        className="bg-white text-center pt-3"
+                        defaultValue={producto.descripcion}
+                      />
+                    </InputGroup>
+                  </div>
+                </div>
+              </Card.Body>
+            </Card>
+          </Modal.Body>
+          {/* <Modal.Footer>
         <Button onClick={props.onHide}>Close</Button>
       </Modal.Footer> */}
-    </Modal>
+        </div>
+      </Modal>
+    </>
   );
 };
 

@@ -19,110 +19,7 @@ import { styleBtnCancel, styleBtnSave } from "./designer/styleBtn";
 import { BtnCambiarEstado, BtnGuardarDatos } from "../custom-hooks/BtnAccion";
 
 const urlCategoria = process.env.REACT_APP_API_CORE_URL + "categoria";
-const urlImage = process.env.REACT_APP_API_CORE_URL + "producto/insert";
-
-const productoTabla = [
-  {
-    id: 1,
-    categoria: 3,
-    nombre: "Camisa",
-    talla: "S",
-    precio: 15.0,
-    imagen: "tacos-rosa.png",
-    stock: "3",
-    estado: true,
-  },
-  {
-    id: 2,
-    categoria: 1,
-    nombre: "Zapatos",
-    talla: "36",
-    precio: 25.0,
-    imagen: "tacos-rosa.png",
-    stock: "3",
-    estado: true,
-  },
-  {
-    id: 3,
-    categoria: 2,
-    nombre: "Vestidos",
-    talla: "S",
-    precio: 30.0,
-    imagen: "tacos-rosa.png",
-    stock: "3",
-    estado: true,
-  },
-  {
-    id: 4,
-    categoria: 2,
-    nombre: "Vestidos",
-    talla: "S",
-    precio: 30.0,
-    imagen: "tacos-rosa.png",
-    stock: "3",
-    estado: true,
-  },
-  {
-    id: 5,
-    categoria: 2,
-    nombre: "Vestidos",
-    talla: "S",
-    precio: 30.0,
-    imagen: "tacos-rosa.png",
-    stock: "3",
-    estado: true,
-  },
-  {
-    id: 6,
-    categoria: 2,
-    nombre: "Vestidos",
-    talla: "S",
-    precio: 30.0,
-    imagen: "tacos-rosa.png",
-    stock: "3",
-    estado: true,
-  },
-  {
-    id: 7,
-    categoria: 2,
-    nombre: "Vestidos",
-    talla: "S",
-    precio: 30.0,
-    imagen: "tacos-rosa.png",
-    stock: "3",
-    estado: true,
-  },
-  {
-    id: 8,
-    categoria: 4,
-    nombre: "Pantalones",
-    talla: "S",
-    precio: 30.0,
-    imagen: "tacos-rosa.png",
-    stock: "3",
-    estado: true,
-  },
-  {
-    id: 9,
-    categoria: 4,
-    nombre: "Pantalones",
-    talla: "S",
-    precio: 30.0,
-    imagen: "tacos-rosa.png",
-    stock: "3",
-    estado: true,
-  },
-  {
-    id: 14,
-    categoria: 4,
-    nombre: "Pantalones",
-    talla: "S",
-    precio: 30.0,
-    imagen: "tacos-rosa.png",
-    stock: "3",
-    estado: true,
-  },
-];
+const urlProducto = process.env.REACT_APP_API_CORE_URL + "producto";
 
 const RegistroProducto = () => {
   const [mensaje, setMensaje] = useState("");
@@ -154,8 +51,18 @@ const RegistroProducto = () => {
   //-------------------TABLA DE PRODUCTOS-------------------
   const [filtro, setFiltro] = useState("Selecciona categoria");
 
+  const [productoTabla, setProductoTabla] = useState([]);
+  const [buscarProductos, setBuscarProductos] = useState(true);
+
   const [producto, setProducto] = useState(productoTabla);
   const [filtrarTabla, setFiltrarTabla] = useState("Filtrar");
+
+  ReloadData(urlProducto, buscarProductos, (dato) => {
+    console.log(dato.datos);
+    setProductoTabla(dato.datos);
+    setProducto(dato.datos);
+    setBuscarProductos(false);
+  });
 
   const Buscar = (idCategoria) => {
     let filtrado = productoTabla.filter(
@@ -173,22 +80,16 @@ const RegistroProducto = () => {
 
   const guardarDatos = (value) => {
     let datosGuardar = value;
-    console.log(datosGuardar);
 
-    delete datosGuardar.imagen
+    delete datosGuardar.imagen;
 
-    if (!file) {
-      console.log("No imagen");
-      return;
-    }
-    // console.log(file);
-    // console.log(pathImagen);
+    if (!file) return;
 
     const formData = new FormData();
     formData.append("imagen", file);
     formData.append("data", JSON.stringify(datosGuardar));
 
-    fetch(urlImage, {
+    fetch(urlProducto + "/insert", {
       method: "POST",
       body: formData,
     })
@@ -214,18 +115,17 @@ const RegistroProducto = () => {
     }
   }, [variant]);
 
-  const send_image = (files) => {
-    console.log(files);
-    setFile(files);
-    // setPathImagen(reader.result);
+  // const send_image = (files) => {
+  //   setFile(files);
+  //   // setPathImagen(reader.result);
 
-    // const reader = new FileReader();
-    // reader.readAsDataURL(files);
+  //   // const reader = new FileReader();
+  //   // reader.readAsDataURL(files);
 
-    // reader.onload = () => {
-    //   setPathImagen(reader.result);
-    // };
-  };
+  //   // reader.onload = () => {
+  //   //   setPathImagen(reader.result);
+  //   // };
+  // };
 
   return (
     <>
@@ -260,7 +160,7 @@ const RegistroProducto = () => {
                     nombre: "",
                     imagen: "",
                     categoria: "",
-                    stock: "",
+                    cantidad: "",
                     precio: "",
                     talla: "",
                     descripcion: "",
@@ -317,7 +217,7 @@ const RegistroProducto = () => {
                           value={values.imagen}
                           onChange={handleChange}
                           onChangeCapture={(e) => {
-                            send_image(e.target.files[0]);
+                            setFile(e.target.files[0]);
                           }}
                           // isInvalid={!!errors.file}
                         />
@@ -366,15 +266,15 @@ const RegistroProducto = () => {
                           style={{ marginLeft: "12px", width: "50%" }}
                         >
                           <InputGroup.Text style={{ width: "100px" }}>
-                            Stock
+                            cantidad
                             <span style={{ color: "#eb0808" }} className="px-2">
                               *
                             </span>
                           </InputGroup.Text>
                           <Form.Control
                             type="text"
-                            name="stock"
-                            value={values.stock}
+                            name="cantidad"
+                            value={values.cantidad}
                             onChange={handleChange}
                           />
                         </InputGroup>
@@ -433,7 +333,7 @@ const RegistroProducto = () => {
                         //     //values.nombre &&
                         //     //values.descripcion &&
                         //     // values.talla &&
-                        //     (values.imagen && values.precio && values.stock)
+                        //     (values.imagen && values.precio && values.cantidad)
                         //   )
                         // }
                       >
@@ -595,21 +495,21 @@ const RegistroProducto = () => {
                       <th>Categoria</th>
                       <th>Talla</th>
                       <th>Precio</th>
-                      <th>Stock</th>
-                      <th>Estado</th>
+                      <th>cantidad</th>
+                      <th>Tiene Stock</th>
                     </tr>
                   </thead>
                   <tbody>
                     {producto.map((item, index) => {
-                      let style = item.estado ? styleBtnSave : styleBtnCancel;
+                      let style = item.stock ? styleBtnSave : styleBtnCancel;
                       return (
                         <tr key={index}>
                           <td>{item.id}</td>
                           <td>{item.nombre}</td>
-                          <td>{item.categoria}</td>
+                          <td>{item.nombre_categoria}</td>
                           <td>{item.talla}</td>
                           <td>{item.precio}</td>
-                          <td>{item.stock}</td>
+                          <td>{item.cantidad}</td>
                           <td>
                             <Button
                               style={{
@@ -618,7 +518,7 @@ const RegistroProducto = () => {
                                 ...style,
                               }}
                             >
-                              {item.estado ? "Activo" : "Inactivo"}
+                              {item.stock ? "SI" : "NO"}
                             </Button>
                           </td>
                         </tr>

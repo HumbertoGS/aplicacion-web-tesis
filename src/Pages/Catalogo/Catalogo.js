@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import secureLocalStorage from "react-secure-storage";
 
 import Breadcrumb from "react-bootstrap/Breadcrumb";
 import Card from "react-bootstrap/Card";
@@ -18,112 +19,10 @@ import { GetData, PostData, ReloadData } from "../../custom-hooks/useFetch";
 
 import "../designer/theme.css";
 
-const productoTabla = [
-  {
-    id: 1,
-    categoria: 3,
-    producto: "Camisa",
-    talla: "S",
-    precio_unidad: 15.0,
-    imagen: "tacos-rosa.png",
-    stock: "3",
-    estado: true,
-  },
-  {
-    id: 2,
-    categoria: 1,
-    producto: "Zapatos",
-    talla: "36",
-    precio_unidad: 25.0,
-    imagen: "tacos-rosa.png",
-    stock: "3",
-    estado: true,
-  },
-  {
-    id: 3,
-    categoria: 2,
-    producto: "Vestidos",
-    talla: "S",
-    precio_unidad: 30.0,
-    imagen: "tacos-rosa.png",
-    stock: "3",
-    estado: true,
-  },
-  {
-    id: 4,
-    categoria: 2,
-    producto: "Vestidos",
-    talla: "S",
-    precio_unidad: 30.0,
-    imagen: "tacos-rosa.png",
-    stock: "3",
-    estado: true,
-  },
-  {
-    id: 5,
-    categoria: 2,
-    producto: "Vestidos",
-    talla: "S",
-    precio_unidad: 30.0,
-    imagen: "tacos-rosa.png",
-    stock: "3",
-    estado: true,
-  },
-  {
-    id: 6,
-    categoria: 2,
-    producto: "Vestidos",
-    talla: "S",
-    precio_unidad: 30.0,
-    imagen: "tacos-rosa.png",
-    stock: "3",
-    estado: true,
-  },
-  {
-    id: 7,
-    categoria: 2,
-    producto: "Vestidos",
-    talla: "S",
-    precio_unidad: 30.0,
-    imagen: "tacos-rosa.png",
-    stock: "3",
-    estado: true,
-  },
-  {
-    id: 8,
-    categoria: 4,
-    producto: "Pantalones",
-    talla: "S",
-    precio_unidad: 30.0,
-    imagen: "tacos-rosa.png",
-    stock: "3",
-    estado: true,
-  },
-  {
-    id: 9,
-    categoria: 4,
-    producto: "Pantalones",
-    talla: "S",
-    precio_unidad: 30.0,
-    imagen: "tacos-rosa.png",
-    stock: "3",
-    estado: true,
-  },
-  {
-    id: 14,
-    categoria: 4,
-    producto: "Pantalones",
-    talla: "S",
-    precio_unidad: 30.0,
-    imagen: "tacos-rosa.png",
-    stock: "3",
-    estado: true,
-  },
-];
-
 let datosA = { datos: [], totales: [] };
 
 const urlCategoria = process.env.REACT_APP_API_CORE_URL + "categoria";
+const urlProducto = process.env.REACT_APP_API_CORE_URL + "producto";
 
 const Catalogo = () => {
   const [mensaje, setMensaje] = useState("");
@@ -133,10 +32,20 @@ const Catalogo = () => {
   const [datos, setDatos] = useState({ datos: [], totales: [] });
   const [modal, setModal] = useState(false);
 
+  const [buscar, setBuscar] = useState("");
+
+  const [productoTabla, setProductoTabla] = useState([]);
+  const [buscarProductos, setBuscarProductos] = useState(true);
+
   const [producto, setProducto] = useState(productoTabla);
   const [filtro, setFiltro] = useState("Filtrar");
 
-  const [buscar, setBuscar] = useState("");
+  ReloadData(urlProducto, buscarProductos, (dato) => {
+    console.log(dato.datos);
+    setProductoTabla(dato.datos);
+    setProducto(dato.datos);
+    setBuscarProductos(false);
+  });
 
   //---------------------CATEGORIA---------------------
   const [Categorias, setCategorias] = useState([]);
@@ -184,7 +93,8 @@ const Catalogo = () => {
       ],
     };
     setDatos(datosGuardar);
-    localStorage.setItem("datosCarrito", JSON.stringify(datosGuardar));
+    // localStorage.setItem("datosCarrito", JSON.stringify(datosGuardar));
+    secureLocalStorage.setItem("datosCarrito", datosGuardar);
   };
 
   const datosCarrito = (valores) => {
@@ -205,7 +115,9 @@ const Catalogo = () => {
   }, [variant]);
 
   useEffect(() => {
-    const datosCarro = JSON.parse(localStorage.getItem("datosCarrito"));
+    // const datosCarro = JSON.parse(localStorage.getItem("datosCarrito"));
+    const datosCarro = secureLocalStorage.getItem("datosCarrito");
+
     if (datosCarro) {
       if (datosCarro.datos.length > 0) {
         datosA = datosCarro;

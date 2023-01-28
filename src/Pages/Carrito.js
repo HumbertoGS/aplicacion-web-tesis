@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
+import secureLocalStorage from "react-secure-storage";
 
-import Breadcrumb from "react-bootstrap/Breadcrumb";
 import Card from "react-bootstrap/Card";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
@@ -24,7 +24,8 @@ const tablaCarrito = [
 const urlDatosPersona = process.env.REACT_APP_API_CORE_URL + "persona/buscar";
 
 const Carrito = ({ user }) => {
-  const datosCarro = JSON.parse(localStorage.getItem("datosCarrito"));
+  // const datosCarro = JSON.parse(localStorage.getItem("datosCarrito"));
+  const datosCarro = secureLocalStorage.getItem("datosCarrito");
 
   const disabledCampo = user ? true : false;
   const numIdent = user ? user.cedula : "";
@@ -70,6 +71,8 @@ const Carrito = ({ user }) => {
     setMensaje(
       "Los datos de tu pedido ha sido registrado, por favor envianos el comprobante al numero 593xxxxxxxxx"
     );
+
+    secureLocalStorage.removeItem("datosCarrito");
   };
 
   const respuesta = (datos) => {
@@ -133,12 +136,14 @@ const Carrito = ({ user }) => {
                                   width: "70%",
                                 }}
                               >
-                                <p className="text-start">{item.producto}</p>
+                                <p className="text-start">
+                                  {item.nombre ?? item.nombre_categoria}
+                                </p>
                                 <p className="text-start">Talla {item.talla}</p>
                               </div>
                             </div>
                           </td>
-                          <td>${item.precio_unidad}</td>
+                          <td>${item.precio}</td>
                           <td>{item.cantidad}</td>
                           <td>${item.total}</td>
                         </tr>

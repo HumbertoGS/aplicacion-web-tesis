@@ -20,7 +20,7 @@ const ProductoImagen = (props) => {
     let Carrito = {
       ...producto,
       cantidad: cantidad,
-      total: producto.precio_unidad * cantidad,
+      total: Number(producto.precio) * Number(cantidad),
     };
     setCantidad(0);
     props.datosCarrito(Carrito);
@@ -29,21 +29,24 @@ const ProductoImagen = (props) => {
   return (
     <>
       <Col>
-        <Card style={{ width: "18rem" }}>
-          <Card.Img
-            variant="top"
-            src={producto.imagen}
-            onClick={() => {
-              setDatos(producto);
-              setModalShow(true);
-            }}
-          />
+        <Card style={{ width: "18rem", height: "24rem" }}>
+          <Card className="Card">
+            <Card.Img
+              variant="top"
+              src={producto.imagen}
+              style={{ height: "200px" }}
+              onClick={() => {
+                setDatos(producto);
+                setModalShow(true);
+              }}
+            />
+          </Card>
           <Card.Body>
             <Card.Title>
               {/* {producto.producto} */}
               <div
                 className="d-flex"
-                style={{ justifyContent: "space-around" }}
+                style={{ justifyContent: "space-around", height: "35px" }}
               >
                 <div
                   className="d-flex"
@@ -53,14 +56,14 @@ const ProductoImagen = (props) => {
                   }}
                 >
                   <label>
-                    <b>{producto.producto}</b>
+                    <b>{producto.nombre ?? producto.nombre_categoria}</b>
                   </label>
                   <label className="pt-1" style={{ fontSize: "13px" }}>
-                    Talla: {producto.talla}
+                    {producto.talla ? "Talla: " + producto.talla : "-"}
                   </label>
                 </div>
                 <label style={{ fontSize: "16px" }}>
-                  <b>${producto.precio_unidad}</b>
+                  <b>${producto.precio}</b>
                 </label>
               </div>
               <hr />
