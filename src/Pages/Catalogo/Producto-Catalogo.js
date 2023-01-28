@@ -65,7 +65,7 @@ const ProductoImagen = (props) => {
               </div>
               <hr />
             </Card.Title>
-            <Card.Text>
+            <div>
               <div className="d-flex justify-content-center">
                 <InputGroup style={{ width: "140px" }}>
                   <Form.Control
@@ -90,7 +90,7 @@ const ProductoImagen = (props) => {
                   </Button>
                 </InputGroup>
               </div>
-            </Card.Text>
+            </div>
 
             {/* <div>
               <InputGroup className="mb-3">
