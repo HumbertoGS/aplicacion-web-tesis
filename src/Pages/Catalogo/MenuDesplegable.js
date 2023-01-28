@@ -65,11 +65,13 @@ const MenuDespe = (props) => {
                               justifyContent: "center",
                             }}
                           >
-                            <h5>
-                              {(
-                                item.nombre ?? item.nombre_categoria
-                              ).toUpperCase()}
-                            </h5>
+                            <h6>
+                              <b>
+                                {(
+                                  item.nombre ?? item.nombre_categoria
+                                ).toUpperCase()}
+                              </b>
+                            </h6>
                           </InputGroup>
                           <InputGroup className="mb-1">
                             <h6>Talla {item.talla}</h6>
