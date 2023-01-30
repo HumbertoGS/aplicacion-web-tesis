@@ -211,7 +211,7 @@ const Catalogo = () => {
               <></>
             )}
 
-            <Row xs={2} md={4} className="g-4">
+            <Row xs={2} md={4} className="g-4 px-2 py-3">
               {producto.map((item, index) => {
                 return (
                   <ProductoCatalogo

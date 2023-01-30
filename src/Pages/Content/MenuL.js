@@ -26,11 +26,15 @@ const MenuLateral = ({ user }) => {
               />
             </Figure>
           </Container>
-          <Link to="Inicio">
-            <Container className="py-2 text-start nav-element" id="navL">
-              <label className="mx-2 nav-element">Inicio</label>
-            </Container>
-          </Link>
+          {user ? (
+            <Link to="Inicio">
+              <Container className="py-2 text-start nav-element" id="navL">
+                <label className="mx-2 nav-element">Inicio</label>
+              </Container>
+            </Link>
+          ) : (
+            <></>
+          )}
           <Link to="Catalogo">
             <Container className="py-2 text-start nav-element" id="navL">
               <label className="mx-2 nav-element">Catalogo</label>
@@ -39,11 +43,6 @@ const MenuLateral = ({ user }) => {
           <Link to="Carrito">
             <Container className="py-2 text-start nav-element" id="navL">
               <label className="mx-2 nav-element">Carrito</label>
-            </Container>
-          </Link>
-          <Link to="Status-Pedido">
-            <Container className="py-2 text-start nav-element" id="navL">
-              <label className="mx-2 nav-element">Status del Pedido</label>
             </Container>
           </Link>
           {user ? (
@@ -56,7 +55,7 @@ const MenuLateral = ({ user }) => {
                       id="navL"
                     >
                       <label className="mx-2 nav-element">
-                        Registro de Productos
+                        Registro de Productos y Categorias
                       </label>
                     </Container>
                   </Link>
@@ -72,7 +71,13 @@ const MenuLateral = ({ user }) => {
                   </Link>
                 </>
               ) : (
-                <></>
+                <Link to="Status-Pedido">
+                  <Container className="py-2 text-start nav-element" id="navL">
+                    <label className="mx-2 nav-element">
+                      Estado del Pedido
+                    </label>
+                  </Container>
+                </Link>
               )}
               {user.permisos === 1 ? (
                 <Link to="Inventario">

@@ -20,6 +20,7 @@ import {
 
 import HeaderPerfil from "./HeaderPerfil";
 import TablaEmpleados from "./TablaEmpleados";
+import StatusPedido from "./StatusPedido";
 
 const url = process.env.REACT_APP_API_CORE_URL + "persona";
 
@@ -198,12 +199,10 @@ const ActualizarDatos = ({ user }) => {
               </Row>
             </Card>
           </div>
-        ) : user ? (
-          user?.permisos == 1 ? (
-            <TablaEmpleados />
-          ) : null
+        ) : user?.permisos == 1 ? (
+          <TablaEmpleados />
         ) : (
-          <></>
+          <StatusPedido />
         )}
       </Card>
     </>

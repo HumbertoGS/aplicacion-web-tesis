@@ -85,68 +85,64 @@ const StatusPedido = ({ user, usuario }) => {
 
   return (
     <>
-      <Card body style={{ height: "80vh" }} className="Card">
-        {/* <HeaderPerfil user={user} usuario={usuario} /> */}
-        {/* <Card style={{ height: "87vh" }}> */}
-          <div className="mx-4 mt-4">
-            <h5 className="text-center">Estado del Pedido</h5>
-            <hr />
-          </div>
-          <div className="m-4" style={{ width: "400px" }}>
-            <InputGroup className="mb-3">
-              <InputGroup.Text style={{ width: "100px" }}>
-                N° Pedido
-              </InputGroup.Text>
-              <Form.Control
-                maxLength={10}
-                onChange={(event) => {
-                  setPedido(event.target.value);
-                  if (event.target.value === "") {
-                    setProducto([]);
-                    setMensajeTabla("Ingresa un num pedido");
-                  }
-                }}
-              />
-              <Button onClick={buscarPedido} disabled={!pedido}>
-                Buscar
-              </Button>
-            </InputGroup>
-          </div>
-          <div className="p-4" style={{ overflowY: "auto", height: "300px" }}>
-            <Table>
-              <thead className="theadTable">
+      <Card body style={{ height: "70vh" }} className="Card">
+        <div className="mx-2" style={{ width: "50%" }}>
+          <h5 className="text-start">Estado del Pedido</h5>
+          <hr />
+        </div>
+        <div className="mx-2 mt-4" style={{ width: "400px" }}>
+          <InputGroup className="mb-3">
+            <InputGroup.Text style={{ width: "100px" }}>
+              N° Pedido
+            </InputGroup.Text>
+            <Form.Control
+              maxLength={10}
+              onChange={(event) => {
+                setPedido(event.target.value);
+                if (event.target.value === "") {
+                  setProducto([]);
+                  setMensajeTabla("Ingresa un num pedido");
+                }
+              }}
+            />
+            <Button onClick={buscarPedido} disabled={!pedido}>
+              Buscar
+            </Button>
+          </InputGroup>
+        </div>
+        <div className="px-2 pt-3" style={{ overflowY: "auto", height: "300px" }}>
+          <Table>
+            <thead className="theadTable">
+              <tr>
+                <th>Producto</th>
+                <th>Precio</th>
+                <th>Cantidad</th>
+                <th>Total</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              {producto.length !== 0 ? (
+                producto.map((item, index) => {
+                  return (
+                    <tr key={index}>
+                      <td>{item.producto}</td>
+                      <td>{item.precio}</td>
+                      <td>{item.cantidad}</td>
+                      <td>{item.total}</td>
+                      <td>{item.status}</td>
+                    </tr>
+                  );
+                })
+              ) : (
                 <tr>
-                  <th>Codigo</th>
-                  <th>Producto</th>
-                  <th>Precio</th>
-                  <th>Cantidad</th>
-                  <th>Total</th>
-                  <th>Status</th>
+                  <td colSpan={6}>{mensajeTabla}</td>
                 </tr>
-              </thead>
-              <tbody>
-                {producto.length !== 0 ? (
-                  producto.map((item, index) => {
-                    return (
-                      <tr key={index}>
-                        <td>{item.codigo}</td>
-                        <td>{item.producto}</td>
-                        <td>{item.precio}</td>
-                        <td>{item.cantidad}</td>
-                        <td>{item.total}</td>
-                        <td>{item.status}</td>
-                      </tr>
-                    );
-                  })
-                ) : (
-                  <tr>
-                    <td colSpan={6}>{mensajeTabla}</td>
-                  </tr>
-                )}
-              </tbody>
-            </Table>
-          </div>
-        </Card>
+              )}
+            </tbody>
+          </Table>
+        </div>
+      </Card>
       {/* </Card> */}
     </>
   );
