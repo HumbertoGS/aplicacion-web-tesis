@@ -72,7 +72,7 @@ const EditarDatos = ({
                 initialValues={producto}
                 onSubmit={(values, { resetForm }) => {
                   actualizar(values);
-                  resetForm();
+                  // resetForm();
                 }}
               >
                 {({
