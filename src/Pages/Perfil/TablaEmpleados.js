@@ -57,7 +57,7 @@ const TablaEmpleados = () => {
 
   return (
     <>
-      <div className="py-3" style={{ height: "87vh" }}>
+      <div className="py-3" style={{ height: "70vh" }}>
         <div className="mx-4" style={{ width: "50%" }}>
           <h5 className="text-start">Administrar Empleado</h5>
           <hr />

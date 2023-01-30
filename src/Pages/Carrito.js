@@ -96,8 +96,8 @@ const Carrito = ({ user }) => {
         {variant ? <MensajeAlert variant={variant} mensaje={mensaje} /> : <></>}
         <Row style={{ minHeight: "80vh" }}>
           <Col xs={12} md={7}>
-            <div className="m-4">
-              <h5 className="text-center">Datos del Carrito</h5>
+            <div className="mt-4 mx-2">
+              <h5 className="text-center pb-2">Datos del Carrito</h5>
               <hr />
               <div style={{ overflowY: "auto" }}>
                 <Table striped hover>

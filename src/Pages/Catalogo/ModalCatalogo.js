@@ -21,6 +21,7 @@ const ModalCatalogo = (props) => {
     };
     setCantidad(0);
     props.datosCarrito(Carrito);
+    props.onHide()
   };
 
   return (
@@ -56,7 +57,7 @@ const ModalCatalogo = (props) => {
                   </Card.Title>
                   <div>
                     <InputGroup className="mb-3">
-                      <InputGroup.Text className="w-50">Valor</InputGroup.Text>
+                      <InputGroup.Text className="w-50">Precio</InputGroup.Text>
                       <Form.Control
                         disabled
                         defaultValue={"$" + producto.precio}
@@ -66,6 +67,11 @@ const ModalCatalogo = (props) => {
                     <InputGroup className="mb-3">
                       <InputGroup.Text className="w-50">Talla</InputGroup.Text>
                       <Form.Control disabled defaultValue={producto.talla} />
+                    </InputGroup>
+
+                    <InputGroup className="mb-3">
+                      <InputGroup.Text className="w-50">Disponible</InputGroup.Text>
+                      <Form.Control disabled defaultValue={producto.cantidad} />
                     </InputGroup>
 
                     <InputGroup className="mb-3">

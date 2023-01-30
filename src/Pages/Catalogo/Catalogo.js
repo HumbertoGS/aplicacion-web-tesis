@@ -131,12 +131,8 @@ const Catalogo = () => {
     <>
       <Card body className="Card">
         {variant ? <MensajeAlert variant={variant} mensaje={mensaje} /> : <></>}
-        {/* <Breadcrumb>
-          <Breadcrumb.Item href="Inicio">Inicio</Breadcrumb.Item>
-          <Breadcrumb.Item active>Catalogo</Breadcrumb.Item>
-        </Breadcrumb> */}
         <Card className="Card pt-2">
-          <div className="px-3">
+          <div className="px-2">
             <Row>
               <Col className="mb-3">
                 <h5 className="text-center">Cátologo de productos</h5>
@@ -145,7 +141,7 @@ const Catalogo = () => {
             <Card className="mb-2">
               <div className="mx-5 my-2 d-flex">
                 <div style={{ width: "35%" }} className="d-flex">
-                  <DropdownButton id="dropdown-basic-button" title={filtro}>
+                  <DropdownButton id="dropdown-basic-button" variant="outline-secondary" title={filtro}>
                     {Categorias.map((item, index) => {
                       return (
                         <Dropdown.Item
@@ -163,6 +159,7 @@ const Catalogo = () => {
                   {filtro !== "Filtrar" ? (
                     <Button
                       className="mx-2"
+                      variant="outline-secondary"
                       onClick={() => {
                         setFiltro("Filtrar");
                         setProducto(productoTabla);

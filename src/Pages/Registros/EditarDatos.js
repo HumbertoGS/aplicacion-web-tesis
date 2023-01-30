@@ -9,11 +9,53 @@ import Dropdown from "react-bootstrap/Dropdown";
 
 import { Formik } from "formik";
 
-const EditarDatos = ({ producto, Categorias, show, onHide }) => {
-  console.log(producto);
+import { PostImage, PostData, ReloadData } from "../../custom-hooks/useFetch";
 
+const urlProducto = process.env.REACT_APP_API_CORE_URL + "producto";
+
+const EditarDatos = ({
+  producto,
+  Categorias,
+  show,
+  onHide,
+  buscarProductos,
+}) => {
   const [filtro, setFiltro] = useState(producto.nombre_categoria);
   const [file, setFile] = useState(producto.imagen);
+  const [fileNew, setFileNew] = useState(null);
+
+  const [formDato, setFormDato] = useState(null);
+  const [actualizarProducto, setActualizarProducto] = useState(false);
+
+  const actualizar = (value) => {
+    let datosGuardar = {
+      id: value.id,
+      nombre: value.nombre,
+      precio: value.precio,
+      talla: value.talla,
+      categoria: value.categoria,
+      cantidad: value.cantidad,
+      descripcion: value.descripcion,
+    };
+
+    const formData = new FormData();
+
+    console.log(fileNew)
+
+    if (fileNew) formData.append("imagen", fileNew);
+
+    formData.append("data", JSON.stringify(datosGuardar));
+
+    setFormDato(formData);
+    setActualizarProducto(true);
+  };
+
+  PostImage(urlProducto + "/insert", formDato, actualizarProducto, (x) => {
+    setActualizarProducto(false);
+    buscarProductos();
+    onHide();
+    // setInsertProducto(false);
+  });
 
   return (
     <Modal show={show} onHide={onHide} centered size="lg">
@@ -29,7 +71,7 @@ const EditarDatos = ({ producto, Categorias, show, onHide }) => {
               <Formik
                 initialValues={producto}
                 onSubmit={(values, { resetForm }) => {
-                  // iniciarSesion(values);
+                  actualizar(values);
                   resetForm();
                 }}
               >
@@ -194,9 +236,9 @@ const EditarDatos = ({ producto, Categorias, show, onHide }) => {
                   size="sm"
                   onChangeCapture={(e) => {
                     if (e.target.files[0]) {
+                      setFileNew(e.target.files[0]);
                       const reader = new FileReader();
                       reader.readAsDataURL(e.target.files[0]);
-
                       reader.onload = () => {
                         setFile(reader.result);
                       };

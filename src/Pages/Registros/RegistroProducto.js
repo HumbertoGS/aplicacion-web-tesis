@@ -8,6 +8,8 @@ import Form from "react-bootstrap/Form";
 import InputGroup from "react-bootstrap/InputGroup";
 import Dropdown from "react-bootstrap/Dropdown";
 import Table from "react-bootstrap/Table";
+import Tab from "react-bootstrap/Tab";
+import Tabs from "react-bootstrap/Tabs";
 
 import { Formik } from "formik";
 
@@ -124,426 +126,496 @@ const RegistroProducto = () => {
     }
   }, [variant]);
 
-  // const send_image = (files) => {
-  //   setFile(files);
-  //   // setPathImagen(reader.result);
+  const [viewImagen, setViewImagen] = useState(null);
+  const view_img = (files) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(files);
 
-  //   // const reader = new FileReader();
-  //   // reader.readAsDataURL(files);
+    reader.onload = () => {
+      setViewImagen(reader.result);
+    };
+  };
 
-  //   // reader.onload = () => {
-  //   //   setPathImagen(reader.result);
-  //   // };
-  // };
+  const [opcion, setOpcion] = useState(true);
 
   return (
     <>
       <Card body className="Card">
         {variant ? <MensajeAlert variant={variant} mensaje={mensaje} /> : <></>}
-        <div className="m-2">
+        <div className="mt-2">
           <h5 className="text-center">Registro de Producto y Categorias</h5>
-          <hr />
-          <Row>
-            <Col xs={7}>
-              <Card className="p-4 m-3">
-                <h5>Registro de Productos</h5>
-                <hr />
-                <InputGroup className="mb-3">
-                  <InputGroup.Text
-                    style={{ width: "100%" }}
-                    className="text-start px-4"
-                  >
-                    - Los campos con el asterisco son campos obligatorios
-                    <br />- En caso de no ingresar un nombre, se guardar con el
-                    nombre de la categoria
-                  </InputGroup.Text>
-                </InputGroup>
-                <Formik
-                  initialValues={{
-                    // codigo: "",
-                    nombre: "",
-                    imagen: "",
-                    categoria: "",
-                    cantidad: "",
-                    precio: "",
-                    talla: "",
-                    descripcion: "",
-                  }}
-                  onSubmit={(values, { resetForm }) => {
-                    guardarDatos(values);
-                    resetForm();
-                    setFiltro("Selecciona categoria");
-                  }}
-                >
-                  {({
-                    handleSubmit,
-                    handleChange,
-                    handleBlur,
-                    values,
-                    touched,
-                    isValid,
-                    errors,
-                  }) => (
-                    <Form noValidate onSubmit={handleSubmit}>
-                      {/* <InputGroup className="mb-3" style={{ width: "260px" }}>
-                        <InputGroup.Text style={{ width: "100px" }}>
-                          Codigo
-                        </InputGroup.Text>
-                        <Form.Control
-                          type="text"
-                          name="codigo"
-                          value={values.codigo}
-                          onChange={handleChange}
-                        />
-                      </InputGroup> */}
-                      <InputGroup className="mb-3">
-                        <InputGroup.Text style={{ width: "100px" }}>
-                          Nombre
-                        </InputGroup.Text>
-                        <Form.Control
-                          type="text"
-                          name="nombre"
-                          value={values.nombre}
-                          onChange={handleChange}
-                        />
-                      </InputGroup>
-                      <InputGroup className="mb-3">
-                        <InputGroup.Text style={{ width: "100px" }}>
-                          Imagen
-                          <span style={{ color: "#eb0808" }} className="px-2">
-                            *
-                          </span>
-                        </InputGroup.Text>
-                        <Form.Control
-                          type="file"
-                          required
-                          // name="imagen"
-                          // value={values.imagen}
-                          // onChange={handleChange}
-                          onChangeCapture={(e) => {
-                            setFile(e.target.files[0]);
-                          }}
-                          // isInvalid={!!errors.file}
-                        />
-                      </InputGroup>
-                      <div className="d-flex">
-                        <InputGroup className="mb-3" style={{ width: "50%" }}>
-                          <InputGroup.Text style={{ width: "100px" }}>
-                            Categoria
-                            <span style={{ color: "#eb0808" }} className="px-2">
-                              *
-                            </span>
-                          </InputGroup.Text>
-                          <div style={{ width: "60%" }}>
-                            <Dropdown>
-                              <Dropdown.Toggle
-                                variant="outline"
-                                style={{
-                                  width: "100%",
-                                  border: "1px solid #dfe3e7",
-                                }}
-                              >
-                                {filtro}
-                              </Dropdown.Toggle>
-                              <Dropdown.Menu>
-                                {Categorias.map((item, index) => {
-                                  return item.estado ? (
-                                    <Dropdown.Item
-                                      key={index}
-                                      onClick={() => {
-                                        setFiltro(item.nombre);
-                                        values.categoria = item.id;
-                                      }}
-                                    >
-                                      {item.nombre}
-                                    </Dropdown.Item>
-                                  ) : (
-                                    <li key={index}></li>
-                                  );
-                                })}
-                              </Dropdown.Menu>
-                            </Dropdown>
-                          </div>
-                        </InputGroup>
-                        <InputGroup
-                          className="mb-3"
-                          style={{ marginLeft: "12px", width: "50%" }}
-                        >
-                          <InputGroup.Text style={{ width: "100px" }}>
-                            cantidad
-                            <span style={{ color: "#eb0808" }} className="px-2">
-                              *
-                            </span>
-                          </InputGroup.Text>
-                          <Form.Control
-                            type="text"
-                            name="cantidad"
-                            value={values.cantidad}
-                            onChange={handleChange}
-                          />
-                        </InputGroup>
-                      </div>
-                      <div className="d-flex">
-                        <InputGroup className="mb-3" style={{ width: "50%" }}>
-                          <InputGroup.Text style={{ width: "100px" }}>
-                            Precio
-                            <span style={{ color: "#eb0808" }} className="px-2">
-                              *
-                            </span>
-                          </InputGroup.Text>
-                          <div style={{ width: "60%" }}>
+          <div className="d-flex">
+            <Button
+              style={{ border: "0px", borderRadius: "0px" }}
+              variant="outline-secondary"
+              onClick={() => {
+                setOpcion(!opcion);
+              }}
+            >
+              Registrar {!opcion ? "Categoria" : "Producto"}
+            </Button>
+          </div>
+          <hr className="pt-0 mt-0" />
+          {opcion ? (
+            <Card className="p-3 mx-0" style={{ height: "74vh" }}>
+              <Row>
+                <Col xs={12} md={5}>
+                  <Card className="Card p-4 mt-3">
+                    <h5>Registro de Categoria</h5>
+                    <hr />
+                    <Formik
+                      initialValues={{
+                        nombre: "",
+                      }}
+                      onSubmit={(values, { resetForm }) => {
+                        registrarCategoria(values);
+                        resetForm();
+                      }}
+                    >
+                      {({
+                        handleSubmit,
+                        handleChange,
+                        handleBlur,
+                        values,
+                        touched,
+                        isValid,
+                        errors,
+                      }) => (
+                        <Form noValidate onSubmit={handleSubmit}>
+                          <InputGroup className="mb-3">
+                            <InputGroup.Text style={{ width: "100px" }}>
+                              Nombre
+                            </InputGroup.Text>
                             <Form.Control
-                              name="precio"
-                              value={values.precio}
+                              type="text"
+                              name="nombre"
+                              value={values.nombre}
                               onChange={handleChange}
                             />
-                          </div>
-                        </InputGroup>
-                        <InputGroup
-                          className="mb-3"
-                          style={{ marginLeft: "12px", width: "50%" }}
-                        >
-                          <InputGroup.Text style={{ width: "100px" }}>
-                            Talla
-                          </InputGroup.Text>
-                          <Form.Control
-                            name="talla"
-                            value={values.talla}
-                            onChange={handleChange}
-                          />
-                        </InputGroup>
-                      </div>
-                      <InputGroup className="mb-3">
-                        <InputGroup.Text style={{ width: "100px" }}>
-                          Descripcion
-                        </InputGroup.Text>
-                        <Form.Control
-                          as="textarea"
-                          aria-label="With textarea"
-                          rows={3}
-                          style={{ resize: "none" }}
-                          name="descripcion"
-                          value={values.descripcion}
-                          onChange={handleChange}
-                        />
-                      </InputGroup>
-                      <Button
-                        className="w-50"
-                        type="submit"
-                        variant="outline-secondary"
-                        disabled={
-                          !(
-                            //values.nombre &&
-                            //values.descripcion &&
-                            // values.talla &&
-                            (
-                              values.imagen &&
-                              values.precio &&
-                              values.cantidad &&
-                              values.categoria
-                            )
-                          )
-                        }
-                      >
-                        Guardar
-                      </Button>
-                    </Form>
-                  )}
-                </Formik>
-              </Card>
-            </Col>
-            <Col>
-              <Row className="px-4">
-                <Card className="p-4 mt-3">
-                  <h5>Registro de Categoria</h5>
-                  <hr />
-                  <Formik
-                    initialValues={{
-                      nombre: "",
-                    }}
-                    onSubmit={(values, { resetForm }) => {
-                      registrarCategoria(values);
-                      resetForm();
-                    }}
-                  >
-                    {({
-                      handleSubmit,
-                      handleChange,
-                      handleBlur,
-                      values,
-                      touched,
-                      isValid,
-                      errors,
-                    }) => (
-                      <Form noValidate onSubmit={handleSubmit}>
-                        <InputGroup className="mb-3">
-                          <InputGroup.Text style={{ width: "100px" }}>
-                            Nombre
-                          </InputGroup.Text>
-                          <Form.Control
-                            type="text"
-                            name="nombre"
-                            value={values.nombre}
-                            onChange={handleChange}
-                          />
-                        </InputGroup>
-                        <Button
-                          className="w-50"
-                          type="submit"
-                          disabled={!values.nombre}
-                          variant="outline-secondary"
-                        >
-                          Guardar
-                        </Button>
-                      </Form>
-                    )}
-                  </Formik>
-                </Card>
+                          </InputGroup>
+                          <Button
+                            className="w-50"
+                            type="submit"
+                            disabled={!values.nombre}
+                            variant="outline-secondary"
+                          >
+                            Guardar
+                          </Button>
+                        </Form>
+                      )}
+                    </Formik>
+                  </Card>
+                </Col>
+                <Col className="px-4 p-4 mt-4" xs={12} md={7}>
+                  <div style={{ overflowY: "auto", height: "350px" }}>
+                    <Table>
+                      <thead className="theadTable">
+                        <tr>
+                          <th>Nombre</th>
+                          <th>Estado</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {Categorias.map((item, index) => {
+                          return (
+                            <tr key={index}>
+                              <td>{item.nombre}</td>
+                              <td>
+                                <BtnCambiarEstado
+                                  item={item}
+                                  reload={() => {
+                                    setReload(true);
+                                  }}
+                                  url={urlCategoria}
+                                />
+                              </td>
+                            </tr>
+                          );
+                        })}
+                      </tbody>
+                    </Table>
+                  </div>
+                </Col>
               </Row>
-              <Row className="px-4 p-4 mt-3">
-                <div style={{ overflowY: "auto", height: "250px" }}>
-                  <Table>
-                    <thead className="theadTable">
-                      <tr>
-                        <th>Nombre</th>
-                        <th>Estado</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {Categorias.map((item, index) => {
-                        return (
-                          <tr key={index}>
-                            <td>{item.nombre}</td>
-                            <td>
-                              <BtnCambiarEstado
-                                item={item}
-                                reload={() => {
-                                  setReload(true);
-                                }}
-                                url={urlCategoria}
-                              />
-                            </td>
-                          </tr>
-                        );
-                      })}
-                    </tbody>
-                  </Table>
-                </div>
-              </Row>
-            </Col>
-          </Row>
-          <Row className="p-4">
-            <Col>
-              <div className="d-flex">
-                <Dropdown>
-                  <Dropdown.Toggle
-                    variant="outline"
-                    style={{
-                      width: "160px",
-                      border: "1px solid #dfe3e7",
-                    }}
-                  >
-                    {filtrarTabla}
-                  </Dropdown.Toggle>
-                  <Dropdown.Menu>
-                    {Categorias.map((item, index) => {
-                      return item.estado ? (
-                        <Dropdown.Item
-                          key={index}
-                          onClick={() => {
-                            setFiltrarTabla(item.nombre);
-                            Buscar(item.id);
+            </Card>
+          ) : (
+            <Card className="Card">
+              <Row>
+                <Col>
+                  <Card className="p-4 ">
+                    <Row>
+                      <h5 className="text-start py-2">Registro de Productos</h5>
+                      <hr />
+                      <Col md={7}>
+                        <InputGroup className="mb-3 pt-2">
+                          <InputGroup.Text
+                            style={{ width: "100%" }}
+                            className="text-start px-4"
+                          >
+                            - Los campos con el asterisco son campos
+                            obligatorios
+                            <br />- En caso de no ingresar un nombre, se guardar
+                            con el nombre de la categoria
+                          </InputGroup.Text>
+                        </InputGroup>
+                        <Formik
+                          initialValues={{
+                            // codigo: "",
+                            nombre: "",
+                            imagen: "",
+                            categoria: "",
+                            cantidad: "",
+                            precio: "",
+                            talla: "",
+                            descripcion: "",
+                          }}
+                          onSubmit={(values, { resetForm }) => {
+                            guardarDatos(values);
+                            resetForm();
+                            setFiltro("Selecciona categoria");
                           }}
                         >
-                          {item.nombre}
-                        </Dropdown.Item>
-                      ) : (
-                        <li key={index}></li>
-                      );
-                    })}
-                  </Dropdown.Menu>
-                </Dropdown>
-                {filtrarTabla !== "Filtrar" ? (
-                  <Button
-                    className="mx-2"
-                    onClick={() => {
-                      setFiltrarTabla("Filtrar");
-                      setProducto(productoTabla);
-                    }}
-                  >
-                    Limpiar Filtros
-                  </Button>
-                ) : (
-                  <></>
-                )}
-              </div>
-              <div
-                style={{ overflowY: "auto", height: "300px" }}
-                className="mt-3"
-              >
-                <Table>
-                  <thead className="theadTable">
-                    <tr>
-                      <th>Imagen</th>
-                      <th>Nombre</th>
-                      <th>Categoria</th>
-                      <th>Talla</th>
-                      <th>Precio</th>
-                      <th>cantidad</th>
-                      <th>Editar</th>
-                      <th>Tiene Stock</th>
-                    </tr>
-                  </thead>
-                  <tbody style={{ verticalAlign: "baseline" }}>
-                    {producto.map((item, index) => {
-                      let style = item.stock ? styleBtnSave : styleBtnCancel;
-                      return (
-                        <tr key={index}>
-                          <td>
-                            <img
-                              width={50}
-                              height={50}
-                              src={item.imagen}
-                              alt={item.nombre_imagen}
+                          {({
+                            handleSubmit,
+                            handleChange,
+                            handleBlur,
+                            values,
+                            touched,
+                            isValid,
+                            errors,
+                          }) => (
+                            <Form noValidate onSubmit={handleSubmit}>
+                              {/* <InputGroup
+                                className="mb-3"
+                                style={{ width: "260px" }}
+                              >
+                                <InputGroup.Text style={{ width: "100px" }}>
+                                  Codigo
+                                </InputGroup.Text>
+                                <Form.Control
+                                  type="text"
+                                  name="codigo"
+                                  value={values.codigo}
+                                  onChange={handleChange}
+                                />
+                              </InputGroup> */}
+                              <InputGroup className="mb-3 pt-2">
+                                <InputGroup.Text style={{ width: "100px" }}>
+                                  Nombre
+                                </InputGroup.Text>
+                                <Form.Control
+                                  type="text"
+                                  name="nombre"
+                                  value={values.nombre}
+                                  onChange={handleChange}
+                                />
+                              </InputGroup>
+                              <InputGroup className="mb-3">
+                                <InputGroup.Text style={{ width: "100px" }}>
+                                  Imagen
+                                  <span
+                                    style={{ color: "#eb0808" }}
+                                    className="px-2"
+                                  >
+                                    *
+                                  </span>
+                                </InputGroup.Text>
+                                <Form.Control
+                                  type="file"
+                                  required
+                                  // name="imagen"
+                                  // value={values.imagen}
+                                  onChange={(e) => {
+                                    if (e.target.files[0]) {
+                                      setFile(e.target.files[0]);
+                                      view_img(e.target.files[0]);
+                                    }
+                                  }}
+                                />
+                              </InputGroup>
+                              <div className="d-flex">
+                                <InputGroup
+                                  className="mb-3"
+                                  style={{ width: "50%" }}
+                                >
+                                  <InputGroup.Text style={{ width: "100px" }}>
+                                    Categoria
+                                    <span
+                                      style={{ color: "#eb0808" }}
+                                      className="px-2"
+                                    >
+                                      *
+                                    </span>
+                                  </InputGroup.Text>
+                                  <div style={{ width: "60%" }}>
+                                    <Dropdown>
+                                      <Dropdown.Toggle
+                                        variant="outline"
+                                        style={{
+                                          width: "100%",
+                                          border: "1px solid #dfe3e7",
+                                        }}
+                                      >
+                                        {filtro}
+                                      </Dropdown.Toggle>
+                                      <Dropdown.Menu>
+                                        {Categorias.map((item, index) => {
+                                          return item.estado ? (
+                                            <Dropdown.Item
+                                              key={index}
+                                              onClick={() => {
+                                                setFiltro(item.nombre);
+                                                values.categoria = item.id;
+                                              }}
+                                            >
+                                              {item.nombre}
+                                            </Dropdown.Item>
+                                          ) : (
+                                            <li key={index}></li>
+                                          );
+                                        })}
+                                      </Dropdown.Menu>
+                                    </Dropdown>
+                                  </div>
+                                </InputGroup>
+                                <InputGroup
+                                  className="mb-3"
+                                  style={{ marginLeft: "12px", width: "50%" }}
+                                >
+                                  <InputGroup.Text style={{ width: "100px" }}>
+                                    cantidad
+                                    <span
+                                      style={{ color: "#eb0808" }}
+                                      className="px-2"
+                                    >
+                                      *
+                                    </span>
+                                  </InputGroup.Text>
+                                  <Form.Control
+                                    type="text"
+                                    name="cantidad"
+                                    value={values.cantidad}
+                                    onChange={handleChange}
+                                  />
+                                </InputGroup>
+                              </div>
+                              <div className="d-flex">
+                                <InputGroup
+                                  className="mb-3"
+                                  style={{ width: "50%" }}
+                                >
+                                  <InputGroup.Text style={{ width: "100px" }}>
+                                    Precio
+                                    <span
+                                      style={{ color: "#eb0808" }}
+                                      className="px-2"
+                                    >
+                                      *
+                                    </span>
+                                  </InputGroup.Text>
+                                  <div style={{ width: "60%" }}>
+                                    <Form.Control
+                                      name="precio"
+                                      value={values.precio}
+                                      onChange={handleChange}
+                                    />
+                                  </div>
+                                </InputGroup>
+                                <InputGroup
+                                  className="mb-3"
+                                  style={{ marginLeft: "12px", width: "50%" }}
+                                >
+                                  <InputGroup.Text style={{ width: "100px" }}>
+                                    Talla
+                                  </InputGroup.Text>
+                                  <Form.Control
+                                    name="talla"
+                                    value={values.talla}
+                                    onChange={handleChange}
+                                  />
+                                </InputGroup>
+                              </div>
+                              <InputGroup className="mb-3">
+                                <InputGroup.Text style={{ width: "100px" }}>
+                                  Descripcion
+                                </InputGroup.Text>
+                                <Form.Control
+                                  as="textarea"
+                                  aria-label="With textarea"
+                                  rows={3}
+                                  style={{ resize: "none" }}
+                                  name="descripcion"
+                                  value={values.descripcion}
+                                  onChange={handleChange}
+                                />
+                              </InputGroup>
+                              <Button
+                                className="w-50"
+                                type="submit"
+                                variant="outline-secondary"
+                                disabled={
+                                  !(
+                                    //values.nombre &&
+                                    //values.descripcion &&
+                                    // values.talla &&
+                                    (
+                                      file &&
+                                      values.precio &&
+                                      values.cantidad &&
+                                      values.categoria
+                                    )
+                                  )
+                                }
+                              >
+                                Guardar
+                              </Button>
+                            </Form>
+                          )}
+                        </Formik>
+                      </Col>
+                      <Col md={5}>
+                        <div
+                          className="py-4 d-flex justify-content-center"
+                          style={{
+                            border: "1px solid #b8bcc0",
+                            borderRadius: "12px",
+                            height: "380px",
+                            alignItems: "center",
+                          }}
+                        >
+                          {viewImagen ? (
+                            <Card.Img
+                              style={{
+                                width: "370px",
+                                maxHeight: "330px",
+                              }}
+                              src={viewImagen}
                             />
-                          </td>
-                          <td>{item.nombre}</td>
-                          <td>{item.nombre_categoria}</td>
-                          <td>{item.talla}</td>
-                          <td>{item.precio}</td>
-                          <td>{item.cantidad}</td>
-                          <td>
-                            <Button
-                              variant="outline-secondary"
+                          ) : (
+                            <></>
+                          )}
+                        </div>
+                      </Col>
+                    </Row>
+                  </Card>
+                </Col>
+              </Row>
+              <Row className="p-4">
+                <Col>
+                  <div className="d-flex">
+                    <Dropdown>
+                      <Dropdown.Toggle
+                        variant="outline"
+                        style={{
+                          width: "160px",
+                          border: "1px solid #dfe3e7",
+                        }}
+                      >
+                        {filtrarTabla}
+                      </Dropdown.Toggle>
+                      <Dropdown.Menu>
+                        {Categorias.map((item, index) => {
+                          return item.estado ? (
+                            <Dropdown.Item
+                              key={index}
                               onClick={() => {
-                                setDatos(item);
-                                setEditarModal(true);
+                                setFiltrarTabla(item.nombre);
+                                Buscar(item.id);
                               }}
                             >
-                              <HiPencil />
-                            </Button>
-                          </td>
-                          <td>
-                            <BtnCambiarEstado
-                              item={{
-                                id: item.id,
-                                estado: item.stock,
-                                stock: true,
-                              }}
-                              reload={() => {
-                                setBuscarProductos(true);
-                              }}
-                              url={urlProducto}
-                            />
-                          </td>
+                              {item.nombre}
+                            </Dropdown.Item>
+                          ) : (
+                            <li key={index}></li>
+                          );
+                        })}
+                      </Dropdown.Menu>
+                    </Dropdown>
+                    {filtrarTabla !== "Filtrar" ? (
+                      <Button
+                        className="mx-2"
+                        onClick={() => {
+                          setFiltrarTabla("Filtrar");
+                          setProducto(productoTabla);
+                        }}
+                      >
+                        Limpiar Filtros
+                      </Button>
+                    ) : (
+                      <></>
+                    )}
+                  </div>
+                  <div
+                    style={{ overflowY: "auto", height: "350px" }}
+                    className="mt-3"
+                  >
+                    <Table>
+                      <thead className="theadTable">
+                        <tr>
+                          <th>Imagen</th>
+                          <th>Nombre</th>
+                          <th>Categoria</th>
+                          <th>Talla</th>
+                          <th>Precio</th>
+                          <th>cantidad</th>
+                          <th>Editar</th>
+                          <th>Tiene Stock</th>
                         </tr>
-                      );
-                    })}
-                  </tbody>
-                </Table>
-              </div>
-            </Col>
-          </Row>
+                      </thead>
+                      <tbody style={{ verticalAlign: "baseline" }}>
+                        {producto.map((item, index) => {
+                          let style = item.stock
+                            ? styleBtnSave
+                            : styleBtnCancel;
+                          return (
+                            <tr key={index}>
+                              <td>
+                                <img
+                                  width={50}
+                                  height={50}
+                                  src={item.imagen}
+                                  alt={item.nombre_imagen}
+                                />
+                              </td>
+                              <td>{item.nombre}</td>
+                              <td>{item.nombre_categoria}</td>
+                              <td>{item.talla}</td>
+                              <td>{item.precio}</td>
+                              <td>{item.cantidad}</td>
+                              <td>
+                                <Button
+                                  variant="outline-secondary"
+                                  onClick={() => {
+                                    setDatos(item);
+                                    setEditarModal(true);
+                                  }}
+                                >
+                                  <HiPencil />
+                                </Button>
+                              </td>
+                              <td>
+                                <BtnCambiarEstado
+                                  item={{
+                                    id: item.id,
+                                    estado: item.stock,
+                                    stock: true,
+                                  }}
+                                  reload={() => {
+                                    setBuscarProductos(true);
+                                  }}
+                                  url={urlProducto}
+                                />
+                              </td>
+                            </tr>
+                          );
+                        })}
+                      </tbody>
+                    </Table>
+                  </div>
+                </Col>
+              </Row>
+            </Card>
+          )}
         </div>
       </Card>
       {editarModal ? (
@@ -552,6 +624,7 @@ const RegistroProducto = () => {
           Categorias={Categorias}
           show={editarModal}
           onHide={() => setEditarModal(false)}
+          buscarProductos={() => setBuscarProductos(true)}
         />
       ) : (
         <></>
