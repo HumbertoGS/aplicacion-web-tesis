@@ -42,7 +42,7 @@ const Header = () => {
           {user ? (
             <Navbar.Collapse className="justify-content-end">
               <Navbar.Text>
-                Conectado como: <Link to="Inicio">{user.nombre}</Link>
+                Conectado como: <Link to="Inicio">{user?.nombre}</Link>
               </Navbar.Text>
 
               <NavDropdown className="px-5" title="Perfil">

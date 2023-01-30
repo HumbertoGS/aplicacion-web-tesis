@@ -39,7 +39,7 @@ const ActualizarDatos = ({ user }) => {
 
   //----------CARGAMOS DATOS-------------
 
-  PostData(url + "/buscar", { numIdent: user.cedula }, buscar, (x) => {
+  PostData(url + "/buscar", { numIdent: user?.cedula }, buscar, (x) => {
     setDatos(x.datos[0]);
     setBuscar(false);
   });

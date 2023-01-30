@@ -10,14 +10,9 @@ import InputGroup from "react-bootstrap/InputGroup";
 
 import "../designer/theme.css";
 import { ReloadData, PostData } from "../../custom-hooks/useFetch";
-import {
-  BtnCambiarEstado,
-  BtnGuardarDatos,
-} from "../../custom-hooks/BtnAccion";
+import { BtnCambiarEstado } from "../../custom-hooks/BtnAccion";
 
-import HeaderPerfil from "../Perfil/HeaderPerfil";
-
-const url = process.env.REACT_APP_API_CORE_URL + "persona";
+const urlPersona = process.env.REACT_APP_API_CORE_URL + "persona";
 
 const TablaEmpleados = () => {
   const [numIdent, setNumIdent] = useState("");
@@ -28,7 +23,7 @@ const TablaEmpleados = () => {
   const [buscarDatos, setBuscarDatos] = useState(false);
   const [result, setResult] = useState(null);
 
-  ReloadData(url + "/buscarEmpleado", buscar, (x) => {
+  ReloadData(urlPersona + "/buscarEmpleado", buscar, (x) => {
     if (x.datos.length !== 0) setDatosEmpleados([x.datos[0]]);
     setBuscar(false);
   });
@@ -37,10 +32,28 @@ const TablaEmpleados = () => {
     setBuscarDatos(true);
   };
 
-  PostData(url + "/buscar", { numIdent }, buscarDatos, (x) => {
+  PostData(urlPersona + "/buscar", { numIdent }, buscarDatos, (x) => {
     if (x.datos.length !== 0) setResult(x.datos[0]);
     setBuscarDatos(false);
   });
+
+  //----------REGISTRAR EMPLEADO----------
+  const [registrar, setRegistrar] = useState(false);
+
+  const registrarEmpleado = () => {
+    setRegistrar(true);
+  };
+
+  PostData(
+    urlPersona + "/registrarEmpleado",
+    { id: result?.id },
+    registrar,
+    (x) => {
+      setRegistrar(false);
+      setResult(null);
+      setBuscar(true);
+    }
+  );
 
   return (
     <>
@@ -81,7 +94,7 @@ const TablaEmpleados = () => {
                     </InputGroup.Text>
                     <Form.Control
                       readOnly={true}
-                      value={result ? result.nombre : ""}
+                      value={result ? result?.nombre : ""}
                     />
                   </InputGroup>
                   <InputGroup className="mb-3">
@@ -90,10 +103,14 @@ const TablaEmpleados = () => {
                     </InputGroup.Text>
                     <Form.Control
                       readOnly={true}
-                      value={result ? result.apellido : ""}
+                      value={result ? result?.apellido : ""}
                     />
                   </InputGroup>
-                  <Button className="w-100" variant="outline-secondary">
+                  <Button
+                    className="w-100"
+                    onClick={registrarEmpleado}
+                    variant="outline-secondary"
+                  >
                     Registrar
                   </Button>
                 </div>
@@ -127,7 +144,7 @@ const TablaEmpleados = () => {
                             reload={() => {
                               setBuscar(true);
                             }}
-                            url={url}
+                            url={urlPersona}
                           />
                         </td>
                       </tr>

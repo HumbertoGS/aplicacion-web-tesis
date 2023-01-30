@@ -30,7 +30,13 @@ const BtnCambiarEstado = ({ item, reload, url }) => {
         CambiarEstado(item);
       }}
     >
-      {item.estado ? "Activo" : "Inactivo"}
+      {item.stock
+        ? item.estado
+          ? "Si"
+          : "No"
+        : item.estado
+        ? "Activo"
+        : "Inactivo"}
     </Button>
   );
 };

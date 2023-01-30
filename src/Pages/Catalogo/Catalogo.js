@@ -21,8 +21,10 @@ import "../designer/theme.css";
 
 let datosA = { datos: [], totales: [] };
 
-const urlCategoria = process.env.REACT_APP_API_CORE_URL + "categoria";
-const urlProducto = process.env.REACT_APP_API_CORE_URL + "producto";
+const urlCategoria =
+  process.env.REACT_APP_API_CORE_URL + "categoria?estado=true";
+const urlProducto =
+  process.env.REACT_APP_API_CORE_URL + "producto?stock=true";
 
 const Catalogo = () => {
   const [mensaje, setMensaje] = useState("");
@@ -145,7 +147,7 @@ const Catalogo = () => {
                 <div style={{ width: "35%" }} className="d-flex">
                   <DropdownButton id="dropdown-basic-button" title={filtro}>
                     {Categorias.map((item, index) => {
-                      return item.estado ? (
+                      return (
                         <Dropdown.Item
                           key={index}
                           onClick={() => {
@@ -155,8 +157,6 @@ const Catalogo = () => {
                         >
                           {item.nombre}
                         </Dropdown.Item>
-                      ) : (
-                        <div key={index}></div>
                       );
                     })}
                   </DropdownButton>

@@ -11,7 +11,7 @@ import RegistroVentas from "./Pages/RegistroVentas/RegistroVentas";
 import Carrito from "./Pages/Carrito";
 import NoPage from "./Pages/components/NoPage";
 import Catalogo from "./Pages/Catalogo/Catalogo";
-import RegistroProducto from "./Pages/RegistroProducto";
+import RegistroProducto from "./Pages/Registros/RegistroProducto";
 import Inventario from "./Pages/Inventario/Inventario";
 import StatusPedido from "./Pages/Perfil/StatusPedido";
 
@@ -29,7 +29,9 @@ function App() {
   // const user = JSON.parse(localStorage.getItem("user"));
   const user = secureLocalStorage.getItem("user");
 
-  console.log(user)
+  // if(!user) window.location.href = process.env.REACT_APP_BASENAME + "Inicio";
+
+  console.log(user);
   // useEffect(() => {
   //   if (variant) {
   //     const interval = setTimeout(() => {
@@ -51,7 +53,17 @@ function App() {
           />
 
           <Route path="Pagina-Principal" element={<CardsInicio />} />
-          <Route path="Perfil" element={<ActualizarDatos user={user} />} />
+
+          <Route
+            path="Perfil"
+            element={
+              <ProtectedRoute user={user} permisos={[1, 2, 3]}>
+                <ActualizarDatos user={user} />
+              </ProtectedRoute>
+            }
+          />
+
+          {/* <Route path="Perfil" element={<ActualizarDatos user={user} />} /> */}
 
           <Route path="Catalogo" element={<Catalogo />} />
           {/* <Route path="Inventario" element={<Inventario />} /> */}

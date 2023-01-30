@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 
-import Breadcrumb from "react-bootstrap/Breadcrumb";
 import Card from "react-bootstrap/Card";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
@@ -10,15 +9,20 @@ import InputGroup from "react-bootstrap/InputGroup";
 import Dropdown from "react-bootstrap/Dropdown";
 import Table from "react-bootstrap/Table";
 
-import MensajeAlert from "./components/MensajeAlert";
-import { PostImage, PostData, ReloadData } from "../custom-hooks/useFetch";
-
 import { Formik } from "formik";
 
-import { styleBtnCancel, styleBtnSave } from "./designer/styleBtn";
-import { BtnCambiarEstado, BtnGuardarDatos } from "../custom-hooks/BtnAccion";
-
 import { HiPencil } from "react-icons/hi";
+
+import MensajeAlert from "../components/MensajeAlert";
+import EditarDatos from "./EditarDatos";
+import { PostImage, PostData, ReloadData } from "../../custom-hooks/useFetch";
+
+import { styleBtnCancel, styleBtnSave } from "../designer/styleBtn";
+
+import {
+  BtnCambiarEstado,
+  BtnGuardarDatos,
+} from "../../custom-hooks/BtnAccion";
 
 const urlCategoria = process.env.REACT_APP_API_CORE_URL + "categoria";
 const urlProducto = process.env.REACT_APP_API_CORE_URL + "producto";
@@ -26,6 +30,9 @@ const urlProducto = process.env.REACT_APP_API_CORE_URL + "producto";
 const RegistroProducto = () => {
   const [mensaje, setMensaje] = useState("");
   const [variant, setVariant] = useState("");
+
+  const [editarModal, setEditarModal] = useState(null);
+  const [datos, setDatos] = useState([]);
 
   //-------------------CATEGORIA-------------------
   const [Categorias, setCategorias] = useState([]);
@@ -133,12 +140,7 @@ const RegistroProducto = () => {
     <>
       <Card body className="Card">
         {variant ? <MensajeAlert variant={variant} mensaje={mensaje} /> : <></>}
-        {/* <Breadcrumb>
-          <Breadcrumb.Item href="Inicio">Inicio</Breadcrumb.Item>
-          <Breadcrumb.Item active>Registro-Productos</Breadcrumb.Item>
-        </Breadcrumb> */}
-        {/* <Card style={{ minHeight: "87vh" }}> */}
-        <div className="m-3">
+        <div className="m-2">
           <h5 className="text-center">Registro de Producto y Categorias</h5>
           <hr />
           <Row>
@@ -215,9 +217,9 @@ const RegistroProducto = () => {
                         <Form.Control
                           type="file"
                           required
-                          name="imagen"
-                          value={values.imagen}
-                          onChange={handleChange}
+                          // name="imagen"
+                          // value={values.imagen}
+                          // onChange={handleChange}
                           onChangeCapture={(e) => {
                             setFile(e.target.files[0]);
                           }}
@@ -329,16 +331,19 @@ const RegistroProducto = () => {
                         className="w-50"
                         type="submit"
                         variant="outline-secondary"
-                        // disabled={
-                        //   !(
-                        //     //values.codigo &&
-                        //     //values.categoria &&
-                        //     //values.nombre &&
-                        //     //values.descripcion &&
-                        //     // values.talla &&
-                        //     (values.imagen && values.precio && values.cantidad)
-                        //   )
-                        // }
+                        disabled={
+                          !(
+                            //values.nombre &&
+                            //values.descripcion &&
+                            // values.talla &&
+                            (
+                              values.imagen &&
+                              values.precio &&
+                              values.cantidad &&
+                              values.categoria
+                            )
+                          )
+                        }
                       >
                         Guardar
                       </Button>
@@ -396,10 +401,7 @@ const RegistroProducto = () => {
                 </Card>
               </Row>
               <Row className="px-4 p-4 mt-3">
-                <div
-                  // className="p-4 mt-3"
-                  style={{ overflowY: "auto", height: "250px" }}
-                >
+                <div style={{ overflowY: "auto", height: "250px" }}>
                   <Table>
                     <thead className="theadTable">
                       <tr>
@@ -409,9 +411,6 @@ const RegistroProducto = () => {
                     </thead>
                     <tbody>
                       {Categorias.map((item, index) => {
-                        // let style = item.estado
-                        //   ? styleBtnSave
-                        //   : styleBtnCancel;
                         return (
                           <tr key={index}>
                             <td>{item.nombre}</td>
@@ -423,18 +422,6 @@ const RegistroProducto = () => {
                                 }}
                                 url={urlCategoria}
                               />
-                              {/* <Button
-                                  style={{
-                                    border: "0px",
-                                    width: "70px",
-                                    ...style,
-                                  }}
-                                  onClick={() => {
-                                    CambiarEstado(item);
-                                  }}
-                                >
-                                  {item.estado ? "Activo" : "Inactivo"}
-                                </Button> */}
                             </td>
                           </tr>
                         );
@@ -494,7 +481,6 @@ const RegistroProducto = () => {
                 style={{ overflowY: "auto", height: "300px" }}
                 className="mt-3"
               >
-                {/* <div className="px-3 mt-2"> */}
                 <Table>
                   <thead className="theadTable">
                     <tr>
@@ -527,33 +513,49 @@ const RegistroProducto = () => {
                           <td>{item.precio}</td>
                           <td>{item.cantidad}</td>
                           <td>
-                            <Button variant="outline-secondary">
+                            <Button
+                              variant="outline-secondary"
+                              onClick={() => {
+                                setDatos(item);
+                                setEditarModal(true);
+                              }}
+                            >
                               <HiPencil />
                             </Button>
                           </td>
                           <td>
-                            <Button
-                              style={{
-                                border: "0px",
-                                width: "70px",
-                                ...style,
+                            <BtnCambiarEstado
+                              item={{
+                                id: item.id,
+                                estado: item.stock,
+                                stock: true,
                               }}
-                            >
-                              {item.stock ? "SI" : "NO"}
-                            </Button>
+                              reload={() => {
+                                setBuscarProductos(true);
+                              }}
+                              url={urlProducto}
+                            />
                           </td>
                         </tr>
                       );
                     })}
                   </tbody>
                 </Table>
-                {/* </div> */}
               </div>
             </Col>
           </Row>
         </div>
-        {/* </Card> */}
       </Card>
+      {editarModal ? (
+        <EditarDatos
+          producto={datos}
+          Categorias={Categorias}
+          show={editarModal}
+          onHide={() => setEditarModal(false)}
+        />
+      ) : (
+        <></>
+      )}
     </>
   );
 };
