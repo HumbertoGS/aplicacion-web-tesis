@@ -270,7 +270,8 @@ const RegistroProducto = () => {
                             descripcion: "",
                           }}
                           onSubmit={(values, { resetForm }) => {
-                            guardarDatos(values);
+                            // guardarDatos(values);
+                            console.log(values);
                             resetForm();
                             setFiltro("Selecciona categoria");
                           }}
@@ -347,13 +348,14 @@ const RegistroProducto = () => {
                                       *
                                     </span>
                                   </InputGroup.Text>
-                                  <div style={{ width: "60%" }}>
+                                  <div style={{ width: "200px" }}>
                                     <Dropdown>
                                       <Dropdown.Toggle
                                         variant="outline"
                                         style={{
                                           width: "100%",
                                           border: "1px solid #dfe3e7",
+                                          borderRadius: "0px 4px 4px 0px",
                                         }}
                                       >
                                         {filtro}
@@ -413,11 +415,14 @@ const RegistroProducto = () => {
                                       *
                                     </span>
                                   </InputGroup.Text>
-                                  <div style={{ width: "60%" }}>
+                                  <div style={{ width: "200px" }}>
                                     <Form.Control
                                       name="precio"
                                       value={values.precio}
                                       onChange={handleChange}
+                                      style={{
+                                        borderRadius: "0px 4px 4px 0px",
+                                      }}
                                     />
                                   </div>
                                 </InputGroup>
@@ -453,19 +458,19 @@ const RegistroProducto = () => {
                                 className="w-50"
                                 type="submit"
                                 variant="outline-secondary"
-                                disabled={
-                                  !(
-                                    //values.nombre &&
-                                    //values.descripcion &&
-                                    // values.talla &&
-                                    (
-                                      file &&
-                                      values.precio &&
-                                      values.cantidad &&
-                                      values.categoria
-                                    )
-                                  )
-                                }
+                                // disabled={
+                                //   !(
+                                //     //values.nombre &&
+                                //     //values.descripcion &&
+                                //     // values.talla &&
+                                //     (
+                                //       file &&
+                                //       values.precio &&
+                                //       values.cantidad &&
+                                //       values.categoria
+                                //     )
+                                //   )
+                                // }
                               >
                                 Guardar
                               </Button>
