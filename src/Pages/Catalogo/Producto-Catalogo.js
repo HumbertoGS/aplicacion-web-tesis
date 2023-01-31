@@ -4,6 +4,7 @@ import Col from "react-bootstrap/Col";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import InputGroup from "react-bootstrap/InputGroup";
+import Badge from "react-bootstrap/Badge";
 
 import { FaCartPlus } from "react-icons/fa";
 
@@ -40,6 +41,21 @@ const ProductoImagen = (props) => {
                 setModalShow(true);
               }}
             />
+            {producto.newProducto ? (
+              <Badge
+                bg={"#ecf030"}
+                className="w-25"
+                style={{
+                  background: "#ecf030",
+                  color: "#000",
+                  position: "absolute",
+                }}
+              >
+                New
+              </Badge>
+            ) : (
+              <></>
+            )}
           </Card>
           <Card.Body>
             <Card.Title>
@@ -62,7 +78,7 @@ const ProductoImagen = (props) => {
                     {producto.talla ? "Talla: " + producto.talla : "-"}
                   </label>
                 </div>
-                <label style={{ fontSize: "16px" }}>
+                <label style={{ fontSize: "16px", paddingLeft: "9px" }}>
                   <b>${producto.precio}</b>
                 </label>
               </div>

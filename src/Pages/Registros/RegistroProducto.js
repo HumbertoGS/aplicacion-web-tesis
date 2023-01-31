@@ -29,6 +29,9 @@ import {
 const urlCategoria = process.env.REACT_APP_API_CORE_URL + "categoria";
 const urlProducto = process.env.REACT_APP_API_CORE_URL + "producto";
 
+//Codigo de producto se genera en back
+//codigo es 0000ID
+
 const RegistroProducto = () => {
   const [mensaje, setMensaje] = useState("");
   const [variant, setVariant] = useState("");
@@ -270,8 +273,7 @@ const RegistroProducto = () => {
                             descripcion: "",
                           }}
                           onSubmit={(values, { resetForm }) => {
-                            // guardarDatos(values);
-                            console.log(values);
+                            guardarDatos(values);
                             resetForm();
                             setFiltro("Selecciona categoria");
                           }}
