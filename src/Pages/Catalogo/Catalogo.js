@@ -152,42 +152,6 @@ const Catalogo = () => {
     );
   };
 
-  const Pagination = ({ dataPerPage, totalData, paginate }) => {
-    const pageNumbers = [];
-    for (let i = 1; i <= Math.ceil(totalData / dataPerPage); i++) {
-      pageNumbers.push(i);
-    }
-
-    return (
-      <nav>
-        <ul className="pagination">
-          {pageNumbers.map((number) => (
-            <li key={number} className="page-item">
-              <a
-                onClick={() => paginate(number)}
-                href="#"
-                className="page-link"
-              >
-                {number}
-              </a>
-            </li>
-          ))}
-        </ul>
-      </nav>
-    );
-  };
-
-  const [currentPage, setCurrentPage] = useState(1);
-  const [dataPerPage, setDataPerPage] = useState(2);
-
-  // Get current data
-  const indexOfLastData = currentPage * dataPerPage;
-  const indexOfFirstData = indexOfLastData - dataPerPage;
-  const currentData = producto.slice(indexOfFirstData, indexOfLastData);
-
-  // Change page
-  const paginate = (pageNumber) => setCurrentPage(pageNumber);
-
   return (
     <>
       <Card body className="Card">
