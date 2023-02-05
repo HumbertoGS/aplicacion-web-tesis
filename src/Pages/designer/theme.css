@@ -162,3 +162,7 @@ a:link, a:visited {
 .catalogo {
   padding: 23px;
 }
+
+.DropdownButton button {
+  width: 100px;
+}
