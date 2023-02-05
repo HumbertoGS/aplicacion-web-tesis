@@ -189,6 +189,7 @@ const ProductoImagen = (props) => {
           </Card.Body>
         </Card>
       </Col>
+      
       {modalShow ? (
         <ModalCatalogo
           producto={datos}
