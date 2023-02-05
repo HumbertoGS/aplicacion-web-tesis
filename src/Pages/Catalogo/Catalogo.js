@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import secureLocalStorage from "react-secure-storage";
 
-import Breadcrumb from "react-bootstrap/Breadcrumb";
 import Card from "react-bootstrap/Card";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
@@ -13,6 +12,7 @@ import DropdownButton from "react-bootstrap/DropdownButton";
 import { FaShoppingCart } from "react-icons/fa";
 
 import ProductoCatalogo from "./Producto-Catalogo";
+import { CatalogoProductos } from "./Paginacion";
 import MenuDespe from "./MenuDesplegable";
 import MensajeAlert from "../components/MensajeAlert";
 import { GetData, PostData, ReloadData } from "../../custom-hooks/useFetch";
@@ -23,8 +23,7 @@ let datosA = { datos: [], totales: [] };
 
 const urlCategoria =
   process.env.REACT_APP_API_CORE_URL + "categoria?estado=true";
-const urlProducto =
-  process.env.REACT_APP_API_CORE_URL + "producto?stock=true";
+const urlProducto = process.env.REACT_APP_API_CORE_URL + "producto?stock=true";
 
 const Catalogo = () => {
   const [mensaje, setMensaje] = useState("");
@@ -40,11 +39,13 @@ const Catalogo = () => {
   const [buscarProductos, setBuscarProductos] = useState(true);
 
   const [producto, setProducto] = useState(productoTabla);
-  const [filtro, setFiltro] = useState("Filtrar");
+  const [productoNew, setProductoNew] = useState(productoTabla);
+  const [filtro, setFiltro] = useState("Categoria");
 
   ReloadData(urlProducto, buscarProductos, (dato) => {
     setProductoTabla(dato.datos);
     setProducto(dato.datos);
+    setProductoNew(dato.datos.filter((data) => data.newProducto === true));
     setBuscarProductos(false);
   });
 
@@ -70,8 +71,10 @@ const Catalogo = () => {
     );
     if (filtrado.length > 0) {
       setProducto(filtrado);
+      setProductoNew(filtrado.filter((data) => data.newProducto === true));
     } else {
       setProducto([]);
+      setProductoNew([]);
     }
   };
 
@@ -127,21 +130,87 @@ const Catalogo = () => {
     } else setDatos({ datos: [], totales: [] });
   }, []);
 
+  const [opcion, setOpcion] = useState(true);
+
+  const BtnCatalogo = ({ border, background, onClick, nameBtn }) => {
+    const style = {
+      border,
+      borderRadius: "4px",
+      background,
+      color: "#393b3c",
+    };
+
+    return (
+      <Button
+        style={style}
+        variant="outline-secondary"
+        className="w-25"
+        onClick={onClick}
+      >
+        {nameBtn}
+      </Button>
+    );
+  };
+
+  const Pagination = ({ dataPerPage, totalData, paginate }) => {
+    const pageNumbers = [];
+    for (let i = 1; i <= Math.ceil(totalData / dataPerPage); i++) {
+      pageNumbers.push(i);
+    }
+
+    return (
+      <nav>
+        <ul className="pagination">
+          {pageNumbers.map((number) => (
+            <li key={number} className="page-item">
+              <a
+                onClick={() => paginate(number)}
+                href="#"
+                className="page-link"
+              >
+                {number}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </nav>
+    );
+  };
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const [dataPerPage, setDataPerPage] = useState(2);
+
+  // Get current data
+  const indexOfLastData = currentPage * dataPerPage;
+  const indexOfFirstData = indexOfLastData - dataPerPage;
+  const currentData = producto.slice(indexOfFirstData, indexOfLastData);
+
+  // Change page
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
+
   return (
     <>
       <Card body className="Card">
         {variant ? <MensajeAlert variant={variant} mensaje={mensaje} /> : <></>}
         <Card className="Card pt-2">
-          <div className="px-2">
-            <Row>
-              <Col className="mb-3">
-                <h5 className="text-center">Cátologo de productos</h5>
-              </Col>
-            </Row>
-            <Card className="mb-2">
-              <div className="mx-5 my-2 d-flex">
-                <div style={{ width: "35%" }} className="d-flex">
-                  <DropdownButton id="dropdown-basic-button" variant="outline-secondary" title={filtro}>
+          <div className="px-0">
+            <Card className="mb-2 py-3">
+              <Row>
+                <Col md={3}></Col>
+                <Col className="mb-2">
+                  <h5 className="text-center">Cátologo de productos</h5>
+                  <hr />
+                </Col>
+                <Col md={3}></Col>
+              </Row>
+              <div className="mx-4 my-2 d-flex">
+                <div style={{ width: "75%" }} className="d-flex">
+                  <DropdownButton
+                    id="dropdown-basic-button"
+                    variant="outline-secondary"
+                    className="DropdownButton"
+                    title={filtro}
+                  >
                     {Categorias.map((item, index) => {
                       return (
                         <Dropdown.Item
@@ -156,13 +225,28 @@ const Catalogo = () => {
                       );
                     })}
                   </DropdownButton>
-                  {filtro !== "Filtrar" ? (
+
+                  <DropdownButton
+                    id="dropdown-basic-button"
+                    variant="outline-secondary"
+                    className="px-3 DropdownButton"
+                    title={"Talla"}
+                  >
+                    <Dropdown.Item>S</Dropdown.Item>
+                  </DropdownButton>
+
+                  {filtro !== "Categoria" ? (
                     <Button
                       className="mx-2"
                       variant="outline-secondary"
                       onClick={() => {
-                        setFiltro("Filtrar");
+                        setFiltro("Categoria");
                         setProducto(productoTabla);
+                        setProductoNew(
+                          productoTabla.filter(
+                            (data) => data.newProducto === true
+                          )
+                        );
                       }}
                     >
                       Limpiar Filtros
@@ -200,6 +284,27 @@ const Catalogo = () => {
               </div>
             </Card>
 
+            <div className="d-flex">
+              <BtnCatalogo
+                border={!opcion ? "0px" : "1px solid #91979d"}
+                background={opcion ? "#c7d5ff" : "#ffff"}
+                onClick={() => {
+                  setOpcion(true);
+                }}
+                nameBtn="Nuevos"
+              />
+              <BtnCatalogo
+                border={opcion ? "0px" : "1px solid #91979d"}
+                background={!opcion ? "#c7d5ff" : "#ffff"}
+                onClick={() => {
+                  setOpcion(false);
+                }}
+                nameBtn="Todos"
+              />
+              <div className="w-50"></div>
+            </div>
+            <hr className="my-2" />
+
             {show ? (
               <MenuDespe
                 show={show}
@@ -207,21 +312,33 @@ const Catalogo = () => {
                 datos={datos}
                 guardarDatos={guardarDatos}
               />
-            ) : (
-              <></>
-            )}
+            ) : null}
 
-            <Row xs={2} md={4} className="g-4 px-2 py-3">
-              {producto.map((item, index) => {
-                return (
-                  <ProductoCatalogo
-                    key={index}
-                    producto={item}
-                    datosCarrito={datosCarrito}
-                  />
-                );
-              })}
-            </Row>
+            <div style={{ minHeight: "60vh" }}>
+              {/* <Row xs={2} md={4} className="g-4 px-2 py-3"> */}
+
+              {opcion ? (
+                <CatalogoProductos
+                  data={productoNew}
+                  datosCarrito={datosCarrito}
+                />
+              ) : (
+                <CatalogoProductos
+                  data={producto}
+                  datosCarrito={datosCarrito}
+                />
+                // currentData.map((item, index) => {
+                //   return (
+                //     <ProductoCatalogo
+                //       key={index}
+                //       producto={item}
+                //       datosCarrito={datosCarrito}
+                //     />
+                //   );
+                // })
+                //</Row>
+              )}
+            </div>
           </div>
         </Card>
       </Card>
