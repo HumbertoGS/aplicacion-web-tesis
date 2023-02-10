@@ -84,7 +84,7 @@ const Catalogo = () => {
 
   const guardarDatos = (datosA) => {
     let Total = datosA.datos.reduce(
-      (acumulador, actual) => acumulador + actual.total,
+      (acumulador, actual) => acumulador + Number(actual.total),
       0
     );
 

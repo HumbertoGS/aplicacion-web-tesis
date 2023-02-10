@@ -21,7 +21,7 @@ const ProductoImagen = (props) => {
     let Carrito = {
       ...producto,
       cantidad: cantidad,
-      total: Number(producto.precio) * Number(cantidad),
+      total: (Number(producto.precio) * Number(cantidad)).toFixed(2),
     };
     setCantidad(0);
     props.datosCarrito(Carrito);
@@ -189,7 +189,7 @@ const ProductoImagen = (props) => {
           </Card.Body>
         </Card>
       </Col>
-      
+
       {modalShow ? (
         <ModalCatalogo
           producto={datos}
