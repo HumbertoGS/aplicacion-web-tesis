@@ -14,6 +14,15 @@ import MensajeAlert from "./components/MensajeAlert";
 import { PostData } from "../custom-hooks/useFetch.js";
 import { Formik } from "formik";
 
+import {
+  BlobProvider,
+  PDFViewer,
+  ReactPDF,
+  PDFDownloadLink,
+} from "@react-pdf/renderer";
+
+import PedidoPdf from "./pdfs/Pedido";
+
 const tablaCarrito = [
   { name: "PRODUCTO" },
   { name: "PRECIO" },
@@ -71,8 +80,8 @@ const Carrito = ({ user }) => {
     setMensaje(
       "Los datos de tu pedido ha sido registrado, por favor envianos el comprobante al numero 593xxxxxxxxx"
     );
-
-    secureLocalStorage.removeItem("datosCarrito");
+    setPdfPedido(true);
+    // secureLocalStorage.removeItem("datosCarrito");
   };
 
   const respuesta = (datos) => {
@@ -89,6 +98,19 @@ const Carrito = ({ user }) => {
       return () => clearInterval(interval);
     }
   }, [variant]);
+
+  const [pdfPedido, setPdfPedido] = useState(false);
+
+  // const handleDownloadClick = () => {
+  //   if (!pdfBlob || !isMounted) {
+  //     return;
+  //   }
+
+  //   const link = document.createElement("a");
+  //   link.href = URL.createObjectURL(pdfBlob);
+  //   link.download = "data.pdf";
+  //   link.click();
+  // };
 
   return (
     <>
@@ -271,6 +293,14 @@ const Carrito = ({ user }) => {
                     >
                       Enviar Pedido
                     </Button>
+                    {/* <PDFDownloadLink
+                      document={<PedidoPdf />}
+                      fileName="Pedido-0001.pdf"
+                    >
+                      {({ blob, url, loading, error }) =>
+                        loading ? "Loading document..." : "Download now!"
+                      }
+                    </PDFDownloadLink> */}
                   </Form>
                 )}
               </Formik>
@@ -278,6 +308,38 @@ const Carrito = ({ user }) => {
           </Col>
         </Row>
       </Card>
+
+      <div style={{ width: "100%", height: "90vh" }}>
+        <PDFViewer style={{ width: "100%", height: "90vh" }}>
+          <PedidoPdf datos={datos} />
+        </PDFViewer>
+      </div>
+
+      {/* <BlobProvider document={PedidoPdf}>
+        {({ blob, url, loading, error }) => {
+          if (blob) {
+            return <PSPDFKit blob={blob} />;
+          }
+
+          if (error) {
+            return error;
+          }
+
+          return <div>The PDF is rendering...</div>;
+        }}
+      </BlobProvider> */}
+
+      {/* {pdfPedido ? (
+        <PDFDownloadLink document={<PedidoPdf />} fileName="data.pdf">
+          {({ blob, loading }) => {
+            // setPdfBlob(blob);
+            return loading ? "Loading document..." : "Download now!";
+          }}
+        </PDFDownloadLink>
+      ) : // <><PDFViewer style={{ width: "100%", height: "90vh" }}>
+      //   <PedidoPdf />
+      // </PDFViewer></>
+      null} */}
     </>
   );
 };
