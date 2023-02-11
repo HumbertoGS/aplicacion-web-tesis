@@ -15,7 +15,7 @@ const date = new Date();
 const options = { month: "long", day: "numeric", year: "numeric" };
 const fecha = date.toLocaleDateString("en-US", options);
 
-const Tabla_1 = ({ pedido, fecha, total }) => {
+const Tabla1 = ({ pedido, fecha, total }) => {
   const styleHeader = [stylesPdf.rowTable, stylesPdf.rowTable2];
 
   const widthCell = stylesPdf.cellProperty.cellWidth;
@@ -119,7 +119,7 @@ const PedidoPdf = ({ datos }) => {
           <Image src={"logo512.png"} style={stylesPdf.logo} />
         </View>
 
-        <Tabla_1
+        <Tabla1
           pedido={"5692"}
           fecha={fecha}
           total={datosTotales[2].totales}
