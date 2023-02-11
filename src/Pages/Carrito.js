@@ -314,32 +314,6 @@ const Carrito = ({ user }) => {
           <PedidoPdf datos={datos} />
         </PDFViewer>
       </div>
-
-      {/* <BlobProvider document={PedidoPdf}>
-        {({ blob, url, loading, error }) => {
-          if (blob) {
-            return <PSPDFKit blob={blob} />;
-          }
-
-          if (error) {
-            return error;
-          }
-
-          return <div>The PDF is rendering...</div>;
-        }}
-      </BlobProvider> */}
-
-      {/* {pdfPedido ? (
-        <PDFDownloadLink document={<PedidoPdf />} fileName="data.pdf">
-          {({ blob, loading }) => {
-            // setPdfBlob(blob);
-            return loading ? "Loading document..." : "Download now!";
-          }}
-        </PDFDownloadLink>
-      ) : // <><PDFViewer style={{ width: "100%", height: "90vh" }}>
-      //   <PedidoPdf />
-      // </PDFViewer></>
-      null} */}
     </>
   );
 };
