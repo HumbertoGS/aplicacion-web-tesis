@@ -9,16 +9,12 @@ import Form from "react-bootstrap/Form";
 import Dropdown from "react-bootstrap/Dropdown";
 import DropdownButton from "react-bootstrap/DropdownButton";
 
-import { ReloadData } from "../../custom-hooks/useFetch";
-
-import { PDFViewer, PDFDownloadLink } from "@react-pdf/renderer";
-import { saveAs } from "file-saver";
 import * as XLSX from "xlsx";
 
-import PedidoPdf from "../pdfs/Pedido";
+import { ReloadData } from "../../custom-hooks/useFetch";
+import InventarioPdf from "../pdfs/Inventario";
 import { PDFDownload } from "../pdfs/FuncionesPdf";
 
-import { VscFilePdf } from "react-icons/vsc";
 import { RiFileExcel2Line } from "react-icons/ri";
 
 const Categorias = [
@@ -35,6 +31,11 @@ function Inventario() {
   const [buscarProductos, setBuscarProductos] = useState(true);
 
   const [filtro, setFiltro] = useState("Categoria");
+
+  const [fecha, setFecha] = useState({
+    fechaDesde: new Date().toISOString().substring(0, 10),
+    fechaHasta: new Date().toISOString().substring(0, 10),
+  });
 
   ReloadData(urlProducto, buscarProductos, (dato) => {
     let data = dato.datos.map((item) => {
@@ -54,7 +55,6 @@ function Inventario() {
   const exportToCSV = () => {
     console.log(productoTabla);
 
-    // const ws = XLSX.utils.json_to_sheet(productoTabla);
     const header = ["Inventario de inicio - fin"];
     const headerTabla = [
       "Codigo",
@@ -82,10 +82,7 @@ function Inventario() {
       font: { bold: true, sz: 14 },
       alignment: { horizontal: "center", vertical: "center" },
     };
-    // const style = { font: { bold: true }, alignment: { horizontal: "center" } };
-    // setCellStyle(ws["A1"], style);
 
-    // Establecer formato para headerTabla
     for (let i = 0; i < headerTabla.length; i++) {
       const col = XLSX.utils.encode_col(i) + 3;
       ws[col].v = headerTabla[i];
@@ -119,15 +116,27 @@ function Inventario() {
                   <div className="d-flex" style={{ marginTop: "10px" }}>
                     <div className="d-flex align-items-center mx-2">
                       <Form.Label className="px-2 my-0">Desde:</Form.Label>
-                      <Form.Control type="date" />
+                      <Form.Control
+                        type="date"
+                        value={fecha.fechaDesde}
+                        onChange={(e) =>
+                          setFecha({ fechaDesde: e.target.value })
+                        }
+                      />
                     </div>
                     <div className="d-flex align-items-center mx-2">
                       <Form.Label className="px-2 my-0">Hasta:</Form.Label>
-                      <Form.Control type="date" />
+                      <Form.Control
+                        type="date"
+                        value={fecha.fechaHasta}
+                        onChange={(e) =>
+                          setFecha({ fechaHasta: e.target.value })
+                        }
+                      />
                     </div>
                   </div>
                 </div>
-                <DropdownButton
+                {/* <DropdownButton
                   id="dropdown-basic-button"
                   variant="outline-secondary"
                   className="DropdownButton"
@@ -160,7 +169,7 @@ function Inventario() {
                   </Button>
                 ) : (
                   <></>
-                )}
+                )} */}
               </div>
               <div>
                 <Button
@@ -170,15 +179,13 @@ function Inventario() {
                 >
                   <RiFileExcel2Line /> Excel
                 </Button>
-                {/* <PDFDownloadLink
-                  document={<PedidoPdf data={productoTabla} />}
-                  fileName="Inventario-inicio-fin.pdf"
-                >
-                  <Button variant="outline-secondary" className="mx-2">
-                    <VscFilePdf /> PDF
-                  </Button>
-                </PDFDownloadLink> */}
-                <PDFDownload children={[]} fileName="Inventario-inicio-fin.pdf" nameBtn="PDF"/>
+                <PDFDownload
+                  children={
+                    <InventarioPdf datos={productoTabla} fecha={fecha} />
+                  }
+                  fileName={`Inventario Desde ${fecha.fechaDesde} Hasta ${fecha.fechaHasta}.pdf`}
+                  nameBtn="PDF"
+                />
               </div>
             </Card>
             <div className="mt-4 px-4">
@@ -187,7 +194,6 @@ function Inventario() {
                   <tr>
                     <th>Codigo</th>
                     <th>Producto</th>
-                    {/* <th>Cantidad</th> */}
                     <th>Precio Unitario</th>
                     <th>Categoria</th>
                     <th>Descripcion</th>
@@ -200,12 +206,10 @@ function Inventario() {
                       <tr key={index}>
                         <td>{item.codigo}</td>
                         <td>{item.producto}</td>
-                        {/* <td>{item.cantidad}</td> */}
                         <td>${item.precio}</td>
                         <td>{item.categoria}</td>
                         <td>{item.descripcion}</td>
                         <td>{item.stock}</td>
-                        {/* <td>{item.stock ? "Si" : "No"}</td> */}
                       </tr>
                     );
                   })}
@@ -215,7 +219,6 @@ function Inventario() {
           </div>
         </Col>
       </Row>
-      {/* </Card> */}
     </Card>
   );
 }
