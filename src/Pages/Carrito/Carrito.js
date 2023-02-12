@@ -110,7 +110,7 @@ const Carrito = ({ user }) => {
       `Pedido-${x.datos?.detalle?.num_pedido}.pdf`
     );
 
-    // secureLocalStorage.removeItem("datosCarrito");
+    secureLocalStorage.removeItem("datosCarrito");
   });
 
   useEffect(() => {
