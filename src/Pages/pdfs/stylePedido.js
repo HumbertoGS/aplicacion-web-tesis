@@ -49,6 +49,19 @@ const stylesPedido = {
     marginTop: "15px",
     marginBottom: "20px",
   },
+  textTitulo: {
+    fontSize: "16px",
+    fontWeight: "bold",
+    textAlign: "center",
+    borderBottom: "1px solid #EEE",
+    paddingVertical: "7px",
+  },
+  textSubTitulo: {
+    fontSize: "13px",
+    fontWeight: "bold",
+    textAlign: "center",
+    marginTop: "15px",
+  },
   textWs: { color: "red" },
   cellProperty: {
     cellWidth: {
@@ -66,6 +79,9 @@ const stylesPedido = {
       },
       Row50: {
         width: "50%",
+      },
+      Row60: {
+        width: "60%",
       },
       Row70: {
         width: "70%",
