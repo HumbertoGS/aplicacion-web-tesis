@@ -1,5 +1,6 @@
-import { useEffect, useState } from "react";
 import secureLocalStorage from "react-secure-storage";
+
+import { useEffect, useState } from "react";
 
 import Card from "react-bootstrap/Card";
 import Row from "react-bootstrap/Row";
@@ -10,13 +11,11 @@ import InputGroup from "react-bootstrap/InputGroup";
 import Table from "react-bootstrap/Table";
 
 import MensajeAlert from "../components/MensajeAlert";
+import PedidoPdf from "../pdfs/Pedido";
 
 import { PostData } from "../../custom-hooks/useFetch.js";
-import { Formik } from "formik";
-
-import PedidoPdf from "../pdfs/Pedido";
 import { VisualizarPdf, getPdfBlob } from "../pdfs/FuncionesPdf";
-
+import { Formik } from "formik";
 
 const tablaCarrito = [
   { name: "PRODUCTO" },
@@ -30,7 +29,6 @@ const urlRegistrarPedido =
   process.env.REACT_APP_API_CORE_URL + "pedido/registrar";
 
 const Carrito = ({ user }) => {
-  const [pdfPedido, setPdfPedido] = useState(false);
   const datosCarro = secureLocalStorage.getItem("datosCarrito");
 
   const disabledCampo = user ? true : false;
@@ -41,14 +39,18 @@ const Carrito = ({ user }) => {
       : datosCarro
     : { datos: [], totales: [] };
 
-  const [mensaje, setMensaje] = useState("");
-  const [variant, setVariant] = useState("");
+  const [mensajeAlert, setMensajeAlert] = useState({
+    mostrar: false,
+    mensaje: "",
+    variant: "",
+  });
 
   const [guardar, setGuardar] = useState(false);
   const [buscar, setBuscar] = useState(user ? true : false);
 
   const [datosPedido, setDatosPedido] = useState(null);
   const [datosPdf, setDatosPdf] = useState(null);
+  const [pdfPedido, setPdfPedido] = useState(false);
 
   const [datosPersona, setDatosPersona] = useState({
     cedula: "",
@@ -68,8 +70,6 @@ const Carrito = ({ user }) => {
   });
 
   const enviarPedido = (values) => {
-    console.log("click!!");
-
     let ordenes = datos.datos.map((item) => {
       return {
         id_cliente: values.id,
@@ -95,13 +95,13 @@ const Carrito = ({ user }) => {
 
   PostData(urlRegistrarPedido, datosPedido, guardar, async (x) => {
     setGuardar(false);
-
     setDatosPdf(x.datos);
-
-    setVariant("success");
-    setMensaje(
-      "Los datos de tu pedido ha sido registrado, por favor envianos el comprobante al numero 593xxxxxxxxx"
-    );
+    setMensajeAlert({
+      mostrar: true,
+      mensaje:
+        "Los datos de tu pedido ha sido registrado, por favor envianos el comprobante al numero 593xxxxxxxxx",
+      variant: "success",
+    });
 
     setPdfPedido(true);
 
@@ -114,18 +114,25 @@ const Carrito = ({ user }) => {
   });
 
   useEffect(() => {
-    if (variant) {
+    if (mensajeAlert.mostrar) {
       const interval = setTimeout(() => {
-        setVariant("");
+        setMensajeAlert({ mostrar: false, mensaje: "", variant: "" });
       }, 4000);
       return () => clearInterval(interval);
     }
-  }, [variant]);
+  }, [mensajeAlert.mostrar]);
 
   return (
     <>
       <Card body className="Card">
-        {variant ? <MensajeAlert variant={variant} mensaje={mensaje} /> : <></>}
+        {mensajeAlert.mostrar ? (
+          <MensajeAlert
+            variant={mensajeAlert.variant}
+            mensaje={mensajeAlert.mensaje}
+          />
+        ) : (
+          <></>
+        )}
         {pdfPedido ? (
           <VisualizarPdf
             children={<PedidoPdf datos={datosPdf} />}
@@ -309,18 +316,9 @@ const Carrito = ({ user }) => {
                             values.referencia
                           ) || datos.datos.length == 0
                         }
-                        // href="https://api.whatsapp.com/send?phone=593979930524&text=Hola, quisiera estos pedidos"
                       >
                         Enviar Pedido
                       </Button>
-                      {/* <PDFDownloadLink
-                      document={<PedidoPdf />}
-                      fileName="Pedido-0001.pdf"
-                    >
-                      {({ blob, url, loading, error }) =>
-                        loading ? "Loading document..." : "Download now!"
-                      }
-                    </PDFDownloadLink> */}
                     </Form>
                   )}
                 </Formik>
