@@ -16,6 +16,7 @@ import { saveAs } from "file-saver";
 import * as XLSX from "xlsx";
 
 import PedidoPdf from "../pdfs/Pedido";
+import { PDFDownload } from "../pdfs/FuncionesPdf";
 
 import { VscFilePdf } from "react-icons/vsc";
 import { RiFileExcel2Line } from "react-icons/ri";
@@ -169,14 +170,15 @@ function Inventario() {
                 >
                   <RiFileExcel2Line /> Excel
                 </Button>
-                <PDFDownloadLink
+                {/* <PDFDownloadLink
                   document={<PedidoPdf data={productoTabla} />}
                   fileName="Inventario-inicio-fin.pdf"
                 >
                   <Button variant="outline-secondary" className="mx-2">
                     <VscFilePdf /> PDF
                   </Button>
-                </PDFDownloadLink>
+                </PDFDownloadLink> */}
+                <PDFDownload children={[]} fileName="Inventario-inicio-fin.pdf" nameBtn="PDF"/>
               </div>
             </Card>
             <div className="mt-4 px-4">
