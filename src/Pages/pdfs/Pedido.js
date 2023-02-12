@@ -11,11 +11,7 @@ import { stylesPedido } from "./stylePedido";
 
 const stylesPdf = StyleSheet.create(stylesPedido);
 
-const date = new Date();
-const options = { month: "long", day: "numeric", year: "numeric" };
-const fecha = date.toLocaleDateString("en-US", options);
-
-const Tabla1 = ({ pedido, fecha, total }) => {
+const Tabla1 = ({ dato }) => {
   const styleHeader = [stylesPdf.rowTable, stylesPdf.rowTable2];
 
   const widthCell = stylesPdf.cellProperty.cellWidth;
@@ -31,9 +27,9 @@ const Tabla1 = ({ pedido, fecha, total }) => {
         <Text style={style({ w: 2, f: "header" })}>Total</Text>
       </View>
       <View style={stylesPdf.rowTable} wrap={false}>
-        <Text style={style({ w: 3, f: "body" })}>{pedido}</Text>
-        <Text style={style({ w: 7, f: "body" })}>{fecha}</Text>
-        <Text style={style({ w: 2, f: "body" })}>${total}</Text>
+        <Text style={style({ w: 3, f: "body" })}>{dato.num_pedido}</Text>
+        <Text style={style({ w: 7, f: "body" })}>{dato.fecha}</Text>
+        <Text style={style({ w: 2, f: "body" })}>${dato.total}</Text>
       </View>
     </View>
   );
@@ -66,14 +62,14 @@ const TablaDetalles = ({ datosCarrito, datosTotales }) => {
 
       {datosCarrito.map((row, i) => (
         <View key={i} style={stylesPdf.rowTable} wrap={false}>
-          <Text style={style({ w: 4, f: "body" })}>{row.nombre}</Text>
+          <Text style={style({ w: 4, f: "body" })}>{row.producto}</Text>
           <Text
             style={[...style({ w: 3, f: "body" }), { paddingLeft: "20px" }]}
           >
             {row.cantidad}
           </Text>
           <Text style={style({ w: 3, f: "body" })}>${row.precio}</Text>
-          <Text style={style({ w: 2, f: "body" })}>${row.total}</Text>
+          <Text style={style({ w: 2, f: "body" })}>${row.total_producto}</Text>
         </View>
       ))}
 
@@ -108,7 +104,8 @@ const Detalles = () => {
 };
 
 const PedidoPdf = ({ datos }) => {
-  const datosCarrito = datos.datos;
+  const datosDetalles = datos.detalle;
+  const datosCarrito = datos.orden;
   const datosTotales = datos.totales;
 
   return (
@@ -119,11 +116,7 @@ const PedidoPdf = ({ datos }) => {
           <Image src={"logo512.png"} style={stylesPdf.logo} />
         </View>
 
-        <Tabla1
-          pedido={"5692"}
-          fecha={fecha}
-          total={datosTotales[2].totales}
-        />
+        <Tabla1 dato={datosDetalles} />
 
         <Detalles />
 
