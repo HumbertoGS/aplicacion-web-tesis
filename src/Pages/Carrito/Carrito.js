@@ -15,7 +15,7 @@ import { PostData } from "../../custom-hooks/useFetch.js";
 import { Formik } from "formik";
 
 import PedidoPdf from "../pdfs/Pedido";
-import { VisualizarPdf, getPdfBlob } from "../pdfs/VisualizarPdf";
+import { VisualizarPdf, getPdfBlob } from "../pdfs/FuncionesPdf";
 
 
 const tablaCarrito = [
