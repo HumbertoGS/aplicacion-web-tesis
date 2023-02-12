@@ -8,7 +8,7 @@ import Registrar from "./Pages/Inicio/Registrar";
 import Login from "./Pages/Inicio/Login";
 // import LoginEmp from "./Pages/Inicio/LoginEmp";
 import RegistroVentas from "./Pages/RegistroVentas/RegistroVentas";
-import Carrito from "./Pages/Carrito";
+import Carrito from "./Pages/Carrito/Carrito";
 import NoPage from "./Pages/components/NoPage";
 import Catalogo from "./Pages/Catalogo/Catalogo";
 import RegistroProducto from "./Pages/Registros/RegistroProducto";
