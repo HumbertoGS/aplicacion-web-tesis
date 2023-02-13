@@ -20,11 +20,15 @@ body{
 }
 
 .Mensaje {
-  position: absolute;
-  z-index: 2000;
-  width: calc(100% - 30px);
+  position: fixed;
+  top: 20px;
+  left: 0;
+  right: 0;
+  z-index: 999;
+  /* width: calc(100% - 200px); */
   display: flex;
   justify-content: center;
+  padding-left: 200px;
 }
 
 .Alert {
