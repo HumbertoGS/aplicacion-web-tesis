@@ -22,6 +22,7 @@ import { PostImage, PostData, ReloadData } from "../../custom-hooks/useFetch";
 import { styleBtnCancel, styleBtnSave } from "../designer/styleBtn";
 
 import { BtnCambiarEstado, BtnGuardarDatos } from "../components/BtnAccion";
+import Tabla from "../components/Tabla";
 
 const urlCategoria = process.env.REACT_APP_API_CORE_URL + "categoria";
 const urlProducto = process.env.REACT_APP_API_CORE_URL + "producto";
@@ -207,33 +208,15 @@ const RegistroProducto = () => {
                   </Card>
                 </Col>
                 <Col className="px-4 p-4 mt-4" xs={12} md={7}>
-                  <div style={{ overflowY: "auto", height: "350px" }}>
-                    <Table>
-                      <thead className="theadTable">
-                        <tr>
-                          <th>Nombre</th>
-                          <th>Estado</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {Categorias.map((item, index) => {
-                          return (
-                            <tr key={index}>
-                              <td>{item.nombre}</td>
-                              <td>
-                                <BtnCambiarEstado
-                                  item={item}
-                                  reload={() => {
-                                    setReload(true);
-                                  }}
-                                  url={urlCategoria}
-                                />
-                              </td>
-                            </tr>
-                          );
-                        })}
-                      </tbody>
-                    </Table>
+                  <div>
+                    <Tabla
+                      data={Categorias}
+                      tabla="categoria"
+                      reload={() => {
+                        setReload(true);
+                      }}
+                      url={urlCategoria}
+                    />
                   </div>
                 </Col>
               </Row>
@@ -550,10 +533,23 @@ const RegistroProducto = () => {
                     )}
                   </div>
                   <div
-                    style={{ overflowY: "auto", height: "350px" }}
+                    // style={{ overflowY: "auto", height: "350px" }}
                     className="mt-3"
                   >
-                    <Table>
+                    <Tabla
+                      data={producto}
+                      tabla="producto"
+                      editarModal={(item) => {
+                        console.log(item)
+                        setDatos(item);
+                        setEditarModal(true);
+                      }}
+                      reload={() => {
+                        setBuscarProductos(true);
+                      }}
+                      url={urlProducto}
+                    />
+                    {/* <Table>
                       <thead className="theadTable">
                         <tr>
                           <th>Imagen</th>
@@ -614,7 +610,7 @@ const RegistroProducto = () => {
                           );
                         })}
                       </tbody>
-                    </Table>
+                    </Table> */}
                   </div>
                 </Col>
               </Row>

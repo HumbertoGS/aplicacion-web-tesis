@@ -1,51 +1,24 @@
 import { useState } from "react";
+
 import Table from "react-bootstrap/esm/Table";
-import Pagination from "react-bootstrap/Pagination";
-import { BtnCambiarEstado } from "../components/BtnAccion";
+import Button from "react-bootstrap/Button";
+
 import propertyTabla from "./propertyTabla";
+import PaginationTabla from "./PaginationTabla";
+import { BtnCambiarEstado } from "../components/BtnAccion";
+
+import { HiPencil } from "react-icons/hi";
 
 const paginacionStyle = { display: "flex", justifyContent: "flex-end" };
 
-const PaginationTabla = ({
-  currentPage,
-  itemsPerPage,
-  totalItems,
-  handlePageChange,
+const Tabla = ({
+  data,
+  tabla,
+  editarModal = (x) => {},
+  reload = () => {},
+  url = "/",
 }) => {
-  const pageNumbers = [];
-
-  for (let i = 1; i <= Math.ceil(totalItems / itemsPerPage); i++) {
-    pageNumbers.push(i);
-  }
-
-  return (
-    <Pagination>
-      <Pagination.First onClick={() => handlePageChange(1)} />
-      <Pagination.Prev
-        onClick={() => handlePageChange(currentPage - 1)}
-        disabled={currentPage === 1}
-      />
-      {pageNumbers.map((number) => (
-        <Pagination.Item
-          key={number}
-          active={number === currentPage}
-          onClick={() => handlePageChange(number)}
-        >
-          {number}
-        </Pagination.Item>
-      ))}
-      <Pagination.Next
-        onClick={() => handlePageChange(currentPage + 1)}
-        disabled={currentPage === pageNumbers.length}
-      />
-      <Pagination.Last onClick={() => handlePageChange(pageNumbers.length)} />
-    </Pagination>
-  );
-};
-
-const Tabla = ({ data, tabla, reload = () => {}, url = "/" }) => {
-  const header = propertyTabla[tabla].header;
-  const fieldsToShow = propertyTabla[tabla].fieldsToShow;
+  const { header, fieldsToShow } = propertyTabla[tabla];
 
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(5);
@@ -82,10 +55,37 @@ const Tabla = ({ data, tabla, reload = () => {}, url = "/" }) => {
                     </td>
                   ) : row === "estado" ? (
                     <td key={i}>
-                      <BtnCambiarEstado item={item} reload={reload} url={url} />
+                      <BtnCambiarEstado
+                        item={{
+                          id: item.id,
+                          estado: item.estado ?? item.stock,
+                        }}
+                        reload={reload}
+                        url={url}
+                      />
                     </td>
                   ) : row === "precio" ? (
                     <td key={i}>${item[row]}</td>
+                  ) : row === "editar" ? (
+                    <td key={i}>
+                      <Button
+                        variant="outline-secondary"
+                        onClick={() => {
+                          editarModal(item);
+                        }}
+                      >
+                        <HiPencil />
+                      </Button>
+                    </td>
+                  ) : row === "imagen" ? (
+                    <td key={i}>
+                      <img
+                        width={50}
+                        height={50}
+                        src={item[row]}
+                        alt={item["nombre_imagen"]}
+                      />
+                    </td>
                   ) : (
                     <td key={i}>{item[row]}</td>
                   );

@@ -4,9 +4,14 @@ import Row from "react-bootstrap/esm/Row";
 
 import ProductoCatalogo from "./Producto-Catalogo";
 
+import PaginationTabla from "../components/PaginationTabla";
+import Button from "react-bootstrap/esm/Button";
+
+const paginacionStyle = { display: "flex", justifyContent: "flex-end" };
+
 const CatalogoProductos = ({ data, datosCarrito }) => {
   const [currentPage, setCurrentPage] = useState(1);
-  const [dataPerPage, setDataPerPage] = useState(4);
+  const [dataPerPage] = useState(5);
 
   // Get current data
   const indexOfLastData = currentPage * dataPerPage;
@@ -42,6 +47,14 @@ const CatalogoProductos = ({ data, datosCarrito }) => {
         paginate={paginate}
         currentPage={reset ? 1 : currentPage}
       />
+      {/* <div style={paginacionStyle}>
+        <PaginationTabla
+          currentPage={currentPage}
+          itemsPerPage={dataPerPage}
+          totalItems={data.length}
+          handlePageChange={paginate}
+        />
+      </div> */}
     </div>
   );
 };
@@ -52,9 +65,25 @@ const Pagination = ({ dataPerPage, totalData, paginate, currentPage }) => {
     pageNumbers.push(i);
   }
 
+  console.log(currentPage === pageNumbers.length);
+
   return (
     <nav>
       <ul className="pagination">
+        <li>
+          <a className="page-link" onClick={() => paginate(1)}>
+            {"<<"}
+          </a>
+        </li>
+        <li>
+          <a
+            className="page-link"
+            onClick={() => paginate(currentPage - 1)}
+            disabled={currentPage === 1}
+          >
+            {"<"}
+          </a>
+        </li>
         {pageNumbers.map((number) => (
           <li key={number} className="page-item">
             <a
@@ -69,6 +98,20 @@ const Pagination = ({ dataPerPage, totalData, paginate, currentPage }) => {
             </a>
           </li>
         ))}
+        <li>
+          <a
+            className="page-link"
+            onClick={() => paginate(currentPage + 1)}
+            disabled={currentPage === pageNumbers.length}
+          >
+            {">"}
+          </a>
+        </li>
+        <li>
+          <a className="page-link" onClick={() => paginate(pageNumbers.length)}>
+            {">>"}
+          </a>
+        </li>
       </ul>
     </nav>
   );

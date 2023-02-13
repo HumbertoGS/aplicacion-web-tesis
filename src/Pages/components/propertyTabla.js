@@ -21,6 +21,32 @@ const propertyTabla = {
     header: ["Nombre", "Apellido", "Cedula", "Estado"],
     fieldsToShow: ["nombre", "apellido", "cedula", "estado"],
   },
+  categoria: {
+    header: ["Nombre", "Estado"],
+    fieldsToShow: ["nombre", "estado"],
+  },
+  producto: {
+    header: [
+      "Imagen",
+      "Nombre",
+      "Categoria",
+      "Talla",
+      "Precio",
+      "Cantidad",
+      "Editar",
+      "Tiene Stock",
+    ],
+    fieldsToShow: [
+      "imagen",
+      "nombre",
+      "nombre_categoria",
+      "talla",
+      "precio",
+      "cantidad",
+      "editar",
+      "estado",
+    ],
+  },
 };
 
 export default propertyTabla;
