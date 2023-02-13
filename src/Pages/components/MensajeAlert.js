@@ -7,32 +7,12 @@ import "../designer/theme.css";
 // 'danger',   //Para error
 // 'warning',  //Para advertencias
 
-const MensajeAlert = (props) => {
-  const variant = props.variant;
-  const mensaje = props.mensaje;
-
-  return (
-    <>
-      <div
-        className="Mensaje"
-        // style={{
-        //   position: "absolute",
-        //   zIndex: "2000",
-        //   width: "calc(100% - 30px)",
-        //   display: "flex",
-        //   justifyContent: "center",
-        // }}
-      >
-        <Alert
-          variant={variant}
-          className="Alert"
-          // style={{ display: "flex", justifyContent: "center", width: "500px" }}
-        >
-          {mensaje}
-        </Alert>
-      </div>
-    </>
-  );
-};
+const MensajeAlert = ({ variant, mensaje }) => (
+  <div className="Mensaje">
+    <Alert variant={variant} className="Alert">
+      {mensaje}
+    </Alert>
+  </div>
+);
 
 export default MensajeAlert;
