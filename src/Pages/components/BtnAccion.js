@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import Button from "react-bootstrap/esm/Button";
 import { PostData } from "../../custom-hooks/useFetch";
 import MensajeAlert from "../components/MensajeAlert";
+import { styleBtnCancel, styleBtnSave } from "../designer/styleBtn";
 
 const messages = {
   error: "Ups, parece que algo ha salido mal",
@@ -71,4 +72,42 @@ const BtnGuardar = ({ datos, url, handleRespond, mensajeResp }) => {
   );
 };
 
-export default BtnGuardar;
+const BtnCambiarEstado = ({ item, reload, url }) => {
+  const [cambiar, setCambiar] = useState(false);
+  const [datos, setDatos] = useState(null);
+
+  let style = item.estado || item.stock ? styleBtnSave : styleBtnCancel;
+
+  PostData(url + "/cambiarEstado", datos, cambiar, (x) => {
+    setCambiar(false);
+    reload();
+  });
+
+  const CambiarEstado = ({ id, estado }) => {
+    setDatos({ id, estado: !estado });
+    setCambiar(true);
+  };
+
+  return (
+    <Button
+      style={{
+        border: "0px",
+        width: "70px",
+        ...style,
+      }}
+      onClick={() => {
+        CambiarEstado(item);
+      }}
+    >
+      {item.stock
+        ? item.stock
+          ? "Si"
+          : "No"
+        : item.estado
+        ? "Activo"
+        : "Inactivo"}
+    </Button>
+  );
+};
+
+export { BtnCambiarEstado, BtnGuardar };

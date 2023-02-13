@@ -1,6 +1,5 @@
 import { useState } from "react";
 
-import Table from "react-bootstrap/Table";
 import Card from "react-bootstrap/Card";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
@@ -11,12 +10,13 @@ import DropdownButton from "react-bootstrap/DropdownButton";
 
 import * as XLSX from "xlsx";
 
-import { ReloadData, PostData } from "../../custom-hooks/useFetch";
+import { PostData } from "../../custom-hooks/useFetch";
 import InventarioPdf from "../pdfs/Inventario";
 import { PDFDownload } from "../pdfs/FuncionesPdf";
 
 import { RiFileExcel2Line } from "react-icons/ri";
-import BtnGuardar from "../components/BtnGuardar";
+import { BtnGuardar } from "../components/BtnAccion";
+import Tabla from "../components/Tabla";
 
 const Categorias = [
   { id: 1, nombre: "Zapatos", estado: true },
@@ -186,32 +186,7 @@ function Inventario() {
               </div>
             </Card>
             <div className="mt-4 px-4">
-              <Table>
-                <thead className="theadTable">
-                  <tr>
-                    <th>Codigo</th>
-                    <th>Producto</th>
-                    <th>Precio Unitario</th>
-                    <th>Categoria</th>
-                    <th>Cantidad</th>
-                    <th>Stock</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {productoTabla.map((item, index) => {
-                    return (
-                      <tr key={index}>
-                        <td>{item.codigo}</td>
-                        <td>{item.nombre}</td>
-                        <td>${item.precio}</td>
-                        <td>{item.nombre_categoria}</td>
-                        <td>{item.cantidad}</td>
-                        <td>{item.stock ? "SI" : "NO"}</td>
-                      </tr>
-                    );
-                  })}
-                </tbody>
-              </Table>
+              <Tabla data={productoTabla} tabla="inventario" />
             </div>
           </div>
         </Col>

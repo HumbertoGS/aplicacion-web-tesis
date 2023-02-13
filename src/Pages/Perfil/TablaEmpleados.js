@@ -10,7 +10,7 @@ import InputGroup from "react-bootstrap/InputGroup";
 
 import "../designer/theme.css";
 import { ReloadData, PostData } from "../../custom-hooks/useFetch";
-import { BtnCambiarEstado } from "../../custom-hooks/BtnAccion";
+import Tabla from "../components/Tabla";
 
 const urlPersona = process.env.REACT_APP_API_CORE_URL + "persona";
 
@@ -120,9 +120,17 @@ const TablaEmpleados = () => {
           <Col className="mb-3">
             <div
               className="p-4 mx-3"
-              style={{ overflowY: "auto", height: "300px" }}
+              // style={{ overflowY: "auto", height: "350px" }}
             >
-              <Table>
+              <Tabla
+                data={datosEmpleados}
+                tabla="empleado"
+                reload={() => {
+                  setBuscar(true);
+                }}
+                url={urlPersona}
+              />
+              {/* <Table>
                 <thead className="theadTable">
                   <tr>
                     <th>Nombre</th>
@@ -151,7 +159,7 @@ const TablaEmpleados = () => {
                     );
                   })}
                 </tbody>
-              </Table>
+              </Table> */}
             </div>
           </Col>
         </Row>

@@ -21,10 +21,7 @@ import { PostImage, PostData, ReloadData } from "../../custom-hooks/useFetch";
 
 import { styleBtnCancel, styleBtnSave } from "../designer/styleBtn";
 
-import {
-  BtnCambiarEstado,
-  BtnGuardarDatos,
-} from "../../custom-hooks/BtnAccion";
+import { BtnCambiarEstado, BtnGuardarDatos } from "../components/BtnAccion";
 
 const urlCategoria = process.env.REACT_APP_API_CORE_URL + "categoria";
 const urlProducto = process.env.REACT_APP_API_CORE_URL + "producto";

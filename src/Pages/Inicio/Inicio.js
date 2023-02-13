@@ -14,8 +14,8 @@ import "../designer/theme.css";
 import { ReloadData } from "../../custom-hooks/useFetch";
 import {
   BtnCambiarEstado,
-  BtnGuardarDatos,
-} from "../../custom-hooks/BtnAccion";
+  BtnGuardar,
+} from "../components/BtnAccion";
 import HeaderPerfil from "../Perfil/HeaderPerfil";
 
 const CardsInicio = () => {
