@@ -32,10 +32,12 @@ const TablaDetalles = ({ datos }) => {
       {datos.map((row, i) => (
         <View key={i} style={stylesPdf.rowTable} wrap={false}>
           <Text style={style({ w: 2, f: "body" })}>{row.codigo}</Text>
-          <Text style={style({ w: 6, f: "body" })}>{row.producto}</Text>
+          <Text style={style({ w: 6, f: "body" })}>{row.nombre}</Text>
           <Text style={style({ w: 3, f: "body" })}>${row.precio}</Text>
-          <Text style={style({ w: 3, f: "body" })}>{row.categoria}</Text>
-          <Text style={style({ w: 2, f: "body" })}>{row.stock}</Text>
+          <Text style={style({ w: 3, f: "body" })}>{row.nombre_categoria}</Text>
+          <Text style={style({ w: 2, f: "body" })}>
+            {row.stock ? "SI" : "NO"}
+          </Text>
         </View>
       ))}
     </View>
