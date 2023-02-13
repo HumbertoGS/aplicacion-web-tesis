@@ -72,11 +72,19 @@ const BtnGuardar = ({ datos, url, handleRespond, mensajeResp }) => {
   );
 };
 
-const BtnCambiarEstado = ({ item, reload, url }) => {
+const noClick = (stock) => ({
+  fontWeight: "bold",
+  background: "none",
+  color: stock ? "#33d556" : "#d53a33",
+});
+
+const BtnCambiarEstado = ({ item, reload, url, habilitarBtn = true }) => {
   const [cambiar, setCambiar] = useState(false);
   const [datos, setDatos] = useState(null);
 
-  let style = item.estado || item.stock ? styleBtnSave : styleBtnCancel;
+  let style = item.estado || item?.stock ? styleBtnSave : styleBtnCancel;
+
+  style = habilitarBtn ? style : noClick(item?.stock);
 
   PostData(url + "/cambiarEstado", datos, cambiar, (x) => {
     setCambiar(false);
@@ -94,10 +102,10 @@ const BtnCambiarEstado = ({ item, reload, url }) => {
         border: "0px",
         width: "70px",
         ...style,
+        opacity: "100%",
       }}
-      onClick={() => {
-        CambiarEstado(item);
-      }}
+      onClick={() => CambiarEstado(item)}
+      disabled={!habilitarBtn}
     >
       {item.stock
         ? item.stock

@@ -35,7 +35,12 @@ const TablaDetalles = ({ datos }) => {
           <Text style={style({ w: 6, f: "body" })}>{row.nombre}</Text>
           <Text style={style({ w: 3, f: "body" })}>${row.precio}</Text>
           <Text style={style({ w: 3, f: "body" })}>{row.nombre_categoria}</Text>
-          <Text style={style({ w: 2, f: "body" })}>
+          <Text
+            style={[
+              style({ w: 2, f: "body" }),
+              { color: row.stock ? "#33d556" : "#d53a33" },
+            ]}
+          >
             {row.stock ? "SI" : "NO"}
           </Text>
         </View>

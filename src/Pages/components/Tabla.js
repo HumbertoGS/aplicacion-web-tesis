@@ -58,7 +58,7 @@ const Tabla = ({ data, tabla, reload = () => {}, url = "/" }) => {
 
   return (
     <>
-      <Table style={{ height: "250px" }}>
+      <Table style={{ height: "270px" }}>
         <thead className="theadTable">
           <tr>
             {header.map((item, index) => (
@@ -70,18 +70,24 @@ const Tabla = ({ data, tabla, reload = () => {}, url = "/" }) => {
           {currentItems.map((item, index) => {
             return (
               <tr key={index}>
-                {fieldsToShow.map((row) => {
+                {fieldsToShow.map((row, i) => {
                   return row === "stock" ? (
-                    <td>
-                      {/* {item[row] ? "SI" : "NO"} */}
-                      <BtnCambiarEstado item={item} reload={reload} url={url} />
+                    <td key={i}>
+                      <BtnCambiarEstado
+                        item={item}
+                        reload={reload}
+                        url={url}
+                        habilitarBtn={false}
+                      />
                     </td>
                   ) : row === "estado" ? (
-                    <td>
+                    <td key={i}>
                       <BtnCambiarEstado item={item} reload={reload} url={url} />
                     </td>
+                  ) : row === "precio" ? (
+                    <td key={i}>${item[row]}</td>
                   ) : (
-                    <td>{item[row]}</td>
+                    <td key={i}>{item[row]}</td>
                   );
                 })}
               </tr>
