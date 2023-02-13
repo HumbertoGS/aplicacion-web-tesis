@@ -11,11 +11,12 @@ import DropdownButton from "react-bootstrap/DropdownButton";
 
 import * as XLSX from "xlsx";
 
-import { ReloadData } from "../../custom-hooks/useFetch";
+import { ReloadData, PostData } from "../../custom-hooks/useFetch";
 import InventarioPdf from "../pdfs/Inventario";
 import { PDFDownload } from "../pdfs/FuncionesPdf";
 
 import { RiFileExcel2Line } from "react-icons/ri";
+import BtnGuardar from "../components/BtnGuardar";
 
 const Categorias = [
   { id: 1, nombre: "Zapatos", estado: true },
@@ -24,7 +25,7 @@ const Categorias = [
   { id: 4, nombre: "Pantalones", estado: true },
 ];
 
-const urlProducto = process.env.REACT_APP_API_CORE_URL + "producto";
+const urlProducto = process.env.REACT_APP_API_CORE_URL + "producto/inventario";
 
 function Inventario() {
   const [productoTabla, setProductoTabla] = useState([]);
@@ -37,18 +38,8 @@ function Inventario() {
     fechaHasta: new Date().toISOString().substring(0, 10),
   });
 
-  ReloadData(urlProducto, buscarProductos, (dato) => {
-    let data = dato.datos.map((item) => {
-      return {
-        codigo: item.codigo,
-        producto: item.nombre,
-        precio: item.precio,
-        categoria: item.nombre_categoria,
-        descripcion: item.descripcion,
-        stock: item.cantidad,
-      };
-    });
-    setProductoTabla(data);
+  PostData(urlProducto, {}, buscarProductos, (dato) => {
+    setProductoTabla(dato.datos);
     setBuscarProductos(false);
   });
 
@@ -120,7 +111,7 @@ function Inventario() {
                         type="date"
                         value={fecha.fechaDesde}
                         onChange={(e) =>
-                          setFecha({ fechaDesde: e.target.value })
+                          setFecha({ ...fecha, fechaDesde: e.target.value })
                         }
                       />
                     </div>
@@ -130,12 +121,18 @@ function Inventario() {
                         type="date"
                         value={fecha.fechaHasta}
                         onChange={(e) =>
-                          setFecha({ fechaHasta: e.target.value })
+                          setFecha({ ...fecha, fechaHasta: e.target.value })
                         }
                       />
                     </div>
                   </div>
                 </div>
+                <BtnGuardar
+                  datos={fecha}
+                  handleRespond={(x) => setProductoTabla(x)}
+                  mensajeResp="Búsqueda realizada"
+                  url={urlProducto}
+                />
                 {/* <DropdownButton
                   id="dropdown-basic-button"
                   variant="outline-secondary"
@@ -196,7 +193,7 @@ function Inventario() {
                     <th>Producto</th>
                     <th>Precio Unitario</th>
                     <th>Categoria</th>
-                    <th>Descripcion</th>
+                    <th>Cantidad</th>
                     <th>Stock</th>
                   </tr>
                 </thead>
@@ -205,11 +202,11 @@ function Inventario() {
                     return (
                       <tr key={index}>
                         <td>{item.codigo}</td>
-                        <td>{item.producto}</td>
+                        <td>{item.nombre}</td>
                         <td>${item.precio}</td>
-                        <td>{item.categoria}</td>
-                        <td>{item.descripcion}</td>
-                        <td>{item.stock}</td>
+                        <td>{item.nombre_categoria}</td>
+                        <td>{item.cantidad}</td>
+                        <td>{item.stock ? "SI" : "NO"}</td>
                       </tr>
                     );
                   })}
