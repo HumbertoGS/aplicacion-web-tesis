@@ -9,7 +9,7 @@ import Dropdown from "react-bootstrap/Dropdown";
 
 import { Formik } from "formik";
 
-import { PostImage, PostData, ReloadData } from "../../custom-hooks/useFetch";
+import { PostData, ReloadData } from "../../custom-hooks/useFetch";
 
 const urlProducto = process.env.REACT_APP_API_CORE_URL + "producto";
 
@@ -50,7 +50,7 @@ const EditarDatos = ({
     setActualizarProducto(true);
   };
 
-  PostImage(urlProducto + "/insert", formDato, actualizarProducto, (x) => {
+  PostData(urlProducto + "/insert", formDato, actualizarProducto, (x) => {
     setActualizarProducto(false);
     buscarProductos();
     onHide();

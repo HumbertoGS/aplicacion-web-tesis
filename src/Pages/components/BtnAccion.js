@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import Button from "react-bootstrap/esm/Button";
-import { PostData, PostImage } from "../../custom-hooks/useFetch";
+import { PostData } from "../../custom-hooks/useFetch";
 import MensajeAlert from "../components/MensajeAlert";
 import { styleBtnCancel, styleBtnSave } from "../designer/styleBtn";
 

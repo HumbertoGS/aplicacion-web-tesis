@@ -17,7 +17,7 @@ import { HiPencil } from "react-icons/hi";
 
 import MensajeAlert from "../components/MensajeAlert";
 import EditarDatos from "./EditarDatos";
-import { PostImage, PostData, ReloadData } from "../../custom-hooks/useFetch";
+import { PostData, ReloadData } from "../../custom-hooks/useFetch";
 
 import { styleBtnCancel, styleBtnSave } from "../designer/styleBtn";
 
@@ -105,14 +105,6 @@ const RegistroProducto = () => {
 
     setFormDato(formData);
   };
-
-  // PostImage(urlProducto + "/insert", formDato, insertProducto, (x) => {
-  //   setFile(null);
-  //   setInsertProducto(false);
-  //   setBuscarProductos(true);
-  //   setVariant("success");
-  //   setMensaje("Se registro el producto");
-  // });
 
   //-------------------MENSAJE ALERTA-------------------
   useEffect(() => {

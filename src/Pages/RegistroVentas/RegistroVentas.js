@@ -8,6 +8,8 @@ import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import InputGroup from "react-bootstrap/InputGroup";
 
+import TablaPedidos from "./TablaPedidos";
+
 import { FaEye } from "react-icons/fa";
 import { IoMdClose } from "react-icons/io";
 import { BsCheck2 } from "react-icons/bs";
@@ -21,27 +23,52 @@ import {
 
 import ModalVentasDetalles from "./ModalVentasDetalles";
 import ModalBtns from "./ModalBtns";
+import ClienteDetalles from "./Modal/ClienteDetalles";
 
 const columns = [
-  { name: "Codigo" },
-  { name: "Identificacion" },
-  { name: "Cliente" },
-  { name: "N° pedidos" },
-  { name: "Detalles" },
-  { name: "N° transferencia" },
-  { name: "Acciones" },
+  [
+    { name: "", colSpan: 1, style: { borderRight: "1px solid #c8c9ca" } },
+    {
+      name: "Cliente",
+      colSpan: 2,
+      style: { borderRight: "1px solid #c8c9ca" },
+    },
+    { name: "Pedido", colSpan: 3, style: { borderRight: "1px solid #c8c9ca" } },
+    { name: "", colSpan: 2 },
+  ],
+  [
+    {
+      name: "N° Pedido",
+      style: { width: "9%", borderRight: "1px solid #c8c9ca" },
+    },
+    { name: "Cliente", style: { width: "200px" } },
+    {
+      name: "Detalles",
+      style: { width: "10%", borderRight: "1px solid #c8c9ca" },
+    },
+    { name: "N° Productos", style: { width: "11%" } },
+    { name: "Total", style: { width: "9%" } },
+    {
+      name: "Detalles",
+      style: { width: "10%", borderRight: "1px solid #c8c9ca" },
+    },
+    { name: "N° transferencia", style: { width: "300px" } },
+    { name: "Acciones", style: { width: "22%" } },
+  ],
 ];
 
-const datos = [
+const datosP = [
   {
     id: 1,
-    num_venta: "#19473",
-    num_identificacion: "0978000002",
+    num_pedido: "#19473",
+    num_identificacion: "0932432222",
+    id_cliente: 2,
     cliente: "GUIRACOCHA SUAREZ LUIS HUMBERTO ",
     num_pedidos: 2,
     estado: true, //Cambia true cuando este aprobado
     validado: false,
-    numero_transferencia: "",
+    transferencia: "",
+    status: "",
     detalles: [
       {
         producto: "camisa",
@@ -59,13 +86,15 @@ const datos = [
   },
   {
     id: 2,
-    num_venta: "#19474",
-    num_identificacion: "0900000002",
+    num_pedido: "#19474",
+    num_identificacion: "0932432222",
     cliente: "GUIRACOCHA HUMBERTO ",
+    id_cliente: 3,
     num_pedidos: 5,
     estado: true, //Cambia true cuando este aprobado
-    validado: true,
-    numero_transferencia: "0024834763872",
+    validado: false,
+    transferencia: "",
+    status: "",
     detalles: [
       {
         producto: "camisa",
@@ -100,14 +129,36 @@ const datos = [
     ],
   },
   {
-    id: 3,
-    num_venta: "#19475",
-    num_identificacion: "0900550002",
+    id: 7,
+    num_pedido: "#19475",
+    num_identificacion: "0932432222",
+    id_cliente: 4,
     cliente: "GUIRACOCHA HUMBERTO ",
     num_pedidos: 1,
     estado: true, //Cambia true cuando este aprobado
     validado: false,
-    numero_transferencia: "",
+    transferencia: "",
+    status: "",
+    detalles: [
+      {
+        producto: "camisa",
+        precio_unidad: "15.00",
+        cantidad: "1",
+        total: "15.00",
+      },
+    ],
+  },
+  {
+    id: 3,
+    num_pedido: "#19475",
+    id_cliente: 2,
+    num_identificacion: "0932432222",
+    cliente: "GUIRACOCHA HUMBERTO ",
+    num_pedidos: 1,
+    estado: true, //Cambia true cuando este aprobado
+    validado: false,
+    transferencia: "",
+    status: "",
     detalles: [
       {
         producto: "camisa",
@@ -122,34 +173,44 @@ const datos = [
 const RegistroVentas = () => {
   const [modal, setModal] = useState(false);
   const [datosDetalles, setDatosDetalles] = useState([]);
+  const [idCliente, setIdCliente] = useState(null);
   const [valido, setValido] = useState(false);
   const [numero, setNumero] = useState("");
 
-  const [modalShow, setModalShow] = useState(false);
+  const [modalPedido, setModalPedido] = useState(false);
+  const [modalCliente, setModalCliente] = useState(false);
+
+  const [datos, setDatos] = useState(datosP);
 
   return (
     <>
       <Card body className="Card" style={{ minHeight: "87vh" }}>
-        <div className="my-4 mx-3">
+        {/* <div className="my-4 mx-3">
           <h5 className="text-center">Pedidos en Espera</h5>
           <hr />
           <div style={{ overflowY: "auto" }}>
             <Table striped hover>
               <thead className="theadTable">
-                <tr>
-                  {columns.map((item, index) => {
-                    return <th key={index}>{item.name}</th>;
-                  })}
-                </tr>
+                {columns.map((row, i) => (
+                  <tr key={i}>
+                    {row.map((cell, j) => (
+                      <th
+                        key={j}
+                        colSpan={cell.colSpan || 1}
+                        style={cell.style || null}
+                      >
+                        {cell.name}
+                      </th>
+                    ))}
+                  </tr>
+                ))}
               </thead>
               <tbody>
-                {datos.map((item) => {
+                {datos.map((item, index) => {
                   return !item.validado && item.estado ? (
                     <tr key={item.id}>
-                      <td>{item.num_venta}</td>
+                      <td>{item.num_pedido}</td>
                       <td>{item.num_identificacion}</td>
-                      <td>{item.cliente}</td>
-                      <td>{item.num_pedidos}</td>
                       <td>
                         <Button
                           style={styleBtn}
@@ -162,60 +223,53 @@ const RegistroVentas = () => {
                           <FaEye />
                         </Button>
                       </td>
-                      <td key={item.id}>
-                        <InputGroup size="sm">
+                      <td>{item.num_pedidos}</td>
+                      <td>$15.50</td>
+                      <td>
+                        <Button
+                          style={styleBtn}
+                          onClick={() => {
+                            setDatosDetalles(item);
+                            setModal(true);
+                          }}
+                          variant="outline-secondary"
+                        >
+                          <FaEye />
+                        </Button>
+                      </td>
+                      <td>
+                        <InputGroup>
                           <Form.Control
+                            style={{ marginLeft: "10px" }}
                             readOnly={item.validado}
                             disabled={item.validado}
-                            value={item.numero_transferencia}
-                            onChange={(event) => {
-                              if (event.target.value !== "") {
-                                item.numero_transferencia = event.target.value;
-                                setNumero(event.target.value);
-                                setValido(true);
-                              } else {
-                                item.numero_transferencia = "";
-                                setValido(false);
-                              }
-                            }}
+                            value={item.transferencia}
+                            onChange={(event) =>
+                              handleInputChange(event, index)
+                            }
                           />
                         </InputGroup>
                       </td>
                       <td>
                         <div style={styleBtns}>
-                          <Button
-                            disabled={
-                              item.validado
-                                ? true
-                                : item.numero_transferencia === ""
+                          <Form.Select
+                            className="mx-2"
+                            value={item.status}
+                            onChange={(event) =>
+                              handleSelectChange(event, index)
                             }
+                          >
+                            <option value="">Seleccione una opcion</option>
+                            <option value="1">Pendiente</option>
+                            <option value="2">Pagado</option>
+                            <option value="0">Cancelado</option>
+                          </Form.Select>
+                          <Button
+                            disabled={item.transferencia === ""}
                             style={{ ...styleBtn, ...styleBtnSave }}
-                            onClick={() => {
-                              setDatosDetalles({
-                                titulo: "Guardar registro de venta!!",
-                                ...item,
-                              });
-                              setModalShow(true);
-                            }}
+                            onClick={() => handleButtonClick(index)}
                           >
                             <BsCheck2 />
-                          </Button>
-                          <Button
-                            style={{
-                              ...styleBtn,
-                              ...styleBtnCancel,
-                              display: item.validado ? "none" : "block",
-                            }}
-                            onClick={() => {
-                              setDatosDetalles({
-                                titulo: "Eliminar registro de venta!!",
-                                id: item.id,
-                                estado: item.estado,
-                              });
-                              setModalShow(true);
-                            }}
-                          >
-                            <IoMdClose />
                           </Button>
                         </div>
                       </td>
@@ -227,118 +281,31 @@ const RegistroVentas = () => {
               </tbody>
             </Table>
           </div>
-        </div>
-
-        <div className="my-4 mx-3">
-          <h5 className="text-center">Aprobados</h5>
-          <hr />
-          <div style={{ overflowY: "auto" }} className="px-3">
-            <Table striped hover>
-              <thead className="theadTable">
-                <tr>
-                  {columns.map((item, index) => {
-                    return <th key={index}>{item.name}</th>;
-                  })}
-                </tr>
-              </thead>
-              <tbody>
-                {datos.map((item) => {
-                  return item.validado ? (
-                    <tr key={item.id}>
-                      <td>{item.num_venta}</td>
-                      <td>{item.num_identificacion}</td>
-                      <td>{item.cliente}</td>
-                      <td>{item.num_pedidos}</td>
-                      <td>
-                        <Button
-                          style={styleBtn}
-                          onClick={() => {
-                            setDatosDetalles(item);
-                            setModal(true);
-                          }}
-                          variant="outline-secondary"
-                        >
-                          <FaEye />
-                        </Button>
-                      </td>
-                      <td key={item.id}>
-                        <InputGroup size="sm">
-                          <Form.Control
-                            readOnly={item.validado}
-                            disabled={item.validado}
-                            value={item.numero_transferencia}
-                            onChange={(event) => {
-                              if (event.target.value !== "") {
-                                item.numero_transferencia = event.target.value;
-                                setNumero(event.target.value);
-                                setValido(true);
-                              } else {
-                                item.numero_transferencia = "";
-                                setValido(false);
-                              }
-                            }}
-                          />
-                        </InputGroup>
-                      </td>
-                      <td>
-                        {/* <div style={styleBtns}>
-                            <Button
-                              disabled={
-                                item.validado
-                                  ? true
-                                  : item.numero_transferencia === ""
-                              }
-                              style={{ ...styleBtn, ...styleBtnSave }}
-                              onClick={() => {
-                                setDatosDetalles({
-                                  titulo: "Guardar registro de venta!!",
-                                  ...item,
-                                });
-                                setModalShow(true);
-                              }}
-                            >
-                              <BsCheck2 />
-                            </Button>
-                            <Button
-                              style={{
-                                ...styleBtn,
-                                ...styleBtnCancel,
-                                display: item.validado ? "none" : "block",
-                              }}
-                              onClick={() => {
-                                setDatosDetalles({
-                                  titulo: "Eliminar registro de venta!!",
-                                  id: item.id,
-                                  estado: item.estado,
-                                });
-                                setModalShow(true);
-                              }}
-                            >
-                              <IoMdClose />
-                            </Button>
-                          </div> */}
-                      </td>
-                    </tr>
-                  ) : (
-                    <></>
-                  );
-                })}
-              </tbody>
-            </Table>
-          </div>
-        </div>
+        </div> */}
+        <TablaPedidos
+          Titulo="Pedidos en espera"
+          data={datos}
+          detallesPedido={(item) => {
+            setDatosDetalles(item);
+            setModalPedido(true);
+          }}
+          detallesCliente={(item) => {
+            setIdCliente(item);
+            setModalCliente(true);
+          }}
+        />
       </Card>
-      {modal ? (
+      {modalPedido ? (
         <ModalVentasDetalles
           detalles={datosDetalles}
-          show={modal}
-          onHide={() => setModal(false)}
+          show={modalPedido}
+          onHide={() => setModalPedido(false)}
         />
-      ) : modalShow ? (
-        <ModalBtns
-          detalles={datosDetalles}
-          show={modalShow}
-          onHide={() => setModalShow(false)}
+      ) : modalCliente ? (
+        <ClienteDetalles
+          data={idCliente}
+          show={modalCliente}
+          onHide={() => setModalCliente(false)}
         />
       ) : (
         <></>

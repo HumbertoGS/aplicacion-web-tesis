@@ -14,7 +14,7 @@ import Table from "react-bootstrap/Table";
 import MensajeAlert from "../components/MensajeAlert";
 import PedidoPdf from "../pdfs/Pedido";
 
-import { PostData, PostImage } from "../../custom-hooks/useFetch.js";
+import { PostData } from "../../custom-hooks/useFetch.js";
 import { VisualizarPdf, getPdfBlob } from "../pdfs/FuncionesPdf";
 import { Formik } from "formik";
 

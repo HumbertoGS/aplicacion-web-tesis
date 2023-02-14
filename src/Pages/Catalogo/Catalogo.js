@@ -15,7 +15,7 @@ import ProductoCatalogo from "./Producto-Catalogo";
 import { CatalogoProductos } from "./Paginacion";
 import MenuDespe from "./MenuDesplegable";
 import MensajeAlert from "../components/MensajeAlert";
-import { GetData, PostData, ReloadData } from "../../custom-hooks/useFetch";
+import { PostData, ReloadData } from "../../custom-hooks/useFetch";
 
 import "../designer/theme.css";
 

@@ -9,8 +9,6 @@ import { BtnCambiarEstado } from "../components/BtnAccion";
 
 import { HiPencil } from "react-icons/hi";
 
-const paginacionStyle = { display: "flex", justifyContent: "flex-end" };
-
 const Tabla = ({
   data,
   tabla,
@@ -107,14 +105,12 @@ const Tabla = ({
           })}
         </tbody>
       </Table>
-      <div style={paginacionStyle}>
-        <PaginationTabla
-          currentPage={currentPage}
-          itemsPerPage={itemsPerPage}
-          totalItems={data.length}
-          handlePageChange={handlePageChange}
-        />
-      </div>
+      <PaginationTabla
+        currentPage={currentPage}
+        itemsPerPage={itemsPerPage}
+        totalItems={data.length}
+        handlePageChange={handlePageChange}
+      />
     </>
   );
 };

@@ -1,59 +1,21 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 
-const PostData = (url, datos, validar, respuesta) => {
+const useData = (url, method, data, validar, respuesta) => {
   useEffect(() => {
     if (validar) {
       const requestOptions = {
-        method: "POST",
+        method: method,
         headers: {
           "Content-Type": "application/json",
           // Authorization: "Bearer " + localStorage.getItem("token"),
         },
-        body: JSON.stringify(datos),
       };
 
-      const updateData = async () => {
+      if (data) requestOptions.body = JSON.stringify(data);
+
+      const fetchData = async () => {
         try {
           const response = await fetch(url, requestOptions);
-          const json = await response.json();
-          respuesta(json);
-        } catch (error) {
-          console.log(error.toString());
-        }
-      };
-
-      updateData();
-    }
-  }, [validar, url]);
-};
-
-const GetData = (url, respuesta) => {
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch(url, {
-          // headers: { Authorization: "Bearer " + localStorage.getItem("token") },
-        });
-        const json = await response.json();
-        respuesta(json);
-      } catch (error) {
-        console.log(`Error: ${error.toString()}`);
-      }
-    };
-    fetchData();
-  }, [url]);
-};
-
-const ReloadData = (url, validar, respuesta) => {
-  useEffect(() => {
-    if (validar) {
-      const GetData = async () => {
-        try {
-          const response = await fetch(url, {
-            // headers: {
-            //   Authorization: "Bearer " + localStorage.getItem("token"),
-            // },
-          });
           const json = await response.json();
           respuesta(json);
         } catch (error) {
@@ -61,30 +23,66 @@ const ReloadData = (url, validar, respuesta) => {
         }
       };
 
-      GetData();
+      fetchData();
     }
-  }, [validar, url, respuesta]);
+  }, [validar, url, method, data, respuesta]);
 };
 
-const PostImage = (url, formData, validar, respuesta) => {
-  useEffect(() => {
-    if (validar) {
-      const updateData = async () => {
-        try {
-          const response = await fetch(url, {
-            method: "POST",
-            body: formData,
-          });
-          const json = await response.json();
-          respuesta(json);
-        } catch (error) {
-          console.log(error.toString());
-        }
-      };
+// const PostData = (url, datos, validar, respuesta) => {
+//   useEffect(() => {
+//     if (validar) {
+//       const requestOptions = {
+//         method: "POST",
+//         headers: {
+//           "Content-Type": "application/json",
+//           // Authorization: "Bearer " + localStorage.getItem("token"),
+//         },
+//         body: JSON.stringify(datos),
+//       };
 
-      updateData();
-    }
-  }, [validar, url]);
+//       const updateData = async () => {
+//         try {
+//           const response = await fetch(url, requestOptions);
+//           const json = await response.json();
+//           respuesta(json);
+//         } catch (error) {
+//           console.log(error.toString());
+//         }
+//       };
+
+//       updateData();
+//     }
+//   }, [validar, url]);
+// };
+
+// const ReloadData = (url, validar, respuesta) => {
+//   useEffect(() => {
+//     if (validar) {
+//       const GetData = async () => {
+//         try {
+//           const response = await fetch(url, {
+//             // headers: {
+//             //   Authorization: "Bearer " + localStorage.getItem("token"),
+//             // },
+//           });
+//           const json = await response.json();
+//           respuesta(json);
+//         } catch (error) {
+//           console.log(`Error: ${error.toString()}`);
+//         }
+//       };
+
+//       GetData();
+//     }
+//   }, [validar, url, respuesta]);
+// };
+
+const PostData = (url, data, validar, respuesta) => {
+  useData(url, "POST", data, validar, respuesta);
 };
 
-export { PostData, GetData, ReloadData, PostImage };
+const ReloadData = (url, validar, respuesta) => {
+  useData(url, "GET", null, validar, respuesta);
+};
+
+export { PostData, ReloadData };
