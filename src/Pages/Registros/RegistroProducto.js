@@ -21,14 +21,12 @@ import { PostImage, PostData, ReloadData } from "../../custom-hooks/useFetch";
 
 import { styleBtnCancel, styleBtnSave } from "../designer/styleBtn";
 
-import { BtnCambiarEstado, BtnGuardarDatos } from "../components/BtnAccion";
+import { BtnCambiarEstado } from "../components/BtnAccion";
+import FormCustom from "../components/FormCustom";
 import Tabla from "../components/Tabla";
 
 const urlCategoria = process.env.REACT_APP_API_CORE_URL + "categoria";
 const urlProducto = process.env.REACT_APP_API_CORE_URL + "producto";
-
-//Codigo de producto se genera en back
-//codigo es 0000ID
 
 const RegistroProducto = () => {
   const [mensaje, setMensaje] = useState("");
@@ -106,16 +104,15 @@ const RegistroProducto = () => {
     formData.append("data", JSON.stringify(datosGuardar));
 
     setFormDato(formData);
-    setInsertProducto(true);
   };
 
-  PostImage(urlProducto + "/insert", formDato, insertProducto, (x) => {
-    setFile(null);
-    setInsertProducto(false);
-    setBuscarProductos(true);
-    setVariant("success");
-    setMensaje("Se registro el producto");
-  });
+  // PostImage(urlProducto + "/insert", formDato, insertProducto, (x) => {
+  //   setFile(null);
+  //   setInsertProducto(false);
+  //   setBuscarProductos(true);
+  //   setVariant("success");
+  //   setMensaje("Se registro el producto");
+  // });
 
   //-------------------MENSAJE ALERTA-------------------
   useEffect(() => {
@@ -142,7 +139,7 @@ const RegistroProducto = () => {
   return (
     <>
       <Card body className="Card">
-        {variant ? <MensajeAlert variant={variant} mensaje={mensaje} /> : <></>}
+        {/* {variant ? <MensajeAlert variant={variant} mensaje={mensaje} /> : <></>} */}
         <div className="mt-2">
           <h5 className="text-center">Registro de Producto y Categorias</h5>
           <div className="d-flex">
@@ -241,7 +238,49 @@ const RegistroProducto = () => {
                             con el nombre de la categoria
                           </InputGroup.Text>
                         </InputGroup>
-                        <Formik
+                        <FormCustom
+                          valuesForm={{
+                            nombre: "",
+                            imagen: "",
+                            categoria: "",
+                            cantidad: "",
+                            precio: "",
+                            talla: "",
+                            descripcion: "",
+                          }}
+                          saveAction={insertProducto}
+                          guardarDatos={(value) => {
+                            let datosGuardar = value;
+
+                            datosGuardar.imagen = viewImagen;
+
+                            setFormDato(datosGuardar);
+
+                            setFiltro("Selecciona categoria");
+                            setInsertProducto(true);
+                          }}
+                          moreProp={{
+                            Categorias,
+                            filtro,
+                            setFiltro: (x) => setFiltro(x),
+                            file: (e) => {
+                              if (e.target.files[0]) {
+                                setFile(e.target.files[0]);
+                                view_img(e.target.files[0]);
+                              }
+                            },
+                          }}
+                          /*-----------------------------------------*/
+                          datos={formDato}
+                          url={urlProducto + "/insert"}
+                          handleRespond={(x) => {
+                            setFile(null);
+                            setInsertProducto(false);
+                            setBuscarProductos(true);
+                          }}
+                          mensajeResp="Se registro el producto"
+                        />
+                        {/* <Formik
                           initialValues={{
                             // codigo: "",
                             nombre: "",
@@ -281,7 +320,7 @@ const RegistroProducto = () => {
                                   value={values.codigo}
                                   onChange={handleChange}
                                 />
-                              </InputGroup> */}
+                              </InputGroup> 
                               <InputGroup className="mb-3 pt-2">
                                 <InputGroup.Text style={{ width: "100px" }}>
                                   Nombre
@@ -458,7 +497,7 @@ const RegistroProducto = () => {
                               </Button>
                             </Form>
                           )}
-                        </Formik>
+                        </Formik> */}
                       </Col>
                       <Col md={5}>
                         <div
@@ -540,7 +579,6 @@ const RegistroProducto = () => {
                       data={producto}
                       tabla="producto"
                       editarModal={(item) => {
-                        console.log(item)
                         setDatos(item);
                         setEditarModal(true);
                       }}
@@ -548,69 +586,8 @@ const RegistroProducto = () => {
                         setBuscarProductos(true);
                       }}
                       url={urlProducto}
+                      height="360px"
                     />
-                    {/* <Table>
-                      <thead className="theadTable">
-                        <tr>
-                          <th>Imagen</th>
-                          <th>Nombre</th>
-                          <th>Categoria</th>
-                          <th>Talla</th>
-                          <th>Precio</th>
-                          <th>cantidad</th>
-                          <th>Editar</th>
-                          <th>Tiene Stock</th>
-                        </tr>
-                      </thead>
-                      <tbody style={{ verticalAlign: "baseline" }}>
-                        {producto.map((item, index) => {
-                          let style = item.stock
-                            ? styleBtnSave
-                            : styleBtnCancel;
-                          return (
-                            <tr key={index}>
-                              <td>
-                                <img
-                                  width={50}
-                                  height={50}
-                                  src={item.imagen}
-                                  alt={item.nombre_imagen}
-                                />
-                              </td>
-                              <td>{item.nombre}</td>
-                              <td>{item.nombre_categoria}</td>
-                              <td>{item.talla}</td>
-                              <td>{item.precio}</td>
-                              <td>{item.cantidad}</td>
-                              <td>
-                                <Button
-                                  variant="outline-secondary"
-                                  onClick={() => {
-                                    setDatos(item);
-                                    setEditarModal(true);
-                                  }}
-                                >
-                                  <HiPencil />
-                                </Button>
-                              </td>
-                              <td>
-                                <BtnCambiarEstado
-                                  item={{
-                                    id: item.id,
-                                    estado: item.stock,
-                                    stock: true,
-                                  }}
-                                  reload={() => {
-                                    setBuscarProductos(true);
-                                  }}
-                                  url={urlProducto}
-                                />
-                              </td>
-                            </tr>
-                          );
-                        })}
-                      </tbody>
-                    </Table> */}
                   </div>
                 </Col>
               </Row>

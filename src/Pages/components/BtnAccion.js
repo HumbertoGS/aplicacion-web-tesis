@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import Button from "react-bootstrap/esm/Button";
-import { PostData } from "../../custom-hooks/useFetch";
+import { PostData, PostImage } from "../../custom-hooks/useFetch";
 import MensajeAlert from "../components/MensajeAlert";
 import { styleBtnCancel, styleBtnSave } from "../designer/styleBtn";
 
@@ -107,13 +107,13 @@ const BtnCambiarEstado = ({ item, reload, url, habilitarBtn = true }) => {
       onClick={() => CambiarEstado(item)}
       disabled={!habilitarBtn}
     >
-      {item.stock
-        ? item.stock
-          ? "Si"
-          : "No"
-        : item.estado
-        ? "Activo"
-        : "Inactivo"}
+      {habilitarBtn
+        ? item.estado
+          ? "Activo"
+          : "Inactivo"
+        : item.stock
+        ? "Si"
+        : "No"}
     </Button>
   );
 };

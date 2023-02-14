@@ -47,14 +47,6 @@ const CatalogoProductos = ({ data, datosCarrito }) => {
         paginate={paginate}
         currentPage={reset ? 1 : currentPage}
       />
-      {/* <div style={paginacionStyle}>
-        <PaginationTabla
-          currentPage={currentPage}
-          itemsPerPage={dataPerPage}
-          totalItems={data.length}
-          handlePageChange={paginate}
-        />
-      </div> */}
     </div>
   );
 };
@@ -64,8 +56,6 @@ const Pagination = ({ dataPerPage, totalData, paginate, currentPage }) => {
   for (let i = 1; i <= Math.ceil(totalData / dataPerPage); i++) {
     pageNumbers.push(i);
   }
-
-  console.log(currentPage === pageNumbers.length);
 
   return (
     <nav>

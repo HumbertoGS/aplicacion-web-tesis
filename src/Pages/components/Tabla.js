@@ -17,6 +17,7 @@ const Tabla = ({
   editarModal = (x) => {},
   reload = () => {},
   url = "/",
+  height = "270px",
 }) => {
   const { header, fieldsToShow } = propertyTabla[tabla];
 
@@ -29,9 +30,66 @@ const Tabla = ({
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = data.slice(indexOfFirstItem, indexOfLastItem);
 
+  const renderTableCell = (row, item, i) => {
+    switch (row) {
+      case "stock":
+        return (
+          <td key={i}>
+            <BtnCambiarEstado
+              item={item}
+              reload={reload}
+              url={url}
+              habilitarBtn={false}
+            />
+          </td>
+        );
+      case "estado":
+        return (
+          <td key={i}>
+            <BtnCambiarEstado
+              item={{
+                id: item.id,
+                estado: item.estado ?? item.stock,
+              }}
+              reload={reload}
+              url={url}
+            />
+          </td>
+        );
+      case "editar":
+        return (
+          <td key={i}>
+            <Button
+              variant="outline-secondary"
+              onClick={() => {
+                editarModal(item);
+              }}
+            >
+              <HiPencil />
+            </Button>
+          </td>
+        );
+      case "imagen":
+        return (
+          <td key={i}>
+            <img
+              width={50}
+              height={50}
+              src={item[row]}
+              alt={item["nombre_imagen"]}
+            />
+          </td>
+        );
+      case "precio":
+        return <td key={i}>${item[row]}</td>;
+      default:
+        return <td key={i}>{item[row]}</td>;
+    }
+  };
+
   return (
     <>
-      <Table style={{ height: "270px" }}>
+      <Table style={{ height }}>
         <thead className="theadTable">
           <tr>
             {header.map((item, index) => (
@@ -43,53 +101,7 @@ const Tabla = ({
           {currentItems.map((item, index) => {
             return (
               <tr key={index}>
-                {fieldsToShow.map((row, i) => {
-                  return row === "stock" ? (
-                    <td key={i}>
-                      <BtnCambiarEstado
-                        item={item}
-                        reload={reload}
-                        url={url}
-                        habilitarBtn={false}
-                      />
-                    </td>
-                  ) : row === "estado" ? (
-                    <td key={i}>
-                      <BtnCambiarEstado
-                        item={{
-                          id: item.id,
-                          estado: item.estado ?? item.stock,
-                        }}
-                        reload={reload}
-                        url={url}
-                      />
-                    </td>
-                  ) : row === "precio" ? (
-                    <td key={i}>${item[row]}</td>
-                  ) : row === "editar" ? (
-                    <td key={i}>
-                      <Button
-                        variant="outline-secondary"
-                        onClick={() => {
-                          editarModal(item);
-                        }}
-                      >
-                        <HiPencil />
-                      </Button>
-                    </td>
-                  ) : row === "imagen" ? (
-                    <td key={i}>
-                      <img
-                        width={50}
-                        height={50}
-                        src={item[row]}
-                        alt={item["nombre_imagen"]}
-                      />
-                    </td>
-                  ) : (
-                    <td key={i}>{item[row]}</td>
-                  );
-                })}
+                {fieldsToShow.map((row, i) => renderTableCell(row, item, i))}
               </tr>
             );
           })}
