@@ -8,17 +8,6 @@ import { PostData } from "../../../custom-hooks/useFetch";
 
 const url = `${process.env.REACT_APP_API_CORE_URL}persona/buscar`;
 
-const styleInput = {
-  titulo: { borderTopRightRadius: "0%", borderBottomRightRadius: "0%" },
-  text: {
-    cursor: "no-drop",
-    opacity: "85%",
-    background: "#fff",
-    borderTopLeftRadius: "0%",
-    borderBottomLeftRadius: "0%",
-  },
-};
-
 const capitalize = (text) => {
   const map = {
     cedula: "cédula",
@@ -32,14 +21,12 @@ const capitalize = (text) => {
 
 const renderInput = (row, item, i) => {
   return (
-    <div size="sm" className="mb-3 d-flex" key={i}>
-      <InputGroup.Text style={styleInput.titulo} className="w-25">
-        {capitalize(row)}
-      </InputGroup.Text>
-      <InputGroup.Text className="w-75" style={styleInput.text}>
+    <InputGroup size="sm" className="mb-3" key={i}>
+      <InputGroup.Text className="w-25">{capitalize(row)}</InputGroup.Text>
+      <InputGroup.Text className="w-75 bg-white noEdit">
         {item?.[row]}
       </InputGroup.Text>
-    </div>
+    </InputGroup>
   );
 };
 
@@ -54,7 +41,6 @@ const ClienteDetalles = (props) => {
       let data = { ...result.datos[0] };
       delete data.id;
       delete data.id_rol;
-      // data.cliente = `${data?.apellido}  ${data?.nombre}`;
       setDatosPersona([data]);
     }
     setBuscar(false);
