@@ -11,9 +11,10 @@ import { BtnCambiarEstado } from "../../components/BtnAccion";
 
 const url = `${process.env.REACT_APP_API_CORE_URL}pedido/detalle`;
 
-const styleInput = {
-  cursor: "no-drop",
-  opacity: "85%",
+const style = {
+  modal: { fontSize: "15px" },
+  input: { right: { width: "125px" }, left: { width: "332px" } },
+  label: { fontSize: "11px" },
 };
 
 const PedidoDetalles = (props) => {
@@ -33,26 +34,14 @@ const PedidoDetalles = (props) => {
   });
 
   return (
-    <Modal
-      {...modalProps}
-      aria-labelledby="contained-modal-title-vcenter"
-      centered
-    >
+    <Modal {...modalProps} centered>
       <Modal.Header closeButton>
-        <Modal.Title
-          id="contained-modal-title-vcenter"
-          style={{ fontSize: "17px" }}
-        >
-          Detalles de pedido
-        </Modal.Title>
+        <Modal.Title style={style.modal}>Detalles de pedido</Modal.Title>
       </Modal.Header>
-      <Modal.Body style={{ fontSize: "15px" }}>
+      <Modal.Body style={style.modal}>
         <InputGroup size="sm" className="mb-3">
-          <InputGroup.Text style={{ width: "125px" }}>CLIENTE</InputGroup.Text>
-          <InputGroup.Text
-            className="bg-white"
-            style={{ width: "332px", ...styleInput }}
-          >
+          <InputGroup.Text style={style.input.right}>CLIENTE</InputGroup.Text>
+          <InputGroup.Text className="bg-white noEdit" style={style.input.left}>
             {data?.cliente}
           </InputGroup.Text>
         </InputGroup>
@@ -75,10 +64,7 @@ const PedidoDetalles = (props) => {
                       <InputGroup.Text className="w-25">
                         Producto
                       </InputGroup.Text>
-                      <InputGroup.Text
-                        className="w-75 bg-white"
-                        style={styleInput}
-                      >
+                      <InputGroup.Text className="w-75 bg-white noEdit">
                         {item?.producto}
                       </InputGroup.Text>
                     </InputGroup>
@@ -86,10 +72,7 @@ const PedidoDetalles = (props) => {
                       <InputGroup.Text className="w-25">
                         Categoria
                       </InputGroup.Text>
-                      <InputGroup.Text
-                        className="w-75 bg-white"
-                        style={styleInput}
-                      >
+                      <InputGroup.Text className="w-75 bg-white noEdit">
                         {item?.nombre_categoria}
                       </InputGroup.Text>
                     </InputGroup>
@@ -97,10 +80,7 @@ const PedidoDetalles = (props) => {
                       <InputGroup.Text className="w-25">
                         Precio x unidad
                       </InputGroup.Text>
-                      <InputGroup.Text
-                        className="w-75 bg-white"
-                        style={styleInput}
-                      >
+                      <InputGroup.Text className="w-75 bg-white noEdit">
                         {item?.precio_unidad}
                       </InputGroup.Text>
                     </InputGroup>
@@ -108,24 +88,17 @@ const PedidoDetalles = (props) => {
                       <InputGroup.Text className="w-25">
                         Cantidad
                       </InputGroup.Text>
-                      <InputGroup.Text
-                        className="w-75 bg-white"
-                        style={styleInput}
-                      >
+                      <InputGroup.Text className="w-75 bg-white noEdit">
                         {item?.cantidad}
                       </InputGroup.Text>
                     </InputGroup>
                     <InputGroup size="sm" className="mb-3 px-3">
                       <InputGroup.Text className="w-25">Total</InputGroup.Text>
-                      <InputGroup.Text
-                        className="w-75 bg-white"
-                        style={styleInput}
-                      >
+                      <InputGroup.Text className="w-75 bg-white noEdit">
                         {item?.total}
                       </InputGroup.Text>
                     </InputGroup>
                   </div>
-
                   <div>
                     <label>Otros Detalles</label>
                     <hr />
@@ -135,10 +108,7 @@ const PedidoDetalles = (props) => {
                           <InputGroup.Text className="w-50">
                             Stock
                           </InputGroup.Text>
-                          <InputGroup.Text
-                            className="w-50 bg-white"
-                            style={styleInput}
-                          >
+                          <InputGroup.Text className="w-50 bg-white noEdit">
                             {item?.stock ? "Si" : "No"}
                           </InputGroup.Text>
                         </InputGroup>
@@ -146,10 +116,7 @@ const PedidoDetalles = (props) => {
                           <InputGroup.Text className="w-50">
                             Estado
                           </InputGroup.Text>
-                          <InputGroup.Text
-                            className="w-50 bg-white"
-                            style={styleInput}
-                          >
+                          <InputGroup.Text className="w-50 bg-white noEdit">
                             {item?.estado ? "Pedido" : "Cancelado"}
                           </InputGroup.Text>
                         </InputGroup>
@@ -165,7 +132,7 @@ const PedidoDetalles = (props) => {
                           }}
                           url={url}
                         />
-                        <label style={{ fontSize: "11px" }} className="pt-2">
+                        <label style={style.label} className="pt-2">
                           Click para {item.estado ? "cancelar " : "activar "}
                           pedido
                         </label>
