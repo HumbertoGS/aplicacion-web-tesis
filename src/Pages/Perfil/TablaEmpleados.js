@@ -8,14 +8,11 @@ import Card from "react-bootstrap/Card";
 import InputGroup from "react-bootstrap/InputGroup";
 
 import "../designer/theme.css";
-import { ReloadData, PostData } from "../../custom-hooks/useFetch";
 import Tabla from "../components/Tabla";
 
+import { ReloadData, PostData } from "../../custom-hooks/useFetch";
+
 const urlPersona = process.env.REACT_APP_API_CORE_URL + "persona";
-const styleInput = {
-  cursor: "no-drop",
-  opacity: "85%",
-};
 
 const TablaEmpleados = () => {
   const [numIdent, setNumIdent] = useState("");
@@ -91,7 +88,7 @@ const TablaEmpleados = () => {
                 <div className="px-3">
                   <InputGroup className="my-3">
                     <InputGroup.Text className="w-25">Nombres:</InputGroup.Text>
-                    <InputGroup.Text className="w-75" style={styleInput}>
+                    <InputGroup.Text className="w-75 noEdit">
                       {result?.nombre ?? ""}
                     </InputGroup.Text>
                   </InputGroup>
@@ -99,7 +96,7 @@ const TablaEmpleados = () => {
                     <InputGroup.Text className="w-25">
                       Apellidos:
                     </InputGroup.Text>
-                    <InputGroup.Text className="w-75" style={styleInput}>
+                    <InputGroup.Text className="w-75 noEdit">
                       {result?.apellido ?? ""}
                     </InputGroup.Text>
                   </InputGroup>
