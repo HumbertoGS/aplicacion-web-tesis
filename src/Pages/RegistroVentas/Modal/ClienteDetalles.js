@@ -49,10 +49,7 @@ const ClienteDetalles = (props) => {
   return (
     <Modal {...modalProps} centered>
       <Modal.Header closeButton>
-        <Modal.Title
-          id="contained-modal-title-vcenter"
-          style={{ fontSize: "17px" }}
-        >
+        <Modal.Title style={{ fontSize: "15px" }}>
           Detalles del Cliente
         </Modal.Title>
       </Modal.Header>
