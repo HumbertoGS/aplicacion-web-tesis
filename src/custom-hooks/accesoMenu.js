@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 
 const user = JSON.parse(localStorage.getItem("user"));
 const url = process.env.REACT_APP_API_CORE_URL + "inicio/acceso";
