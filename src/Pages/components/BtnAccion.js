@@ -159,7 +159,7 @@ const BtnCambiarEstado = ({
       )}
       <Button
         className="BtnEstado"
-        style={{ ...style}}
+        style={style}
         onClick={() => CambiarEstado(item)}
         disabled={disabled}
       >
