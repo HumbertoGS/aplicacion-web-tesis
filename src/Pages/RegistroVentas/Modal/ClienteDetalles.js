@@ -37,7 +37,7 @@ const renderInput = (row, item, i) => {
         {capitalize(row)}
       </InputGroup.Text>
       <InputGroup.Text className="w-75" style={styleInput.text}>
-        {item[row]}
+        {item?.[row]}
       </InputGroup.Text>
     </div>
   );
