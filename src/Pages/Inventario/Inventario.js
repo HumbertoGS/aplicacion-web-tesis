@@ -1,29 +1,20 @@
 import { useState } from "react";
+import * as XLSX from "xlsx";
 
 import Card from "react-bootstrap/Card";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
-import Dropdown from "react-bootstrap/Dropdown";
-import DropdownButton from "react-bootstrap/DropdownButton";
 
-import * as XLSX from "xlsx";
-
-import { PostData } from "../../custom-hooks/useFetch";
 import InventarioPdf from "../pdfs/Inventario";
-import { PDFDownload } from "../pdfs/FuncionesPdf";
-
-import { RiFileExcel2Line } from "react-icons/ri";
-import { BtnGuardar } from "../components/BtnAccion";
 import Tabla from "../components/Tabla";
 
-const Categorias = [
-  { id: 1, nombre: "Zapatos", estado: true },
-  { id: 2, nombre: "Vestidos", estado: true },
-  { id: 3, nombre: "Camisas", estado: true },
-  { id: 4, nombre: "Pantalones", estado: true },
-];
+import { PostData } from "../../custom-hooks/useFetch";
+import { PDFDownload } from "../pdfs/FuncionesPdf";
+import { BtnGuardar } from "../components/BtnAccion";
+
+import { RiFileExcel2Line } from "react-icons/ri";
 
 const urlProducto = process.env.REACT_APP_API_CORE_URL + "producto/inventario";
 
@@ -31,7 +22,7 @@ function Inventario() {
   const [productoTabla, setProductoTabla] = useState([]);
   const [buscarProductos, setBuscarProductos] = useState(true);
 
-  const [filtro, setFiltro] = useState("Categoria");
+  // const [filtro, setFiltro] = useState("Categoria");
 
   const [fecha, setFecha] = useState({
     fechaDesde: new Date().toISOString().substring(0, 10),
@@ -44,8 +35,6 @@ function Inventario() {
   });
 
   const exportToCSV = () => {
-    console.log(productoTabla);
-
     const header = ["Inventario de inicio - fin"];
     const headerTabla = [
       "Codigo",
@@ -94,13 +83,13 @@ function Inventario() {
             <h5 className="text-center">Inventario de productos</h5>
             <hr />
             <Card
-              className="px-3 py-4 d-flex align-items-end"
-              style={{ justifyContent: "space-between", flexDirection: "row" }}
+              className="px-3 py-4 d-flex align-items-end flex-row"
+              style={{ justifyContent: "space-between" }}
             >
               <div className="d-flex align-items-end">
                 <div
-                  className="d-flex"
-                  style={{ flexDirection: "column", paddingRight: "40px" }}
+                  className="d-flex flex-column"
+                  style={{ paddingRight: "40px" }}
                 >
                   <h6 className="text-center">Búsqueda por fecha</h6>
                   <hr className="my-0 mx-1" />
