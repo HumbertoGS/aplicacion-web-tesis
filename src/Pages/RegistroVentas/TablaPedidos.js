@@ -173,6 +173,7 @@ const TablaPedidos = ({
                               <RiCloseFill />
                             )
                           }
+                          disabled={item.disabled}
                           reload={reload}
                           url={urlPedidos}
                         />
