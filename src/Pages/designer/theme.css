@@ -1,15 +1,16 @@
-html, body{  
-  background-color: #ffffff; 
+html,
+body {
+  background-color: #ffffff;
   margin: 0;
   height: 100%;
   font-size: 14px;
 }
 
-body{ 
-  font: 400 12px/20px Roboto, "Helvetica Neue", sans-serif; 
-  margin: 0; 
+body {
+  font: 400 12px/20px Roboto, "Helvetica Neue", sans-serif;
+  margin: 0;
 }
-@import url('https://fonts.googleapis.com/css2?family=Days+One&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Days+One&display=swap");
 
 .App {
   text-align: center;
@@ -32,35 +33,34 @@ body{
 }
 
 .Alert {
-  display: "flex"; 
-  justify-content: "center"; 
+  display: "flex";
+  justify-content: "center";
   width: 500px;
 }
 
-.menu-lateral{ 
-  background-color: #a3d5f1; 
+.menu-lateral {
+  background-color: #a3d5f1;
   width: 185px;
 }
 
-.nav-element{
+.nav-element {
   color: #da6b9e;
   cursor: pointer;
   font-weight: bold;
 }
 
-#navL:hover{
+#navL:hover {
   background-color: #fff;
 }
 
-
-.opc-element{
+.opc-element {
   color: #000000;
   cursor: pointer;
   display: inline-block;
   /* font-weight: bold; */
 }
 
-#navL2:hover{
+#navL2:hover {
   background-color: #e9ecef;
 }
 
@@ -69,31 +69,31 @@ body{
   cursor: pointer;
 }
 
-a:link, a:visited {
+a:link,
+a:visited {
   text-decoration: none;
 }
 
-
 /* cssgradient.io para hacer degradado de colores */
-.CardsInicio{
+.CardsInicio {
   margin-left: -15px;
   height: 90vh;
   /* background-image: url('../../../public/bg-cat.jpg'); */
   /* background: rgb(31,1,61); */
   /* background: rgb(34,193,195); */
   background: linear-gradient(
-  0deg,
-  rgba(34,193,195,1) 0%, 
-  rgba(146,118,213,1) 51%, 
-  rgba(253,45,230,1) 100%
+    0deg,
+    rgba(34, 193, 195, 1) 0%,
+    rgba(146, 118, 213, 1) 51%,
+    rgba(253, 45, 230, 1) 100%
   );
 }
 
-.OneCard{
+.OneCard {
   width: "25rem";
 }
 
-.App-menu{
+.App-menu {
   width: auto;
   height: 100%;
   position: fixed;
@@ -102,7 +102,7 @@ a:link, a:visited {
   /* top: 64px; */
 }
 
-.App-content{ 
+.App-content {
   position: relative;
   padding-top: 10px;
   left: 95px;
@@ -115,16 +115,16 @@ a:link, a:visited {
 .App-header {
   position: fixed !important;
   z-index: 20;
-  left: 185px; 
+  left: 185px;
   width: calc(100% - 180px);
   /* width: 100%; */
   background-color: #ffffff;
-  border-bottom:  1px solid #cdd0d3;
+  border-bottom: 1px solid #cdd0d3;
   /* height: 70px;  */
   /* display: inline-table;  */
 }
 
-.footer-menu { 
+.footer-menu {
   padding: 8px 0;
   bottom: 0;
   position: fixed;
@@ -160,7 +160,7 @@ a:link, a:visited {
 
 .btnVolver {
   display: flex;
-  text-decoration:none;
+  text-decoration: none;
 }
 
 .catalogo {
@@ -169,4 +169,9 @@ a:link, a:visited {
 
 .DropdownButton button {
   width: 100px;
+}
+
+.noEdit {
+  cursor: no-drop;
+  opacity: 85%;
 }
