@@ -9,6 +9,8 @@ import PaginationTabla from "../components/PaginationTabla";
 
 import { FaEye } from "react-icons/fa";
 import { BsCheck2 } from "react-icons/bs";
+import { RiCloseFill } from "react-icons/ri";
+import { FiMinus } from "react-icons/fi";
 import { BtnCambiarEstado } from "../components/BtnAccion";
 
 const urlPedidos = `${process.env.REACT_APP_API_CORE_URL}pedido`;
@@ -162,7 +164,15 @@ const TablaPedidos = ({
                             id_estado: item.status,
                             estado: true,
                           }}
-                          nombreBtn={<BsCheck2 />}
+                          nombreBtn={
+                            item.status === 1 ? (
+                              <FiMinus />
+                            ) : item.status === 2 ? (
+                              <BsCheck2 />
+                            ) : (
+                              <RiCloseFill />
+                            )
+                          }
                           reload={reload}
                           url={urlPedidos}
                         />
