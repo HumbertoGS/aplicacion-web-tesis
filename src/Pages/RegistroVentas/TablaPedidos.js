@@ -50,7 +50,7 @@ const TablaPedidos = ({ Titulo, data, detallesPedido, detallesCliente }) => {
   const [datos, setDatos] = useState(data);
 
   const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage] = useState(3);
+  const [itemsPerPage] = useState(7);
 
   const handlePageChange = (page) => setCurrentPage(page);
 
@@ -78,7 +78,7 @@ const TablaPedidos = ({ Titulo, data, detallesPedido, detallesCliente }) => {
 
   return (
     <>
-      <div className="my-4 mx-3" style={{ minHeight: "87vh" }}>
+      <div className="my-4 mx-3" style={{ minHeight: "70vh" }}>
         <h5 className="text-center">{Titulo}</h5>
         <hr />
         <div style={{ overflowY: "auto", minHeight: "50vh" }}>
@@ -103,7 +103,7 @@ const TablaPedidos = ({ Titulo, data, detallesPedido, detallesCliente }) => {
                 return item.estado ? (
                   <tr key={item.id}>
                     <td>{item.num_pedido}</td>
-                    <td>{item.num_identificacion}</td>
+                    <td>{item.nombre_completo}</td>
                     <td>
                       <Button
                         style={styleBtn}
@@ -113,12 +113,17 @@ const TablaPedidos = ({ Titulo, data, detallesPedido, detallesCliente }) => {
                         <FaEye />
                       </Button>
                     </td>
-                    <td>{item.num_pedidos}</td>
-                    <td>$15.50</td>
+                    <td>{item.num_producto}</td>
+                    <td>{item.total}</td>
                     <td>
                       <Button
                         style={styleBtn}
-                        onClick={() => detallesPedido(item)}
+                        onClick={() =>
+                          detallesPedido({
+                            num_venta: item.num_pedido,
+                            cliente: item.nombre_completo,
+                          })
+                        }
                         variant="outline-secondary"
                       >
                         <FaEye />
