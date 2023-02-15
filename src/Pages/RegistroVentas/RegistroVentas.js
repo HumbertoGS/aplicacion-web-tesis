@@ -31,6 +31,12 @@ const RegistroVentas = () => {
           <TablaPedidos
             Titulo="Pedidos en espera"
             data={datos}
+            reload={() => {
+              const interval = setTimeout(() => {
+                setCargar(true);
+              }, 2000);
+              return () => clearInterval(interval);
+            }}
             detallesPedido={(item) => {
               setNumeroPedido(item);
               setModalPedido(true);
