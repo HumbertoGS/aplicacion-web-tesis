@@ -38,6 +38,7 @@ const Tabla = ({
               reload={reload}
               url={url}
               habilitarBtn={false}
+              nombreBtn={item.stock ? "Si" : "No"}
             />
           </td>
         );
