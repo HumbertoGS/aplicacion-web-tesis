@@ -55,7 +55,7 @@ const TablaPedidos = ({
   const [datos, setDatos] = useState(data);
 
   const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage] = useState(1);
+  const [itemsPerPage] = useState(7);
 
   const handlePageChange = (page) => setCurrentPage(page);
 
