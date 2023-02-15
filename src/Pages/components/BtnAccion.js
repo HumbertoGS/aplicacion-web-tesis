@@ -27,7 +27,7 @@ const BtnGuardar = ({ datos, url, handleRespond, mensajeResp }) => {
     handleRespond(response.datos);
     setGuardar(false);
 
-    const message = response.error
+    const mensaje = response.error
       ? messages.error
       : response.datos.length === 0
       ? messages.noData
@@ -39,7 +39,7 @@ const BtnGuardar = ({ datos, url, handleRespond, mensajeResp }) => {
       ? variants.noData
       : variants.success;
 
-    setMensajeAlert({ mostrar: true, mensaje: message, variant });
+    setMensajeAlert({ mostrar: true, mensaje, variant });
   };
 
   PostData(url, datos, guardar, funcionRespuesta);
@@ -78,16 +78,41 @@ const noClick = (stock) => ({
   color: stock ? "#33d556" : "#d53a33",
 });
 
-const BtnCambiarEstado = ({ item, reload, url, habilitarBtn = true }) => {
+const BtnCambiarEstado = ({
+  item,
+  reload,
+  url,
+  habilitarBtn = true,
+  nombreBtn = false,
+  mensajeResp = "Se actualizo el estado",
+}) => {
   const [cambiar, setCambiar] = useState(false);
   const [datos, setDatos] = useState(null);
+  const [mensajeAlert, setMensajeAlert] = useState({
+    mostrar: false,
+    mensaje: "",
+    variant: "",
+  });
 
   let style = item.estado || item?.stock ? styleBtnSave : styleBtnCancel;
 
   style = habilitarBtn ? style : noClick(item?.stock);
 
-  PostData(url + "/cambiarEstado", datos, cambiar, (x) => {
+  PostData(url + "/cambiarEstado", datos, cambiar, (response) => {
     setCambiar(false);
+    const mensaje = response.error
+      ? messages.error
+      : response.datos.length === 0
+      ? messages.noData
+      : mensajeResp;
+
+    const variant = response.error
+      ? variants.error
+      : response.datos.length === 0
+      ? variants.noData
+      : variants.success;
+
+    setMensajeAlert({ mostrar: true, mensaje, variant });
     reload();
   });
 
@@ -96,25 +121,36 @@ const BtnCambiarEstado = ({ item, reload, url, habilitarBtn = true }) => {
     setCambiar(true);
   };
 
+  useEffect(() => {
+    if (mensajeAlert.mostrar) {
+      const interval = setTimeout(() => {
+        setMensajeAlert({ mostrar: false, mensaje: "", variant: "" });
+      }, 4000);
+      return () => clearInterval(interval);
+    }
+  }, [mensajeAlert.mostrar]);
+
   return (
-    <Button
-      style={{
-        border: "0px",
-        width: "70px",
-        ...style,
-        opacity: "100%",
-      }}
-      onClick={() => CambiarEstado(item)}
-      disabled={!habilitarBtn}
-    >
-      {habilitarBtn
-        ? item.estado
-          ? "Activo"
-          : "Inactivo"
-        : item.stock
-        ? "Si"
-        : "No"}
-    </Button>
+    <>
+      {mensajeAlert.mostrar && (
+        <MensajeAlert
+          variant={mensajeAlert.variant}
+          mensaje={mensajeAlert.mensaje}
+        />
+      )}
+      <Button
+        style={{
+          border: "0px",
+          width: "85px",
+          ...style,
+          opacity: "100%",
+        }}
+        onClick={() => CambiarEstado(item)}
+        disabled={!habilitarBtn}
+      >
+        {nombreBtn ? nombreBtn : item.estado ? "Activo" : "Inactivo"}
+      </Button>
+    </>
   );
 };
 
