@@ -5,7 +5,7 @@ import TablaPedidos from "./TablaPedidos";
 import PedidoDetalles from "./Modal/PedidoDetalles";
 import ClienteDetalles from "./Modal/ClienteDetalles";
 
-import { PostData, ReloadData } from "../../custom-hooks/useFetch";
+import { ReloadData } from "../../custom-hooks/useFetch";
 
 const urlPedidos = `${process.env.REACT_APP_API_CORE_URL}pedido/`;
 

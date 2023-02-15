@@ -9,7 +9,7 @@ import Dropdown from "react-bootstrap/Dropdown";
 
 import { Formik } from "formik";
 
-import { PostData, ReloadData } from "../../custom-hooks/useFetch";
+import { PostData } from "../../custom-hooks/useFetch";
 
 const urlProducto = process.env.REACT_APP_API_CORE_URL + "producto";
 
