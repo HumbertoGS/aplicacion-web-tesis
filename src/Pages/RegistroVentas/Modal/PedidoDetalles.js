@@ -6,8 +6,6 @@ import Tab from "react-bootstrap/Tab";
 import Tabs from "react-bootstrap/Tabs";
 import InputGroup from "react-bootstrap/InputGroup";
 
-import Form from "react-bootstrap/Form";
-
 import { PostData } from "../../../custom-hooks/useFetch";
 import { BtnCambiarEstado } from "../../components/BtnAccion";
 
@@ -33,12 +31,6 @@ const PedidoDetalles = (props) => {
     }
     setBuscar(false);
   });
-
-  const handleButtonClick = (index) => {
-    detalles[index].estado = !detalles[index].estado;
-    console.log(`Id: ${detalles[index].id}, Estado: ${detalles[index].estado}`);
-    setDetalles(detalles);
-  };
 
   return (
     <Modal
