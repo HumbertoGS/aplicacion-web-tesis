@@ -1,21 +1,13 @@
-import secureLocalStorage from "react-secure-storage";
-
 import { useEffect, useState } from "react";
 
-import Card from "react-bootstrap/Card";
-import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import InputGroup from "react-bootstrap/InputGroup";
 import Dropdown from "react-bootstrap/Dropdown";
-import Table from "react-bootstrap/Table";
 
 import MensajeAlert from "../components/MensajeAlert";
-import PedidoPdf from "../pdfs/Pedido";
 
 import { PostData } from "../../custom-hooks/useFetch.js";
-import { VisualizarPdf, getPdfBlob } from "../pdfs/FuncionesPdf";
 import { Formik } from "formik";
 
 const messages = {
@@ -209,7 +201,7 @@ const FormCustom = ({
     setMensajeAlert({ mostrar: true, mensaje: message, variant });
   };
 
-  console.log(saveAction)
+  console.log(saveAction);
 
   PostData(url, datos, saveAction, funcionRespuesta);
 
