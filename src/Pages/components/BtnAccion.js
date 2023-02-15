@@ -114,6 +114,7 @@ const BtnCambiarEstado = ({
   reload,
   url,
   habilitarBtn = true,
+  disabled = false,
   nombreBtn = false,
 }) => {
   const [cambiar, setCambiar] = useState(false);
@@ -158,9 +159,9 @@ const BtnCambiarEstado = ({
       )}
       <Button
         className="BtnEstado"
-        style={style}
+        style={{ ...style}}
         onClick={() => CambiarEstado(item)}
-        disabled={!habilitarBtn}
+        disabled={disabled}
       >
         {nombreBtn ? nombreBtn : item.estado ? "Activo" : "Inactivo"}
       </Button>
