@@ -11,11 +11,10 @@ import DropdownButton from "react-bootstrap/DropdownButton";
 
 import { FaShoppingCart } from "react-icons/fa";
 
-import ProductoCatalogo from "./Producto-Catalogo";
 import { CatalogoProductos } from "./Paginacion";
 import MenuDespe from "./MenuDesplegable";
 import MensajeAlert from "../components/MensajeAlert";
-import { PostData, ReloadData } from "../../custom-hooks/useFetch";
+import { ReloadData } from "../../custom-hooks/useFetch";
 
 import "../designer/theme.css";
 
@@ -31,7 +30,6 @@ const Catalogo = () => {
 
   const [show, setShow] = useState(false);
   const [datos, setDatos] = useState({ datos: [], totales: [] });
-  const [modal, setModal] = useState(false);
 
   const [buscar, setBuscar] = useState("");
 
@@ -67,7 +65,7 @@ const Catalogo = () => {
 
   const BuscarFiltro = (idCategoria) => {
     let filtrado = productoTabla.filter(
-      (data) => data.categoria == idCategoria
+      (data) => data.categoria === idCategoria
     );
     if (filtrado.length > 0) {
       setProducto(filtrado);
@@ -97,7 +95,6 @@ const Catalogo = () => {
       ],
     };
     setDatos(datosGuardar);
-    // localStorage.setItem("datosCarrito", JSON.stringify(datosGuardar));
     secureLocalStorage.setItem("datosCarrito", datosGuardar);
   };
 
@@ -119,7 +116,6 @@ const Catalogo = () => {
   }, [variant]);
 
   useEffect(() => {
-    // const datosCarro = JSON.parse(localStorage.getItem("datosCarrito"));
     const datosCarro = secureLocalStorage.getItem("datosCarrito");
 
     if (datosCarro) {
@@ -269,18 +265,16 @@ const Catalogo = () => {
             </div>
             <hr className="my-2" />
 
-            {show ? (
+            {show && (
               <MenuDespe
                 show={show}
                 handleClose={handleClose}
                 datos={datos}
                 guardarDatos={guardarDatos}
               />
-            ) : null}
+            )}
 
             <div style={{ minHeight: "60vh" }}>
-              {/* <Row xs={2} md={4} className="g-4 px-2 py-3"> */}
-
               {opcion ? (
                 <CatalogoProductos
                   data={productoNew}
@@ -291,16 +285,6 @@ const Catalogo = () => {
                   data={producto}
                   datosCarrito={datosCarrito}
                 />
-                // currentData.map((item, index) => {
-                //   return (
-                //     <ProductoCatalogo
-                //       key={index}
-                //       producto={item}
-                //       datosCarrito={datosCarrito}
-                //     />
-                //   );
-                // })
-                //</Row>
               )}
             </div>
           </div>

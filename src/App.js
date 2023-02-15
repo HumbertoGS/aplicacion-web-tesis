@@ -1,12 +1,9 @@
-import { useState } from "react";
-
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 
 import Layout from "./Pages/Content/Layout";
-import { CardsInicio, Iniciar } from "./Pages/Inicio/Inicio";
+import { CardsInicio } from "./Pages/Inicio/Inicio";
 import Registrar from "./Pages/Inicio/Registrar";
 import Login from "./Pages/Inicio/Login";
-// import LoginEmp from "./Pages/Inicio/LoginEmp";
 import RegistroVentas from "./Pages/RegistroVentas/RegistroVentas";
 import Carrito from "./Pages/Carrito/Carrito";
 import NoPage from "./Pages/components/NoPage";
@@ -14,36 +11,18 @@ import Catalogo from "./Pages/Catalogo/Catalogo";
 import RegistroProducto from "./Pages/Registros/RegistroProducto";
 import Inventario from "./Pages/Inventario/Inventario";
 import StatusPedido from "./Pages/Perfil/StatusPedido";
-
 import ActualizarDatos from "./Pages/Perfil/ActualizarDatos";
 
 import { ProtectedRoute } from "./Pages/components/ProtectedRoute";
-
-import { PostData } from "./custom-hooks/accesoMenu";
-
 import secureLocalStorage from "react-secure-storage";
 
 const permisos = [1, 2];
 
 function App() {
-  // const user = JSON.parse(localStorage.getItem("user"));
   const user = secureLocalStorage.getItem("user");
-
-  // if(!user) window.location.href = process.env.REACT_APP_BASENAME + "Inicio";
-
-  console.log(user);
-  // useEffect(() => {
-  //   if (variant) {
-  //     const interval = setTimeout(() => {
-  //       setVariant("");
-  //     }, 4000);
-  //     return () => clearInterval(interval);
-  //   }
-  // }, [variant]);
 
   return (
     <BrowserRouter>
-      {/* {variant ? <MensajeAlert variant={variant} mensaje={mensaje} /> : <></>} */}
       <Routes>
         <Route path="/" element={<Layout />}>
           <Route index element={<Catalogo />} />
@@ -51,9 +30,7 @@ function App() {
             path="Inicio"
             element={<Navigate to={user ? "/Perfil" : "/Pagina-Principal"} />}
           />
-
           <Route path="Pagina-Principal" element={<CardsInicio />} />
-
           <Route
             path="Perfil"
             element={
@@ -62,11 +39,7 @@ function App() {
               </ProtectedRoute>
             }
           />
-
-          {/* <Route path="Perfil" element={<ActualizarDatos user={user} />} /> */}
-
           <Route path="Catalogo" element={<Catalogo />} />
-          {/* <Route path="Inventario" element={<Inventario />} /> */}
           <Route
             path="Inventario"
             element={
