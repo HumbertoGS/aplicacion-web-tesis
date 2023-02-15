@@ -3,21 +3,6 @@ import Button from "react-bootstrap/esm/Button";
 
 import MensajeAlert from "../components/MensajeAlert";
 import { PostData } from "../../custom-hooks/useFetch";
-import { styleBtnCancel, styleBtnSave } from "../designer/styleBtn";
-
-// const mensaje = response.error
-//   ? messages.error
-//   : response.datos.length === 0
-//   ? messages.noData
-//   : mensajeResp;
-
-// const variant = response.error
-//   ? variants.error
-//   : response.datos.length === 0
-//   ? variants.noData
-//   : variants.success;
-
-// setMensajeAlert({ mostrar: true, mensaje, variant });
 
 const messages = {
   error: "Ups, parece que algo ha salido mal",
@@ -28,6 +13,18 @@ const variants = {
   error: "danger",
   noData: "warning",
   success: "success",
+};
+
+const styleBtn = {
+  save: {
+    backgroundColor: "#33d556",
+  },
+  warning: {
+    backgroundColor: "#edb200",
+  },
+  cancel: {
+    backgroundColor: "#d53a33",
+  },
 };
 
 const datosAlert = (response, mensajeResp) => {
@@ -46,12 +43,27 @@ const datosAlert = (response, mensajeResp) => {
   return { mostrar: true, mensaje, variant };
 };
 
-const noClick = (stock) => ({
-  fontWeight: "bold",
-  background: "none",
-  color: stock ? "#33d556" : "#d53a33",
-});
+const styleBtnChange = (item, habilitarBtn) => {
+  if (!habilitarBtn)
+    return {
+      fontWeight: "bold",
+      background: "none",
+      color: item?.stock ? "#33d556" : "#d53a33",
+    };
 
+  if (item.id_estado)
+    return item.id_estado === 1
+      ? styleBtn.warning
+      : item.id_estado === 2
+      ? styleBtn.save
+      : styleBtn.cancel;
+
+  if (item.estado || item?.stok) return styleBtn.save;
+
+  return styleBtn.cancel;
+};
+
+//---------------------Boton para actualizar datos-----------------------
 const BtnGuardar = ({ datos, url, handleRespond, mensajeResp }) => {
   const [guardar, setGuardar] = useState(false);
   const [mensajeAlert, setMensajeAlert] = useState({
@@ -96,6 +108,7 @@ const BtnGuardar = ({ datos, url, handleRespond, mensajeResp }) => {
   );
 };
 
+//---------------------Boton para actualizar estados-----------------------
 const BtnCambiarEstado = ({
   item,
   reload,
@@ -111,11 +124,10 @@ const BtnCambiarEstado = ({
     variant: "",
   });
 
-  let style = item.estado || item?.stock ? styleBtnSave : styleBtnCancel;
-  style = habilitarBtn ? style : noClick(item?.stock);
+  let style = styleBtnChange(item, habilitarBtn);
 
-  const CambiarEstado = ({ id, estado }) => {
-    setDatos({ id, estado: !estado });
+  const CambiarEstado = (datos) => {
+    setDatos({ ...datos, estado: !datos.estado });
     setCambiar(true);
   };
 
