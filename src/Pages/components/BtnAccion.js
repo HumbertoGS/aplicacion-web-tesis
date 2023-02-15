@@ -1,8 +1,23 @@
 import { useState, useEffect } from "react";
 import Button from "react-bootstrap/esm/Button";
-import { PostData } from "../../custom-hooks/useFetch";
+
 import MensajeAlert from "../components/MensajeAlert";
+import { PostData } from "../../custom-hooks/useFetch";
 import { styleBtnCancel, styleBtnSave } from "../designer/styleBtn";
+
+// const mensaje = response.error
+//   ? messages.error
+//   : response.datos.length === 0
+//   ? messages.noData
+//   : mensajeResp;
+
+// const variant = response.error
+//   ? variants.error
+//   : response.datos.length === 0
+//   ? variants.noData
+//   : variants.success;
+
+// setMensajeAlert({ mostrar: true, mensaje, variant });
 
 const messages = {
   error: "Ups, parece que algo ha salido mal",
@@ -15,6 +30,28 @@ const variants = {
   success: "success",
 };
 
+const datosAlert = (response, mensajeResp) => {
+  const mensaje = response.error
+    ? messages.error
+    : response.datos.length === 0
+    ? messages.noData
+    : mensajeResp;
+
+  const variant = response.error
+    ? variants.error
+    : response.datos.length === 0
+    ? variants.noData
+    : variants.success;
+
+  return { mostrar: true, mensaje, variant };
+};
+
+const noClick = (stock) => ({
+  fontWeight: "bold",
+  background: "none",
+  color: stock ? "#33d556" : "#d53a33",
+});
+
 const BtnGuardar = ({ datos, url, handleRespond, mensajeResp }) => {
   const [guardar, setGuardar] = useState(false);
   const [mensajeAlert, setMensajeAlert] = useState({
@@ -26,20 +63,7 @@ const BtnGuardar = ({ datos, url, handleRespond, mensajeResp }) => {
   const funcionRespuesta = (response) => {
     handleRespond(response.datos);
     setGuardar(false);
-
-    const mensaje = response.error
-      ? messages.error
-      : response.datos.length === 0
-      ? messages.noData
-      : mensajeResp;
-
-    const variant = response.error
-      ? variants.error
-      : response.datos.length === 0
-      ? variants.noData
-      : variants.success;
-
-    setMensajeAlert({ mostrar: true, mensaje, variant });
+    setMensajeAlert(datosAlert(response, mensajeResp));
   };
 
   PostData(url, datos, guardar, funcionRespuesta);
@@ -72,19 +96,12 @@ const BtnGuardar = ({ datos, url, handleRespond, mensajeResp }) => {
   );
 };
 
-const noClick = (stock) => ({
-  fontWeight: "bold",
-  background: "none",
-  color: stock ? "#33d556" : "#d53a33",
-});
-
 const BtnCambiarEstado = ({
   item,
   reload,
   url,
   habilitarBtn = true,
   nombreBtn = false,
-  mensajeResp = "Se actualizo el estado",
 }) => {
   const [cambiar, setCambiar] = useState(false);
   const [datos, setDatos] = useState(null);
@@ -95,31 +112,20 @@ const BtnCambiarEstado = ({
   });
 
   let style = item.estado || item?.stock ? styleBtnSave : styleBtnCancel;
-
   style = habilitarBtn ? style : noClick(item?.stock);
-
-  PostData(url + "/cambiarEstado", datos, cambiar, (response) => {
-    setCambiar(false);
-    const mensaje = response.error
-      ? messages.error
-      : response.datos.length === 0
-      ? messages.noData
-      : mensajeResp;
-
-    const variant = response.error
-      ? variants.error
-      : response.datos.length === 0
-      ? variants.noData
-      : variants.success;
-
-    setMensajeAlert({ mostrar: true, mensaje, variant });
-    reload();
-  });
 
   const CambiarEstado = ({ id, estado }) => {
     setDatos({ id, estado: !estado });
     setCambiar(true);
   };
+
+  const funcionRespuesta = (response) => {
+    setCambiar(false);
+    setMensajeAlert(datosAlert(response, "Se actualizo el estado"));
+    reload();
+  };
+
+  PostData(url + "/cambiarEstado", datos, cambiar, funcionRespuesta);
 
   useEffect(() => {
     if (mensajeAlert.mostrar) {
@@ -139,12 +145,8 @@ const BtnCambiarEstado = ({
         />
       )}
       <Button
-        style={{
-          border: "0px",
-          width: "85px",
-          ...style,
-          opacity: "100%",
-        }}
+        className="BtnEstado"
+        style={style}
         onClick={() => CambiarEstado(item)}
         disabled={!habilitarBtn}
       >
