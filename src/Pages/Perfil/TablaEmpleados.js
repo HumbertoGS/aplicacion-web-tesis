@@ -5,7 +5,6 @@ import Col from "react-bootstrap/Col";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Card from "react-bootstrap/Card";
-import Table from "react-bootstrap/Table";
 import InputGroup from "react-bootstrap/InputGroup";
 
 import "../designer/theme.css";
@@ -13,6 +12,10 @@ import { ReloadData, PostData } from "../../custom-hooks/useFetch";
 import Tabla from "../components/Tabla";
 
 const urlPersona = process.env.REACT_APP_API_CORE_URL + "persona";
+const styleInput = {
+  cursor: "no-drop",
+  opacity: "85%",
+};
 
 const TablaEmpleados = () => {
   const [numIdent, setNumIdent] = useState("");
@@ -73,9 +76,7 @@ const TablaEmpleados = () => {
 
                 <div className="px-3">
                   <InputGroup className="mb-3">
-                    <InputGroup.Text style={{ width: "100px" }}>
-                      Cedula:
-                    </InputGroup.Text>
+                    <InputGroup.Text className="w-25">Cedula:</InputGroup.Text>
                     <Form.Control
                       onChange={(e) => {
                         setNumIdent(e.target.value);
@@ -89,22 +90,18 @@ const TablaEmpleados = () => {
                 </div>
                 <div className="px-3">
                   <InputGroup className="my-3">
-                    <InputGroup.Text style={{ width: "100px" }}>
-                      Nombres:
+                    <InputGroup.Text className="w-25">Nombres:</InputGroup.Text>
+                    <InputGroup.Text className="w-75" style={styleInput}>
+                      {result?.nombre ?? ""}
                     </InputGroup.Text>
-                    <Form.Control
-                      readOnly={true}
-                      value={result ? result?.nombre : ""}
-                    />
                   </InputGroup>
                   <InputGroup className="mb-3">
-                    <InputGroup.Text style={{ width: "100px" }}>
+                    <InputGroup.Text className="w-25">
                       Apellidos:
                     </InputGroup.Text>
-                    <Form.Control
-                      readOnly={true}
-                      value={result ? result?.apellido : ""}
-                    />
+                    <InputGroup.Text className="w-75" style={styleInput}>
+                      {result?.apellido ?? ""}
+                    </InputGroup.Text>
                   </InputGroup>
                   <Button
                     className="w-100"
@@ -118,10 +115,7 @@ const TablaEmpleados = () => {
             </div>
           </Col>
           <Col className="mb-3">
-            <div
-              className="p-4 mx-3"
-              // style={{ overflowY: "auto", height: "350px" }}
-            >
+            <div className="p-4 mx-3">
               <Tabla
                 data={datosEmpleados}
                 tabla="empleado"
@@ -130,36 +124,6 @@ const TablaEmpleados = () => {
                 }}
                 url={urlPersona}
               />
-              {/* <Table>
-                <thead className="theadTable">
-                  <tr>
-                    <th>Nombre</th>
-                    <th>Apellido</th>
-                    <th>Cedula</th>
-                    <th>Estado</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {datosEmpleados.map((item) => {
-                    return (
-                      <tr key={item.id}>
-                        <td>{item.nombre}</td>
-                        <td>{item.apellido}</td>
-                        <td>{item.cedula}</td>
-                        <td>
-                          <BtnCambiarEstado
-                            item={item}
-                            reload={() => {
-                              setBuscar(true);
-                            }}
-                            url={urlPersona}
-                          />
-                        </td>
-                      </tr>
-                    );
-                  })}
-                </tbody>
-              </Table> */}
             </div>
           </Col>
         </Row>
