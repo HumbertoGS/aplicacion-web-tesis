@@ -1,18 +1,16 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 import Table from "react-bootstrap/Table";
-import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
-
 import Form from "react-bootstrap/Form";
 import InputGroup from "react-bootstrap/InputGroup";
-
-import { FaEye } from "react-icons/fa";
-import { BsCheck2 } from "react-icons/bs";
 
 import PaginationTabla from "../components/PaginationTabla";
 
 import { styleBtn, styleBtnSave, styleBtns } from "../designer/styleBtn";
+
+import { FaEye } from "react-icons/fa";
+import { BsCheck2 } from "react-icons/bs";
 
 const columns = [
   [
@@ -41,8 +39,8 @@ const columns = [
       name: "Detalles",
       style: { width: "10%", borderRight: "1px solid #c8c9ca" },
     },
-    { name: "N° transferencia", style: { width: "300px" } },
-    { name: "Acciones", style: { width: "22%" } },
+    { name: "N° Transferencia", style: { width: "300px" } },
+    { name: "Estado del Pedido", style: { width: "22%" } },
   ],
 ];
 
@@ -100,7 +98,7 @@ const TablaPedidos = ({ Titulo, data, detallesPedido, detallesCliente }) => {
             </thead>
             <tbody>
               {currentItems.map((item, index) => {
-                return item.estado ? (
+                return (
                   <tr key={item.id}>
                     <td>{item.num_pedido}</td>
                     <td>{item.nombre_completo}</td>
@@ -147,16 +145,9 @@ const TablaPedidos = ({ Titulo, data, detallesPedido, detallesCliente }) => {
                           value={item.status}
                           onChange={(event) => handleSelectChange(event, index)}
                         >
-                          <option
-                            disabled
-                            value=""
-                            style={{ fontStyle: "italic" }}
-                          >
-                            Estado Pedido
-                          </option>
                           <option value="1">Pendiente</option>
                           <option value="2">Pagado</option>
-                          <option value="0">Cancelado</option>
+                          <option value="3">Cancelado</option>
                         </Form.Select>
                         <Button
                           disabled={item.transferencia === ""}
@@ -168,8 +159,6 @@ const TablaPedidos = ({ Titulo, data, detallesPedido, detallesCliente }) => {
                       </div>
                     </td>
                   </tr>
-                ) : (
-                  <></>
                 );
               })}
             </tbody>
