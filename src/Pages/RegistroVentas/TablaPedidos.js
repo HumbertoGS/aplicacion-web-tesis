@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import Table from "react-bootstrap/Table";
 import Button from "react-bootstrap/Button";
@@ -7,10 +7,11 @@ import InputGroup from "react-bootstrap/InputGroup";
 
 import PaginationTabla from "../components/PaginationTabla";
 
-import { styleBtn, styleBtnSave, styleBtns } from "../designer/styleBtn";
-
 import { FaEye } from "react-icons/fa";
 import { BsCheck2 } from "react-icons/bs";
+import { BtnCambiarEstado } from "../components/BtnAccion";
+
+const urlPedidos = `${process.env.REACT_APP_API_CORE_URL}pedido`;
 
 const columns = [
   [
@@ -44,11 +45,17 @@ const columns = [
   ],
 ];
 
-const TablaPedidos = ({ Titulo, data, detallesPedido, detallesCliente }) => {
+const TablaPedidos = ({
+  Titulo,
+  data,
+  reload,
+  detallesPedido,
+  detallesCliente,
+}) => {
   const [datos, setDatos] = useState(data);
 
   const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage] = useState(7);
+  const [itemsPerPage] = useState(1);
 
   const handlePageChange = (page) => setCurrentPage(page);
 
@@ -56,22 +63,21 @@ const TablaPedidos = ({ Titulo, data, detallesPedido, detallesCliente }) => {
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = data.slice(indexOfFirstItem, indexOfLastItem);
 
-  const handleSelectChange = (event, index) => {
-    const newDatos = [...currentItems];
-    newDatos[index].status = event.target.value;
-    setDatos(newDatos);
+  const updateButtonState = (option, transferencia) => {
+    if (option === 1) return true;
+    if (option === 2) return !(transferencia !== null && transferencia !== "");
+    return false;
   };
 
-  const handleInputChange = (event, index) => {
-    const newDatos = [...currentItems];
-    newDatos[index].transferencia = event.target.value;
-    setDatos(newDatos);
-  };
+  const handleChange = (value, index, option) => {
+    const updatedItems = [...currentItems];
+    const item = updatedItems[index];
 
-  const handleButtonClick = (index) => {
-    console.log(
-      `Id: ${datos[index].id}, Estado: ${datos[index].status}, num_transferencia: ${datos[index].transferencia}`
-    );
+    if (option === 1) item.status = Number(value);
+    if (option === 2) item.transferencia = value;
+
+    item.disabled = updateButtonState(item.status, item.transferencia);
+    setDatos(updatedItems);
   };
 
   return (
@@ -104,7 +110,6 @@ const TablaPedidos = ({ Titulo, data, detallesPedido, detallesCliente }) => {
                     <td>{item.nombre_completo}</td>
                     <td>
                       <Button
-                        style={styleBtn}
                         onClick={() => detallesCliente(item.num_identificacion)}
                         variant="outline-secondary"
                       >
@@ -115,7 +120,6 @@ const TablaPedidos = ({ Titulo, data, detallesPedido, detallesCliente }) => {
                     <td>{item.total}</td>
                     <td>
                       <Button
-                        style={styleBtn}
                         onClick={() =>
                           detallesPedido({
                             num_venta: item.num_pedido,
@@ -131,31 +135,37 @@ const TablaPedidos = ({ Titulo, data, detallesPedido, detallesCliente }) => {
                       <InputGroup>
                         <Form.Control
                           style={{ marginLeft: "10px" }}
-                          readOnly={item.validado}
-                          disabled={item.validado}
-                          value={item.transferencia}
-                          onChange={(event) => handleInputChange(event, index)}
+                          value={item.transferencia ?? ""}
+                          onChange={(event) =>
+                            handleChange(event.target.value, index, 2)
+                          }
                         />
                       </InputGroup>
                     </td>
                     <td>
-                      <div style={styleBtns}>
+                      <div className="d-flex ">
                         <Form.Select
                           className="mx-2"
                           value={item.status}
-                          onChange={(event) => handleSelectChange(event, index)}
+                          onChange={(event) =>
+                            handleChange(event.target.value, index, 1)
+                          }
                         >
-                          <option value="1">Pendiente</option>
-                          <option value="2">Pagado</option>
-                          <option value="3">Cancelado</option>
+                          <option value={1}>Pendiente</option>
+                          <option value={2}>Pagado</option>
+                          <option value={3}>Cancelado</option>
                         </Form.Select>
-                        <Button
-                          disabled={item.transferencia === ""}
-                          style={{ ...styleBtn, ...styleBtnSave }}
-                          onClick={() => handleButtonClick(index)}
-                        >
-                          <BsCheck2 />
-                        </Button>
+                        <BtnCambiarEstado
+                          item={{
+                            id: item.id,
+                            transferencia: item.transferencia,
+                            id_estado: item.status,
+                            estado: true,
+                          }}
+                          nombreBtn={<BsCheck2 />}
+                          reload={reload}
+                          url={urlPedidos}
+                        />
                       </div>
                     </td>
                   </tr>
