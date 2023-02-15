@@ -16,84 +16,6 @@ body {
   text-align: center;
 }
 
-.Card {
-  border: 0 !important;
-}
-
-.Mensaje {
-  position: fixed;
-  top: 20px;
-  left: 0;
-  right: 0;
-  z-index: 999;
-  /* width: calc(100% - 200px); */
-  display: flex;
-  justify-content: center;
-  padding-left: 200px;
-}
-
-.Alert {
-  display: "flex";
-  justify-content: "center";
-  width: 500px;
-  text-align: center;
-}
-
-.menu-lateral {
-  background-color: #a3d5f1;
-  width: 185px;
-}
-
-.nav-element {
-  color: #da6b9e;
-  cursor: pointer;
-  font-weight: bold;
-}
-
-#navL:hover {
-  background-color: #fff;
-}
-
-.opc-element {
-  color: #000000;
-  cursor: pointer;
-  display: inline-block;
-  /* font-weight: bold; */
-}
-
-#navL2:hover {
-  background-color: #e9ecef;
-}
-
-#label2:hover {
-  color: #000000;
-  cursor: pointer;
-}
-
-a:link,
-a:visited {
-  text-decoration: none;
-}
-
-/* cssgradient.io para hacer degradado de colores */
-.CardsInicio {
-  margin-left: -15px;
-  height: 90vh;
-  /* background-image: url('../../../public/bg-cat.jpg'); */
-  /* background: rgb(31,1,61); */
-  /* background: rgb(34,193,195); */
-  background: linear-gradient(
-    0deg,
-    rgba(34, 193, 195, 1) 0%,
-    rgba(146, 118, 213, 1) 51%,
-    rgba(253, 45, 230, 1) 100%
-  );
-}
-
-.OneCard {
-  width: "25rem";
-}
-
 .App-menu {
   width: auto;
   height: 100%;
@@ -135,10 +57,91 @@ a:visited {
   font-size: small;
 }
 
-.form-datos-carrito {
-  /* display: flex;
+.Card {
+  border: 0 !important;
+}
+
+a:link,
+a:visited {
+  text-decoration: none;
+}
+
+/* ESTILO PARA ALERTA */
+.Mensaje {
+  position: fixed;
+  top: 20px;
+  left: 0;
+  right: 0;
+  z-index: 999;
+  /* width: calc(100% - 200px); */
+  display: flex;
   justify-content: center;
-  align-items: center; */
+  padding-left: 200px;
+}
+
+.Alert {
+  display: "flex";
+  justify-content: "center";
+  width: 500px;
+  text-align: center;
+}
+
+/* FIN ESTILO PARA ALERTA */
+
+/* ESTILO PARA MENU LATERAL */
+.menu-lateral {
+  background-color: #a3d5f1;
+  width: 185px;
+}
+
+.nav-element {
+  color: #da6b9e;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+#navL:hover {
+  background-color: #fff;
+}
+
+.opc-element {
+  color: #000000;
+  cursor: pointer;
+  display: inline-block;
+  /* font-weight: bold; */
+}
+
+#navL2:hover {
+  background-color: #e9ecef;
+}
+
+#label2:hover {
+  color: #000000;
+  cursor: pointer;
+}
+
+/* ESTILO PARA MENU LATERAL */
+
+/* cssgradient.io para hacer degradado de colores */
+.CardsInicio {
+  margin-left: -15px;
+  height: 90vh;
+  /* background-image: url('../../../public/bg-cat.jpg'); */
+  /* background: rgb(31,1,61); */
+  /* background: rgb(34,193,195); */
+  background: linear-gradient(
+    0deg,
+    rgba(34, 193, 195, 1) 0%,
+    rgba(146, 118, 213, 1) 51%,
+    rgba(253, 45, 230, 1) 100%
+  );
+}
+
+.OneCard {
+  width: "25rem";
+}
+
+.form-datos-carrito {
   position: relative;
   margin: auto !important;
 }
