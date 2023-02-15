@@ -66,7 +66,7 @@ const TablaPedidos = ({
   const currentItems = data.slice(indexOfFirstItem, indexOfLastItem);
 
   const updateButtonState = (option, transferencia) => {
-    if (option === 1) return true;
+    if (option === 1) return false;
     if (option === 2) return !(transferencia !== null && transferencia !== "");
     return false;
   };
@@ -134,14 +134,26 @@ const TablaPedidos = ({
                       </Button>
                     </td>
                     <td>
-                      <InputGroup>
+                      <InputGroup className="d-flex flex-column">
                         <Form.Control
-                          style={{ marginLeft: "10px" }}
+                          className="w-100"
+                          style={{ marginLeft: "10px", borderRadius: "5px" }}
                           value={item.transferencia ?? ""}
+                          disabled={item?.status !== 2}
                           onChange={(event) =>
                             handleChange(event.target.value, index, 2)
                           }
                         />
+                        <label
+                          className="fw-bold"
+                          style={{
+                            fontSize: "9px",
+                            color: "#c50f07",
+                            fontStyle: "italic",
+                          }}
+                        >
+                          {item.disabled ? "campo requerido" : ""}
+                        </label>
                       </InputGroup>
                     </td>
                     <td>
