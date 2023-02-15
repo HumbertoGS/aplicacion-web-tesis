@@ -87,6 +87,7 @@ const Carrito = ({ user }) => {
         subtotal: datos.totales[0].totales,
         descuento: datos.totales[1].totales,
         total: datos.totales[2].totales,
+        total_pedido: ordenes.length,
       },
     });
 
