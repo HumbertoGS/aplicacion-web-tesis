@@ -21,126 +21,16 @@ import {
   styleBtns,
 } from "../designer/styleBtn";
 
-import ModalVentasDetalles from "./ModalVentasDetalles";
+import PedidoDetalles from "./Modal/PedidoDetalles";
 import ModalBtns from "./ModalBtns";
 import ClienteDetalles from "./Modal/ClienteDetalles";
+import { PostData, ReloadData } from "../../custom-hooks/useFetch";
 
-const datosP = [
-  {
-    id: 1,
-    num_pedido: "#19473",
-    num_identificacion: "0932432222",
-    id_cliente: 2,
-    cliente: "GUIRACOCHA SUAREZ LUIS HUMBERTO ",
-    num_pedidos: 2,
-    estado: true, //Cambia true cuando este aprobado
-    validado: false,
-    transferencia: "",
-    status: "",
-    detalles: [
-      {
-        producto: "camisa",
-        precio_unidad: "15.00",
-        cantidad: "1",
-        total: "15.00",
-      },
-      {
-        producto: "camisa",
-        precio_unidad: "17.00",
-        cantidad: "1",
-        total: "17.00",
-      },
-    ],
-  },
-  {
-    id: 2,
-    num_pedido: "#19474",
-    num_identificacion: "0932432222",
-    cliente: "GUIRACOCHA HUMBERTO ",
-    id_cliente: 3,
-    num_pedidos: 5,
-    estado: true, //Cambia true cuando este aprobado
-    validado: false,
-    transferencia: "",
-    status: "",
-    detalles: [
-      {
-        producto: "camisa",
-        precio_unidad: "15.00",
-        cantidad: "1",
-        total: "15.00",
-      },
-      {
-        producto: "camisa",
-        precio_unidad: "17.00",
-        cantidad: "1",
-        total: "17.00",
-      },
-      {
-        producto: "camisa",
-        precio_unidad: "15.00",
-        cantidad: "1",
-        total: "15.00",
-      },
-      {
-        producto: "camisa",
-        precio_unidad: "17.00",
-        cantidad: "1",
-        total: "17.00",
-      },
-      {
-        producto: "camisa",
-        precio_unidad: "15.00",
-        cantidad: "1",
-        total: "15.00",
-      },
-    ],
-  },
-  {
-    id: 7,
-    num_pedido: "#19475",
-    num_identificacion: "0932432222",
-    id_cliente: 4,
-    cliente: "GUIRACOCHA HUMBERTO ",
-    num_pedidos: 1,
-    estado: true, //Cambia true cuando este aprobado
-    validado: false,
-    transferencia: "",
-    status: "",
-    detalles: [
-      {
-        producto: "camisa",
-        precio_unidad: "15.00",
-        cantidad: "1",
-        total: "15.00",
-      },
-    ],
-  },
-  {
-    id: 3,
-    num_pedido: "#19475",
-    id_cliente: 2,
-    num_identificacion: "0932432222",
-    cliente: "GUIRACOCHA HUMBERTO ",
-    num_pedidos: 1,
-    estado: true, //Cambia true cuando este aprobado
-    validado: false,
-    transferencia: "",
-    status: "",
-    detalles: [
-      {
-        producto: "camisa",
-        precio_unidad: "15.00",
-        cantidad: "1",
-        total: "15.00",
-      },
-    ],
-  },
-];
+const urlPedidos = `${process.env.REACT_APP_API_CORE_URL}pedido/`;
 
 const RegistroVentas = () => {
-  const [modal, setModal] = useState(false);
-  const [datosDetalles, setDatosDetalles] = useState([]);
+  const [cargar, setCargar] = useState(true);
+  const [numeroPedido, setNumeroPedido] = useState([]);
   const [idCliente, setIdCliente] = useState(null);
   const [valido, setValido] = useState(false);
   const [numero, setNumero] = useState("");
@@ -148,28 +38,35 @@ const RegistroVentas = () => {
   const [modalPedido, setModalPedido] = useState(false);
   const [modalCliente, setModalCliente] = useState(false);
 
-  const [datos, setDatos] = useState(datosP);
+  const [datos, setDatos] = useState(null);
+
+  ReloadData(urlPedidos, cargar, (x) => {
+    setDatos(x?.datos);
+    setCargar(false);
+  });
 
   return (
     <>
-      <Card body className="Card" style={{ minHeight: "87vh" }}>
-        <TablaPedidos
-          Titulo="Pedidos en espera"
-          data={datos}
-          detallesPedido={(item) => {
-            setDatosDetalles(item);
-            setModalPedido(true);
-          }}
-          detallesCliente={(item) => {
-            setIdCliente(item);
-            setModalCliente(true);
-          }}
-        />
+      <Card body className="Card" style={{ minHeight: "70vh" }}>
+        {datos && (
+          <TablaPedidos
+            Titulo="Pedidos en espera"
+            data={datos}
+            detallesPedido={(item) => {
+              setNumeroPedido(item);
+              setModalPedido(true);
+            }}
+            detallesCliente={(item) => {
+              setIdCliente(item);
+              setModalCliente(true);
+            }}
+          />
+        )}
       </Card>
 
       {modalPedido ? (
-        <ModalVentasDetalles
-          detalles={datosDetalles}
+        <PedidoDetalles
+          data={numeroPedido}
           show={modalPedido}
           onHide={() => setModalPedido(false)}
         />
