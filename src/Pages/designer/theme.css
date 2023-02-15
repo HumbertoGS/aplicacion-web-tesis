@@ -36,6 +36,7 @@ body {
   display: "flex";
   justify-content: "center";
   width: 500px;
+  text-align: center;
 }
 
 .menu-lateral {
@@ -174,4 +175,10 @@ a:visited {
 .noEdit {
   cursor: no-drop;
   opacity: 85%;
+}
+
+.BtnEstado {
+  border: 0px !important;
+  width: 85px;
+  opacity: 100% !important;
 }
