@@ -18,12 +18,14 @@ const style = {
 };
 
 const PedidoDetalles = (props) => {
-  const { data, ...modalProps } = props;
+  const { data, filtro, ...modalProps } = props;
   const [key, setKey] = useState("Producto1");
 
   const [detalles, setDetalles] = useState(null);
-
   const [buscar, setBuscar] = useState(true);
+
+  const className =
+    filtro?.status === "1" ? "d-flex flex-column align-items-center" : "d-none";
 
   PostData(url, { num_venta: data?.num_venta }, buscar, (result) => {
     if (result?.datos) {
@@ -121,7 +123,7 @@ const PedidoDetalles = (props) => {
                           </InputGroup.Text>
                         </InputGroup>
                       </div>
-                      <div className="w-50 d-flex flex-column align-items-center">
+                      <div className={"w-50 " + className}>
                         <BtnCambiarEstado
                           item={{ id: item.id, estado: item?.estado }}
                           nombreBtn={item?.estado ? "Activo" : "Cancelado"}
@@ -134,7 +136,7 @@ const PedidoDetalles = (props) => {
                         />
                         <label style={style.label} className="pt-2">
                           Click para {item.estado ? "cancelar " : "activar "}
-                          pedido
+                          pedido{filtro?.status}
                         </label>
                       </div>
                     </div>
