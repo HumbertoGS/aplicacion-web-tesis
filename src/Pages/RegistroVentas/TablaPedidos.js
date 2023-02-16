@@ -1,10 +1,9 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 import Table from "react-bootstrap/Table";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import InputGroup from "react-bootstrap/InputGroup";
-
 import PaginationTabla from "../components/PaginationTabla";
 
 import { FaEye } from "react-icons/fa";
@@ -12,6 +11,7 @@ import { BsCheck2 } from "react-icons/bs";
 import { RiCloseFill } from "react-icons/ri";
 import { FiMinus } from "react-icons/fi";
 import { BtnCambiarEstado } from "../components/BtnAccion";
+import { Card, Row } from "react-bootstrap";
 
 const urlPedidos = `${process.env.REACT_APP_API_CORE_URL}pedido`;
 
@@ -49,6 +49,7 @@ const columns = [
 
 const TablaPedidos = ({
   Titulo,
+  filtro,
   data,
   reload,
   detallesPedido,
@@ -82,12 +83,49 @@ const TablaPedidos = ({
     setDatos(updatedItems);
   };
 
+  const Header = () => {
+    const alignItem =
+      filtro?.num_pedido && filtro?.num_ident ? "-center" : "-baseline";
+
+    return (
+      <Row>
+        <div
+          className={"d-flex align-items" + alignItem}
+          style={{ width: "300px" }}
+        >
+          {filtro && (
+            <>
+              <h5 className="px-2">Filtrado:</h5>
+              <div className="text-start">
+                {filtro?.num_pedido && (
+                  <h6>
+                    N° Pedido:{" "}
+                    <span className="fw-normal">{filtro?.num_pedido}</span>
+                  </h6>
+                )}
+                {filtro?.num_ident && (
+                  <h6>
+                    N° Identificación:{" "}
+                    <span className="fw-normal">{filtro?.num_ident}</span>
+                  </h6>
+                )}
+              </div>
+            </>
+          )}
+        </div>
+        <h5 className="text-center" style={{ width: "600px" }}>
+          {Titulo}
+        </h5>
+        <hr className="mt-2" />
+      </Row>
+    );
+  };
+
   return (
-    <>
-      <div className="my-4 mx-3" style={{ minHeight: "70vh" }}>
-        <h5 className="text-center">{Titulo}</h5>
-        <hr />
-        <div style={{ overflowY: "auto", minHeight: "50vh" }}>
+    <Card body className="mt-4">
+      <div className="my-2">
+        <Header />
+        <div style={{ overflowY: "auto", minHeight: "52vh" }}>
           <Table striped hover>
             <thead className="theadTable">
               {columns.map((row, i) => (
@@ -204,7 +242,7 @@ const TablaPedidos = ({
           handlePageChange={handlePageChange}
         />
       </div>
-    </>
+    </Card>
   );
 };
 
