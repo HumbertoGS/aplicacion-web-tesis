@@ -48,6 +48,14 @@ const columns = [
   ],
 ];
 
+const addZeros = (str) => {
+  str = str.toString();
+  const desiredLength = 5;
+  const currentLength = str.length;
+  const zerosToAdd = desiredLength - currentLength;
+  return "0".repeat(zerosToAdd) + str;
+};
+
 const TablaPedidos = ({
   Titulo,
   filtro,
@@ -147,7 +155,7 @@ const TablaPedidos = ({
               {currentItems.map((item, index) => {
                 return (
                   <tr key={item.id}>
-                    <td>{item.num_pedido}</td>
+                    <td>{addZeros(item.num_pedido)}</td>
                     <td>{item.nombre_completo}</td>
                     <td>
                       <Button
@@ -178,7 +186,9 @@ const TablaPedidos = ({
                           className="w-100"
                           style={{ marginLeft: "10px", borderRadius: "5px" }}
                           value={item.transferencia ?? ""}
-                          disabled={item?.status !== 2}
+                          disabled={
+                            item?.status !== 2 || filtro?.status === "2"
+                          }
                           onChange={(event) =>
                             handleChange(event.target.value, index, 2)
                           }
@@ -196,38 +206,45 @@ const TablaPedidos = ({
                       </InputGroup>
                     </td>
                     <td>
-                      <div className="d-flex ">
+                      <div className="d-flex">
                         <Form.Select
                           className="mx-2"
                           value={item.status}
+                          disabled={filtro?.status === "2"}
                           onChange={(event) =>
                             handleChange(event.target.value, index, 1)
                           }
                         >
                           <option value={1}>Pendiente</option>
-                          <option value={2}>Pagado</option>
+                          {filtro?.status !== "3" ? (
+                            <option value={2}>Pagado</option>
+                          ) : (
+                            <></>
+                          )}
                           <option value={3}>Cancelado</option>
                         </Form.Select>
-                        <BtnCambiarEstado
-                          item={{
-                            id: item.id,
-                            transferencia: item.transferencia,
-                            id_estado: item.status,
-                            estado: true,
-                          }}
-                          nombreBtn={
-                            item.status === 1 ? (
-                              <FiMinus />
-                            ) : item.status === 2 ? (
-                              <BsCheck2 />
-                            ) : (
-                              <RiCloseFill />
-                            )
-                          }
-                          disabled={item.disabled}
-                          reload={reload}
-                          url={urlPedidos}
-                        />
+                        {filtro?.status !== "2" ? (
+                          <BtnCambiarEstado
+                            item={{
+                              id: item.id,
+                              transferencia: item.transferencia,
+                              id_estado: item.status,
+                              estado: true,
+                            }}
+                            nombreBtn={
+                              item.status === 1 ? (
+                                <FiMinus />
+                              ) : item.status === 2 ? (
+                                <BsCheck2 />
+                              ) : (
+                                <RiCloseFill />
+                              )
+                            }
+                            disabled={item.disabled}
+                            reload={reload}
+                            url={urlPedidos}
+                          />
+                        ) : null}
                       </div>
                     </td>
                   </tr>
