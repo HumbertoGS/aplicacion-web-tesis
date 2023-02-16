@@ -4,14 +4,15 @@ import Table from "react-bootstrap/Table";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import InputGroup from "react-bootstrap/InputGroup";
+import { Card, Row } from "react-bootstrap";
+
 import PaginationTabla from "../components/PaginationTabla";
+import { BtnCambiarEstado } from "../components/BtnAccion";
 
 import { FaEye } from "react-icons/fa";
 import { BsCheck2 } from "react-icons/bs";
 import { RiCloseFill } from "react-icons/ri";
 import { FiMinus } from "react-icons/fi";
-import { BtnCambiarEstado } from "../components/BtnAccion";
-import { Card, Row } from "react-bootstrap";
 
 const urlPedidos = `${process.env.REACT_APP_API_CORE_URL}pedido`;
 
