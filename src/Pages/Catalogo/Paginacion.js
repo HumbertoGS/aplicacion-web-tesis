@@ -1,17 +1,15 @@
 import { useState } from "react";
+import { Button, ButtonGroup } from "react-bootstrap";
 
 import Row from "react-bootstrap/esm/Row";
 
 import ProductoCatalogo from "./Producto-Catalogo";
 
-import PaginationTabla from "../components/PaginationTabla";
-import Button from "react-bootstrap/esm/Button";
-
-const paginacionStyle = { display: "flex", justifyContent: "flex-end" };
+import { GrFormPrevious, GrFormNext } from "react-icons/gr";
 
 const CatalogoProductos = ({ data, datosCarrito }) => {
   const [currentPage, setCurrentPage] = useState(1);
-  const [dataPerPage] = useState(5);
+  const [dataPerPage] = useState(4);
 
   // Get current data
   const indexOfLastData = currentPage * dataPerPage;
@@ -30,6 +28,12 @@ const CatalogoProductos = ({ data, datosCarrito }) => {
 
   return (
     <div>
+      <Pagination
+        dataPerPage={dataPerPage}
+        totalData={data.length}
+        paginate={paginate}
+        currentPage={reset ? 1 : currentPage}
+      />
       <Row xs={2} md={4} className="g-4 px-2 py-3">
         {currentData.map((item, index) => {
           return (
@@ -57,53 +61,59 @@ const Pagination = ({ dataPerPage, totalData, paginate, currentPage }) => {
     pageNumbers.push(i);
   }
 
+  const styleBtn = { color: "#0d6efd", border: "1px solid #b0bad2" };
+
   return (
-    <nav>
-      <ul className="pagination">
-        <li>
-          <a className="page-link" onClick={() => paginate(1)}>
-            {"<<"}
-          </a>
-        </li>
-        <li>
-          <a
-            className="page-link"
-            onClick={() => paginate(currentPage - 1)}
-            disabled={currentPage === 1}
-          >
-            {"<"}
-          </a>
-        </li>
-        {pageNumbers.map((number) => (
-          <li key={number} className="page-item">
-            <a
-              onClick={() => paginate(number)}
-              className="page-link"
-              style={{
-                background: currentPage == number ? "#c7d5ff" : "#ffffff",
-                cursor: "pointer",
-              }}
-            >
-              {number}
-            </a>
-          </li>
-        ))}
-        <li>
-          <a
-            className="page-link"
-            onClick={() => paginate(currentPage + 1)}
-            disabled={currentPage === pageNumbers.length}
-          >
-            {">"}
-          </a>
-        </li>
-        <li>
-          <a className="page-link" onClick={() => paginate(pageNumbers.length)}>
-            {">>"}
-          </a>
-        </li>
-      </ul>
-    </nav>
+    <ButtonGroup className="me-2" aria-label="First group">
+      <Button
+        onClick={() => paginate(1)}
+        disabled={currentPage === 1}
+        className="bg-white"
+        style={styleBtn}
+      >
+        <GrFormPrevious />
+        <GrFormPrevious style={{ margin: "-10px", marginRight: "0px" }} />
+      </Button>
+      <Button
+        onClick={() => paginate(currentPage - 1)}
+        disabled={currentPage === 1}
+        className="bg-white"
+        style={styleBtn}
+      >
+        <GrFormPrevious />
+      </Button>
+
+      {pageNumbers.map((number) => (
+        <Button
+          key={number}
+          onClick={() => paginate(number)}
+          style={{
+            border: "1px solid #b0bad2",
+            background: currentPage == number ? "#0d6efd" : "#ffffff",
+            color: currentPage == number ? "#ffffff" : "#000000",
+          }}
+        >
+          {number}
+        </Button>
+      ))}
+      <Button
+        onClick={() => paginate(currentPage + 1)}
+        disabled={currentPage === pageNumbers.length}
+        className="bg-white"
+        style={styleBtn}
+      >
+        <GrFormNext />
+      </Button>
+      <Button
+        onClick={() => paginate(pageNumbers.length)}
+        disabled={currentPage === pageNumbers.length}
+        className="bg-white"
+        style={styleBtn}
+      >
+        <GrFormNext style={{ margin: "-18px", marginLeft: "5px" }} />
+        <GrFormNext />
+      </Button>
+    </ButtonGroup>
   );
 };
 
