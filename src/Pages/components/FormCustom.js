@@ -201,8 +201,6 @@ const FormCustom = ({
     setMensajeAlert({ mostrar: true, mensaje: message, variant });
   };
 
-  console.log(saveAction);
-
   PostData(url, datos, saveAction, funcionRespuesta);
 
   useEffect(() => {
