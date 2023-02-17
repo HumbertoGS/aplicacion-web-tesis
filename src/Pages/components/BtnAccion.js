@@ -64,7 +64,13 @@ const styleBtnChange = (item, habilitarBtn) => {
 };
 
 //---------------------Boton para actualizar datos-----------------------
-const BtnGuardar = ({ datos, url, handleRespond, mensajeResp }) => {
+const BtnGuardar = ({
+  datos,
+  url,
+  handleRespond,
+  mensajeResp,
+  nameBtn = "Buscar",
+}) => {
   const [guardar, setGuardar] = useState(false);
   const [mensajeAlert, setMensajeAlert] = useState({
     mostrar: false,
@@ -102,7 +108,7 @@ const BtnGuardar = ({ datos, url, handleRespond, mensajeResp }) => {
         variant="outline-secondary"
         onClick={() => setGuardar(true)}
       >
-        Buscar
+        {nameBtn}
       </Button>
     </div>
   );
