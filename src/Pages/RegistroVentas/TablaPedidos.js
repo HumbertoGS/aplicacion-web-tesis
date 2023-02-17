@@ -134,7 +134,7 @@ const TablaPedidos = ({
     <Card body className="mt-4">
       <div className="my-2">
         <Header />
-        <div style={{ overflowY: "auto", minHeight: "52vh" }}>
+        <div style={{ overflowY: "auto", minHeight: "54vh" }}>
           <Table striped hover>
             <thead className="theadTable">
               {columns.map((row, i) => (
