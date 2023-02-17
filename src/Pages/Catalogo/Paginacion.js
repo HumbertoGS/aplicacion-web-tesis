@@ -1,7 +1,7 @@
 import { useState } from "react";
-import { Button, ButtonGroup } from "react-bootstrap";
-
-import Row from "react-bootstrap/esm/Row";
+import Button from "react-bootstrap/Button";
+import ButtonGroup from "react-bootstrap/ButtonGroup";
+import Row from "react-bootstrap/Row";
 
 import ProductoCatalogo from "./Producto-Catalogo";
 
