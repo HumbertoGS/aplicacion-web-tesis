@@ -8,6 +8,7 @@ import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import Dropdown from "react-bootstrap/Dropdown";
 import DropdownButton from "react-bootstrap/DropdownButton";
+import Accordion from "react-bootstrap/Accordion";
 
 import { FaShoppingCart } from "react-icons/fa";
 
@@ -148,101 +149,112 @@ const Catalogo = () => {
     );
   };
 
+  const BusquedaAvz = () => {
+    return (
+      <>
+        <div className="mx-4 my-2 d-flex">
+          <div style={{ width: "75%" }} className="d-flex">
+            <DropdownButton
+              id="dropdown-basic-button"
+              variant="outline-secondary"
+              className="DropdownButton"
+              title={filtro}
+            >
+              {Categorias.map((item, index) => {
+                return (
+                  <Dropdown.Item
+                    key={index}
+                    onClick={() => {
+                      setFiltro(item.nombre);
+                      BuscarFiltro(item.id);
+                    }}
+                  >
+                    {item.nombre}
+                  </Dropdown.Item>
+                );
+              })}
+            </DropdownButton>
+
+            <DropdownButton
+              id="dropdown-basic-button"
+              variant="outline-secondary"
+              className="px-3 DropdownButton"
+              title={"Talla"}
+            >
+              <Dropdown.Item>S</Dropdown.Item>
+            </DropdownButton>
+
+            {filtro !== "Categoria" ? (
+              <Button
+                className="mx-2"
+                variant="outline-secondary"
+                onClick={() => {
+                  setFiltro("Categoria");
+                  setProducto(productoTabla);
+                  setProductoNew(
+                    productoTabla.filter((data) => data.newProducto === true)
+                  );
+                }}
+              >
+                Limpiar Filtros
+              </Button>
+            ) : (
+              <></>
+            )}
+          </div>
+          <div style={{ width: "60%" }}>
+            <Form className="d-flex">
+              <Form.Control
+                style={{ width: "300px" }}
+                type="search"
+                placeholder="Búsqueda..."
+                className="me-2"
+                aria-label="Search"
+                onChange={(event) => {
+                  setBuscar(event.target.value);
+                }}
+              />
+              <Button
+                variant="outline-success"
+                onClick={busqueda}
+                disabled={!buscar}
+              >
+                Buscar
+              </Button>
+            </Form>
+          </div>
+        </div>
+      </>
+    );
+  };
+
   return (
     <>
       <Card body className="Card">
         {variant ? <MensajeAlert variant={variant} mensaje={mensaje} /> : <></>}
         <Card className="Card pt-2">
           <div className="px-0">
-            <Card className="mb-2 py-3">
-              <Row>
-                <Col md={3}></Col>
-                <Col className="mb-2">
-                  <h5 className="text-center">Cátologo de productos</h5>
-                  <hr />
-                </Col>
-                <Col md={3}></Col>
-              </Row>
-              <div className="mx-4 my-2 d-flex">
-                <div style={{ width: "75%" }} className="d-flex">
-                  <DropdownButton
-                    id="dropdown-basic-button"
-                    variant="outline-secondary"
-                    className="DropdownButton"
-                    title={filtro}
-                  >
-                    {Categorias.map((item, index) => {
-                      return (
-                        <Dropdown.Item
-                          key={index}
-                          onClick={() => {
-                            setFiltro(item.nombre);
-                            BuscarFiltro(item.id);
-                          }}
-                        >
-                          {item.nombre}
-                        </Dropdown.Item>
-                      );
-                    })}
-                  </DropdownButton>
-
-                  <DropdownButton
-                    id="dropdown-basic-button"
-                    variant="outline-secondary"
-                    className="px-3 DropdownButton"
-                    title={"Talla"}
-                  >
-                    <Dropdown.Item>S</Dropdown.Item>
-                  </DropdownButton>
-
-                  {filtro !== "Categoria" ? (
-                    <Button
-                      className="mx-2"
-                      variant="outline-secondary"
-                      onClick={() => {
-                        setFiltro("Categoria");
-                        setProducto(productoTabla);
-                        setProductoNew(
-                          productoTabla.filter(
-                            (data) => data.newProducto === true
-                          )
-                        );
-                      }}
-                    >
-                      Limpiar Filtros
-                    </Button>
-                  ) : (
-                    <></>
-                  )}
-                </div>
-                <div style={{ width: "60%" }}>
-                  <Form className="d-flex">
-                    <Form.Control
-                      style={{ width: "300px" }}
-                      type="search"
-                      placeholder="Búsqueda..."
-                      className="me-2"
-                      aria-label="Search"
-                      onChange={(event) => {
-                        setBuscar(event.target.value);
-                      }}
-                    />
-                    <Button
-                      variant="outline-success"
-                      onClick={busqueda}
-                      disabled={!buscar}
-                    >
-                      Buscar
-                    </Button>
-                  </Form>
-                </div>
-                <div style={{ width: "10%" }}>
-                  <Button onClick={handleShow}>
-                    <FaShoppingCart />
-                  </Button>
-                </div>
+            <Row>
+              <div className="w-25"></div>
+              <div className="w-50 mb-2">
+                <h5 className="text-center">Cátologo de productos</h5>
+                <hr />
               </div>
-            </Card>
+            </Row>
+
+            <Accordion className="mb-3">
+              <Accordion.Item eventKey={"0"}>
+                <Accordion.Header>
+                  <Form.Label className="fw-bold w-50 my-0">
+                    Filtro de Búsqueda
+                  </Form.Label>
+                  <hr />
+                </Accordion.Header>
+                <Accordion.Body>
+                  <BusquedaAvz />
+                </Accordion.Body>
+              </Accordion.Item>
+            </Accordion>
 
             <div className="d-flex">
               <BtnCatalogo
@@ -262,6 +274,11 @@ const Catalogo = () => {
                 nameBtn="Todos"
               />
               <div className="w-50"></div>
+              <div style={{ width: "10%" }}>
+                <Button onClick={handleShow}>
+                  <FaShoppingCart />
+                </Button>
+              </div>
             </div>
             <hr className="my-2" />
 
