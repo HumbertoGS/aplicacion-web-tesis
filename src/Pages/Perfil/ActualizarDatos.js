@@ -13,14 +13,10 @@ import { Formik } from "formik";
 import "../designer/theme.css";
 import { PostData } from "../../custom-hooks/useFetch";
 
-import {
-  BtnCambiarEstado,
-  BtnGuardar,
-} from "../components/BtnAccion";
-
 import HeaderPerfil from "./HeaderPerfil";
 import TablaEmpleados from "./TablaEmpleados";
 import StatusPedido from "./StatusPedido";
+import { BtnFormik } from "../components/BtnAccion";
 
 const url = process.env.REACT_APP_API_CORE_URL + "persona";
 
@@ -85,118 +81,138 @@ const ActualizarDatos = ({ user }) => {
                 <h5 className="text-start">Datos del Perfil</h5>
                 <hr />
               </div>
-              <Row>
-                <Col className="my-2 px-4" xs={6}>
-                  <Formik
-                    enableReinitialize={true}
-                    initialValues={datos}
-                    onSubmit={(values, { resetForm }) => {
-                      actualizarDatos(values);
-                      resetForm();
-                    }}
-                  >
-                    {({
-                      handleSubmit,
-                      handleChange,
-                      handleBlur,
-                      values,
-                      touched,
-                      isValid,
-                      errors,
-                    }) => (
-                      <Form className="px-4" noValidate onSubmit={handleSubmit}>
-                        {/* <Form.Text>
-                        <h6>Datos del Perfil</h6>
-                        <hr />
-                      </Form.Text> */}
-                        <InputGroup className="mb-3">
-                          <InputGroup.Text style={{ width: "170px" }}>
-                            Cédula:
-                          </InputGroup.Text>
-                          <Form.Control
-                            disabled={true}
-                            name="cedula"
-                            value={values.cedula}
-                            onChange={handleChange}
-                            maxLength={10}
-                          />
-                        </InputGroup>
-                        <InputGroup className="mb-3">
-                          <InputGroup.Text style={{ width: "170px" }}>
-                            Nombres:
-                          </InputGroup.Text>
-                          <Form.Control
-                            name="nombre"
-                            value={values.nombre}
-                            onChange={handleChange}
-                          />
-                        </InputGroup>
-                        <InputGroup className="mb-3">
-                          <InputGroup.Text style={{ width: "170px" }}>
-                            Apellidos:
-                          </InputGroup.Text>
-                          <Form.Control
-                            name="apellido"
-                            value={values.apellido}
-                            onChange={handleChange}
-                          />
-                        </InputGroup>
-                        <InputGroup className="mb-3">
-                          <InputGroup.Text style={{ width: "170px" }}>
-                            Correo:
-                          </InputGroup.Text>
-                          <Form.Control
-                            name="correo"
-                            value={values.correo}
-                            onChange={handleChange}
-                          />
-                        </InputGroup>
-                        <InputGroup className="mb-3">
-                          <InputGroup.Text style={{ width: "170px" }}>
-                            Dirección:
-                          </InputGroup.Text>
-                          <Form.Control
-                            as="textarea"
-                            aria-label="With textarea"
-                            rows={3}
-                            style={{ resize: "none" }}
-                            name="direccion"
-                            value={values.direccion}
-                            onChange={handleChange}
-                          />
-                        </InputGroup>
-                        <InputGroup className="mb-3">
-                          <InputGroup.Text style={{ width: "170px" }}>
-                            Referencia:
-                          </InputGroup.Text>
-                          <Form.Control
-                            name="referencia"
-                            value={values.referencia}
-                            onChange={handleChange}
-                          />
-                        </InputGroup>
-                        <InputGroup className="mb-3">
-                          <InputGroup.Text style={{ width: "170px" }}>
-                            Telefono:
-                          </InputGroup.Text>
-                          <Form.Control
-                            name="telefono"
-                            value={values.telefono}
-                            onChange={handleChange}
-                          />
-                        </InputGroup>
-                        <Button
-                          className="w-100"
-                          type="submit"
-                          variant="outline-secondary"
-                        >
-                          Actualizar Datos
-                        </Button>
-                      </Form>
-                    )}
-                  </Formik>
-                </Col>
-              </Row>
+              <Card className="my-2 px-5 mx-5 py-5">
+                <Formik
+                  enableReinitialize={true}
+                  initialValues={datos}
+                  onSubmit={(values, { resetForm }) => {
+                    actualizarDatos(values);
+                    resetForm();
+                  }}
+                >
+                  {({
+                    handleSubmit,
+                    handleChange,
+                    handleBlur,
+                    values,
+                    touched,
+                    isValid,
+                    errors,
+                  }) => (
+                    <Form
+                      className="px-2 pt-2"
+                      noValidate
+                      onSubmit={handleSubmit}
+                    >
+                      <Row>
+                        <Col className="mx-2">
+                          <InputGroup className="mb-3">
+                            <InputGroup.Text className="w-25">
+                              Cédula:
+                            </InputGroup.Text>
+                            <Form.Control
+                              className="w-75"
+                              disabled={true}
+                              name="cedula"
+                              value={values.cedula}
+                              onChange={handleChange}
+                              maxLength={10}
+                            />
+                          </InputGroup>
+                          <InputGroup className="mb-3">
+                            <InputGroup.Text className="w-25">
+                              Nombres:
+                            </InputGroup.Text>
+                            <Form.Control
+                              className="w-75"
+                              name="nombre"
+                              value={values.nombre}
+                              onChange={handleChange}
+                            />
+                          </InputGroup>
+                          <InputGroup className="mb-3">
+                            <InputGroup.Text className="w-25">
+                              Correo:
+                            </InputGroup.Text>
+                            <Form.Control
+                              className="w-75"
+                              name="correo"
+                              value={values.correo}
+                              onChange={handleChange}
+                            />
+                          </InputGroup>
+                          <InputGroup className="mb-3">
+                            <InputGroup.Text className="w-25">
+                              Dirección:
+                            </InputGroup.Text>
+                            <Form.Control
+                              as="textarea"
+                              className="w-75"
+                              aria-label="With textarea"
+                              rows={3}
+                              style={{ resize: "none" }}
+                              name="direccion"
+                              value={values.direccion}
+                              onChange={handleChange}
+                            />
+                          </InputGroup>
+                        </Col>
+                        <Col className="mx-2">
+                          <InputGroup className="mb-4">
+                            <InputGroup.Text
+                              className="w-50 mb-3 bg-white"
+                              style={{ border: "0px" }}
+                            ></InputGroup.Text>
+                          </InputGroup>
+                          <InputGroup className="mb-3">
+                            <InputGroup.Text className="w-25">
+                              Apellidos:
+                            </InputGroup.Text>
+                            <Form.Control
+                              className="w-75"
+                              name="apellido"
+                              value={values.apellido}
+                              onChange={handleChange}
+                            />
+                          </InputGroup>
+                          <InputGroup className="mb-3">
+                            <InputGroup.Text className="w-25">
+                              Telefono:
+                            </InputGroup.Text>
+                            <Form.Control
+                              className="w-75"
+                              name="telefono"
+                              value={values.telefono}
+                              onChange={handleChange}
+                            />
+                          </InputGroup>
+                          <InputGroup className="mb-3">
+                            <InputGroup.Text className="w-25">
+                              Referencia:
+                            </InputGroup.Text>
+                            <Form.Control
+                              as="textarea"
+                              className="w-75"
+                              rows={3}
+                              style={{ resize: "none" }}
+                              name="referencia"
+                              value={values.referencia}
+                              onChange={handleChange}
+                            />
+                          </InputGroup>
+                        </Col>
+                      </Row>
+                      <Button
+                        className="w-25"
+                        type="submit"
+                        variant="outline-secondary"
+                      >
+                        Actualizar Datos
+                      </Button>
+                    </Form>
+                  )}
+                </Formik>
+              </Card>
             </Card>
           </div>
         ) : user?.permisos == 1 ? (
