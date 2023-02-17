@@ -1,13 +1,8 @@
-import { useState } from "react";
 import secureLocalStorage from "react-secure-storage";
 
 import Container from "react-bootstrap/Container";
-import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
-import Card from "react-bootstrap/Card";
 import NavDropdown from "react-bootstrap/NavDropdown";
-import Figure from "react-bootstrap/Figure";
-import Button from "react-bootstrap/esm/Button";
 
 import { Link } from "react-router-dom";
 import { AiOutlineUser } from "react-icons/ai";
@@ -15,12 +10,10 @@ import { RiLogoutBoxRLine, RiLogoutBoxLine } from "react-icons/ri";
 
 import "../designer/theme.css";
 
-// const user = JSON.parse(localStorage.getItem("user"));
 const user = secureLocalStorage.getItem("user");
 
 const Header = () => {
   const logout = () => {
-    // localStorage.removeItem("user");
     secureLocalStorage.removeItem("user");
     window.location.href = process.env.REACT_APP_BASENAME + "Catalogo";
   };
@@ -34,14 +27,6 @@ const Header = () => {
               <label className="mx-2 nav-element">Novedades D'Myla & Ney</label>
             </Link>
           </Navbar.Brand>
-
-          {/* <Navbar.Collapse id="basic-navbar-nav">
-            <Nav className="me-auto">
-              <Nav.Link href="#home">Home</Nav.Link>
-              <Nav.Link href="#link">Link</Nav.Link>
-            </Nav>
-          </Navbar.Collapse> */}
-
           {user ? (
             <Navbar.Collapse className="justify-content-end">
               <Navbar.Text className="px-5">
