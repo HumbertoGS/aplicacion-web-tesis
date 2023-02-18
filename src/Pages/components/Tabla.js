@@ -89,7 +89,7 @@ const Tabla = ({
 
   return (
     <>
-      <Table style={{ height }}>
+      <Table style={{ maxHeight: height }}>
         <thead className="theadTable">
           <tr>
             {header.map((item, index) => (
