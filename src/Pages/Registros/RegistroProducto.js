@@ -11,7 +11,7 @@ import Dropdown from "react-bootstrap/Dropdown";
 import { Formik } from "formik";
 
 import EditarDatos from "./EditarDatos";
-import FormCustom from "../components/FormCustom";
+import FormCustom from "./FormCustom";
 import Tabla from "../components/Tabla";
 
 import { PostData, ReloadData } from "../../custom-hooks/useFetch";
@@ -20,9 +20,6 @@ const urlCategoria = `${process.env.REACT_APP_API_CORE_URL}categoria`;
 const urlProducto = `${process.env.REACT_APP_API_CORE_URL}producto`;
 
 const RegistroProducto = () => {
-  const [mensaje, setMensaje] = useState("");
-  const [variant, setVariant] = useState("");
-
   const [editarModal, setEditarModal] = useState(null);
   const [datos, setDatos] = useState([]);
 
@@ -45,8 +42,8 @@ const RegistroProducto = () => {
   PostData(urlCategoria + "/insert", datosCategoria, updateCategori, (dato) => {
     setUpdateCategori(false);
     setReload(true);
-    setVariant("success");
-    setMensaje("Se registro la categoria");
+    // setVariant("success");
+    // setMensaje("Se registro la categoria");
   });
 
   //-------------------TABLA DE PRODUCTOS-------------------
@@ -54,10 +51,6 @@ const RegistroProducto = () => {
   const [productoTabla, setProductoTabla] = useState([]);
   const [buscarProductos, setBuscarProductos] = useState(true);
   const [producto, setProducto] = useState(productoTabla);
-
-  const [formDato, setFormDato] = useState("");
-  const [insertProducto, setInsertProducto] = useState(false);
-  const [file, setFile] = useState("");
 
   const [filtro, setFiltro] = useState("Selecciona categoria");
   const [filtrarTabla, setFiltrarTabla] = useState("Filtrar");
@@ -81,23 +74,15 @@ const RegistroProducto = () => {
     }
   };
 
-  //-------------------MENSAJE ALERTA-------------------
-  useEffect(() => {
-    if (variant) {
-      const interval = setTimeout(() => {
-        setVariant("");
-      }, 4000);
-      return () => clearInterval(interval);
-    }
-  }, [variant]);
-
   const [viewImagen, setViewImagen] = useState(null);
-  const view_img = (files) => {
+
+  const view_img = (files, imagen) => {
     const reader = new FileReader();
     reader.readAsDataURL(files);
 
     reader.onload = () => {
       setViewImagen(reader.result);
+      imagen.imagen = reader.result;
     };
   };
 
@@ -106,7 +91,6 @@ const RegistroProducto = () => {
   return (
     <>
       <Card body className="Card">
-        {/* {variant ? <MensajeAlert variant={variant} mensaje={mensaje} /> : <></>} */}
         <div className="mt-2">
           <h5 className="text-center">Registro de Producto y Categorias</h5>
           <div className="d-flex">
@@ -197,7 +181,7 @@ const RegistroProducto = () => {
                         <InputGroup className="mb-3 pt-2">
                           <InputGroup.Text
                             style={{ width: "100%" }}
-                            className="text-start px-4"
+                            className="text-start px-4 mx-4"
                           >
                             - Los campos con el asterisco son campos
                             obligatorios
@@ -215,37 +199,23 @@ const RegistroProducto = () => {
                             talla: "",
                             descripcion: "",
                           }}
-                          saveAction={insertProducto}
-                          guardarDatos={(value) => {
-                            let datosGuardar = value;
-
-                            datosGuardar.imagen = viewImagen;
-
-                            setFormDato(datosGuardar);
-
-                            setFiltro("Selecciona categoria");
-                            setInsertProducto(true);
-                          }}
                           moreProp={{
                             Categorias,
                             filtro,
                             setFiltro: (x) => setFiltro(x),
-                            file: (e) => {
+                            file: (e, imagen) => {
                               if (e.target.files[0]) {
-                                setFile(e.target.files[0]);
-                                view_img(e.target.files[0]);
+                                view_img(e.target.files[0], imagen);
                               }
                             },
                           }}
-                          /*-----------------------------------------*/
-                          datos={formDato}
                           url={urlProducto + "/insert"}
                           handleRespond={(x) => {
-                            setFile(null);
-                            setInsertProducto(false);
+                            console.log(x);
                             setBuscarProductos(true);
                           }}
                           mensajeResp="Se registro el producto"
+                          nameBtn="Registrar Producto"
                         />
                       </Col>
                       <Col md={5}>
@@ -318,10 +288,7 @@ const RegistroProducto = () => {
                       <></>
                     )}
                   </div>
-                  <div
-                    // style={{ overflowY: "auto", height: "350px" }}
-                    className="mt-3"
-                  >
+                  <div className="mt-3">
                     <Tabla
                       data={producto}
                       tabla="producto"
@@ -342,6 +309,7 @@ const RegistroProducto = () => {
           )}
         </div>
       </Card>
+
       {editarModal && (
         <EditarDatos
           producto={datos}
