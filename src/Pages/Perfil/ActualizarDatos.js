@@ -96,6 +96,7 @@ const ActualizarDatos = ({ user }) => {
                               Cédula:
                             </InputGroup.Text>
                             <Form.Control
+                              style={{cursor: "no-drop"}}
                               className="w-75"
                               disabled={true}
                               name="cedula"
