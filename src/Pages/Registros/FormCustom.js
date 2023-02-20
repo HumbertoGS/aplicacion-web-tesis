@@ -170,21 +170,6 @@ const disabled = (values, opcion) => {
     );
 };
 
-const propsBoton = (opcion) => {
-  if (opcion === "categoria")
-    return {
-      mensajeResp: "Se registro la categoria",
-      url: `${url}/insert`,
-      nameBtn: "Registrar Categoria",
-    };
-  if (opcion === "producto")
-    return {
-      mensajeResp: "Se registro el producto",
-      url: `${url}/insert`,
-      nameBtn: "Registrar Producto",
-    };
-};
-
 const FormPresent = (
   opcion,
   moreProp,
@@ -221,8 +206,8 @@ const FormCustom = ({
   handleRespond,
   opcion,
   moreProp = () => {},
+  propsBtn
 }) => {
-  const propiedadesBtn = propsBoton(opcion);
 
   return (
     <>
@@ -238,9 +223,9 @@ const FormCustom = ({
             <BtnGuardar
               datos={values}
               handleRespond={handleRespond}
-              mensajeResp={propiedadesBtn.mensajeResp}
-              url={propiedadesBtn.url}
-              nameBtn={propiedadesBtn.nameBtn}
+              mensajeResp={propsBtn.mensajeResp}
+              url={propsBtn.url}
+              nameBtn={propsBtn.nameBtn}
               disabled={disabled(values, opcion)}
               resetForm={() => resetForm()}
             />

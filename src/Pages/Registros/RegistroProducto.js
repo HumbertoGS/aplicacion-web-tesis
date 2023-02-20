@@ -105,6 +105,11 @@ const RegistroProducto = () => {
                         setReload(true);
                       }}
                       opcion="categoria"
+                      propsBtn={{
+                        mensajeResp: "Se registro la categoria",
+                        url: `${urlCategoria}/insert`,
+                        nameBtn: "Registrar Categoria",
+                      }}
                     />
                   </Card>
                 </Col>
@@ -160,6 +165,11 @@ const RegistroProducto = () => {
                             setReloadProductos(true);
                           }}
                           opcion="producto"
+                          propsBtn={{
+                            mensajeResp: "Se registro el producto",
+                            url: `${urlProducto}/insert`,
+                            nameBtn: "Registrar Producto",
+                          }}
                           moreProp={{
                             Categorias,
                             file: (e, imagen) => {
