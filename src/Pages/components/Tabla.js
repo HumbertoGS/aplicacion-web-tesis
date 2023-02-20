@@ -15,7 +15,7 @@ const Tabla = ({
   editarModal = (x) => {},
   reload = () => {},
   url = "/",
-  height = "270px",
+  height = "300px",
 }) => {
   const { header, fieldsToShow } = propertyTabla[tabla];
 
@@ -89,24 +89,26 @@ const Tabla = ({
 
   return (
     <>
-      <Table style={{ height }}>
-        <thead className="theadTable">
-          <tr>
-            {header.map((item, index) => (
-              <th key={index}>{item}</th>
-            ))}
-          </tr>
-        </thead>
-        <tbody>
-          {currentItems.map((item, index) => {
-            return (
-              <tr key={index}>
-                {fieldsToShow.map((row, i) => renderTableCell(row, item, i))}
-              </tr>
-            );
-          })}
-        </tbody>
-      </Table>
+      <div style={{ height }}>
+        <Table>
+          <thead className="theadTable">
+            <tr>
+              {header.map((item, index) => (
+                <th key={index}>{item}</th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            {currentItems.map((item, index) => {
+              return (
+                <tr key={index}>
+                  {fieldsToShow.map((row, i) => renderTableCell(row, item, i))}
+                </tr>
+              );
+            })}
+          </tbody>
+        </Table>
+      </div>
       <PaginationTabla
         currentPage={currentPage}
         itemsPerPage={itemsPerPage}
