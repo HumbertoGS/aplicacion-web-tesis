@@ -19,6 +19,7 @@ const FormProducto = ({ handleChange, values, isValid, errors, moreProp }) => {
         <InputGroup className="mb-3 pt-2">
           <InputGroup.Text style={{ width: "17%" }}>Nombre</InputGroup.Text>
           <Form.Control
+            autoComplete="off"
             type="text"
             name="nombre"
             value={values.nombre}
@@ -52,6 +53,7 @@ const FormProducto = ({ handleChange, values, isValid, errors, moreProp }) => {
             </InputGroup.Text>
             <Form.Control
               className="w-50"
+              autoComplete="off"
               name="precio"
               value={values.precio}
               onChange={handleChange}
@@ -65,6 +67,7 @@ const FormProducto = ({ handleChange, values, isValid, errors, moreProp }) => {
               </span>
             </InputGroup.Text>
             <Form.Control
+              autoComplete="off"
               type="text"
               name="cantidad"
               value={values.cantidad}
@@ -82,9 +85,7 @@ const FormProducto = ({ handleChange, values, isValid, errors, moreProp }) => {
               Talla
             </InputGroup.Text>
             <Form.Control
-              style={{
-                width: "63%",
-              }}
+              autoComplete="off"
               name="talla"
               value={values.talla}
               onChange={handleChange}
@@ -102,9 +103,7 @@ const FormProducto = ({ handleChange, values, isValid, errors, moreProp }) => {
               </span>
             </InputGroup.Text>
             <Form.Select
-              style={{
-                width: "63%",
-              }}
+              autoComplete="off"
               name="categoria"
               value={values.categoria}
               onChange={handleChange}
@@ -130,7 +129,7 @@ const FormProducto = ({ handleChange, values, isValid, errors, moreProp }) => {
           </InputGroup.Text>
           <Form.Control
             as="textarea"
-            aria-label="With textarea"
+            autoComplete="off"
             rows={3}
             style={{ resize: "none" }}
             name="descripcion"
@@ -146,7 +145,7 @@ const FormProducto = ({ handleChange, values, isValid, errors, moreProp }) => {
 const FormCategoria = ({ handleChange, values, isValid, errors }) => {
   return (
     <InputGroup className="mb-3">
-      <InputGroup.Text style={{ width: "100px" }}>Nombre</InputGroup.Text>
+      <InputGroup.Text className="w-25">Nombre</InputGroup.Text>
       <Form.Control
         type="text"
         autoComplete="off"
@@ -211,14 +210,8 @@ const FormCustom = ({
 }) => {
   return (
     <>
-      <Formik
-        enableReinitialize={Reinitialize}
-        initialValues={valuesForm}
-        onSubmit={(values, { resetForm }) => {
-          resetForm();
-        }}
-      >
-        {({ handleChange, values, isValid, errors }) => (
+      <Formik enableReinitialize={Reinitialize} initialValues={valuesForm}>
+        {({ handleChange, values, isValid, errors, resetForm }) => (
           <Form className="px-4" noValidate>
             {FormPresent(opcion, moreProp, {
               handleChange,
@@ -234,6 +227,7 @@ const FormCustom = ({
               url={url}
               nameBtn={nameBtn}
               disabled={disabled(values, opcion)}
+              resetForm={() => resetForm()}
             />
           </Form>
         )}
