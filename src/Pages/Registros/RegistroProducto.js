@@ -11,19 +11,17 @@ import EditarDatos from "./EditarDatos";
 import FormCustom from "./FormCustom";
 import Tabla from "../components/Tabla";
 
-import { PostData, ReloadData } from "../../custom-hooks/useFetch";
+import { ReloadData } from "../../custom-hooks/useFetch";
 
 const urlCategoria = `${process.env.REACT_APP_API_CORE_URL}categoria`;
 const urlProducto = `${process.env.REACT_APP_API_CORE_URL}producto`;
 
 const RegistroProducto = () => {
   const [editarModal, setEditarModal] = useState(null);
-  const [datos, setDatos] = useState([]);
+  const [datosModal, setDatosModal] = useState([]);
 
   //-------------------CATEGORIA-------------------
   const [Categorias, setCategorias] = useState([]);
-  const [updateCategori, setUpdateCategori] = useState(false);
-  const [datosCategoria, setDatosCategoria] = useState(null);
   const [reload, setReload] = useState(true);
 
   ReloadData(urlCategoria, reload, (dato) => {
@@ -31,41 +29,21 @@ const RegistroProducto = () => {
     setReload(false);
   });
 
-  const registrarCategoria = (nuevaCat) => {
-    setDatosCategoria(nuevaCat);
-    setUpdateCategori(true);
-  };
-
-  const handleChangeCateg = (dato) => {
-    console.log(dato);
-    setUpdateCategori(false);
-    setReload(true);
-    // setVariant("success");
-    // setMensaje("Se registro la categoria");
-  };
-
-  PostData(
-    urlCategoria + "/insert",
-    datosCategoria,
-    updateCategori,
-    handleChangeCateg
-  );
-
   //-------------------TABLA DE PRODUCTOS-------------------
 
   const [productoTabla, setProductoTabla] = useState([]);
-  const [buscarProductos, setBuscarProductos] = useState(true);
+  const [reloadProductos, setReloadProductos] = useState(true);
   const [producto, setProducto] = useState(productoTabla);
 
-  const [filtrarTabla, setFiltrarTabla] = useState("Filtrar");
-
-  ReloadData(urlProducto, buscarProductos, (dato) => {
+  ReloadData(urlProducto, reloadProductos, (dato) => {
     setProductoTabla(dato.datos);
     setProducto(dato.datos);
-    setBuscarProductos(false);
+    setReloadProductos(false);
   });
 
   //-------------------FILTRO PRODUCTOS-------------------
+
+  const [filtrarTabla, setFiltrarTabla] = useState("Filtrar");
 
   const Buscar = (idCategoria) => {
     let filtrado = productoTabla.filter(
@@ -77,6 +55,8 @@ const RegistroProducto = () => {
       setProducto([]);
     }
   };
+
+  //-------------------VISUALIZAR IMAGEN A SUBIR-------------------
 
   const [viewImagen, setViewImagen] = useState(null);
 
@@ -121,25 +101,22 @@ const RegistroProducto = () => {
                       valuesForm={{
                         nombre: "",
                       }}
-                      handleRespond={handleChangeCateg}
+                      handleRespond={(x) => {
+                        setReload(true);
+                      }}
                       opcion="categoria"
-                      url={urlCategoria + "/insert"}
-                      mensajeResp="Se registro la categoria"
-                      nameBtn="Guardar"
                     />
                   </Card>
                 </Col>
                 <Col className="px-4 p-4 mt-4" xs={12} md={7}>
-                  <div>
-                    <Tabla
-                      data={Categorias}
-                      tabla="categoria"
-                      reload={() => {
-                        setReload(true);
-                      }}
-                      url={urlCategoria}
-                    />
-                  </div>
+                  <Tabla
+                    data={Categorias}
+                    tabla="categoria"
+                    reload={() => {
+                      setReload(true);
+                    }}
+                    url={urlCategoria}
+                  />
                 </Col>
               </Row>
             </Card>
@@ -180,7 +157,7 @@ const RegistroProducto = () => {
                           handleRespond={(x) => {
                             console.log(x);
                             setViewImagen(null);
-                            setBuscarProductos(true);
+                            setReloadProductos(true);
                           }}
                           opcion="producto"
                           moreProp={{
@@ -191,9 +168,6 @@ const RegistroProducto = () => {
                               }
                             },
                           }}
-                          url={urlProducto + "/insert"}
-                          mensajeResp="Se registro el producto"
-                          nameBtn="Registrar Producto"
                         />
                       </Col>
                       <Col md={5}>
@@ -271,11 +245,11 @@ const RegistroProducto = () => {
                       data={producto}
                       tabla="producto"
                       editarModal={(item) => {
-                        setDatos(item);
+                        setDatosModal(item);
                         setEditarModal(true);
                       }}
                       reload={() => {
-                        setBuscarProductos(true);
+                        setReloadProductos(true);
                       }}
                       url={urlProducto}
                       height="360px"
@@ -290,11 +264,11 @@ const RegistroProducto = () => {
 
       {editarModal && (
         <EditarDatos
-          producto={datos}
+          producto={datosModal}
           Categorias={Categorias}
           show={editarModal}
           onHide={() => setEditarModal(false)}
-          buscarProductos={() => setBuscarProductos(true)}
+          reloadProductos={() => setReloadProductos(true)}
         />
       )}
     </>
