@@ -70,6 +70,7 @@ const BtnGuardar = ({
   handleRespond,
   mensajeResp,
   nameBtn = "Buscar",
+  disabled = false,
 }) => {
   const [guardar, setGuardar] = useState(false);
   const [mensajeAlert, setMensajeAlert] = useState({
@@ -83,6 +84,8 @@ const BtnGuardar = ({
     setGuardar(false);
     setMensajeAlert(datosAlert(response, mensajeResp));
   };
+
+  console.log(datos);
 
   PostData(url, datos, guardar, funcionRespuesta);
 
@@ -106,6 +109,7 @@ const BtnGuardar = ({
       <Button
         className="mx-2"
         variant="outline-secondary"
+        disabled={disabled}
         onClick={() => setGuardar(true)}
       >
         {nameBtn}
