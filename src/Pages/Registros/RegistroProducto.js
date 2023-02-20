@@ -162,7 +162,6 @@ const RegistroProducto = () => {
                           <InputGroup.Text
                             style={{
                               width: "100%",
-                              // wordWrap: "break-word",
                               whiteSpace: "pre-line",
                             }}
                             className="text-start px-4 mx-4"
@@ -286,7 +285,7 @@ const RegistroProducto = () => {
                         setReloadProductos(true);
                       }}
                       url={urlProducto}
-                      height="360px"
+                      height="390px"
                     />
                   </div>
                 </Col>

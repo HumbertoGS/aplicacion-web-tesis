@@ -136,7 +136,7 @@ const PedidoDetalles = (props) => {
                         />
                         <label style={style.label} className="pt-2">
                           Click para {item.estado ? "cancelar " : "activar "}
-                          pedido{filtro?.status}
+                          pedido
                         </label>
                       </div>
                     </div>

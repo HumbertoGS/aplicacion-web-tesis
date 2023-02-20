@@ -182,7 +182,7 @@ const RegistroVentas = () => {
       {modalPedido && (
         <PedidoDetalles
           data={numeroPedido}
-          filtro={datosBuscar}
+          filtro={datosBuscar ?? { status: "1" }}
           show={modalPedido}
           onHide={() => setModalPedido(false)}
         />
