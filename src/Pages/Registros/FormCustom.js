@@ -6,6 +6,8 @@ import Col from "react-bootstrap/esm/Col";
 import { Formik } from "formik";
 import { BtnGuardar } from "../components/BtnAccion";
 
+const url = `${process.env.REACT_APP_API_CORE_URL}`;
+
 const FormProducto = ({ handleChange, values, isValid, errors, moreProp }) => {
   const { Categorias, file } = moreProp;
 
@@ -157,6 +159,32 @@ const FormCategoria = ({ handleChange, values, isValid, errors }) => {
   );
 };
 
+const disabled = (values, opcion) => {
+  if (opcion === "categoria") return !values?.nombre;
+  if (opcion === "producto")
+    return !(
+      values?.imagen &&
+      values?.precio &&
+      values?.cantidad &&
+      values?.categoria
+    );
+};
+
+const propsBoton = (opcion) => {
+  if (opcion === "categoria")
+    return {
+      mensajeResp: "Se registro la categoria",
+      url: `${url}/insert`,
+      nameBtn: "Registrar Categoria",
+    };
+  if (opcion === "producto")
+    return {
+      mensajeResp: "Se registro el producto",
+      url: `${url}/insert`,
+      nameBtn: "Registrar Producto",
+    };
+};
+
 const FormPresent = (
   opcion,
   moreProp,
@@ -187,27 +215,15 @@ const FormPresent = (
   }
 };
 
-const disabled = (values, opcion) => {
-  if (opcion === "categoria") return !values?.nombre;
-  if (opcion === "producto")
-    return !(
-      values?.imagen &&
-      values?.precio &&
-      values?.cantidad &&
-      values?.categoria
-    );
-};
-
 const FormCustom = ({
   Reinitialize = false,
   valuesForm,
   handleRespond,
   opcion,
   moreProp = () => {},
-  url,
-  mensajeResp,
-  nameBtn,
 }) => {
+  const propiedadesBtn = propsBoton(opcion);
+
   return (
     <>
       <Formik enableReinitialize={Reinitialize} initialValues={valuesForm}>
@@ -219,13 +235,12 @@ const FormCustom = ({
               isValid,
               errors,
             })}
-
             <BtnGuardar
               datos={values}
               handleRespond={handleRespond}
-              mensajeResp={mensajeResp}
-              url={url}
-              nameBtn={nameBtn}
+              mensajeResp={propiedadesBtn.mensajeResp}
+              url={propiedadesBtn.url}
+              nameBtn={propiedadesBtn.nameBtn}
               disabled={disabled(values, opcion)}
               resetForm={() => resetForm()}
             />
