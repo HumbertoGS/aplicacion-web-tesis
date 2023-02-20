@@ -1,22 +1,17 @@
 import Form from "react-bootstrap/Form";
 import InputGroup from "react-bootstrap/InputGroup";
-import Dropdown from "react-bootstrap/Dropdown";
-
-import { Formik } from "formik";
-import { BtnGuardar } from "../components/BtnAccion";
 import Row from "react-bootstrap/esm/Row";
 import Col from "react-bootstrap/esm/Col";
 
-const FormCuerpo = ({
-  handleChange,
-  handleBlur,
-  values,
-  touched,
-  isValid,
-  errors,
-  moreProp,
-}) => {
-  const { Categorias, file, filtro, setFiltro } = moreProp;
+import { Formik } from "formik";
+import { BtnGuardar } from "../components/BtnAccion";
+
+const FormProducto = ({ handleChange, values, isValid, errors, moreProp }) => {
+  const { Categorias, file } = moreProp;
+
+  const categoriaActive = Categorias.filter((item) => item.estado !== false);
+
+  const width = "35%";
 
   return (
     <>
@@ -49,7 +44,7 @@ const FormCuerpo = ({
       <Row>
         <Col>
           <InputGroup className="mb-3">
-            <InputGroup.Text style={{ width: "35%" }}>
+            <InputGroup.Text style={{ width }}>
               Precio
               <span style={{ color: "#eb0808" }} className="px-2">
                 *
@@ -63,7 +58,7 @@ const FormCuerpo = ({
             />
           </InputGroup>
           <InputGroup className="mb-3">
-            <InputGroup.Text style={{ width: "35%" }}>
+            <InputGroup.Text style={{ width }}>
               cantidad
               <span style={{ color: "#eb0808" }} className="px-2">
                 *
@@ -81,7 +76,7 @@ const FormCuerpo = ({
           <InputGroup className="mb-3">
             <InputGroup.Text
               style={{
-                width: "37%",
+                width,
               }}
             >
               Talla
@@ -96,42 +91,35 @@ const FormCuerpo = ({
             />
           </InputGroup>
           <InputGroup className="mb-3">
-            <InputGroup.Text className="w-35">
+            <InputGroup.Text
+              style={{
+                width,
+              }}
+            >
               Categoria
               <span style={{ color: "#eb0808" }} className="px-2">
                 *
               </span>
             </InputGroup.Text>
-            <Dropdown>
-              <Dropdown.Toggle
-                // className="w-65"
-                variant="outline"
-                style={{
-                  width: "63%",
-                  border: "1px solid #dfe3e7",
-                  borderRadius: "0px 4px 4px 0px",
-                }}
-              >
-                {filtro}
-              </Dropdown.Toggle>
-              <Dropdown.Menu>
-                {Categorias.map((item, index) => {
-                  return item.estado ? (
-                    <Dropdown.Item
-                      key={index}
-                      onClick={() => {
-                        setFiltro(item.nombre);
-                        values.categoria = item.id;
-                      }}
-                    >
-                      {item.nombre}
-                    </Dropdown.Item>
-                  ) : (
-                    <li key={index}></li>
-                  );
-                })}
-              </Dropdown.Menu>
-            </Dropdown>
+            <Form.Select
+              style={{
+                width: "63%",
+              }}
+              name="categoria"
+              value={values.categoria}
+              onChange={handleChange}
+            >
+              <option value={""} disabled>
+                Selecciona categoria
+              </option>
+              {categoriaActive.map((item, index) => {
+                return (
+                  <option key={index} value={item.id}>
+                    {item.nombre}
+                  </option>
+                );
+              })}
+            </Form.Select>
           </InputGroup>
         </Col>
       </Row>
@@ -155,12 +143,68 @@ const FormCuerpo = ({
   );
 };
 
+const FormCategoria = ({ handleChange, values, isValid, errors }) => {
+  return (
+    <InputGroup className="mb-3">
+      <InputGroup.Text style={{ width: "100px" }}>Nombre</InputGroup.Text>
+      <Form.Control
+        type="text"
+        name="nombre"
+        value={values.nombre}
+        onChange={handleChange}
+      />
+    </InputGroup>
+  );
+};
+
+const FormPresent = (
+  opcion,
+  moreProp,
+  { handleChange, values, isValid, errors }
+) => {
+  switch (opcion) {
+    case "categoria":
+      return (
+        <FormCategoria
+          handleChange={handleChange}
+          values={values}
+          errors={errors}
+          isValid={isValid}
+        />
+      );
+    case "producto":
+      return (
+        <FormProducto
+          handleChange={handleChange}
+          values={values}
+          errors={errors}
+          isValid={isValid}
+          moreProp={moreProp}
+        />
+      );
+    default:
+      <></>;
+  }
+};
+
+const disabled = (values, opcion) => {
+  if (opcion === "categoria") return !values?.nombre;
+  if (opcion === "producto")
+    return !(
+      values?.imagen &&
+      values?.precio &&
+      values?.cantidad &&
+      values?.categoria
+    );
+};
+
 const FormCustom = ({
   Reinitialize = false,
   valuesForm,
-  moreProp,
-  url,
   handleRespond,
+  opcion,
+  moreProp = () => {},
+  url,
   mensajeResp,
   nameBtn,
 }) => {
@@ -173,23 +217,22 @@ const FormCustom = ({
           resetForm();
         }}
       >
-        {({ handleChange, handleBlur, values, touched, isValid, errors }) => (
+        {({ handleChange, values, isValid, errors }) => (
           <Form className="px-4" noValidate>
-            <FormCuerpo
-              handleChange={handleChange}
-              handleBlur={handleBlur}
-              values={values}
-              touched={touched}
-              errors={errors}
-              isValid={isValid}
-              moreProp={moreProp}
-            />
+            {FormPresent(opcion, moreProp, {
+              handleChange,
+              values,
+              isValid,
+              errors,
+            })}
+
             <BtnGuardar
               datos={values}
               handleRespond={handleRespond}
               mensajeResp={mensajeResp}
               url={url}
               nameBtn={nameBtn}
+              disabled={disabled(values, opcion)}
             />
           </Form>
         )}
