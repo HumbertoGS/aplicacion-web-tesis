@@ -26,7 +26,7 @@ export default function HeaderPerfil({ user, cambio, opcion }) {
           }}
           onClick={cambio}
           nameBtn={
-            user?.permisos == 1 ? "Administrar Empleados" : "Estado de Pedido"
+            user?.permisos === 1 ? "Administrar Empleados" : "Estado de Pedido"
           }
         />
       </div>

@@ -6,8 +6,6 @@ import Col from "react-bootstrap/esm/Col";
 import { Formik } from "formik";
 import { BtnGuardar } from "../components/BtnAccion";
 
-const url = `${process.env.REACT_APP_API_CORE_URL}`;
-
 const FormProducto = ({ handleChange, values, isValid, errors, moreProp }) => {
   const { Categorias, file } = moreProp;
 
