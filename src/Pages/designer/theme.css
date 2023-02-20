@@ -185,3 +185,11 @@ a:visited {
   width: 85px;
   opacity: 100% !important;
 }
+
+.btnOpcion {
+  color: #393b3c !important;
+  border-bottom: 0px !important;
+  border-radius: 0 !important;
+  border-top-right-radius: 4px !important;
+  border-top-left-radius: 4px !important;
+}
