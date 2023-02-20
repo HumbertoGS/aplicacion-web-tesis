@@ -149,6 +149,7 @@ const FormCategoria = ({ handleChange, values, isValid, errors }) => {
       <InputGroup.Text style={{ width: "100px" }}>Nombre</InputGroup.Text>
       <Form.Control
         type="text"
+        autoComplete="off"
         name="nombre"
         value={values.nombre}
         onChange={handleChange}

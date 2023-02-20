@@ -1,14 +1,11 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 import Card from "react-bootstrap/Card";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Button from "react-bootstrap/Button";
-import Form from "react-bootstrap/Form";
 import InputGroup from "react-bootstrap/InputGroup";
 import Dropdown from "react-bootstrap/Dropdown";
-
-import { Formik } from "formik";
 
 import EditarDatos from "./EditarDatos";
 import FormCustom from "./FormCustom";
@@ -39,12 +36,20 @@ const RegistroProducto = () => {
     setUpdateCategori(true);
   };
 
-  PostData(urlCategoria + "/insert", datosCategoria, updateCategori, (dato) => {
+  const handleChangeCateg = (dato) => {
+    console.log(dato);
     setUpdateCategori(false);
     setReload(true);
     // setVariant("success");
     // setMensaje("Se registro la categoria");
-  });
+  };
+
+  PostData(
+    urlCategoria + "/insert",
+    datosCategoria,
+    updateCategori,
+    handleChangeCateg
+  );
 
   //-------------------TABLA DE PRODUCTOS-------------------
 
@@ -52,7 +57,6 @@ const RegistroProducto = () => {
   const [buscarProductos, setBuscarProductos] = useState(true);
   const [producto, setProducto] = useState(productoTabla);
 
-  const [filtro, setFiltro] = useState("Selecciona categoria");
   const [filtrarTabla, setFiltrarTabla] = useState("Filtrar");
 
   ReloadData(urlProducto, buscarProductos, (dato) => {
@@ -99,6 +103,7 @@ const RegistroProducto = () => {
               variant="outline-secondary"
               onClick={() => {
                 setOpcion(!opcion);
+                setViewImagen(null);
               }}
             >
               Registrar {!opcion ? "Categoria" : "Producto"}
@@ -112,47 +117,16 @@ const RegistroProducto = () => {
                   <Card className="Card p-4 mt-3">
                     <h5>Registro de Categoria</h5>
                     <hr />
-                    <Formik
-                      initialValues={{
+                    <FormCustom
+                      valuesForm={{
                         nombre: "",
                       }}
-                      onSubmit={(values, { resetForm }) => {
-                        registrarCategoria(values);
-                        resetForm();
-                      }}
-                    >
-                      {({
-                        handleSubmit,
-                        handleChange,
-                        handleBlur,
-                        values,
-                        touched,
-                        isValid,
-                        errors,
-                      }) => (
-                        <Form noValidate onSubmit={handleSubmit}>
-                          <InputGroup className="mb-3">
-                            <InputGroup.Text style={{ width: "100px" }}>
-                              Nombre
-                            </InputGroup.Text>
-                            <Form.Control
-                              type="text"
-                              name="nombre"
-                              value={values.nombre}
-                              onChange={handleChange}
-                            />
-                          </InputGroup>
-                          <Button
-                            className="w-50"
-                            type="submit"
-                            disabled={!values.nombre}
-                            variant="outline-secondary"
-                          >
-                            Guardar
-                          </Button>
-                        </Form>
-                      )}
-                    </Formik>
+                      handleRespond={handleChangeCateg}
+                      opcion="categoria"
+                      url={urlCategoria + "/insert"}
+                      mensajeResp="Se registro la categoria"
+                      nameBtn="Guardar"
+                    />
                   </Card>
                 </Col>
                 <Col className="px-4 p-4 mt-4" xs={12} md={7}>
@@ -180,7 +154,11 @@ const RegistroProducto = () => {
                       <Col md={7}>
                         <InputGroup className="mb-3 pt-2">
                           <InputGroup.Text
-                            style={{ width: "100%" }}
+                            style={{
+                              width: "100%",
+                              // wordWrap: "break-word",
+                              whiteSpace: "pre-line",
+                            }}
                             className="text-start px-4 mx-4"
                           >
                             - Los campos con el asterisco son campos
@@ -199,10 +177,14 @@ const RegistroProducto = () => {
                             talla: "",
                             descripcion: "",
                           }}
+                          handleRespond={(x) => {
+                            console.log(x);
+                            setViewImagen(null);
+                            setBuscarProductos(true);
+                          }}
+                          opcion="producto"
                           moreProp={{
                             Categorias,
-                            filtro,
-                            setFiltro: (x) => setFiltro(x),
                             file: (e, imagen) => {
                               if (e.target.files[0]) {
                                 view_img(e.target.files[0], imagen);
@@ -210,10 +192,6 @@ const RegistroProducto = () => {
                             },
                           }}
                           url={urlProducto + "/insert"}
-                          handleRespond={(x) => {
-                            console.log(x);
-                            setBuscarProductos(true);
-                          }}
                           mensajeResp="Se registro el producto"
                           nameBtn="Registrar Producto"
                         />
