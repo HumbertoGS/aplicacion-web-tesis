@@ -18,6 +18,7 @@ import MensajeAlert from "../components/MensajeAlert";
 import { ReloadData } from "../../custom-hooks/useFetch";
 
 import "../designer/theme.css";
+import BtnCambioOpciones from "../components/OpcionPantalla";
 
 let datosA = { datos: [], totales: [] };
 
@@ -242,7 +243,7 @@ const Catalogo = () => {
               </div>
             </Row>
 
-            <Accordion className="mb-3">
+            <Accordion className="mb-2">
               <Accordion.Item eventKey={"0"}>
                 <Accordion.Header>
                   <Form.Label className="fw-bold w-50 my-0">
@@ -256,31 +257,39 @@ const Catalogo = () => {
               </Accordion.Item>
             </Accordion>
 
-            <div className="d-flex">
-              <BtnCatalogo
-                border={!opcion ? "0px" : "1px solid #91979d"}
-                background={opcion ? "#c7d5ff" : "#ffff"}
+            <div
+              className="d-flex mb-3"
+              style={{ borderBottom: "1px solid #d2d8dd" }}
+            >
+              <BtnCambioOpciones
+                styleBtn={{
+                  border: !opcion ? "0px" : "1px solid #d2d8dd",
+                  marginBottom: opcion ? "-1px" : "0px",
+                  background: opcion ? "#e9ecef" : "#ffff",
+                }}
                 onClick={() => {
                   setOpcion(true);
                 }}
                 nameBtn="Nuevos"
               />
-              <BtnCatalogo
-                border={opcion ? "0px" : "1px solid #91979d"}
-                background={!opcion ? "#c7d5ff" : "#ffff"}
+              <BtnCambioOpciones
+                styleBtn={{
+                  border: opcion ? "0px" : "1px solid #d2d8dd",
+                  marginBottom: !opcion ? "-1px" : "0px",
+                  background: !opcion ? "#e9ecef" : "#ffff",
+                }}
                 onClick={() => {
                   setOpcion(false);
                 }}
                 nameBtn="Todos"
               />
               <div className="w-50"></div>
-              <div style={{ width: "10%" }}>
+              <div className="mb-1" style={{ width: "10%" }}>
                 <Button onClick={handleShow}>
                   <FaShoppingCart />
                 </Button>
               </div>
             </div>
-            <hr className="my-2" />
 
             {show && (
               <MenuDespe

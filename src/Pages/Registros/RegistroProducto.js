@@ -12,6 +12,7 @@ import FormCustom from "./FormCustom";
 import Tabla from "../components/Tabla";
 
 import { ReloadData } from "../../custom-hooks/useFetch";
+import BtnCambioOpciones from "../components/OpcionPantalla";
 
 const urlCategoria = `${process.env.REACT_APP_API_CORE_URL}categoria`;
 const urlProducto = `${process.env.REACT_APP_API_CORE_URL}producto`;
@@ -76,22 +77,45 @@ const RegistroProducto = () => {
     <>
       <Card body className="Card">
         <div className="mt-2">
-          <h5 className="text-center">Registro de Producto y Categorias</h5>
-          <div className="d-flex">
-            <Button
-              style={{ border: "0px", borderRadius: "0px" }}
-              variant="outline-secondary"
-              onClick={() => {
-                setOpcion(!opcion);
-                setViewImagen(null);
+          <Row>
+            <div className="w-25"></div>
+            <div className="w-50 mb-2">
+              <h5 className="text-center">Registro de Producto y Categorias</h5>
+              <hr />
+            </div>
+          </Row>
+
+          <div
+            className="d-flex mb-3"
+            style={{ borderBottom: "1px solid #d2d8dd" }}
+          >
+            <BtnCambioOpciones
+              styleBtn={{
+                border: !opcion ? "0px" : "1px solid #d2d8dd",
+                marginBottom: opcion ? "-1px" : "0px",
+                background: opcion ? "#e9ecef" : "#ffff",
               }}
-            >
-              Registrar {!opcion ? "Categoria" : "Producto"}
-            </Button>
+              onClick={() => {
+                setOpcion(true);
+              }}
+              nameBtn="Registrar Categoria"
+            />
+
+            <BtnCambioOpciones
+              styleBtn={{
+                border: opcion ? "0px" : "1px solid #d2d8dd",
+                marginBottom: !opcion ? "-1px" : "0px",
+                background: !opcion ? "#e9ecef" : "#ffff",
+              }}
+              onClick={() => {
+                setOpcion(false);
+              }}
+              nameBtn="Registrar Producto"
+            />
           </div>
-          <hr className="pt-0 mt-0" />
+
           {opcion ? (
-            <Card className="p-3 mx-0" style={{ height: "74vh" }}>
+            <Card className="p-3 mx-0" style={{ height: "70vh" }}>
               <Row>
                 <Col xs={12} md={5}>
                   <Card className="Card p-4 mt-3">
