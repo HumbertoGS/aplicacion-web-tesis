@@ -71,6 +71,7 @@ const BtnGuardar = ({
   mensajeResp,
   nameBtn = "Buscar",
   disabled = false,
+  resetForm = () => {},
 }) => {
   const [guardar, setGuardar] = useState(false);
   const [mensajeAlert, setMensajeAlert] = useState({
@@ -81,6 +82,7 @@ const BtnGuardar = ({
 
   const funcionRespuesta = (response) => {
     handleRespond(response.datos);
+    resetForm();
     setGuardar(false);
     setMensajeAlert(datosAlert(response, mensajeResp));
   };
