@@ -194,6 +194,7 @@ const RegistroProducto = () => {
                             nameBtn: "Registrar Producto",
                           }}
                           moreProp={{
+                            editar: false,
                             Categorias,
                             file: (e, imagen) => {
                               if (e.target.files[0]) {
@@ -205,12 +206,10 @@ const RegistroProducto = () => {
                       </Col>
                       <Col md={5}>
                         <div
-                          className="py-4 d-flex justify-content-center"
+                          className="py-4 CardImagen"
                           style={{
                             border: "1px solid #b8bcc0",
-                            borderRadius: "12px",
                             height: "415px",
-                            alignItems: "center",
                           }}
                         >
                           {viewImagen && (
