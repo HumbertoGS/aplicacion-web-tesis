@@ -51,7 +51,7 @@ const Header = () => {
                   </Link>
 
                   {user ? (
-                    user.permisos == 1 ? (
+                    user.permisos === 1 ? (
                       <div>
                         <Link to="Inventario">
                           <Container
