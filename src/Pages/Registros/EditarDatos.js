@@ -14,14 +14,7 @@ const EditarDatos = ({
   reloadProductos,
 }) => {
   const [file] = useState(producto.imagen);
-
-  // PostData(urlProducto + "/insert", formDato, actualizarProducto, (x) => {
-  //   setActualizarProducto(false);
-  //   buscarProductos();
-  //   onHide();
-  //   // setInsertProducto(false);
-  // });
-
+  
   //-------------------VISUALIZAR IMAGEN A SUBIR-------------------
 
   const [viewImagen, setViewImagen] = useState(null);
