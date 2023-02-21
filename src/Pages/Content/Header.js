@@ -20,7 +20,7 @@ const Header = () => {
 
   return (
     <div className="App-header py-2">
-      <Navbar>
+      <Navbar className="h-100">
         <Container>
           <Navbar.Brand>
             <Link to="Catalogo" className="nav-element">
