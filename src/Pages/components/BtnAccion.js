@@ -87,8 +87,6 @@ const BtnGuardar = ({
     setMensajeAlert(datosAlert(response, mensajeResp));
   };
 
-  console.log(datos);
-
   PostData(url, datos, guardar, funcionRespuesta);
 
   useEffect(() => {
@@ -108,14 +106,15 @@ const BtnGuardar = ({
           mensaje={mensajeAlert.mensaje}
         />
       )}
-      <Button
-        className="mx-2"
-        variant="outline-secondary"
-        disabled={disabled}
-        onClick={() => setGuardar(true)}
-      >
-        {nameBtn}
-      </Button>
+      <div className="d-flex justify-content-center">
+        <Button
+          variant="outline-secondary"
+          disabled={disabled}
+          onClick={() => setGuardar(true)}
+        >
+          {nameBtn}
+        </Button>
+      </div>
     </div>
   );
 };
