@@ -2,22 +2,25 @@ import Form from "react-bootstrap/Form";
 import InputGroup from "react-bootstrap/InputGroup";
 import Row from "react-bootstrap/esm/Row";
 import Col from "react-bootstrap/esm/Col";
+import Card from "react-bootstrap/esm/Card";
 
 import { Formik } from "formik";
 import { BtnGuardar } from "../components/BtnAccion";
 
 const FormProducto = ({ handleChange, values, isValid, errors, moreProp }) => {
-  const { Categorias, file } = moreProp;
+  const { Categorias, file, editar } = moreProp;
 
   const categoriaActive = Categorias.filter((item) => item.estado !== false);
 
-  const width = "35%";
+  const width = editar ? "44%" : "35%";
+  const widthRow = editar ? "21%" : "17%";
+  const className = editar ? "d-none" : "d-flex";
 
   return (
     <>
       <Row>
         <InputGroup className="mb-3 pt-2">
-          <InputGroup.Text style={{ width: "17%" }}>Nombre</InputGroup.Text>
+          <InputGroup.Text style={{ width: widthRow }}>Nombre</InputGroup.Text>
           <Form.Control
             autoComplete="off"
             type="text"
@@ -26,7 +29,7 @@ const FormProducto = ({ handleChange, values, isValid, errors, moreProp }) => {
             onChange={handleChange}
           />
         </InputGroup>
-        <InputGroup className="mb-3">
+        <InputGroup className={"mb-3 " + className}>
           <InputGroup.Text style={{ width: "17%" }}>
             Imagen
             <span style={{ color: "#eb0808" }} className="px-2">
@@ -124,7 +127,7 @@ const FormProducto = ({ handleChange, values, isValid, errors, moreProp }) => {
       </Row>
       <Row>
         <InputGroup className="mb-3">
-          <InputGroup.Text style={{ width: "17%" }}>
+          <InputGroup.Text style={{ width: widthRow }}>
             Descripcion
           </InputGroup.Text>
           <Form.Control
@@ -137,6 +140,64 @@ const FormProducto = ({ handleChange, values, isValid, errors, moreProp }) => {
             onChange={handleChange}
           />
         </InputGroup>
+      </Row>
+    </>
+  );
+};
+
+const FormProductoEditar = ({
+  handleChange,
+  values,
+  isValid,
+  errors,
+  moreProp,
+}) => {
+  const { file } = moreProp;
+
+  return (
+    <>
+      <Row>
+        <Col md={7}>
+          <Card.Title>
+            {values.nombre ? values.nombre : "No name"}
+            <hr />
+          </Card.Title>
+          <FormProducto
+            handleChange={handleChange}
+            values={values}
+            errors={errors}
+            isValid={isValid}
+            moreProp={moreProp}
+          />
+        </Col>
+        <Col md={5}>
+          <div
+            className="CardImagen"
+            style={{
+              width: "300px",
+              height: "280px",
+            }}
+          >
+            <Card.Img
+              className="px-2"
+              variant="top"
+              style={{
+                width: "100%",
+                maxHeight: "280px",
+              }}
+              src={values.imagen}
+            />
+          </div>
+          <InputGroup style={{ paddingLeft: "9px" }}>
+            <Form.Control
+              type="file"
+              size="sm"
+              onChange={(e) => {
+                file(e, values);
+              }}
+            />
+          </InputGroup>
+        </Col>
       </Row>
     </>
   );
@@ -193,6 +254,16 @@ const FormPresent = (
           moreProp={moreProp}
         />
       );
+    case "productoEditar":
+      return (
+        <FormProductoEditar
+          handleChange={handleChange}
+          values={values}
+          errors={errors}
+          isValid={isValid}
+          moreProp={moreProp}
+        />
+      );
     default:
       <></>;
   }
@@ -204,9 +275,8 @@ const FormCustom = ({
   handleRespond,
   opcion,
   moreProp = () => {},
-  propsBtn
+  propsBtn,
 }) => {
-
   return (
     <>
       <Formik enableReinitialize={Reinitialize} initialValues={valuesForm}>
@@ -218,15 +288,19 @@ const FormCustom = ({
               isValid,
               errors,
             })}
-            <BtnGuardar
-              datos={values}
-              handleRespond={handleRespond}
-              mensajeResp={propsBtn.mensajeResp}
-              url={propsBtn.url}
-              nameBtn={propsBtn.nameBtn}
-              disabled={disabled(values, opcion)}
-              resetForm={() => resetForm()}
-            />
+            <Row>
+              <Col md={moreProp?.size ?? 12}>
+                <BtnGuardar
+                  datos={values}
+                  handleRespond={handleRespond}
+                  mensajeResp={propsBtn.mensajeResp}
+                  url={propsBtn.url}
+                  nameBtn={propsBtn.nameBtn}
+                  disabled={disabled(values, opcion)}
+                  resetForm={() => resetForm()}
+                />
+              </Col>
+            </Row>
           </Form>
         )}
       </Formik>
