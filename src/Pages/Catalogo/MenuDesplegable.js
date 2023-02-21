@@ -1,12 +1,11 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
-import Container from "react-bootstrap/Container";
-import Navbar from "react-bootstrap/Navbar";
 import Card from "react-bootstrap/Card";
 import Offcanvas from "react-bootstrap/Offcanvas";
 import InputGroup from "react-bootstrap/InputGroup";
 import ListGroup from "react-bootstrap/ListGroup";
 import Button from "react-bootstrap/Button";
+import { Link } from "react-router-dom";
 
 import { MdClose } from "react-icons/md";
 
@@ -25,8 +24,6 @@ const MenuDespe = (props) => {
 
   return (
     <>
-      {/* <Navbar style={{ display: "none" }}>
-        <Card> */}
       <Offcanvas show={props.show} onHide={props.handleClose} placement={"end"}>
         <Offcanvas.Header closeButton className="pb-0">
           <Offcanvas.Title style={{ width: "200px" }}>
@@ -122,15 +119,19 @@ const MenuDespe = (props) => {
                 <h6>${datosCarrito.totales[0]?.totales}</h6>
               </InputGroup.Text>
             </InputGroup>
-            <Button className="w-100" variant="outline-success" href="/Carrito">
-              {/* <a href="/Carrito">Ir a Carrito</a> */}
-              Ir a Carrito
-            </Button>
+
+            <Link to="/Carrito">
+              <Button
+                className="w-100"
+                variant="outline-success"
+                href="/Carrito"
+              >
+                Ir a Carrito
+              </Button>
+            </Link>
           </div>
         </ListGroup>
       </Offcanvas>
-      {/* </Card>
-      </Navbar> */}
     </>
   );
 };
