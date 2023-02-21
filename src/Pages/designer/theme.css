@@ -180,6 +180,13 @@ a:visited {
   opacity: 85%;
 }
 
+.CardImagen {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 12px;
+}
+
 .BtnEstado {
   border: 0px !important;
   width: 85px;
