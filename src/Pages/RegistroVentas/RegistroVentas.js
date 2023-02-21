@@ -1,5 +1,8 @@
 import { useState } from "react";
-import { Accordion, Button, Card, Form } from "react-bootstrap";
+import Accordion from "react-bootstrap/Accordion";
+import Button from "react-bootstrap/Button";
+import Card from "react-bootstrap/Card";
+import Form from "react-bootstrap/Form";
 
 import TablaPedidos from "./TablaPedidos";
 import PedidoDetalles from "./Modal/PedidoDetalles";
@@ -126,11 +129,6 @@ const RegistroVentas = () => {
                 num_pedido: "",
                 num_ident: "",
               });
-
-              // setTitulo("en Espera");
-              // setDatosBuscar(null);
-
-              // console.log(busqueda)
             }}
           >
             Limpiar
