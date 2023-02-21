@@ -94,12 +94,12 @@ const ProductoImagen = (props) => {
                       else setCantidad("");
                     }}
                     placeholder={cantidad}
-                    value={cantidad == 0 ? "" : cantidad}
+                    value={cantidad === 0 ? "" : cantidad}
                     maxLength={4}
                   />
                   <Button
                     variant="dark"
-                    disabled={cantidad == 0}
+                    disabled={cantidad === 0}
                     style={{
                       width: "70px",
                     }}
