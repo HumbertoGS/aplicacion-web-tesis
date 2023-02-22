@@ -247,6 +247,7 @@ const TablaPedidos = ({
   filtro,
   data,
   estado,
+  height = "52vh",
   reload,
   detallesPedido,
   detallesCliente,
@@ -255,7 +256,7 @@ const TablaPedidos = ({
   const [datos, setDatos] = useState(data);
 
   const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage] = useState(7);
+  const [itemsPerPage] = useState(5);
 
   const handlePageChange = (page) => setCurrentPage(page);
 
@@ -324,7 +325,7 @@ const TablaPedidos = ({
     <Card body className="mt-4">
       <div className="my-2">
         <Header />
-        <div style={{ overflowY: "auto", minHeight: "54vh" }}>
+        <div style={{ height }}>
           <Table striped hover>
             <thead className="theadTable">
               {columns.map((row, i) => (
