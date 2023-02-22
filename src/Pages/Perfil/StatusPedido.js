@@ -82,6 +82,7 @@ const StatusPedido = ({ user }) => {
             filtro={datosBuscar}
             data={datos}
             estado={true}
+            height={"43vh"}
             reload={() => {}}
             detallesPedido={(item) => {
               setNumeroPedido(item);
