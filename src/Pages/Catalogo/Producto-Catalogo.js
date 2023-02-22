@@ -71,15 +71,18 @@ const ProductoImagen = (props) => {
                     flexDirection: "column",
                   }}
                 >
-                  <label style={{ fontSize: "15px" }}>
-                    <b>{producto.nombre ?? producto.nombre_categoria}</b>
+                  <label className="fw-bold" style={{ fontSize: "15px" }}>
+                    {producto?.nombre}
                   </label>
                   <label className="pt-1" style={{ fontSize: "13px" }}>
                     {producto.talla ? "Talla: " + producto.talla : "-"}
                   </label>
                 </div>
-                <label style={{ fontSize: "16px", paddingLeft: "9px" }}>
-                  <b>${producto.precio}</b>
+                <label
+                  className="fw-bold"
+                  style={{ fontSize: "16px", paddingLeft: "9px" }}
+                >
+                  ${producto?.precio}
                 </label>
               </div>
               <hr />

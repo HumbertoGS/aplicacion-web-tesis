@@ -58,12 +58,8 @@ const MenuDespe = (props) => {
                           justifyContent: "center",
                         }}
                       >
-                        <h6>
-                          <b>
-                            {(
-                              item.nombre ?? item.nombre_categoria
-                            ).toUpperCase()}
-                          </b>
+                        <h6 className="fw-bold">
+                          {item?.nombre.toUpperCase()}
                         </h6>
                       </InputGroup>
                       <InputGroup className="mb-1">
