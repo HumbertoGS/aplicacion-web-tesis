@@ -16,7 +16,7 @@ import { FiMinus } from "react-icons/fi";
 
 const urlPedidos = `${process.env.REACT_APP_API_CORE_URL}pedido`;
 
-const columns = [
+const columnRegistro = [
   [
     { name: "", colSpan: 1, style: { borderRight: "1px solid #c8c9ca" } },
     {
@@ -48,6 +48,28 @@ const columns = [
   ],
 ];
 
+const columnEstado = [
+  [
+    { name: "", colSpan: 1, style: { borderRight: "1px solid #c8c9ca" } },
+    { name: "Pedido", colSpan: 4, style: { borderRight: "1px solid #c8c9ca" } },
+    { name: "", colSpan: 1 },
+  ],
+  [
+    {
+      name: "N° Pedido",
+      style: { width: "9%", borderRight: "1px solid #c8c9ca" },
+    },
+    { name: "N° Productos", style: { width: "9%" } },
+    { name: "Total", style: { width: "9%" } },
+    { name: "Detalles", style: { width: "10%" } },
+    {
+      name: "Fecha Pedido",
+      style: { width: "11%", borderRight: "1px solid #c8c9ca" },
+    },
+    { name: "Estado del Pedido", style: { width: "20%" } },
+  ],
+];
+
 const addZeros = (str) => {
   str = str.toString();
   const desiredLength = 5;
@@ -56,14 +78,177 @@ const addZeros = (str) => {
   return "0".repeat(zerosToAdd) + str;
 };
 
+const RegistroP = ({
+  currentItems,
+  detallesCliente,
+  detallesPedido,
+  filtro,
+  handleChange,
+  reload,
+}) => {
+  return (
+    <>
+      {currentItems.map((item, index) => {
+        return (
+          <tr key={item.id}>
+            <td>{addZeros(item.num_pedido)}</td>
+            <td>{item.nombre_completo}</td>
+            <td>
+              <Button
+                onClick={() => detallesCliente(item.num_identificacion)}
+                variant="outline-secondary"
+              >
+                <FaEye />
+              </Button>
+            </td>
+            <td>{item.num_producto}</td>
+            <td>{item.total}</td>
+            <td>
+              <Button
+                onClick={() =>
+                  detallesPedido({
+                    num_venta: item.num_pedido,
+                    cliente: item.nombre_completo,
+                  })
+                }
+                variant="outline-secondary"
+              >
+                <FaEye />
+              </Button>
+            </td>
+            <td>
+              <InputGroup className="d-flex flex-column">
+                <Form.Control
+                  className="w-100"
+                  style={{ marginLeft: "10px", borderRadius: "5px" }}
+                  value={item.transferencia ?? ""}
+                  disabled={item?.status !== 2 || filtro?.status === "2"}
+                  onChange={(event) =>
+                    handleChange(event.target.value, index, 2)
+                  }
+                />
+                <label
+                  className="fw-bold"
+                  style={{
+                    fontSize: "9px",
+                    color: "#c50f07",
+                    fontStyle: "italic",
+                  }}
+                >
+                  {item.disabled ? "campo requerido" : ""}
+                </label>
+              </InputGroup>
+            </td>
+            <td>
+              <div className="d-flex">
+                <Form.Select
+                  className="mx-2"
+                  value={item.status}
+                  disabled={filtro?.status === "2"}
+                  onChange={(event) =>
+                    handleChange(event.target.value, index, 1)
+                  }
+                >
+                  <option value={1}>Pendiente</option>
+                  {filtro?.status !== "3" ? (
+                    <option value={2}>Pagado</option>
+                  ) : (
+                    <></>
+                  )}
+                  <option value={3}>Cancelado</option>
+                </Form.Select>
+                {filtro?.status !== "2" ? (
+                  <BtnCambiarEstado
+                    item={{
+                      id: item.id,
+                      transferencia: item.transferencia,
+                      id_estado: item.status,
+                      estado: true,
+                    }}
+                    nombreBtn={
+                      item.status === 1 ? (
+                        <FiMinus />
+                      ) : item.status === 2 ? (
+                        <BsCheck2 />
+                      ) : (
+                        <RiCloseFill />
+                      )
+                    }
+                    disabled={item.disabled}
+                    reload={reload}
+                    url={urlPedidos}
+                  />
+                ) : null}
+              </div>
+            </td>
+          </tr>
+        );
+      })}
+    </>
+  );
+};
+
+const EstadoP = ({ currentItems, detallesPedido }) => {
+  return (
+    <>
+      {currentItems.map((item, index) => {
+        return (
+          <tr key={item.id}>
+            <td>{addZeros(item.num_pedido)}</td>
+            <td>{item.num_producto}</td>
+            <td>{item.total}</td>
+            <td>
+              <Button
+                onClick={() =>
+                  detallesPedido({
+                    num_venta: item.num_pedido,
+                    cliente: item.nombre_completo,
+                  })
+                }
+                variant="outline-secondary"
+              >
+                <FaEye />
+              </Button>
+            </td>
+            <td>{item.fecha_registro}</td>
+            <td>
+              <InputGroup className="px-2 d-flex flex-row justify-content-center align-items-center">
+                {item.status === 2 && (
+                  <Form.Control
+                    className="w-50 text-center"
+                    style={{ borderRadius: "5px" }}
+                    value={item.transferencia}
+                    disabled={true}
+                  />
+                )}
+                <div className="w-50">
+                  <h6>
+                    {item.status === 1
+                      ? "Pendiente"
+                      : item.status === 2
+                      ? "Pagado"
+                      : "Cancelado"}
+                  </h6>
+                </div>
+              </InputGroup>
+            </td>
+          </tr>
+        );
+      })}
+    </>
+  );
+};
+
 const TablaPedidos = ({
   Titulo,
   filtro,
   data,
+  estado,
   reload,
   detallesPedido,
   detallesCliente,
 }) => {
+  if (!data) data = [];
   const [datos, setDatos] = useState(data);
 
   const [currentPage, setCurrentPage] = useState(1);
@@ -130,6 +315,10 @@ const TablaPedidos = ({
     );
   };
 
+  const columns = estado ? columnEstado : columnRegistro;
+
+  console.log(currentItems);
+
   return (
     <Card body className="mt-4">
       <div className="my-2">
@@ -152,104 +341,24 @@ const TablaPedidos = ({
               ))}
             </thead>
             <tbody>
-              {currentItems.map((item, index) => {
-                return (
-                  <tr key={item.id}>
-                    <td>{addZeros(item.num_pedido)}</td>
-                    <td>{item.nombre_completo}</td>
-                    <td>
-                      <Button
-                        onClick={() => detallesCliente(item.num_identificacion)}
-                        variant="outline-secondary"
-                      >
-                        <FaEye />
-                      </Button>
-                    </td>
-                    <td>{item.num_producto}</td>
-                    <td>{item.total}</td>
-                    <td>
-                      <Button
-                        onClick={() =>
-                          detallesPedido({
-                            num_venta: item.num_pedido,
-                            cliente: item.nombre_completo,
-                          })
-                        }
-                        variant="outline-secondary"
-                      >
-                        <FaEye />
-                      </Button>
-                    </td>
-                    <td>
-                      <InputGroup className="d-flex flex-column">
-                        <Form.Control
-                          className="w-100"
-                          style={{ marginLeft: "10px", borderRadius: "5px" }}
-                          value={item.transferencia ?? ""}
-                          disabled={
-                            item?.status !== 2 || filtro?.status === "2"
-                          }
-                          onChange={(event) =>
-                            handleChange(event.target.value, index, 2)
-                          }
-                        />
-                        <label
-                          className="fw-bold"
-                          style={{
-                            fontSize: "9px",
-                            color: "#c50f07",
-                            fontStyle: "italic",
-                          }}
-                        >
-                          {item.disabled ? "campo requerido" : ""}
-                        </label>
-                      </InputGroup>
-                    </td>
-                    <td>
-                      <div className="d-flex">
-                        <Form.Select
-                          className="mx-2"
-                          value={item.status}
-                          disabled={filtro?.status === "2"}
-                          onChange={(event) =>
-                            handleChange(event.target.value, index, 1)
-                          }
-                        >
-                          <option value={1}>Pendiente</option>
-                          {filtro?.status !== "3" ? (
-                            <option value={2}>Pagado</option>
-                          ) : (
-                            <></>
-                          )}
-                          <option value={3}>Cancelado</option>
-                        </Form.Select>
-                        {filtro?.status !== "2" ? (
-                          <BtnCambiarEstado
-                            item={{
-                              id: item.id,
-                              transferencia: item.transferencia,
-                              id_estado: item.status,
-                              estado: true,
-                            }}
-                            nombreBtn={
-                              item.status === 1 ? (
-                                <FiMinus />
-                              ) : item.status === 2 ? (
-                                <BsCheck2 />
-                              ) : (
-                                <RiCloseFill />
-                              )
-                            }
-                            disabled={item.disabled}
-                            reload={reload}
-                            url={urlPedidos}
-                          />
-                        ) : null}
-                      </div>
-                    </td>
-                  </tr>
-                );
-              })}
+              {estado ? (
+                <EstadoP
+                  currentItems={currentItems}
+                  detallesPedido={detallesPedido}
+                  filtro={filtro}
+                  handleChange={handleChange}
+                  reload={reload}
+                />
+              ) : (
+                <RegistroP
+                  currentItems={currentItems}
+                  detallesCliente={detallesCliente}
+                  detallesPedido={detallesPedido}
+                  filtro={filtro}
+                  handleChange={handleChange}
+                  reload={reload}
+                />
+              )}
             </tbody>
           </Table>
         </div>
