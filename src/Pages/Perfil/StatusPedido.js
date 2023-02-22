@@ -1,149 +1,105 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
-import Breadcrumb from "react-bootstrap/Breadcrumb";
+import Accordion from "react-bootstrap/Accordion";
 import Card from "react-bootstrap/Card";
 import Form from "react-bootstrap/Form";
-import InputGroup from "react-bootstrap/InputGroup";
-import Button from "react-bootstrap/Button";
-import Table from "react-bootstrap/Table";
 
-import MensajeAlert from "../components/MensajeAlert";
+import { PostData } from "../../custom-hooks/useFetch";
+import TablaPedidos from "../RegistroVentas/TablaPedidos";
+import BusquedaAvz from "../components/Busqueda";
+import PedidoDetalles from "../RegistroVentas/Modal/PedidoDetalles";
 
-import HeaderPerfil from "./HeaderPerfil";
+const urlPedidos = `${process.env.REACT_APP_API_CORE_URL}pedido/buscar`;
 
-const Pedidos = [
-  {
-    codigo: "12345",
-    producto: "camisa",
-    precio: "15.00",
-    cantidad: "1",
-    total: "15.00",
-    status: "Pendiente",
-  },
-  {
-    codigo: "12346",
-    producto: "camisa",
-    precio: "17.00",
-    cantidad: "1",
-    total: "17.00",
-    status: "Pendiente",
-  },
-  {
-    codigo: "12347",
-    producto: "camisa",
-    precio: "15.00",
-    cantidad: "1",
-    total: "15.00",
-    status: "Pendiente",
-  },
-  {
-    codigo: "12348",
-    producto: "camisa",
-    precio: "17.00",
-    cantidad: "1",
-    total: "17.00",
-    status: "Pendiente",
-  },
-  {
-    codigo: "12349",
-    producto: "camisa",
-    precio: "15.00",
-    cantidad: "1",
-    total: "15.00",
-    status: "Pendiente",
-  },
-];
+const StatusPedido = ({ user }) => {
+  const [datos, setDatos] = useState(null);
+  const [cargar, setCargar] = useState(true);
 
-const StatusPedido = ({ user, usuario }) => {
-  const [mensaje, setMensaje] = useState("");
-  const [variant, setVariant] = useState("");
+  const [modalPedido, setModalPedido] = useState(false);
+  const [numeroPedido, setNumeroPedido] = useState([]);
 
-  const [pedido, setPedido] = useState("");
-  const [mensajeTabla, setMensajeTabla] = useState("Ingresa un num pedido");
-  const [producto, setProducto] = useState([]);
+  PostData(urlPedidos, { status: 1, num_ident: user?.cedula }, cargar, (x) => {
+    setDatos(x?.datos);
+    setCargar(false);
+  });
 
-  useEffect(() => {
-    if (variant) {
-      const interval = setTimeout(() => {
-        setVariant("");
-      }, 4000);
-      return () => clearInterval(interval);
-    }
-  }, [variant]);
+  const [open, setOpen] = useState(true);
+  const [datosBuscar, setDatosBuscar] = useState({
+    status: 1,
+    num_pedido: "",
+    num_ident: user?.cedula,
+  });
+  const [titulo, setTitulo] = useState("en Espera");
 
-  const buscarPedido = () => {
-    let filtrado = Pedidos.filter((data) => data.codigo === pedido);
-    if (filtrado.length > 0) {
-      setProducto(filtrado);
-      setVariant("success");
-      setMensaje("Pedido Encontrado");
-    } else {
-      setProducto([]);
-      setMensajeTabla("No existe pedido");
-    }
+  const handleRespondBusq = (x, busqueda) => {
+    setTitulo(
+      busqueda.status === "1"
+        ? "en Espera"
+        : busqueda.status === "2"
+        ? "Pagados"
+        : "Cancelados"
+    );
+    setDatosBuscar(busqueda);
+    setDatos(x);
   };
 
   return (
     <>
-      <Card body style={{ height: "70vh" }} className="Card">
-        <div className="mx-2" style={{ width: "50%" }}>
+      <Card body className="Card">
+        <div className="mx-2 pt-2" style={{ width: "50%" }}>
           <h5 className="text-start">Estado del Pedido</h5>
           <hr />
         </div>
-        <div className="mx-2 mt-4" style={{ width: "400px" }}>
-          <InputGroup className="mb-3">
-            <InputGroup.Text style={{ width: "100px" }}>
-              N° Pedido
-            </InputGroup.Text>
-            <Form.Control
-              maxLength={10}
-              onChange={(event) => {
-                setPedido(event.target.value);
-                if (event.target.value === "") {
-                  setProducto([]);
-                  setMensajeTabla("Ingresa un num pedido");
-                }
-              }}
-            />
-            <Button onClick={buscarPedido} disabled={!pedido}>
-              Buscar
-            </Button>
-          </InputGroup>
-        </div>
-        <div className="px-2 pt-3" style={{ overflowY: "auto", height: "300px" }}>
-          <Table>
-            <thead className="theadTable">
-              <tr>
-                <th>Producto</th>
-                <th>Precio</th>
-                <th>Cantidad</th>
-                <th>Total</th>
-                <th>Status</th>
-              </tr>
-            </thead>
-            <tbody>
-              {producto.length !== 0 ? (
-                producto.map((item, index) => {
-                  return (
-                    <tr key={index}>
-                      <td>{item.producto}</td>
-                      <td>{item.precio}</td>
-                      <td>{item.cantidad}</td>
-                      <td>{item.total}</td>
-                      <td>{item.status}</td>
-                    </tr>
-                  );
-                })
-              ) : (
-                <tr>
-                  <td colSpan={6}>{mensajeTabla}</td>
-                </tr>
-              )}
-            </tbody>
-          </Table>
-        </div>
+
+        <Accordion>
+          <Accordion.Item eventKey={open}>
+            <Accordion.Header>
+              <Form.Label className="fw-bold w-50 my-0">
+                Filtro de Búsqueda
+              </Form.Label>
+              <hr />
+            </Accordion.Header>
+            <Accordion.Body>
+              <BusquedaAvz
+                url={urlPedidos}
+                datosBuscar={datosBuscar}
+                estado={true}
+                resetFiltre={(resetData) => {
+                  setDatosBuscar(resetData);
+                }}
+                closedBusq={() => {
+                  setOpen(!open);
+                }}
+                handleRespond={handleRespondBusq}
+              />
+            </Accordion.Body>
+          </Accordion.Item>
+        </Accordion>
+
+        {datos && (
+          <TablaPedidos
+            Titulo={"Pedidos " + titulo}
+            filtro={datosBuscar}
+            data={datos}
+            estado={true}
+            reload={() => {}}
+            detallesPedido={(item) => {
+              setNumeroPedido(item);
+              setModalPedido(true);
+            }}
+            detallesCliente={(item) => {}}
+          />
+        )}
+
+        {modalPedido && (
+          <PedidoDetalles
+            data={numeroPedido}
+            filtro={datosBuscar ?? { status: "1" }}
+            show={modalPedido}
+            onHide={() => setModalPedido(false)}
+          />
+        )}
       </Card>
-      {/* </Card> */}
     </>
   );
 };
