@@ -14,7 +14,7 @@ const busqueda = {
 const BusquedaAvz = ({
   url,
   datosBuscar,
-  estado,
+  estado = false,
   handleRespond,
   resetFiltre,
   closedBusq,
