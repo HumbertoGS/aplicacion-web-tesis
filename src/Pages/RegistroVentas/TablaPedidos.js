@@ -324,7 +324,7 @@ const TablaPedidos = ({
   return (
     <Card body className="mt-4">
       <div className="my-2">
-        <Header />
+        <Header datos={datos}/>
         <div style={{ height }}>
           <Table striped hover>
             <thead className="theadTable">
