@@ -96,7 +96,7 @@ const ActualizarDatos = ({ user }) => {
                               Cédula:
                             </InputGroup.Text>
                             <Form.Control
-                              style={{cursor: "no-drop"}}
+                              style={{ cursor: "no-drop" }}
                               className="w-75"
                               disabled={true}
                               name="cedula"
@@ -110,6 +110,7 @@ const ActualizarDatos = ({ user }) => {
                               Nombres:
                             </InputGroup.Text>
                             <Form.Control
+                              autoComplete="off"
                               className="w-75"
                               name="nombre"
                               value={values.nombre}
@@ -122,6 +123,7 @@ const ActualizarDatos = ({ user }) => {
                             </InputGroup.Text>
                             <Form.Control
                               className="w-75"
+                              autoComplete="off"
                               name="correo"
                               value={values.correo}
                               onChange={handleChange}
@@ -133,6 +135,7 @@ const ActualizarDatos = ({ user }) => {
                             </InputGroup.Text>
                             <Form.Control
                               as="textarea"
+                              autoComplete="off"
                               className="w-75"
                               aria-label="With textarea"
                               rows={3}
@@ -156,6 +159,7 @@ const ActualizarDatos = ({ user }) => {
                             </InputGroup.Text>
                             <Form.Control
                               className="w-75"
+                              autoComplete="off"
                               name="apellido"
                               value={values.apellido}
                               onChange={handleChange}
@@ -167,6 +171,7 @@ const ActualizarDatos = ({ user }) => {
                             </InputGroup.Text>
                             <Form.Control
                               className="w-75"
+                              autoComplete="off"
                               name="telefono"
                               value={values.telefono}
                               onChange={handleChange}
@@ -179,6 +184,7 @@ const ActualizarDatos = ({ user }) => {
                             <Form.Control
                               as="textarea"
                               className="w-75"
+                              autoComplete="off"
                               rows={3}
                               style={{ resize: "none" }}
                               name="referencia"
@@ -201,7 +207,7 @@ const ActualizarDatos = ({ user }) => {
               </Card>
             </Card>
           </div>
-        ) : user?.permisos == 1 ? (
+        ) : user?.permisos === 1 ? (
           <TablaEmpleados />
         ) : (
           <StatusPedido />
