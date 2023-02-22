@@ -3,7 +3,6 @@ import secureLocalStorage from "react-secure-storage";
 import Container from "react-bootstrap/Container";
 import Navbar from "react-bootstrap/Navbar";
 import Stack from "react-bootstrap/Stack";
-import Figure from "react-bootstrap/Figure";
 import { Link } from "react-router-dom";
 
 import "../designer/theme.css";
@@ -13,18 +12,8 @@ const MenuLateral = ({ user }) => {
     <Stack className="menu-lateral">
       <Navbar>
         <Stack>
-          {/* <div>
-          <img src={image} />
-        </div> */}
-          <Container>
-            <Figure>
-              <Figure.Image
-                width={170}
-                // height={200}
-                alt="Imagen del negocio"
-                src={"logo512.png"}
-              />
-            </Figure>
+          <Container className="pb-2">
+            <img width={162} alt="Imagen del negocio" src={"logo512.png"} />
           </Container>
           {user ? (
             <Link to="Inicio">
