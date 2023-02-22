@@ -51,8 +51,12 @@ const columnRegistro = [
 const columnEstado = [
   [
     { name: "", colSpan: 1, style: { borderRight: "1px solid #c8c9ca" } },
-    { name: "Pedido", colSpan: 4, style: { borderRight: "1px solid #c8c9ca" } },
-    { name: "", colSpan: 1 },
+    {
+      name: "Datos del Pedido",
+      colSpan: 4,
+      style: { borderRight: "1px solid #c8c9ca" },
+    },
+    { name: "Otros Datos", colSpan: 2 },
   ],
   [
     {
@@ -66,7 +70,8 @@ const columnEstado = [
       name: "Fecha Pedido",
       style: { width: "11%", borderRight: "1px solid #c8c9ca" },
     },
-    { name: "Estado del Pedido", style: { width: "20%" } },
+    { name: "N° Transferencia", style: { width: "10%" } },
+    { name: "Estado", style: { width: "10%" } },
   ],
 ];
 
@@ -212,25 +217,23 @@ const EstadoP = ({ currentItems, detallesPedido }) => {
             </td>
             <td>{item.fecha_registro}</td>
             <td>
-              <InputGroup className="px-2 d-flex flex-row justify-content-center align-items-center">
-                {item.status === 2 && (
-                  <Form.Control
-                    className="w-50 text-center"
-                    style={{ borderRadius: "5px" }}
-                    value={item.transferencia}
-                    disabled={true}
-                  />
-                )}
-                <div className="w-50">
-                  <h6>
-                    {item.status === 1
-                      ? "Pendiente"
-                      : item.status === 2
-                      ? "Pagado"
-                      : "Cancelado"}
-                  </h6>
-                </div>
-              </InputGroup>
+              {item.status === 2 && (
+                <Form.Control
+                  className="text-center mx-2"
+                  style={{ borderRadius: "5px" }}
+                  value={item.transferencia}
+                  disabled={true}
+                />
+              )}
+            </td>
+            <td>
+              <h6 className="pt-2">
+                {item.status === 1
+                  ? "Pendiente"
+                  : item.status === 2
+                  ? "Pagado"
+                  : "Cancelado"}
+              </h6>
             </td>
           </tr>
         );
@@ -316,8 +319,6 @@ const TablaPedidos = ({
   };
 
   const columns = estado ? columnEstado : columnRegistro;
-
-  console.log(currentItems);
 
   return (
     <Card body className="mt-4">
