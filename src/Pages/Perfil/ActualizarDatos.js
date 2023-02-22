@@ -210,7 +210,7 @@ const ActualizarDatos = ({ user }) => {
         ) : user?.permisos === 1 ? (
           <TablaEmpleados />
         ) : (
-          <StatusPedido />
+          <StatusPedido user={user} />
         )}
       </Card>
     </>
