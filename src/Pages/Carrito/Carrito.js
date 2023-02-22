@@ -2,6 +2,8 @@ import secureLocalStorage from "react-secure-storage";
 
 import { useEffect, useState } from "react";
 
+import { Link } from "react-router-dom";
+
 import Card from "react-bootstrap/Card";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
@@ -18,15 +20,14 @@ import { VisualizarPdf, getPdfBlob } from "../pdfs/FuncionesPdf";
 import { Formik } from "formik";
 
 const tablaCarrito = [
-  { name: "PRODUCTO" },
-  { name: "PRECIO" },
-  { name: "CANTIDAD" },
-  { name: "TOTAL" },
+  { name: "PRODUCTO", width: "250px" },
+  { name: "PRECIO", width: "auto" },
+  { name: "CANTIDAD", width: "auto" },
+  { name: "TOTAL", width: "auto" },
 ];
 
-const urlDatosPersona = process.env.REACT_APP_API_CORE_URL + "persona/buscar";
-const urlRegistrarPedido =
-  process.env.REACT_APP_API_CORE_URL + "pedido/registrar";
+const urlDatosPersona = `${process.env.REACT_APP_API_CORE_URL}persona/buscar`;
+const urlRegistrarPedido = `${process.env.REACT_APP_API_CORE_URL}pedido/registrar`;
 
 const Carrito = ({ user }) => {
   const datosCarro = secureLocalStorage.getItem("datosCarrito");
@@ -126,19 +127,30 @@ const Carrito = ({ user }) => {
   return (
     <>
       <Card body className="Card">
-        {mensajeAlert.mostrar ? (
+        {mensajeAlert.mostrar && (
           <MensajeAlert
             variant={mensajeAlert.variant}
             mensaje={mensajeAlert.mensaje}
           />
-        ) : (
-          <></>
         )}
-        {pdfPedido ? (
-          <VisualizarPdf
-            children={<PedidoPdf datos={datosPdf} />}
-            fileName={`Pedido-${datosPdf.detalle.num_pedido}.pdf`}
-          />
+
+        {datos.datos.length === 0 ? (
+          <Row>
+            <Col className="pt-3">
+              <Row>
+                <div className="w-25"></div>
+                <div className="w-50 mb-2">
+                  <h5 className="text-center">Carrito de Compra</h5>
+                  <hr />
+                </div>
+              </Row>
+              <h6 className="py-3">Su carrito actualmente está vacío</h6>
+
+              <Link to="/Catalogo">
+                <Button variant="outline-secondary">Continuar la Compra</Button>
+              </Link>
+            </Col>
+          </Row>
         ) : (
           <Row style={{ minHeight: "80vh" }}>
             <Col xs={12} md={7}>
@@ -151,12 +163,7 @@ const Carrito = ({ user }) => {
                       <tr>
                         {tablaCarrito.map((item, index) => {
                           return (
-                            <th
-                              key={index}
-                              width={
-                                item.name === "PRODUCTO" ? "250px" : "auto"
-                              }
-                            >
+                            <th key={index} width={item.width}>
                               {item.name}
                             </th>
                           );
@@ -164,65 +171,62 @@ const Carrito = ({ user }) => {
                       </tr>
                     </thead>
                     <tbody>
-                      {datos.datos.map((item, index) => {
+                      {datos?.datos.map((item, index) => {
                         return (
                           <tr key={index}>
                             <td>
-                              <div
-                                style={{
-                                  display: "flex",
-                                  alignItems: "center",
-                                }}
-                              >
-                                <img src={item.imagen} width="70"></img>
-                                <div
+                              <div className="d-flex align-items-center">
+                                <img
+                                  src={item.imagen}
+                                  width="70"
                                   style={{
-                                    display: "flex",
-                                    flexDirection: "column",
-                                    alignItems: "flex-start",
-                                    marginLeft: "24px",
-                                    width: "70%",
+                                    marginRight: "12px",
                                   }}
-                                >
+                                  alt=""
+                                ></img>
+                                <div className="d-flex align-items-start flex-column w-75">
+                                  <p className="text-start">{item?.nombre}</p>
                                   <p className="text-start">
-                                    {item.nombre ?? item.nombre_categoria}
-                                  </p>
-                                  <p className="text-start">
-                                    Talla {item.talla}
+                                    Talla {item?.talla}
                                   </p>
                                 </div>
                               </div>
                             </td>
-                            <td>${item.precio}</td>
-                            <td>{item.cantidad}</td>
-                            <td>${item.total}</td>
+                            <td>${item?.precio}</td>
+                            <td>{item?.cantidad}</td>
+                            <td>${item?.total}</td>
                           </tr>
                         );
                       })}
                     </tbody>
                   </Table>
                 </div>
-                <Table striped hover>
-                  <thead></thead>
-                  <tbody>
-                    {datos.totales.map((item, index) => {
-                      return (
-                        <tr key={index}>
-                          <td width={"300px"}></td>
-                          <td>
-                            <b>{item.name}</b>
-                          </td>
-                          <td></td>
-                          <td>${item.totales}</td>
-                        </tr>
-                      );
-                    })}
-                  </tbody>
-                </Table>
+                <Row>
+                  <Col md={6}></Col>
+                  <Col>
+                    <Table>
+                      <thead></thead>
+                      <tbody>
+                        {datos?.totales.map((item, index) => {
+                          return (
+                            <tr key={index}>
+                              <td className="fw-bold">{item?.name}</td>
+                              <td>${item?.totales}</td>
+                            </tr>
+                          );
+                        })}
+                      </tbody>
+                    </Table>
+                  </Col>
+                </Row>
               </div>
             </Col>
             <Col className="form-datos-carrito">
               <Card className="p-4 m-3">
+                <Form.Text>
+                  <h6>DATOS DE ENVIO</h6>
+                  <hr />
+                </Form.Text>
                 <Formik
                   enableReinitialize={true}
                   initialValues={datosPersona}
@@ -234,20 +238,13 @@ const Carrito = ({ user }) => {
                   {({
                     handleSubmit,
                     handleChange,
-                    handleBlur,
                     values,
-                    touched,
                     isValid,
                     errors,
                   }) => (
                     <Form className="px-4" noValidate onSubmit={handleSubmit}>
-                      <Form.Text>
-                        <h6>DATOS DE ENVIO</h6>
-                        <hr />
-                      </Form.Text>
-
                       <InputGroup className="mb-3">
-                        <InputGroup.Text style={{ width: "100px" }}>
+                        <InputGroup.Text className="w-25">
                           Cédula
                         </InputGroup.Text>
                         <Form.Control
@@ -259,7 +256,7 @@ const Carrito = ({ user }) => {
                         />
                       </InputGroup>
                       <InputGroup className="mb-3">
-                        <InputGroup.Text style={{ width: "100px" }}>
+                        <InputGroup.Text className="w-25">
                           Nombres
                         </InputGroup.Text>
                         <Form.Control
@@ -270,7 +267,7 @@ const Carrito = ({ user }) => {
                         />
                       </InputGroup>
                       <InputGroup className="mb-3">
-                        <InputGroup.Text style={{ width: "100px" }}>
+                        <InputGroup.Text className="w-25">
                           Apellidos
                         </InputGroup.Text>
                         <Form.Control
@@ -281,12 +278,11 @@ const Carrito = ({ user }) => {
                         />
                       </InputGroup>
                       <InputGroup className="mb-3">
-                        <InputGroup.Text style={{ width: "100px" }}>
+                        <InputGroup.Text className="w-25">
                           Dirección
                         </InputGroup.Text>
                         <Form.Control
                           as="textarea"
-                          aria-label="With textarea"
                           rows={3}
                           style={{ resize: "none" }}
                           name="direccion"
@@ -295,7 +291,7 @@ const Carrito = ({ user }) => {
                         />
                       </InputGroup>
                       <InputGroup className="mb-3">
-                        <InputGroup.Text style={{ width: "100px" }}>
+                        <InputGroup.Text className="w-25">
                           Referencia
                         </InputGroup.Text>
                         <Form.Control
@@ -315,7 +311,7 @@ const Carrito = ({ user }) => {
                             values.direccion &&
                             values.nombre &&
                             values.referencia
-                          ) || datos.datos.length == 0
+                          )
                         }
                       >
                         Enviar Pedido
@@ -328,6 +324,13 @@ const Carrito = ({ user }) => {
           </Row>
         )}
       </Card>
+
+      {pdfPedido && (
+        <VisualizarPdf
+          children={<PedidoPdf datos={datosPdf} />}
+          fileName={`Pedido-${datosPdf.detalle.num_pedido}.pdf`}
+        />
+      )}
     </>
   );
 };
