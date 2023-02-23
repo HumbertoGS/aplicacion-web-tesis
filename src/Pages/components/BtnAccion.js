@@ -29,13 +29,15 @@ const styleBtn = {
 
 const datosAlert = (response, mensajeResp) => {
   const mensaje = response.error
-    ? messages.error
+    ? response.mensaje ?? messages.error
     : response.datos.length === 0
     ? messages.noData
     : mensajeResp;
 
   const variant = response.error
-    ? variants.error
+    ? response.codigo === 400
+      ? variants.noData
+      : variants.error
     : response.datos.length === 0
     ? variants.noData
     : variants.success;
