@@ -21,7 +21,7 @@ const CatalogoProductos = ({ data, datosCarrito }) => {
 
   let reset = false;
 
-  if (currentData.length == 0) {
+  if (currentData.length === 0) {
     reset = true;
     currentData = data.slice(0, dataPerPage);
   }
@@ -89,8 +89,8 @@ const Pagination = ({ dataPerPage, totalData, paginate, currentPage }) => {
           onClick={() => paginate(number)}
           style={{
             border: "1px solid #b0bad2",
-            background: currentPage == number ? "#0d6efd" : "#ffffff",
-            color: currentPage == number ? "#ffffff" : "#000000",
+            background: currentPage === number ? "#0d6efd" : "#ffffff",
+            color: currentPage === number ? "#ffffff" : "#000000",
           }}
         >
           {number}
