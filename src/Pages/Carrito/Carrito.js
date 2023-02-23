@@ -221,7 +221,7 @@ const Carrito = ({ user }) => {
                 </Row>
               </div>
             </Col>
-            <Col className="form-datos-carrito">
+            <Col className="form-datos-carrito px-5 mx-3">
               <Card className="p-4 m-3">
                 <Form.Text>
                   <h6>DATOS DE ENVIO</h6>
