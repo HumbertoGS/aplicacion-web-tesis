@@ -1,7 +1,6 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 
 import Layout from "./Pages/Content/Layout";
-import { CardsInicio } from "./Pages/Inicio/Inicio";
 import Registrar from "./Pages/Inicio/Registrar";
 import Login from "./Pages/Inicio/Login";
 import RegistroVentas from "./Pages/RegistroVentas/RegistroVentas";
@@ -30,7 +29,7 @@ function App() {
             path="Inicio"
             element={<Navigate to={user ? "/Perfil" : "/Pagina-Principal"} />}
           />
-          <Route path="Pagina-Principal" element={<CardsInicio />} />
+          <Route path="Pagina-Principal" element={<Login />} />
           <Route
             path="Perfil"
             element={
