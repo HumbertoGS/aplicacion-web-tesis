@@ -11,8 +11,9 @@ import "../designer/theme.css";
 import Tabla from "../components/Tabla";
 
 import { ReloadData, PostData } from "../../custom-hooks/useFetch";
+import { BtnGuardar } from "../components/BtnAccion";
 
-const urlPersona = process.env.REACT_APP_API_CORE_URL + "persona";
+const urlPersona = `${process.env.REACT_APP_API_CORE_URL}persona`;
 
 const TablaEmpleados = () => {
   const [numIdent, setNumIdent] = useState("");
@@ -20,40 +21,18 @@ const TablaEmpleados = () => {
   const [datosEmpleados, setDatosEmpleados] = useState([]);
   const [buscar, setBuscar] = useState(true);
 
-  const [buscarDatos, setBuscarDatos] = useState(false);
-  const [result, setResult] = useState(null);
-
   ReloadData(urlPersona + "/buscarEmpleado", buscar, (x) => {
     if (x.datos.length !== 0) setDatosEmpleados([x.datos[0]]);
     setBuscar(false);
   });
 
-  const buscarPersona = () => {
-    setBuscarDatos(true);
-  };
+  const [buscarDatos, setBuscarDatos] = useState(false);
+  const [result, setResult] = useState(null);
 
   PostData(urlPersona + "/buscar", { numIdent }, buscarDatos, (x) => {
     if (x.datos.length !== 0) setResult(x.datos[0]);
     setBuscarDatos(false);
   });
-
-  //----------REGISTRAR EMPLEADO----------
-  const [registrar, setRegistrar] = useState(false);
-
-  const registrarEmpleado = () => {
-    setRegistrar(true);
-  };
-
-  PostData(
-    urlPersona + "/registrarEmpleado",
-    { id: result?.id },
-    registrar,
-    (x) => {
-      setRegistrar(false);
-      setResult(null);
-      setBuscar(true);
-    }
-  );
 
   return (
     <>
@@ -75,11 +54,18 @@ const TablaEmpleados = () => {
                   <InputGroup className="mb-3">
                     <InputGroup.Text className="w-25">Cedula:</InputGroup.Text>
                     <Form.Control
+                      value={numIdent}
+                      defaultValue={numIdent}
                       onChange={(e) => {
                         setNumIdent(e.target.value);
                       }}
                     />
-                    <Button variant="outline-secondary" onClick={buscarPersona}>
+                    <Button
+                      variant="outline-secondary"
+                      onClick={() => {
+                        setBuscarDatos(true);
+                      }}
+                    >
                       Buscar
                     </Button>
                   </InputGroup>
@@ -100,13 +86,20 @@ const TablaEmpleados = () => {
                       {result?.apellido ?? ""}
                     </InputGroup.Text>
                   </InputGroup>
-                  <Button
-                    className="w-100"
-                    onClick={registrarEmpleado}
-                    variant="outline-secondary"
-                  >
-                    Registrar
-                  </Button>
+                  <div className="w-100">
+                    <BtnGuardar
+                      datos={result}
+                      handleRespond={(x) => {
+                        setResult(null);
+                        setNumIdent("");
+                        setBuscar(true);
+                      }}
+                      mensajeResp="Empleado registrado"
+                      url={urlPersona + "/registrarEmpleado"}
+                      nameBtn="Registrar"
+                      disabled={result === null}
+                    />
+                  </div>
                 </div>
               </Card>
             </div>
