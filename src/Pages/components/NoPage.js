@@ -1,7 +1,5 @@
-import React from "react";
-
 const NoPage = () => {
-  const [counter, setCounter] = React.useState(404);
+  const counter = 404;
 
   return (
     <>

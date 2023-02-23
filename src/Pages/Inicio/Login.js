@@ -11,16 +11,12 @@ import { Formik } from "formik";
 import { Link } from "react-router-dom";
 
 import "../designer/theme.css";
-import MensajeAlert from "../components/MensajeAlert";
 
 import { PostData } from "../../custom-hooks/useFetch.js";
 
 const url = process.env.REACT_APP_API_CORE_URL + "inicio/login";
 
 export default function Login() {
-  const [mensaje, setMensaje] = useState("");
-  const [variant, setVariant] = useState("");
-
   const [datos, setDatos] = useState(null);
   const [validar, setValidar] = useState(false);
 
@@ -44,7 +40,6 @@ export default function Login() {
   return (
     <>
       <Card body className="Card">
-        {variant ? <MensajeAlert variant={variant} mensaje={mensaje} /> : <></>}
         <div className="form-padre">
           <Card className="p-4" style={{ width: "400px" }}>
             <Row>
@@ -70,9 +65,7 @@ export default function Login() {
                   {({
                     handleSubmit,
                     handleChange,
-                    handleBlur,
                     values,
-                    touched,
                     isValid,
                     errors,
                   }) => (
