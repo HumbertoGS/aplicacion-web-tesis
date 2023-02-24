@@ -1,10 +1,8 @@
-import { useState } from "react";
 import secureLocalStorage from "react-secure-storage";
 
 import Card from "react-bootstrap/Card";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 
 import { Formik } from "formik";
@@ -12,30 +10,17 @@ import { Link } from "react-router-dom";
 
 import "../designer/theme.css";
 
-import { PostData } from "../../custom-hooks/useFetch.js";
+import { BtnGuardar } from "../components/BtnAccion";
 
 const url = process.env.REACT_APP_API_CORE_URL + "inicio/login";
 
 export default function Login() {
-  const [datos, setDatos] = useState(null);
-  const [validar, setValidar] = useState(false);
-
-  const iniciarSesion = (datos) => {
-    setDatos(datos);
-    setValidar(true);
-  };
-
   const comprobarInicio = (respuesta) => {
-    setValidar(false);
-    if (respuesta.datos.length !== 0) {
-      secureLocalStorage.setItem("user", respuesta.datos[0]);
-
-      // localStorage.setItem("user", JSON.stringify(respuesta.datos[0]));
+    if (respuesta.length !== 0) {
+      secureLocalStorage.setItem("user", respuesta[0]);
       window.location.href = process.env.REACT_APP_BASENAME + "Catalogo";
     } else window.location.href = process.env.REACT_APP_BASENAME + "Inicio";
   };
-
-  PostData(url, datos, validar, comprobarInicio);
 
   return (
     <>
@@ -57,19 +42,9 @@ export default function Login() {
                     num_identificacion: "",
                     pass: "",
                   }}
-                  onSubmit={(values, { resetForm }) => {
-                    iniciarSesion(values);
-                    resetForm();
-                  }}
                 >
-                  {({
-                    handleSubmit,
-                    handleChange,
-                    values,
-                    isValid,
-                    errors,
-                  }) => (
-                    <Form className="px-4" noValidate onSubmit={handleSubmit}>
+                  {({ handleChange, values, isValid, errors }) => (
+                    <Form className="px-4" noValidate>
                       <Form.Group
                         className="mb-3 mt-2"
                         controlId="formPlaintextInput1"
@@ -77,7 +52,8 @@ export default function Login() {
                         <Col>
                           <Form.Control
                             type="text"
-                            placeholder="Cédula"
+                            autoComplete="off"
+                            placeholder="Número de identificación"
                             name="num_identificacion"
                             value={values.num_identificacion}
                             onChange={handleChange}
@@ -99,15 +75,15 @@ export default function Login() {
                           />
                         </Col>
                       </Form.Group>
-                      <Button
-                        variant="outline-secondary"
-                        type="submit"
-                        className="w-50"
-                        // href="/"
+                      <BtnGuardar
+                        datos={values}
+                        mensajeResp={"Inicio de Sesion"}
+                        url={url}
+                        handleRespond={comprobarInicio}
+                        nameBtn="Iniciar Sesión"
                         disabled={!(values.pass && values.num_identificacion)}
-                      >
-                        Iniciar Sesión
-                      </Button>
+                        width={"50%"}
+                      />
                     </Form>
                   )}
                 </Formik>
