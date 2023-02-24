@@ -73,6 +73,7 @@ const BtnGuardar = ({
   mensajeResp,
   nameBtn = "Buscar",
   disabled = false,
+  width = "auto",
   resetForm = () => {},
 }) => {
   const [guardar, setGuardar] = useState(false);
@@ -110,6 +111,7 @@ const BtnGuardar = ({
       )}
       <div className="d-flex justify-content-center">
         <Button
+          style={{ width }}
           variant="outline-secondary"
           disabled={disabled}
           onClick={() => setGuardar(true)}
