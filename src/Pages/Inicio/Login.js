@@ -45,10 +45,7 @@ export default function Login() {
                 >
                   {({ handleChange, values, isValid, errors }) => (
                     <Form className="px-4" noValidate>
-                      <Form.Group
-                        className="mb-3 mt-2"
-                        controlId="formPlaintextInput1"
-                      >
+                      <Form.Group className="mb-3 mt-2">
                         <Col>
                           <Form.Control
                             type="text"
@@ -61,10 +58,7 @@ export default function Login() {
                           />
                         </Col>
                       </Form.Group>
-                      <Form.Group
-                        className="mb-3 py-2"
-                        controlId="formPlaintextPassword"
-                      >
+                      <Form.Group className="mb-3 py-2">
                         <Col>
                           <Form.Control
                             type="password"
