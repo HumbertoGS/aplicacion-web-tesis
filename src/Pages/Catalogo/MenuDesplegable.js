@@ -117,11 +117,7 @@ const MenuDespe = (props) => {
             </InputGroup>
 
             <Link to="/Carrito">
-              <Button
-                className="w-100"
-                variant="outline-success"
-                href="/Carrito"
-              >
+              <Button className="w-100" variant="outline-success">
                 Ir a Carrito
               </Button>
             </Link>
