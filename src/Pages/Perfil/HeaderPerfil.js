@@ -36,17 +36,19 @@ export default function HeaderPerfil({ user, state, estados }) {
           }
         />
 
-        <BtnCambioOpciones
-          estado={reporte}
-          onClick={() =>
-            estados({
-              reporte: true,
-              actualizar: false,
-              opciones: false,
-            })
-          }
-          nameBtn="Reporte"
-        />
+        {user?.permisos === 1 ? (
+          <BtnCambioOpciones
+            estado={reporte}
+            onClick={() =>
+              estados({
+                reporte: true,
+                actualizar: false,
+                opciones: false,
+              })
+            }
+            nameBtn="Reporte"
+          />
+        ) : null}
       </div>
     </div>
   );
