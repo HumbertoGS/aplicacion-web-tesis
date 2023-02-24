@@ -78,7 +78,7 @@ a:visited {
   /* width: calc(100% - 200px); */
   display: flex;
   justify-content: center;
-  padding-left: 200px;
+  /* padding-left: 200px; */
 }
 
 .Alert {
