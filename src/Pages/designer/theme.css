@@ -202,6 +202,7 @@ a:visited {
 
 .btnOpcion {
   color: #393b3c !important;
+  width: 17%;
   border-bottom: 0px !important;
   border-radius: 0 !important;
   border-top-right-radius: 4px !important;
