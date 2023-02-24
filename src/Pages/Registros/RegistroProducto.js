@@ -18,6 +18,9 @@ const urlCategoria = `${process.env.REACT_APP_API_CORE_URL}categoria`;
 const urlProducto = `${process.env.REACT_APP_API_CORE_URL}producto`;
 
 const RegistroProducto = () => {
+  const [pantallaProd, setPantallaProd] = useState(true);
+  const [pantallaCate, setPantallaCate] = useState(false);
+
   const [editarModal, setEditarModal] = useState(null);
   const [datosModal, setDatosModal] = useState([]);
 
@@ -70,9 +73,6 @@ const RegistroProducto = () => {
       imagen.imagen = reader.result;
     };
   };
-
-  const [pantallaProd, setPantallaProd] = useState(true);
-  const [pantallaCate, setPantallaCate] = useState(false);
 
   return (
     <>
