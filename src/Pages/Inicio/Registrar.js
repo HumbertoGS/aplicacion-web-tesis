@@ -1,9 +1,7 @@
-import { useState } from "react";
 import secureLocalStorage from "react-secure-storage";
 
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Card from "react-bootstrap/Card";
 
@@ -11,50 +9,24 @@ import { Formik } from "formik";
 import { Link } from "react-router-dom";
 
 import "../designer/theme.css";
-import MensajeAlert from "../components/MensajeAlert";
-
-import { PostData } from "../../custom-hooks/useFetch.js";
+import { BtnGuardar } from "../components/BtnAccion";
 
 const url = process.env.REACT_APP_API_CORE_URL + "inicio/registro";
 
 const Registrar = () => {
-  const [datos, setDatos] = useState(null);
-  const [validar, setValidar] = useState(false);
-
-  const [mensaje, setMensaje] = useState("");
-  const [variant, setVariant] = useState("");
-
-  const registrarse = (datos) => {
-    setDatos(datos);
-    setValidar(true);
-  };
-
   const comprobarInicio = (respuesta) => {
-    let variant = "";
+    if (respuesta) {
+      secureLocalStorage.setItem("user", respuesta[0]);
 
-    setValidar(false);
-    if (respuesta.datos.length !== 0) {
-      // localStorage.setItem("user", JSON.stringify(respuesta.datos[0]));
-      secureLocalStorage.setItem("user", respuesta.datos[0]);
-      variant = "success";
-    } else variant = "danger";
-
-    setVariant(variant);
-    setMensaje(respuesta.mensaje);
-
-    if (respuesta.datos.length !== 0) {
       setTimeout(function () {
         window.location.href = process.env.REACT_APP_BASENAME + "Catalogo";
-      }, 3000);
+      }, 1000);
     }
   };
-
-  PostData(url, datos, validar, comprobarInicio);
 
   return (
     <>
       <Card body className="Card">
-        {variant ? <MensajeAlert variant={variant} mensaje={mensaje} /> : <></>}
         <div className="form-padre">
           <Card className="p-4" style={{ width: "400px" }}>
             <Row>
@@ -75,116 +47,70 @@ const Registrar = () => {
                     correo: "",
                     contrasena: "",
                   }}
-                  onSubmit={(values, { resetForm }) => {
-                    registrarse(values);
-                    resetForm();
-                  }}
                 >
-                  {({
-                    handleSubmit,
-                    handleChange,
-                    handleBlur,
-                    values,
-                    touched,
-                    isValid,
-                    errors,
-                  }) => (
-                    <Form className="px-3" noValidate onSubmit={handleSubmit}>
-                      <Form.Group
-                        // as={Row}
-                        className="mb-3"
-                        controlId="formPlaintextInput2"
-                      >
-                        {/* <Form.Label column sm="4" className="text-start">
-                          Nombres:
-                        </Form.Label> */}
-                        <Col>
-                          <Form.Control
-                            type="text"
-                            placeholder="Nombre"
-                            name="nombre"
-                            value={values.nombre}
-                            onChange={handleChange}
-                          />
-                        </Col>
+                  {({ handleChange, values, isValid, errors }) => (
+                    <Form className="px-3" noValidate>
+                      <Form.Group className="mb-3">
+                        <Form.Control
+                          type="text"
+                          autoComplete="off"
+                          placeholder="Nombre"
+                          name="nombre"
+                          value={values.nombre}
+                          onChange={handleChange}
+                        />
                       </Form.Group>
 
-                      <Form.Group
-                        className="mb-3"
-                        controlId="formPlaintextInput3"
-                      >
-                        {/* <Form.Label column sm="4" className="text-start">
-                          Apellidos:
-                        </Form.Label> */}
-                        <Col>
-                          <Form.Control
-                            type="text"
-                            placeholder="Apellido"
-                            name="apellido"
-                            value={values.apellido}
-                            onChange={handleChange}
-                          />
-                        </Col>
+                      <Form.Group className="mb-3">
+                        <Form.Control
+                          type="text"
+                          autoComplete="off"
+                          placeholder="Apellido"
+                          name="apellido"
+                          value={values.apellido}
+                          onChange={handleChange}
+                        />
                       </Form.Group>
 
-                      <Form.Group
-                        className="mb-3"
-                        controlId="formPlaintextInput1"
-                      >
-                        {/* <Form.Label column sm="4" className="text-start">
-                          N° Identificación:
-                        </Form.Label> */}
-                        <Col>
-                          <Form.Control
-                            type="text"
-                            placeholder="Cédula"
-                            name="cedula"
-                            value={values.cedula}
-                            onChange={handleChange}
-                            maxLength={10}
-                          />
-                        </Col>
+                      <Form.Group className="mb-3">
+                        <Form.Control
+                          type="text"
+                          autoComplete="off"
+                          placeholder="Cédula"
+                          name="cedula"
+                          value={values.cedula}
+                          onChange={handleChange}
+                          maxLength={10}
+                        />
                       </Form.Group>
 
-                      <Form.Group
-                        className="mb-3"
-                        controlId="formPlaintextInput1"
-                      >
-                        {/* <Form.Label column sm="4" className="text-start">
-                          N° Identificación:
-                        </Form.Label> */}
-                        <Col>
-                          <Form.Control
-                            type="email"
-                            placeholder="Correo electrónico"
-                            name="correo"
-                            value={values.correo}
-                            onChange={handleChange}
-                          />
-                        </Col>
+                      <Form.Group className="mb-3">
+                        <Form.Control
+                          type="email"
+                          autoComplete="off"
+                          placeholder="Correo electrónico"
+                          name="correo"
+                          value={values.correo}
+                          onChange={handleChange}
+                        />
                       </Form.Group>
 
-                      <Form.Group
-                        className="mb-3"
-                        controlId="formPlaintextInput3"
-                      >
-                        {/* <Form.Label column sm="4" className="text-start">
-                          Contraseña:
-                        </Form.Label> */}
-                        <Col>
-                          <Form.Control
-                            type="password"
-                            placeholder="Contraseña"
-                            name="contrasena"
-                            value={values.contrasena}
-                            onChange={handleChange}
-                          />
-                        </Col>
+                      <Form.Group className="mb-3">
+                        <Form.Control
+                          type="password"
+                          autoComplete="off"
+                          placeholder="Contraseña"
+                          name="contrasena"
+                          value={values.contrasena}
+                          onChange={handleChange}
+                        />
                       </Form.Group>
-                      <Button
-                        variant="outline-secondary"
-                        type="submit"
-                        className="w-50"
+                      <BtnGuardar
+                        datos={values}
+                        mensajeResp={"Datos Registrados"}
+                        url={url}
+                        handleRespond={comprobarInicio}
+                        nameBtn="Crear Cuenta"
                         disabled={
                           !(
                             values.apellido &&
@@ -193,10 +119,8 @@ const Registrar = () => {
                             values.contrasena
                           )
                         }
-                        // href="/"
-                      >
-                        CREAR CUENTA
-                      </Button>
+                        width={"50%"}
+                      />
                     </Form>
                   )}
                 </Formik>
@@ -205,9 +129,7 @@ const Registrar = () => {
             <Row>
               <Col className="mt-3 px-4">
                 <Form.Text>
-                  {/* Todos los datos requeridos son para la compra del carrito 
-                    <br />*/}
-                  Ya tengo cuenta, <Link to="/Ingresar">ingresar aquí</Link>
+                  Ya tienes cuenta, <Link to="/Ingresar">ingresar aquí</Link>
                 </Form.Text>
               </Col>
             </Row>
