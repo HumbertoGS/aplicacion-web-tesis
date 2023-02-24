@@ -1,10 +1,8 @@
 import { useState } from "react";
-import * as XLSX from "xlsx";
 
 import Card from "react-bootstrap/Card";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 
 import InventarioPdf from "../pdfs/Inventario";
@@ -13,8 +11,6 @@ import Tabla from "../components/Tabla";
 import { PostData } from "../../custom-hooks/useFetch";
 import { PDFDownload } from "../pdfs/FuncionesPdf";
 import { BtnGuardar } from "../components/BtnAccion";
-
-import { RiFileExcel2Line } from "react-icons/ri";
 
 const urlProducto = process.env.REACT_APP_API_CORE_URL + "producto/inventario";
 
@@ -33,47 +29,6 @@ function Inventario() {
     setProductoTabla(dato.datos);
     setBuscarProductos(false);
   });
-
-  const exportToCSV = () => {
-    const header = ["Inventario de inicio - fin"];
-    const headerTabla = [
-      "Codigo",
-      "Producto",
-      "Precio",
-      "Categoria",
-      "Descripcion",
-      "Stock",
-    ];
-
-    const emptyRow = Array(header[0].length).fill("");
-    const rows = [
-      headerTabla,
-      ...productoTabla.map((row) => Object.values(row)),
-    ];
-
-    const ws = XLSX.utils.aoa_to_sheet([header, emptyRow, ...rows]);
-    const wb = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(wb, ws, "Datos de inventario");
-
-    const range = { s: { c: 0, r: 0 }, e: { c: 5, r: 0 } };
-    ws["!merges"] = [range];
-    ws["A1"].v = header[0];
-    ws["A1"].s = {
-      font: { bold: true, sz: 14 },
-      alignment: { horizontal: "center", vertical: "center" },
-    };
-
-    for (let i = 0; i < headerTabla.length; i++) {
-      const col = XLSX.utils.encode_col(i) + 3;
-      ws[col].v = headerTabla[i];
-      ws[col].s = {
-        font: { bold: true, sz: 14 },
-        alignment: { horizontal: "center", vertical: "center" },
-      };
-    }
-
-    XLSX.writeFile(wb, "report.xlsx");
-  };
 
   return (
     <Card body className="Card">
@@ -158,13 +113,6 @@ function Inventario() {
                 )} */}
               </div>
               <div>
-                <Button
-                  variant="outline-secondary"
-                  className="mx-2"
-                  onClick={(e) => exportToCSV()}
-                >
-                  <RiFileExcel2Line /> Excel
-                </Button>
                 <PDFDownload
                   children={
                     <InventarioPdf datos={productoTabla} fecha={fecha} />
