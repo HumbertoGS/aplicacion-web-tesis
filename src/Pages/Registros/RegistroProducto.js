@@ -189,6 +189,7 @@ const RegistroProducto = () => {
                             mensajeResp: "Se registro el producto",
                             url: `${urlProducto}/insert`,
                             nameBtn: "Registrar Producto",
+                            width:"50%"
                           }}
                           moreProp={{
                             editar: false,
