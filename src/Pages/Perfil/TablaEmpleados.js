@@ -54,8 +54,8 @@ const TablaEmpleados = () => {
                   <InputGroup className="mb-3">
                     <InputGroup.Text className="w-25">Cedula:</InputGroup.Text>
                     <Form.Control
+                      type="text"
                       value={numIdent}
-                      defaultValue={numIdent}
                       onChange={(e) => {
                         setNumIdent(e.target.value);
                       }}
