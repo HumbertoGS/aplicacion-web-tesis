@@ -71,7 +71,8 @@ const RegistroProducto = () => {
     };
   };
 
-  const [opcion, setOpcion] = useState(true);
+  const [pantallaProd, setPantallaProd] = useState(true);
+  const [pantallaCate, setPantallaCate] = useState(false);
 
   return (
     <>
@@ -90,31 +91,25 @@ const RegistroProducto = () => {
             style={{ borderBottom: "1px solid #d2d8dd" }}
           >
             <BtnCambioOpciones
-              styleBtn={{
-                border: !opcion ? "0px" : "1px solid #d2d8dd",
-                marginBottom: opcion ? "-1px" : "0px",
-                background: opcion ? "#e9ecef" : "#ffff",
-              }}
+              estado={pantallaProd}
               onClick={() => {
-                setOpcion(true);
-              }}
-              nameBtn="Registrar Categoria"
-            />
-
-            <BtnCambioOpciones
-              styleBtn={{
-                border: opcion ? "0px" : "1px solid #d2d8dd",
-                marginBottom: !opcion ? "-1px" : "0px",
-                background: !opcion ? "#e9ecef" : "#ffff",
-              }}
-              onClick={() => {
-                setOpcion(false);
+                setPantallaProd(true);
+                setPantallaCate(false);
               }}
               nameBtn="Registrar Producto"
             />
+
+            <BtnCambioOpciones
+              estado={pantallaCate}
+              onClick={() => {
+                setPantallaProd(false);
+                setPantallaCate(true);
+              }}
+              nameBtn="Registrar Categoria"
+            />
           </div>
 
-          {opcion ? (
+          {pantallaCate && (
             <Card className="p-3 mx-0" style={{ height: "70vh" }}>
               <Row>
                 <Col xs={12} md={5}>
@@ -149,7 +144,9 @@ const RegistroProducto = () => {
                 </Col>
               </Row>
             </Card>
-          ) : (
+          )}
+
+          {pantallaProd && (
             <Card className="Card">
               <Row>
                 <Col>
