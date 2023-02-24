@@ -1,5 +1,7 @@
 import secureLocalStorage from "react-secure-storage";
 
+import { useState } from "react";
+
 import Container from "react-bootstrap/Container";
 import Navbar from "react-bootstrap/Navbar";
 import NavDropdown from "react-bootstrap/NavDropdown";
@@ -10,6 +12,12 @@ import { RiLogoutBoxRLine, RiLogoutBoxLine } from "react-icons/ri";
 
 import "../designer/theme.css";
 
+import Button from "react-bootstrap/esm/Button";
+import Offcanvas from "react-bootstrap/Offcanvas";
+import MenuDespl from "./MenuDespl";
+
+import { BiFoodMenu } from "react-icons/bi";
+
 const user = secureLocalStorage.getItem("user");
 
 const Header = () => {
@@ -17,10 +25,36 @@ const Header = () => {
     secureLocalStorage.removeItem("user");
     window.location.href = process.env.REACT_APP_BASENAME + "Catalogo";
   };
+  const [show, setShow] = useState(false);
+
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
 
   return (
     <div className="App-header py-2">
       <Navbar className="h-100">
+        {/* Esto es para menu desplegable */}
+        <div style={{ width: "10%" }}>
+          <Button
+            variant="outline-secondary"
+            className="mx-3 p-0 my-0"
+            onClick={handleShow}
+          >
+            <BiFoodMenu className="mx-4 my-2" />
+          </Button>
+        </div>
+        <Offcanvas
+          show={show}
+          onHide={handleClose}
+          style={{ width: "13.25rem", background: "#a3d5f1" }}
+        >
+          <Offcanvas.Body className="mx-0 px-0">
+            <MenuDespl onClosed={handleClose} />
+          </Offcanvas.Body>
+        </Offcanvas>
+
+        {/* Fin de menu desplegable */}
+
         <Container>
           <Navbar.Brand>
             <Link to="Catalogo" className="nav-element">

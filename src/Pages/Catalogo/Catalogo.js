@@ -282,7 +282,7 @@ const Catalogo = () => {
                 }}
                 nameBtn="Todos"
               />
-              <div className="w-50"></div>
+              <div className="w-75"></div>
               <div className="mb-1" style={{ width: "10%" }}>
                 <Button onClick={handleShow}>
                   <FaShoppingCart />
