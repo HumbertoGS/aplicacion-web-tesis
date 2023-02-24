@@ -1,9 +1,21 @@
 import Button from "react-bootstrap/esm/Button";
 
-const BtnCambioOpciones = ({ styleBtn, onClick, nameBtn }) => {
+const styleNoSelect = {
+  border: "0px",
+  marginBottom: "0px",
+  background: "#ffff",
+};
+
+const styleSelect = {
+  border: "1px solid #d2d8dd",
+  marginBottom: "-1px",
+  background: "#e9ecef",
+};
+
+const BtnCambioOpciones = ({ estado, onClick, nameBtn }) => {
   return (
     <Button
-      style={{ ...styleBtn, width: "15%" }}
+      style={estado ? styleSelect : styleNoSelect}
       className="btnOpcion"
       onClick={onClick}
     >
