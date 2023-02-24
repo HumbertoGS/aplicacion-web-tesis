@@ -298,6 +298,7 @@ const FormCustom = ({
                   nameBtn={propsBtn.nameBtn}
                   disabled={disabled(values, opcion)}
                   resetForm={() => resetForm()}
+                  width={propsBtn.width ?? "auto"}
                 />
               </Col>
             </Row>
