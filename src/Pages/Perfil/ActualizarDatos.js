@@ -8,13 +8,14 @@ import Card from "react-bootstrap/Card";
 import InputGroup from "react-bootstrap/InputGroup";
 
 import { Formik } from "formik";
-
 import "../designer/theme.css";
-import { PostData } from "../../custom-hooks/useFetch";
 
 import HeaderPerfil from "./HeaderPerfil";
 import TablaEmpleados from "./TablaEmpleados";
 import StatusPedido from "./StatusPedido";
+import Reportes from "./Reportes";
+
+import { PostData } from "../../custom-hooks/useFetch";
 import { BtnGuardar } from "../components/BtnAccion";
 
 const url = process.env.REACT_APP_API_CORE_URL + "persona";
@@ -58,19 +59,26 @@ const ActualizarDatos = ({ user }) => {
     }
   };
 
-  const [opcion, setOpcion] = useState(true);
+  const [actualizar, setActualizar] = useState(true);
+  const [opciones, setOpciones] = useState(false);
+  const [reporte, setReporte] = useState(false);
 
   return (
     <>
       <Card body style={{ height: "80vh" }} className="Card">
         <HeaderPerfil
           user={user}
-          opcion={opcion}
-          cambio={() => {
-            setOpcion(!opcion);
+          state={{ reporte, opciones, actualizar }}
+          estados={(data) => {
+            setReporte(data.reporte);
+            setActualizar(data.actualizar);
+            setOpciones(data.opciones);
           }}
         />
-        {opcion ? (
+
+        {reporte && <Reportes />}
+
+        {actualizar && (
           <div className="py-2" style={{ height: "70vh" }}>
             <Card className="Card">
               <div className="mx-4" style={{ width: "50%" }}>
@@ -79,15 +87,7 @@ const ActualizarDatos = ({ user }) => {
               </div>
               <Card className="my-2 px-5 mx-5 py-5">
                 <Formik enableReinitialize={true} initialValues={datos}>
-                  {({
-                    handleSubmit,
-                    handleChange,
-                    handleBlur,
-                    values,
-                    touched,
-                    isValid,
-                    errors,
-                  }) => (
+                  {({ handleChange, values, isValid, errors }) => (
                     <Form className="px-2 pt-2" noValidate>
                       <Row>
                         <Col className="mx-2">
@@ -207,10 +207,16 @@ const ActualizarDatos = ({ user }) => {
               </Card>
             </Card>
           </div>
-        ) : user?.permisos === 1 ? (
-          <TablaEmpleados />
+        )}
+
+        {opciones ? (
+          user?.permisos === 1 ? (
+            <TablaEmpleados />
+          ) : (
+            <StatusPedido user={user} />
+          )
         ) : (
-          <StatusPedido user={user} />
+          <></>
         )}
       </Card>
     </>
