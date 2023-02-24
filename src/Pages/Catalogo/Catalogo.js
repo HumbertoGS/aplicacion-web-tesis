@@ -11,13 +11,13 @@ import Accordion from "react-bootstrap/Accordion";
 
 import { FaShoppingCart } from "react-icons/fa";
 
-import { CatalogoProductos } from "./Paginacion";
 import MenuDespe from "./MenuDesplegable";
 import MensajeAlert from "../components/MensajeAlert";
+import BtnCambioOpciones from "../components/OpcionPantalla";
+import { CatalogoProductos } from "./Paginacion";
 import { ReloadData } from "../../custom-hooks/useFetch";
 
 import "../designer/theme.css";
-import BtnCambioOpciones from "../components/OpcionPantalla";
 
 let datosA = { datos: [], totales: [] };
 
@@ -26,14 +26,22 @@ const urlCategoria =
 const urlProducto = process.env.REACT_APP_API_CORE_URL + "producto?stock=true";
 
 const Catalogo = () => {
-  const [mensaje, setMensaje] = useState("");
-  const [variant, setVariant] = useState("");
+  //-----------Valores Iniciales----------
+  const [mensajeAlert, setMensajeAlert] = useState({
+    mostrar: false,
+    mensaje: "",
+    variant: "",
+  });
+
+  const [todos, setTodos] = useState(false);
+  const [nuevo, setNuevo] = useState(true);
 
   const [show, setShow] = useState(false);
   const [datos, setDatos] = useState({ datos: [], totales: [] });
 
   const [buscar, setBuscar] = useState("");
 
+  //----------Valores para datos producto----------
   const [productoTabla, setProductoTabla] = useState([]);
   const [buscarProductos, setBuscarProductos] = useState(true);
 
@@ -57,30 +65,7 @@ const Catalogo = () => {
     setReload(false);
   });
 
-  //-------------------FIN CATEGORIA-------------------
-
-  const handleClose = () => setShow(false);
-  const handleShow = () => {
-    setShow(true);
-  };
-
-  const BuscarFiltro = (idCategoria) => {
-    let filtrado = productoTabla.filter(
-      (data) => data.categoria === idCategoria
-    );
-    if (filtrado.length > 0) {
-      setProducto(filtrado);
-      setProductoNew(filtrado.filter((data) => data.newProducto === true));
-    } else {
-      setProducto([]);
-      setProductoNew([]);
-    }
-  };
-
-  const busqueda = () => {
-    console.log(buscar);
-  };
-
+  //-------------------Operaciones del carrito-------------------
   const guardarDatos = (datosA) => {
     let Total = datosA.datos.reduce(
       (acumulador, actual) => acumulador + Number(actual.total),
@@ -103,50 +88,29 @@ const Catalogo = () => {
     datosA.datos.push(valores);
     guardarDatos(datosA);
 
-    setVariant("success");
-    setMensaje("Agregado al carrito");
+    setMensajeAlert({
+      mostrar: true,
+      mensaje: "Agregado al carrito",
+      variant: "success",
+    });
   };
 
-  useEffect(() => {
-    if (variant) {
-      const interval = setTimeout(() => {
-        setVariant("");
-      }, 4000);
-      return () => clearInterval(interval);
-    }
-  }, [variant]);
-
-  useEffect(() => {
-    const datosCarro = secureLocalStorage.getItem("datosCarrito");
-
-    if (datosCarro) {
-      if (datosCarro.datos.length > 0) {
-        datosA = datosCarro;
-        setDatos(datosA);
-      }
-    } else setDatos({ datos: [], totales: [] });
-  }, []);
-
-  const [opcion, setOpcion] = useState(true);
-
-  const BtnCatalogo = ({ border, background, onClick, nameBtn }) => {
-    const style = {
-      border,
-      borderRadius: "4px",
-      background,
-      color: "#393b3c",
-    };
-
-    return (
-      <Button
-        style={style}
-        variant="outline-secondary"
-        className="w-25"
-        onClick={onClick}
-      >
-        {nameBtn}
-      </Button>
+  //----------------Filtros---------------
+  const BuscarFiltro = (idCategoria) => {
+    let filtrado = productoTabla.filter(
+      (data) => data.categoria === idCategoria
     );
+    if (filtrado.length > 0) {
+      setProducto(filtrado);
+      setProductoNew(filtrado.filter((data) => data.newProducto === true));
+    } else {
+      setProducto([]);
+      setProductoNew([]);
+    }
+  };
+
+  const busqueda = () => {
+    console.log(buscar);
   };
 
   const BusquedaAvz = () => {
@@ -228,10 +192,37 @@ const Catalogo = () => {
     );
   };
 
+  //----------Carga de datos iniciales y mensaje---------
+
+  useEffect(() => {
+    if (mensajeAlert.mostrar) {
+      const interval = setTimeout(() => {
+        setMensajeAlert({ mostrar: false, mensaje: "", variant: "" });
+      }, 4000);
+      return () => clearInterval(interval);
+    }
+  }, [mensajeAlert.mostrar]);
+
+  useEffect(() => {
+    const datosCarro = secureLocalStorage.getItem("datosCarrito");
+
+    if (datosCarro) {
+      if (datosCarro.datos.length > 0) {
+        datosA = datosCarro;
+        setDatos(datosA);
+      }
+    } else setDatos({ datos: [], totales: [] });
+  }, []);
+
   return (
     <>
       <Card body className="Card">
-        {variant ? <MensajeAlert variant={variant} mensaje={mensaje} /> : <></>}
+        {mensajeAlert.mostrar && (
+          <MensajeAlert
+            variant={mensajeAlert.variant}
+            mensaje={mensajeAlert.mensaje}
+          />
+        )}
         <Card className="Card pt-2">
           <div className="px-0">
             <Row>
@@ -261,30 +252,28 @@ const Catalogo = () => {
               style={{ borderBottom: "1px solid #d2d8dd" }}
             >
               <BtnCambioOpciones
-                styleBtn={{
-                  border: !opcion ? "0px" : "1px solid #d2d8dd",
-                  marginBottom: opcion ? "-1px" : "0px",
-                  background: opcion ? "#e9ecef" : "#ffff",
-                }}
+                estado={nuevo}
                 onClick={() => {
-                  setOpcion(true);
+                  setNuevo(true);
+                  setTodos(false);
                 }}
                 nameBtn="Nuevos"
               />
               <BtnCambioOpciones
-                styleBtn={{
-                  border: opcion ? "0px" : "1px solid #d2d8dd",
-                  marginBottom: !opcion ? "-1px" : "0px",
-                  background: !opcion ? "#e9ecef" : "#ffff",
-                }}
+                estado={todos}
                 onClick={() => {
-                  setOpcion(false);
+                  setNuevo(false);
+                  setTodos(true);
                 }}
                 nameBtn="Todos"
               />
               <div className="w-75"></div>
               <div className="mb-1" style={{ width: "10%" }}>
-                <Button onClick={handleShow}>
+                <Button
+                  onClick={() => {
+                    setShow(true);
+                  }}
+                >
                   <FaShoppingCart />
                 </Button>
               </div>
@@ -293,19 +282,21 @@ const Catalogo = () => {
             {show && (
               <MenuDespe
                 show={show}
-                handleClose={handleClose}
+                handleClose={() => setShow(false)}
                 datos={datos}
                 guardarDatos={guardarDatos}
               />
             )}
 
             <div style={{ minHeight: "60vh" }}>
-              {opcion ? (
+              {nuevo && (
                 <CatalogoProductos
                   data={productoNew}
                   datosCarrito={datosCarrito}
                 />
-              ) : (
+              )}
+
+              {todos && (
                 <CatalogoProductos
                   data={producto}
                   datosCarrito={datosCarrito}
