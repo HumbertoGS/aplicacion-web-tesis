@@ -54,7 +54,7 @@ const MenuDesplegable = ({ user, onClosed }) => {
           </Link>
           {user ? (
             <div>
-              {user.permisos !== 3 ? (
+              {user.permisos !== 3 && (
                 <>
                   {/* <Link to="Registrar-Productos">
                     <Container
@@ -79,19 +79,17 @@ const MenuDesplegable = ({ user, onClosed }) => {
                     </Container>
                   </Link>
                 </>
-              ) : (
-                <Link to="Status-Pedido">
-                  <Container
-                    className="py-2 text-start nav-element"
-                    id="navL"
-                    onClick={onClosed}
-                  >
-                    <label className="mx-2 nav-element">
-                      Estado del Pedido
-                    </label>
-                  </Container>
-                </Link>
               )}
+              <Link to="Status-Pedido">
+                <Container
+                  className="py-2 text-start nav-element"
+                  id="navL"
+                  onClick={onClosed}
+                >
+                  <label className="mx-2 nav-element">Estado del Pedido</label>
+                </Container>
+              </Link>
+
               {user.permisos === 1 ? (
                 <Link to="Inventario">
                   <Container
