@@ -56,7 +56,7 @@ const MenuDesplegable = ({ user, onClosed }) => {
             <div>
               {user.permisos !== 3 ? (
                 <>
-                  <Link to="Registrar-Productos">
+                  {/* <Link to="Registrar-Productos">
                     <Container
                       className="py-2 text-start nav-element"
                       id="navL"
@@ -66,7 +66,7 @@ const MenuDesplegable = ({ user, onClosed }) => {
                         Registro de Productos y Categorias
                       </label>
                     </Container>
-                  </Link>
+                  </Link> */}
                   <Link to="Registro-Ventas">
                     <Container
                       className="py-2 text-start nav-element"
