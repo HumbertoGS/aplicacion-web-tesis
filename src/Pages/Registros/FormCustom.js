@@ -19,7 +19,23 @@ const FormProducto = ({ handleChange, values, isValid, errors, moreProp }) => {
   return (
     <>
       <Row>
-        <InputGroup className="mb-3 pt-2">
+        {editar && (
+          <Row>
+            <Col md={6}>
+              <InputGroup className="mb-3">
+                <InputGroup.Text style={{ width: "47%" }}>
+                  Codigo
+                </InputGroup.Text>
+                <Form.Control
+                  className="noEdit w-50"
+                  disabled
+                  value={values.codigo}
+                />
+              </InputGroup>
+            </Col>
+          </Row>
+        )}
+        <InputGroup className="mb-3">
           <InputGroup.Text style={{ width: widthRow }}>Nombre</InputGroup.Text>
           <Form.Control
             autoComplete="off"
@@ -101,27 +117,37 @@ const FormProducto = ({ handleChange, values, isValid, errors, moreProp }) => {
               }}
             >
               Categoria
-              <span style={{ color: "#eb0808" }} className="px-2">
-                *
-              </span>
+              {!editar && (
+                <span style={{ color: "#eb0808" }} className="px-2">
+                  *
+                </span>
+              )}
             </InputGroup.Text>
-            <Form.Select
-              autoComplete="off"
-              name="categoria"
-              value={values.categoria}
-              onChange={handleChange}
-            >
-              <option value={""} disabled>
-                Selecciona categoria
-              </option>
-              {categoriaActive.map((item, index) => {
-                return (
-                  <option key={index} value={item.id}>
-                    {item.nombre}
-                  </option>
-                );
-              })}
-            </Form.Select>
+            {editar ? (
+              <Form.Control
+                className="noEdit text-center"
+                disabled
+                value={values.nombre_categoria}
+              />
+            ) : (
+              <Form.Select
+                autoComplete="off"
+                name="categoria"
+                value={values.categoria}
+                onChange={handleChange}
+              >
+                <option value={""} disabled>
+                  Selecciona categoria
+                </option>
+                {categoriaActive.map((item, index) => {
+                  return (
+                    <option key={index} value={item.id}>
+                      {item.nombre}
+                    </option>
+                  );
+                })}
+              </Form.Select>
+            )}
           </InputGroup>
         </Col>
       </Row>
@@ -221,6 +247,13 @@ const FormCategoria = ({ handleChange, values, isValid, errors }) => {
 const disabled = (values, opcion) => {
   if (opcion === "categoria") return !values?.nombre;
   if (opcion === "producto")
+    return !(
+      values?.imagen &&
+      values?.precio &&
+      values?.cantidad &&
+      values?.categoria
+    );
+  if (opcion === "productoEditar")
     return !(
       values?.imagen &&
       values?.precio &&
