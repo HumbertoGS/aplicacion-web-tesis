@@ -85,57 +85,57 @@ const Header = () => {
                     </Container>
                   </Link>
 
-                  {user ? (
-                    user.permisos === 1 ? (
-                      <div>
-                        <Link to="Registro-Ventas">
-                          <Container
-                            className="py-1 text-start opc-element"
-                            id="navL2"
-                          >
-                            <label className="mx-1" id="label2">
-                              Revisar pedidos
-                            </label>
-                          </Container>
-                        </Link>
-                        <Link to="Inventario">
-                          <Container
-                            className="py-1 text-start opc-element"
-                            id="navL2"
-                          >
-                            <label className="mx-1" id="label2">
-                              Inventario
-                            </label>
-                          </Container>
-                        </Link>
-                      </div>
-                    ) : (
-                      <div>
-                        <Link to="Carrito">
-                          <Container
-                            className="py-1 text-start opc-element"
-                            id="navL2"
-                          >
-                            <label className="mx-1" id="label2">
-                              Carrito
-                            </label>
-                          </Container>
-                        </Link>
+                  {user?.permisos === 1 && (
+                    <Link to="Inventario">
+                      <Container
+                        className="py-1 text-start opc-element"
+                        id="navL2"
+                      >
+                        <label className="mx-1" id="label2">
+                          Inventario
+                        </label>
+                      </Container>
+                    </Link>
+                  )}
 
-                        <Link to="Status-Pedido">
-                          <Container
-                            className="py-1 text-start opc-element"
-                            id="navL2"
-                          >
-                            <label className="mx-1" id="label2">
-                              Estado de Pedido
-                            </label>
-                          </Container>
-                        </Link>
-                      </div>
-                    )
-                  ) : (
-                    <></>
+                  {user.permisos !== 3 && (
+                    <div>
+                      <Link to="Registro-Ventas">
+                        <Container
+                          className="py-1 text-start opc-element"
+                          id="navL2"
+                        >
+                          <label className="mx-1" id="label2">
+                            Revisar pedidos
+                          </label>
+                        </Container>
+                      </Link>
+                    </div>
+                  )}
+
+                  {user.permisos === 3 && (
+                    <div>
+                      <Link to="Carrito">
+                        <Container
+                          className="py-1 text-start opc-element"
+                          id="navL2"
+                        >
+                          <label className="mx-1" id="label2">
+                            Carrito
+                          </label>
+                        </Container>
+                      </Link>
+                      <Link to="Status-Pedido">
+                        <Container
+                          className="py-1 text-start opc-element"
+                          id="navL2"
+                        >
+                          <label className="mx-1" id="label2">
+                            Estado de Pedido
+                          </label>
+                        </Container>
+                      </Link>
+                    </div>
                   )}
 
                   <NavDropdown.Divider />
