@@ -17,6 +17,7 @@ import Offcanvas from "react-bootstrap/Offcanvas";
 import MenuDespl from "./MenuDespl";
 
 import { BiFoodMenu } from "react-icons/bi";
+import { FaRegEdit } from "react-icons/fa";
 
 const user = secureLocalStorage.getItem("user");
 
@@ -143,7 +144,7 @@ const Header = () => {
               </div>
             </Navbar.Collapse>
           ) : (
-            <Navbar.Collapse className="px-5 justify-content-end">
+            <div className="d-flex">
               <div
                 className="d-flex align-items-center"
                 style={{ paddingRight: "35px" }}
@@ -153,7 +154,16 @@ const Header = () => {
                   <Link to="Ingresar">Ingresar</Link>
                 </Navbar.Text>
               </div>
-            </Navbar.Collapse>
+              <div
+                className="d-flex align-items-center"
+                style={{ paddingRight: "35px" }}
+              >
+                <FaRegEdit />
+                <Navbar.Text className="px-1">
+                  <Link to="Registrar">Registrarse</Link>
+                </Navbar.Text>
+              </div>
+            </div>
           )}
         </Container>
       </Navbar>

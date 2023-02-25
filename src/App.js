@@ -55,14 +55,14 @@ function App() {
               </ProtectedRoute>
             }
           />
-          <Route
+          {/* <Route
             path="Registrar-Productos"
             element={
               <ProtectedRoute user={user} permisos={permisos}>
                 <RegistroProducto />
               </ProtectedRoute>
             }
-          />
+          /> */}
           <Route path="Carrito" element={<Carrito user={user} />} />
           <Route path="Ingresar" element={<Login />} />
           <Route path="Registrar" element={<Registrar />} />

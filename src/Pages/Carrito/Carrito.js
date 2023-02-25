@@ -144,15 +144,14 @@ const Carrito = ({ user }) => {
                   <hr />
                 </div>
               </Row>
-              <h6 className="py-3">Su carrito actualmente está vacío</h6>
-
+              <h6 className="pb-3">Su carrito actualmente está vacío</h6>
               <Link to="/Catalogo">
-                <Button variant="outline-secondary">Continuar la Compra</Button>
+                <Button variant="outline-secondary">Volver al Catalogo</Button>
               </Link>
             </Col>
           </Row>
         ) : (
-          <Row style={{ minHeight: "80vh" }}>
+          <Row style={{ minHeight: "80vh", columnGap: "30px" }}>
             <Col xs={12} md={7}>
               <div className="mt-4 mx-2">
                 <h5 className="text-center pb-2">Datos del Carrito</h5>
@@ -221,7 +220,7 @@ const Carrito = ({ user }) => {
                 </Row>
               </div>
             </Col>
-            <Col className="form-datos-carrito px-5 mx-3">
+            <Col className="form-datos-carrito">
               <Card className="p-4 m-3">
                 <Form.Text>
                   <h6>DATOS DE ENVIO</h6>

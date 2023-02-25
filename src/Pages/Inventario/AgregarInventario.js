@@ -2,13 +2,14 @@ import { useState } from "react";
 
 import Card from "react-bootstrap/Card";
 import Modal from "react-bootstrap/Modal";
-import FormCustom from "./FormCustom";
+import FormCustom from "../Registros/FormCustom";
 
 const urlProducto = process.env.REACT_APP_API_CORE_URL + "producto";
 
-const EditarDatos = ({
+const AgregarInventario = ({
   producto,
   Categorias,
+  agregar,
   show,
   onHide,
   reloadProductos,
@@ -39,10 +40,10 @@ const EditarDatos = ({
       centered
       size="lg"
     >
-      <div>
+      <div className="">
         <Modal.Header closeButton>
           <Modal.Title>
-            <h5>EDITAR PRODUCTO</h5>
+            <h5>AGREGAR PRODUCTO</h5>
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
@@ -50,10 +51,11 @@ const EditarDatos = ({
             <FormCustom
               valuesForm={producto}
               handleRespond={(x) => {
+                console.log(x);
                 reloadProductos();
+                onHide();
               }}
               opcion="productoEditar"
-              reset={() => {}}
               propsBtn={{
                 mensajeResp: "Se actualizó datos del producto",
                 url: `${urlProducto}/insert`,
@@ -61,6 +63,7 @@ const EditarDatos = ({
               }}
               moreProp={{
                 editar: true,
+                agregar,
                 size: 7,
                 viewImagen,
                 Categorias,
@@ -78,4 +81,4 @@ const EditarDatos = ({
   );
 };
 
-export default EditarDatos;
+export default AgregarInventario;

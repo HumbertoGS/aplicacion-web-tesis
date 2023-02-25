@@ -8,7 +8,7 @@ import { Formik } from "formik";
 import { BtnGuardar } from "../components/BtnAccion";
 
 const FormProducto = ({ handleChange, values, isValid, errors, moreProp }) => {
-  const { Categorias, file, editar } = moreProp;
+  const { Categorias, file, editar, agregar = false } = moreProp;
 
   const categoriaActive = Categorias.filter((item) => item.estado !== false);
 
@@ -16,10 +16,12 @@ const FormProducto = ({ handleChange, values, isValid, errors, moreProp }) => {
   const widthRow = editar ? "21%" : "17%";
   const className = editar ? "d-none" : "d-flex";
 
+  const valido = editar && agregar;
+
   return (
     <>
       <Row>
-        {editar && (
+        {!valido && (
           <Row>
             <Col md={6}>
               <InputGroup className="mb-3">
@@ -117,13 +119,13 @@ const FormProducto = ({ handleChange, values, isValid, errors, moreProp }) => {
               }}
             >
               Categoria
-              {!editar && (
+              {valido && (
                 <span style={{ color: "#eb0808" }} className="px-2">
                   *
                 </span>
               )}
             </InputGroup.Text>
-            {editar ? (
+            {!valido ? (
               <Form.Control
                 className="noEdit text-center"
                 disabled
@@ -185,7 +187,7 @@ const FormProductoEditar = ({
       <Row>
         <Col md={7}>
           <Card.Title>
-            {values.nombre ? values.nombre : "No name"}
+            {values.nombre ? values.nombre : "-"}
             <hr />
           </Card.Title>
           <FormProducto
@@ -218,6 +220,7 @@ const FormProductoEditar = ({
             <Form.Control
               type="file"
               size="sm"
+              accept=".jpg, .jpeg, .png, .gif"
               onChange={(e) => {
                 file(e, values);
               }}
@@ -235,6 +238,7 @@ const FormCategoria = ({ handleChange, values, isValid, errors }) => {
       <InputGroup.Text className="w-25">Nombre</InputGroup.Text>
       <Form.Control
         type="text"
+        placeholder="Nombre de la categoria"
         autoComplete="off"
         name="nombre"
         value={values.nombre}
@@ -307,6 +311,7 @@ const FormCustom = ({
   valuesForm,
   handleRespond,
   opcion,
+  reset,
   moreProp = () => {},
   propsBtn,
 }) => {
@@ -314,7 +319,7 @@ const FormCustom = ({
     <>
       <Formik enableReinitialize={Reinitialize} initialValues={valuesForm}>
         {({ handleChange, values, isValid, errors, resetForm }) => (
-          <Form className="px-4" noValidate>
+          <Form className="px-3" noValidate>
             {FormPresent(opcion, moreProp, {
               handleChange,
               values,
@@ -330,7 +335,7 @@ const FormCustom = ({
                   url={propsBtn.url}
                   nameBtn={propsBtn.nameBtn}
                   disabled={disabled(values, opcion)}
-                  resetForm={() => resetForm()}
+                  resetForm={reset ? reset : () => resetForm()}
                   width={propsBtn.width ?? "auto"}
                 />
               </Col>

@@ -90,7 +90,7 @@ const Tabla = ({
   return (
     <>
       <div style={{ height }}>
-        <Table>
+        <Table className="text-center">
           <thead className="theadTable">
             <tr>
               {header.map((item, index) => (

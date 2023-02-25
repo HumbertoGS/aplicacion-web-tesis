@@ -6,7 +6,7 @@ import Col from "react-bootstrap/Col";
 import { BtnGuardar } from "./BtnAccion";
 
 const busqueda = {
-  status: 1,
+  status: "1",
   num_pedido: "",
   num_ident: "",
 };
@@ -99,7 +99,11 @@ const BusquedaAvz = ({
           url={url}
           handleRespond={(x) => {
             handleRespond(x, busqueda);
-            closedBusq();
+            const interval = setTimeout(() => {
+              closedBusq();
+            }, 2000);
+            return () => clearInterval(interval);
+            // closedBusq();
           }}
           mensajeResp="Búsqueda Realizada"
         />

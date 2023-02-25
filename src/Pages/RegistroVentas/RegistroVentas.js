@@ -76,10 +76,11 @@ const RegistroVentas = () => {
             filtro={datosBuscar}
             data={datos}
             reload={() => {
-              const interval = setTimeout(() => {
-                setCargar(true);
-              }, 2000);
-              return () => clearInterval(interval);
+              setCargar(true);
+              // const interval = setTimeout(() => {
+              //   setCargar(true);
+              // }, 2000);
+              // return () => clearInterval(interval);
             }}
             detallesPedido={(item) => {
               setNumeroPedido(item);

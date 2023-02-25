@@ -24,8 +24,8 @@ function ZoomImage(props) {
   const magnifierStyle = {
     display: showMagnifier ? "block" : "none",
     position: "absolute",
-    width: "270px",
-    height: "190px",
+    width: "370px",
+    height: "290px",
     background: `url(${props.src}) no-repeat`,
     backgroundPosition: `${magnifierPosition.x}% ${magnifierPosition.y}%`,
     transform: "translate(-50%, -50%)",

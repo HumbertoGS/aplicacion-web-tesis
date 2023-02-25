@@ -9,7 +9,7 @@ import { GrFormPrevious, GrFormNext } from "react-icons/gr";
 
 const CatalogoProductos = ({ data, datosCarrito }) => {
   const [currentPage, setCurrentPage] = useState(1);
-  const [dataPerPage] = useState(8);
+  const [dataPerPage] = useState(12);
 
   // Get current data
   const indexOfLastData = currentPage * dataPerPage;

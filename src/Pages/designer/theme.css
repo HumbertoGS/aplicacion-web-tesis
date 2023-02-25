@@ -44,7 +44,8 @@ body {
   /* left: 185px; */
   /* width: calc(100% - 180px); */
   width: 100%;
-  background-color: #ffffff;
+  /* background-color: #ffffff; */
+  background-color: #c1e9ff;
   border-bottom: 1px solid #cdd0d3;
   height: 70px;
 }
@@ -71,7 +72,7 @@ a:visited {
 /* ESTILO PARA ALERTA */
 .Mensaje {
   position: fixed;
-  top: 20px;
+  top: 30px;
   left: 0;
   right: 0;
   z-index: 999;
@@ -160,8 +161,8 @@ a:visited {
   align-items: center;
   height: 85vh;
   position: relative;
-  left: 50px;
-  width: calc(100% - 120px);
+  /* left: 50px;
+  width: calc(100% - 120px); */
 }
 
 .btnVolver {
