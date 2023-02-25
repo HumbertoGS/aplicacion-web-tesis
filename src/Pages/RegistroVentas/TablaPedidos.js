@@ -94,6 +94,7 @@ const RegistroP = ({
   return (
     <>
       {currentItems.map((item, index) => {
+        item.status = item.estado ? item.status : "3";
         return (
           <tr key={item.id}>
             <td>{addZeros(item.num_pedido)}</td>
@@ -149,7 +150,7 @@ const RegistroP = ({
                 <Form.Select
                   className="mx-2"
                   value={item.status}
-                  disabled={filtro?.status === "2"}
+                  disabled={filtro?.status === "2" || !item.estado}
                   onChange={(event) =>
                     handleChange(event.target.value, index, 1)
                   }
@@ -324,7 +325,7 @@ const TablaPedidos = ({
   return (
     <Card body className="mt-4">
       <div className="my-2">
-        <Header datos={datos}/>
+        <Header datos={datos} />
         <div style={{ height }}>
           <Table striped hover>
             <thead className="theadTable">
