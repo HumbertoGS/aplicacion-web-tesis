@@ -69,7 +69,7 @@ const RegistroVentas = () => {
             </Accordion.Body>
           </Accordion.Item>
         </Accordion>
-        
+
         {datos && (
           <TablaPedidos
             Titulo={"Pedidos " + titulo}
@@ -77,10 +77,6 @@ const RegistroVentas = () => {
             data={datos}
             reload={() => {
               setCargar(true);
-              // const interval = setTimeout(() => {
-              //   setCargar(true);
-              // }, 2000);
-              // return () => clearInterval(interval);
             }}
             detallesPedido={(item) => {
               setNumeroPedido(item);
@@ -100,6 +96,9 @@ const RegistroVentas = () => {
           filtro={datosBuscar ?? { status: "1" }}
           show={modalPedido}
           onHide={() => setModalPedido(false)}
+          reload={() => {
+            setCargar(true);
+          }}
         />
       )}
 
