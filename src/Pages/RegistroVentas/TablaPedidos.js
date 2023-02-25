@@ -170,6 +170,8 @@ const RegistroP = ({
                       transferencia: item.transferencia,
                       id_estado: item.status,
                       estado: true,
+                      num_venta: item.num_pedido,
+                      num_pedido: item.num_producto
                     }}
                     nombreBtn={
                       item.status === 1 ? (
