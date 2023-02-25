@@ -17,12 +17,13 @@ const style = {
   label: { fontSize: "11px" },
 };
 
-const PedidoDetalles = (props) => {
-  const { data, filtro, ...modalProps } = props;
+const PedidoDetalles = ({ data, filtro, reload, show, onHide }) => {
   const [key, setKey] = useState("Producto1");
 
   const [detalles, setDetalles] = useState(null);
   const [buscar, setBuscar] = useState(true);
+
+  const [click, setClick] = useState(false);
 
   const className =
     filtro?.status === "1" ? "d-flex flex-column align-items-center" : "d-none";
@@ -36,7 +37,14 @@ const PedidoDetalles = (props) => {
   });
 
   return (
-    <Modal {...modalProps} centered>
+    <Modal
+      show={show}
+      onHide={() => {
+        onHide();
+        if (click) reload();
+      }}
+      centered
+    >
       <Modal.Header closeButton>
         <Modal.Title style={style.modal}>Detalles de pedido</Modal.Title>
       </Modal.Header>
@@ -131,6 +139,7 @@ const PedidoDetalles = (props) => {
                             const newDatos = [...detalles];
                             newDatos[index].estado = !item.estado;
                             setDetalles(newDatos);
+                            setClick(true);
                           }}
                           url={url}
                         />
@@ -150,7 +159,10 @@ const PedidoDetalles = (props) => {
         <Button
           variant="outline-secondary"
           className="w-25"
-          onClick={props.onHide}
+          onClick={() => {
+            onHide();
+            if (click) reload();
+          }}
         >
           Close
         </Button>
