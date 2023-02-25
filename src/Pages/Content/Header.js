@@ -88,6 +88,16 @@ const Header = () => {
                   {user ? (
                     user.permisos === 1 ? (
                       <div>
+                        <Link to="Registro-Ventas">
+                          <Container
+                            className="py-1 text-start opc-element"
+                            id="navL2"
+                          >
+                            <label className="mx-1" id="label2">
+                              Revisar pedidos
+                            </label>
+                          </Container>
+                        </Link>
                         <Link to="Inventario">
                           <Container
                             className="py-1 text-start opc-element"
