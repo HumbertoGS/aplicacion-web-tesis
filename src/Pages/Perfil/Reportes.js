@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import * as XLSX from "xlsx";
 
 import Card from "react-bootstrap/Card";
@@ -10,7 +10,6 @@ import Form from "react-bootstrap/Form";
 import InventarioPdf from "../pdfs/Inventario";
 import Tabla from "../components/Tabla";
 
-import { PostData } from "../../custom-hooks/useFetch";
 import { PDFDownload } from "../pdfs/FuncionesPdf";
 import { BtnGuardar } from "../components/BtnAccion";
 
@@ -18,35 +17,42 @@ import { RiFileExcel2Line } from "react-icons/ri";
 
 const urlProducto = process.env.REACT_APP_API_CORE_URL + "producto/reporte";
 
-const Reportes = ({ datosPDF }) => {
+const Reportes = ({ datosPDF, fechaGraf, fechaRep }) => {
   const [productoTabla, setProductoTabla] = useState([]);
-  const [buscarProductos, setBuscarProductos] = useState(true);
-
-  const [titulo, setTitulo] = useState("Fecha");
-  const [estadoP, setEstadoP] = useState("");
 
   const [fecha, setFecha] = useState({
-    fechaDesde: new Date().toISOString().substring(0, 10),
-    fechaHasta: new Date().toISOString().substring(0, 10),
+    fechaDesde: fechaRep.fechaDesde
+      ? fechaRep.fechaDesde
+      : new Date().toISOString().substring(0, 10),
+    fechaHasta: fechaRep.fechaHasta
+      ? fechaRep.fechaHasta
+      : new Date().toISOString().substring(0, 10),
   });
 
-  PostData(urlProducto, {}, buscarProductos, (dato) => {
-    setProductoTabla(dato.datos);
-    setFecha({
-      ...fecha,
-      fechaDesde: dato.datos[dato.datos.length - 1].fecha_registro,
-    });
-    setBuscarProductos(false);
-  });
+  useEffect(() => {
+    let producto = datosPDF?.datosProductoCantidad;
+    datosPDF.datosCategoria = datosPDF?.datosCategoria.filter(
+      (item) => item.conteo !== 0
+    );
+    setProductoTabla(producto);
+    if (producto.length !== 0) {
+      setFecha({
+        fechaHasta: fecha.fechaHasta,
+        fechaDesde: producto[producto.length - 1].fecha_registro,
+      });
+    }
+  }, [datosPDF, fecha.fechaHasta]);
 
+  //Excel
   const exportToCSV = () => {
     const header = ["Inventario de inicio - fin"];
     const headerTabla = [
       "Codigo",
       "Producto",
       "Precio",
-      "Categoria",
-      "Descripcion",
+      "Disponible",
+      "Vendido",
+      "Fecha Registro",
       "Stock",
     ];
 
@@ -115,13 +121,15 @@ const Reportes = ({ datosPDF }) => {
               <hr />
             </Row>
             <Card className="px-3 py-4">
-              <Row className="align-items-center">
+              <Row className="align-items-center justify-content-center">
                 <Col md={5} className="d-flex align-items-end p-3">
                   <div
                     className="d-flex flex-column"
                     style={{ paddingRight: "40px" }}
                   >
-                    <h6 className="text-center fw-bold">Busqueda por fecha</h6>
+                    <h6 className="text-center fw-bold">
+                      Busqueda por fecha registro
+                    </h6>
                     <hr className="my-0 mx-1" />
                     <div className="d-flex" style={{ marginTop: "10px" }}>
                       <div className="d-flex align-items-center mx-2">
@@ -129,9 +137,12 @@ const Reportes = ({ datosPDF }) => {
                         <Form.Control
                           type="date"
                           value={fecha.fechaDesde}
-                          onChange={(e) =>
-                            setFecha({ ...fecha, fechaDesde: e.target.value })
-                          }
+                          onChange={(e) => {
+                            setFecha({ ...fecha, fechaDesde: e.target.value });
+                            fechaGraf({ ...fecha, fechaDesde: e.target.value });
+                          }}
+                          // min={}
+                          max={fecha.fechaHasta}
                         />
                       </div>
                       <div className="d-flex align-items-center mx-2">
@@ -139,9 +150,11 @@ const Reportes = ({ datosPDF }) => {
                         <Form.Control
                           type="date"
                           value={fecha.fechaHasta}
-                          onChange={(e) =>
-                            setFecha({ ...fecha, fechaHasta: e.target.value })
-                          }
+                          onChange={(e) => {
+                            setFecha({ ...fecha, fechaHasta: e.target.value });
+                            fechaGraf({ ...fecha, fechaHasta: e.target.value });
+                          }}
+                          min={fecha.fechaDesde}
                         />
                       </div>
                     </div>
@@ -149,7 +162,10 @@ const Reportes = ({ datosPDF }) => {
                   <div className="pt-4 d-flex justify-content-center">
                     <BtnGuardar
                       datos={fecha}
-                      handleRespond={(x) => setProductoTabla(x)}
+                      handleRespond={(datos) => {
+                        let producto = datos?.datosProductoCantidad;
+                        setProductoTabla(producto);
+                      }}
                       mensajeResp="Búsqueda realizada"
                       url={urlProducto}
                     />
