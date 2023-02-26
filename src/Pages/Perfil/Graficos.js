@@ -1,5 +1,6 @@
-import React, { useState } from "react";
-import { Button, Col, Row } from "react-bootstrap";
+import { useState } from "react";
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
 import {
   ResponsiveContainer,
   Tooltip,
@@ -21,10 +22,10 @@ import {
   PolarAngleAxis,
   PolarRadiusAxis,
   //Grafica linear
-  LineChart,
-  Line,
+  // LineChart,
+  // Line,
 } from "recharts";
-import { ReloadData } from "../../custom-hooks/useFetch";
+import { PostData } from "../../custom-hooks/useFetch";
 
 const COLORS = [
   "#ce93d8",
@@ -35,15 +36,20 @@ const COLORS = [
   "#d500f9",
 ];
 
-const GraficoBarra = ({ data }) => {
+const GraficoBarra = ({ data, fecha }) => {
   return (
     <div style={{ height: "500px" }}>
-      <h4 className="pt-4">Cantidad Producto</h4>
+      <h4 className="pt-4">Productos registrados </h4>
+      {fecha && (
+        <h5>
+          Desde: {fecha?.fechaDesde} Hasta: {fecha?.fechaHasta}
+        </h5>
+      )}
       <hr />
       <ResponsiveContainer width="100%" aspect={2} className="pt-3">
         <BarChart data={data} width={300}>
           <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="name" />
+          <XAxis dataKey="nombre" />
           <YAxis />
           <Tooltip />
           <Legend />
@@ -138,21 +144,47 @@ const GraficaRadar = ({ data }) => {
 //   );
 // };
 
-const url = process.env.REACT_APP_API_CORE_URL + "pedido/estadisticas";
+const urlProducto = process.env.REACT_APP_API_CORE_URL + "producto/reporte";
 
-const Graficos = ({ setDatosPDF }) => {
+const Graficos = ({ setDatosPDF, fecha }) => {
   const [buscar, setBuscar] = useState(true);
   const [datos, setDatos] = useState(null);
 
-  ReloadData(url, buscar, (dato) => {
+  const [fechaData, setFechaData] = useState({});
+
+  const setFecha = (datos) => {
+    if (fecha.fechaDesde === undefined || !fecha.fechaHasta) {
+      if (datos.length !== 0) {
+        let fechaData = {};
+        fechaData.fechaDesde = datos[datos.length - 1].fecha_registro;
+        fechaData.fechaHasta = !fecha.fechaHasta
+          ? new Date().toISOString().substring(0, 10)
+          : datos[0].fecha_registro;
+
+        setFechaData(fechaData);
+      }
+    } else setFechaData(fecha);
+  };
+
+  PostData(urlProducto, fecha, buscar, (dato) => {
     setDatos(dato?.datos);
     setDatosPDF(dato?.datos);
+    setFecha(dato?.datos.datosProductoCantidad);
     setBuscar(false);
   });
 
   return (
     <>
-      <Row className="pt-5">
+      <Row className="justify-content-center pt-3">
+        <Col md={7}>
+          <h5>VENTAS</h5>
+          <h5>
+            Desde: {fechaData?.fechaDesde} Hasta: {fechaData?.fechaHasta}
+          </h5>
+          <hr />
+        </Col>
+      </Row>
+      <Row className="pt-3">
         <Col md={6} className="pb-5">
           {datos?.datosCategoria && (
             <GraficaRadar data={datos?.datosCategoria} />
@@ -162,14 +194,15 @@ const Graficos = ({ setDatosPDF }) => {
           {datos?.datosProducto && <GraficaTorta data={datos?.datosProducto} />}
         </Col>
       </Row>
-      <Row className="pt-2">
-        <Col></Col>
-        <Col md={10}>
+      <Row className="pt-2 justify-content-center">
+        <Col md={9}>
           {datos?.datosProductoCantidad && (
-            <GraficoBarra data={datos?.datosProductoCantidad} />
+            <GraficoBarra
+              data={datos?.datosProductoCantidad}
+              fecha={fechaData}
+            />
           )}
         </Col>
-        <Col></Col>
       </Row>
       {/* <Row className="pt-5">
         <Col></Col>
