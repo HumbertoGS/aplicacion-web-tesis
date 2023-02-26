@@ -16,6 +16,7 @@
     "react-icons": "^4.7.1",
     "react-scripts": "5.0.1",
     "react-secure-storage": "^1.0.22",
+    "recharts": "^2.4.3",
     "web-vitals": "^2.1.4",
     "xlsx": "^0.18.5"
   },
