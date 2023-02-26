@@ -11,6 +11,7 @@ import { Link } from "react-router-dom";
 import "../designer/theme.css";
 
 import { BtnGuardar } from "../components/BtnAccion";
+import validaciones from "../components/Validaciones";
 
 const url = process.env.REACT_APP_API_CORE_URL + "inicio/login";
 
@@ -57,6 +58,9 @@ export default function Login() {
                             name="num_identificacion"
                             value={values.num_identificacion}
                             onChange={handleChange}
+                            onKeyDown={(e) => {
+                              validaciones.onlyNumber(e);
+                            }}
                             maxLength={10}
                           />
                         </Col>

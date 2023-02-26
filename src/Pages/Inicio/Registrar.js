@@ -11,6 +11,8 @@ import { Link } from "react-router-dom";
 import "../designer/theme.css";
 import { BtnGuardar } from "../components/BtnAccion";
 
+import validaciones from "../components/Validaciones";
+
 const url = process.env.REACT_APP_API_CORE_URL + "inicio/registro";
 
 const Registrar = () => {
@@ -80,6 +82,9 @@ const Registrar = () => {
                           name="cedula"
                           value={values.cedula}
                           onChange={handleChange}
+                          onKeyDown={(e) => {
+                            validaciones.onlyNumber(e);
+                          }}
                           maxLength={10}
                         />
                       </Form.Group>
