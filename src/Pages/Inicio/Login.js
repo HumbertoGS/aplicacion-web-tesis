@@ -18,7 +18,10 @@ export default function Login() {
   const comprobarInicio = (respuesta) => {
     if (respuesta.length !== 0) {
       secureLocalStorage.setItem("user", respuesta[0]);
-      window.location.href = process.env.REACT_APP_BASENAME + "Catalogo";
+
+      window.location.href = `${process.env.REACT_APP_BASENAME}${
+        respuesta[0]?.permisos === 1 ? "Perfil" : "Catalogo"
+      }`;
     } else window.location.href = process.env.REACT_APP_BASENAME + "Inicio";
   };
 
