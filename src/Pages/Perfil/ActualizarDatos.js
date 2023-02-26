@@ -22,9 +22,15 @@ import { BtnGuardar } from "../components/BtnAccion";
 const url = process.env.REACT_APP_API_CORE_URL + "persona";
 
 const ActualizarDatos = ({ user }) => {
+  const [actualizar, setActualizar] = useState(user?.permisos !== 1);
+  const [opciones, setOpciones] = useState(false);
+  const [reporte, setReporte] = useState(false);
+  const [grafica, setGrafica] = useState(user?.permisos === 1);
+
   const [buscar, setBuscar] = useState(true);
   const nombre_usuario = user?.nombre;
 
+  const [datosPDF, setDatosPDF] = useState(null);
   const [datos, setDatos] = useState({
     cedula: "",
     nombre: "",
@@ -60,11 +66,6 @@ const ActualizarDatos = ({ user }) => {
     }
   };
 
-  const [actualizar, setActualizar] = useState(true);
-  const [opciones, setOpciones] = useState(false);
-  const [reporte, setReporte] = useState(false);
-  const [grafica, setGrafica] = useState(false);
-
   return (
     <>
       <Card body style={{ height: "80vh" }} className="Card">
@@ -79,9 +80,15 @@ const ActualizarDatos = ({ user }) => {
           }}
         />
 
-        {reporte && <Reportes />}
+        {reporte && <Reportes datosPDF={datosPDF} />}
 
-        {grafica && <Graficos />}
+        {grafica && (
+          <Graficos
+            setDatosPDF={(x) => {
+              setDatosPDF(x);
+            }}
+          />
+        )}
 
         {actualizar && (
           <div className="py-2" style={{ height: "70vh" }}>
