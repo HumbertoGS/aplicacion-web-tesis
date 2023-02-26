@@ -140,12 +140,13 @@ const GraficaRadar = ({ data }) => {
 
 const url = process.env.REACT_APP_API_CORE_URL + "pedido/estadisticas";
 
-const Graficos = () => {
+const Graficos = ({ setDatosPDF }) => {
   const [buscar, setBuscar] = useState(true);
   const [datos, setDatos] = useState(null);
 
   ReloadData(url, buscar, (dato) => {
     setDatos(dato?.datos);
+    setDatosPDF(dato?.datos);
     setBuscar(false);
   });
 
