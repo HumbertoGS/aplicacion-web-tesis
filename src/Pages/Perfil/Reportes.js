@@ -18,7 +18,7 @@ import { RiFileExcel2Line } from "react-icons/ri";
 
 const urlProducto = process.env.REACT_APP_API_CORE_URL + "producto/inventario";
 
-const Reportes = () => {
+const Reportes = ({ datosPDF }) => {
   const [productoTabla, setProductoTabla] = useState([]);
   const [buscarProductos, setBuscarProductos] = useState(true);
 
@@ -32,6 +32,10 @@ const Reportes = () => {
 
   PostData(urlProducto, {}, buscarProductos, (dato) => {
     setProductoTabla(dato.datos);
+    setFecha({
+      ...fecha,
+      fechaDesde: dato.datos[dato.datos.length - 1].fecha_registro,
+    });
     setBuscarProductos(false);
   });
 
@@ -84,7 +88,7 @@ const Reportes = () => {
             <Row>
               <Col md={2}></Col>
               <Col>
-                <h5 className="text-center">Reportes por {titulo}</h5>
+                <h5 className="text-center">Reporte por Producto</h5>
               </Col>
               <Col md={2}>
                 <div className="pb-2">
@@ -97,7 +101,11 @@ const Reportes = () => {
                   </Button>
                   <PDFDownload
                     children={
-                      <InventarioPdf datos={productoTabla} fecha={fecha} />
+                      <InventarioPdf
+                        datos={productoTabla}
+                        fecha={fecha}
+                        datosPDF={datosPDF}
+                      />
                     }
                     fileName={`Inventario Desde ${fecha.fechaDesde} Hasta ${fecha.fechaHasta}.pdf`}
                     nameBtn="PDF"
@@ -108,12 +116,12 @@ const Reportes = () => {
             </Row>
             <Card className="px-3 py-4">
               <Row className="align-items-center">
-                <Col md={5} className="d-flex align-items-end">
+                <Col md={5} className="d-flex align-items-end p-3">
                   <div
                     className="d-flex flex-column"
                     style={{ paddingRight: "40px" }}
                   >
-                    <h6 className="text-center fw-bold">Por fecha</h6>
+                    <h6 className="text-center fw-bold">Busqueda por fecha</h6>
                     <hr className="my-0 mx-1" />
                     <div className="d-flex" style={{ marginTop: "10px" }}>
                       <div className="d-flex align-items-center mx-2">
@@ -138,63 +146,16 @@ const Reportes = () => {
                       </div>
                     </div>
                   </div>
-                </Col>
-                <Col md={4}>
-                  <Form.Group className="px-4 d-flex flex-row align-items-center">
-                    <Form.Label className="fw-bold w-50">
-                      Por Pedidos:
-                    </Form.Label>
-                    <Form.Select
-                      className="mx-3 w-50"
-                      defaultValue={""}
-                      onChange={(event) => {
-                        setEstadoP(event.target.value);
-                      }}
-                    >
-                      <option value={""} disabled>
-                        -
-                      </option>
-                      {/* <option value={1}>Pendiente</option> */}
-                      <option value={2}>Realizados</option>
-                      <option value={3}>Cancelados</option>
-                    </Form.Select>
-                  </Form.Group>
-                </Col>
-                <Col md={3}>
-                  <Form.Group className="px-3 d-flex flex-row align-items-center">
-                    <Form.Label className="fw-bold w-50">Por Stock:</Form.Label>
-                    <Form.Select
-                      className="mx-3 w-50"
-                      defaultValue={""}
-                      // onChange={(event) => {
-                      //   setEstadoP(event.target.value);
-                      // }}
-                    >
-                      <option value={""} disabled>
-                        -
-                      </option>
-                      <option value={1}>Si</option>
-                      <option value={2}>No</option>
-                    </Form.Select>
-                  </Form.Group>
+                  <div className="pt-4 d-flex justify-content-center">
+                    <BtnGuardar
+                      datos={fecha}
+                      handleRespond={(x) => setProductoTabla(x)}
+                      mensajeResp="Búsqueda realizada"
+                      url={urlProducto}
+                    />
+                  </div>
                 </Col>
               </Row>
-              <div className="pt-4 d-flex justify-content-center">
-                <BtnGuardar
-                  datos={fecha}
-                  handleRespond={(x) => setProductoTabla(x)}
-                  mensajeResp="Búsqueda realizada"
-                  url={urlProducto}
-                />
-                <Button
-                  className="mx-2 w-10"
-                  variant="outline-secondary"
-                  // disabled={!(busqueda.num_ident || busqueda.num_pedido)}
-                  onClick={() => {}}
-                >
-                  Limpiar
-                </Button>
-              </div>
             </Card>
             <div className="mt-4 px-4">
               <Tabla data={productoTabla} tabla="inventario" />
