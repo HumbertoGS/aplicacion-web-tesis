@@ -139,10 +139,10 @@ const Reportes = () => {
                     </div>
                   </div>
                 </Col>
-                <Col md={3}>
+                <Col md={4}>
                   <Form.Group className="px-4 d-flex flex-row align-items-center">
                     <Form.Label className="fw-bold w-50">
-                      Por estado:
+                      Por Pedidos:
                     </Form.Label>
                     <Form.Select
                       className="mx-3 w-50"
@@ -154,9 +154,9 @@ const Reportes = () => {
                       <option value={""} disabled>
                         -
                       </option>
-                      <option value={1}>Pendiente</option>
-                      <option value={2}>Pagado</option>
-                      <option value={3}>Cancelado</option>
+                      {/* <option value={1}>Pendiente</option> */}
+                      <option value={2}>Realizados</option>
+                      <option value={3}>Cancelados</option>
                     </Form.Select>
                   </Form.Group>
                 </Col>
