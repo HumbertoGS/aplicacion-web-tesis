@@ -16,7 +16,7 @@ import { BtnGuardar } from "../components/BtnAccion";
 
 import { RiFileExcel2Line } from "react-icons/ri";
 
-const urlProducto = process.env.REACT_APP_API_CORE_URL + "producto/inventario";
+const urlProducto = process.env.REACT_APP_API_CORE_URL + "producto/reporte";
 
 const Reportes = ({ datosPDF }) => {
   const [productoTabla, setProductoTabla] = useState([]);
