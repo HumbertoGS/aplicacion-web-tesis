@@ -10,6 +10,7 @@ import Col from "react-bootstrap/esm/Col";
 
 import { FaCartPlus } from "react-icons/fa";
 
+import validaciones from "../components/Validaciones";
 import "../designer/theme.css";
 import ZoomImage from "./ZoomImage";
 
@@ -98,8 +99,10 @@ const ModalCatalogo = (props) => {
                             onChange={(event) => {
                               if (event.target.value > producto.cantidad)
                                 setCantidad(producto.cantidad);
-                              else if (event.target.value <= 0) setCantidad(0);
                               else setCantidad(event.target.value);
+                            }}
+                            onKeyDown={(e) => {
+                              validaciones.onlyNumber(e);
                             }}
                             placeholder={cantidad}
                             value={cantidad === 0 ? "" : cantidad}
@@ -108,7 +111,7 @@ const ModalCatalogo = (props) => {
                       </div>
                       <Button
                         variant="dark"
-                        disabled={cantidad === 0}
+                        disabled={cantidad === 0 || cantidad === ""}
                         className="w-100"
                         onClick={addCar}
                       >

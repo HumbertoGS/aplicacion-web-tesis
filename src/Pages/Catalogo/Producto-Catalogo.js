@@ -8,6 +8,7 @@ import Badge from "react-bootstrap/Badge";
 
 import { FaCartPlus } from "react-icons/fa";
 
+import validaciones from "../components/Validaciones";
 import ModalCatalogo from "./ModalCatalogo";
 import "../designer/theme.css";
 
@@ -94,8 +95,10 @@ const ProductoImagen = (props) => {
                     onChange={(event) => {
                       if (event.target.value > producto.cantidad)
                         setCantidad(producto.cantidad);
-                      else if (event.target.value <= 0) setCantidad(0);
                       else setCantidad(event.target.value);
+                    }}
+                    onKeyDown={(e) => {
+                      validaciones.onlyNumber(e);
                     }}
                     placeholder={cantidad}
                     value={cantidad === 0 ? "" : cantidad}
@@ -103,7 +106,7 @@ const ProductoImagen = (props) => {
                   />
                   <Button
                     variant="dark"
-                    disabled={cantidad === 0}
+                    disabled={cantidad === 0 || cantidad === ""}
                     style={{
                       width: "70px",
                     }}

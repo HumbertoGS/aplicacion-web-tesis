@@ -14,6 +14,7 @@ import Table from "react-bootstrap/Table";
 
 import MensajeAlert from "../components/MensajeAlert";
 import PedidoPdf from "../pdfs/Pedido";
+import validaciones from "../components/Validaciones";
 
 import { PostData } from "../../custom-hooks/useFetch.js";
 import { VisualizarPdf, getPdfBlob } from "../pdfs/FuncionesPdf";
@@ -247,10 +248,14 @@ const Carrito = ({ user }) => {
                           Cédula
                         </InputGroup.Text>
                         <Form.Control
+                          autoComplete="off"
                           disabled={disabledCampo}
                           name="cedula"
                           value={values.cedula}
                           onChange={handleChange}
+                          onKeyDown={(e) => {
+                            validaciones.onlyNumber(e);
+                          }}
                           maxLength={10}
                         />
                       </InputGroup>
@@ -259,6 +264,7 @@ const Carrito = ({ user }) => {
                           Nombres
                         </InputGroup.Text>
                         <Form.Control
+                          autoComplete="off"
                           disabled={disabledCampo}
                           name="nombre"
                           value={values.nombre}
@@ -270,6 +276,7 @@ const Carrito = ({ user }) => {
                           Apellidos
                         </InputGroup.Text>
                         <Form.Control
+                          autoComplete="off"
                           disabled={disabledCampo}
                           name="apellido"
                           value={values.apellido}
@@ -281,6 +288,7 @@ const Carrito = ({ user }) => {
                           Dirección
                         </InputGroup.Text>
                         <Form.Control
+                          autoComplete="off"
                           as="textarea"
                           rows={3}
                           style={{ resize: "none" }}
@@ -294,6 +302,7 @@ const Carrito = ({ user }) => {
                           Referencia
                         </InputGroup.Text>
                         <Form.Control
+                          autoComplete="off"
                           name="referencia"
                           value={values.referencia}
                           onChange={handleChange}
