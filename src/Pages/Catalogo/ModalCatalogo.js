@@ -96,7 +96,10 @@ const ModalCatalogo = (props) => {
                           <Form.Control
                             autoComplete="off"
                             onChange={(event) => {
-                              setCantidad(event.target.value);
+                              if (event.target.value > producto.cantidad)
+                                setCantidad(producto.cantidad);
+                              else if (event.target.value <= 0) setCantidad(0);
+                              else setCantidad(event.target.value);
                             }}
                             placeholder={cantidad}
                             value={cantidad === 0 ? "" : cantidad}

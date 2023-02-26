@@ -75,7 +75,7 @@ const ProductoImagen = (props) => {
                     {producto?.nombre}
                   </label>
                   <label className="pt-1" style={{ fontSize: "13px" }}>
-                    {producto.talla ? "Talla: " + producto.talla : "-"}
+                    Disponible: {producto.cantidad}
                   </label>
                 </div>
                 <label
@@ -92,9 +92,10 @@ const ProductoImagen = (props) => {
                 <InputGroup style={{ width: "140px" }}>
                   <Form.Control
                     onChange={(event) => {
-                      if (event.target.value > 0)
-                        setCantidad(event.target.value);
-                      else setCantidad("");
+                      if (event.target.value > producto.cantidad)
+                        setCantidad(producto.cantidad);
+                      else if (event.target.value <= 0) setCantidad(0);
+                      else setCantidad(event.target.value);
                     }}
                     placeholder={cantidad}
                     value={cantidad === 0 ? "" : cantidad}
