@@ -14,10 +14,10 @@ import HeaderPerfil from "./HeaderPerfil";
 import TablaEmpleados from "./TablaEmpleados";
 import StatusPedido from "./StatusPedido";
 import Reportes from "./Reportes";
+import Graficos from "./Graficos";
 
 import { PostData } from "../../custom-hooks/useFetch";
 import { BtnGuardar } from "../components/BtnAccion";
-import Graficos from "./Graficos";
 
 const url = process.env.REACT_APP_API_CORE_URL + "persona";
 
@@ -60,28 +60,28 @@ const ActualizarDatos = ({ user }) => {
     }
   };
 
-  const [actualizar, setActualizar] = useState(false);
+  const [actualizar, setActualizar] = useState(true);
   const [opciones, setOpciones] = useState(false);
   const [reporte, setReporte] = useState(false);
+  const [grafica, setGrafica] = useState(false);
 
   return (
     <>
       <Card body style={{ height: "80vh" }} className="Card">
         <HeaderPerfil
           user={user}
-          state={{ reporte, opciones, actualizar }}
+          state={{ reporte, opciones, actualizar, grafica }}
           estados={(data) => {
             setReporte(data.reporte);
             setActualizar(data.actualizar);
             setOpciones(data.opciones);
+            setGrafica(data.grafica);
           }}
         />
 
-        <div>
-          <Graficos />
-        </div>
-
         {reporte && <Reportes />}
+
+        {grafica && <Graficos />}
 
         {actualizar && (
           <div className="py-2" style={{ height: "70vh" }}>
