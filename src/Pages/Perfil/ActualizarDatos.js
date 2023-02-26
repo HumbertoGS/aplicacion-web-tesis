@@ -17,6 +17,7 @@ import Reportes from "./Reportes";
 
 import { PostData } from "../../custom-hooks/useFetch";
 import { BtnGuardar } from "../components/BtnAccion";
+import Graficos from "./Graficos";
 
 const url = process.env.REACT_APP_API_CORE_URL + "persona";
 
@@ -59,7 +60,7 @@ const ActualizarDatos = ({ user }) => {
     }
   };
 
-  const [actualizar, setActualizar] = useState(true);
+  const [actualizar, setActualizar] = useState(false);
   const [opciones, setOpciones] = useState(false);
   const [reporte, setReporte] = useState(false);
 
@@ -75,6 +76,10 @@ const ActualizarDatos = ({ user }) => {
             setOpciones(data.opciones);
           }}
         />
+
+        <div>
+          <Graficos />
+        </div>
 
         {reporte && <Reportes />}
 
@@ -209,15 +214,12 @@ const ActualizarDatos = ({ user }) => {
           </div>
         )}
 
-        {opciones ? (
-          user?.permisos === 1 ? (
+        {opciones &&
+          (user?.permisos === 1 ? (
             <TablaEmpleados />
           ) : (
             <StatusPedido user={user} />
-          )
-        ) : (
-          <></>
-        )}
+          ))}
       </Card>
     </>
   );
