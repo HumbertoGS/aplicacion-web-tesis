@@ -66,6 +66,8 @@ const ActualizarDatos = ({ user }) => {
     }
   };
 
+  const [fecha, setFecha] = useState({});
+
   return (
     <>
       <Card body style={{ height: "80vh" }} className="Card">
@@ -80,13 +82,22 @@ const ActualizarDatos = ({ user }) => {
           }}
         />
 
-        {reporte && <Reportes datosPDF={datosPDF} />}
+        {reporte && (
+          <Reportes
+            datosPDF={datosPDF}
+            fechaGraf={(x) => {
+              setFecha(x);
+            }}
+            fechaRep={fecha}
+          />
+        )}
 
         {grafica && (
           <Graficos
             setDatosPDF={(x) => {
               setDatosPDF(x);
             }}
+            fecha={fecha}
           />
         )}
 
