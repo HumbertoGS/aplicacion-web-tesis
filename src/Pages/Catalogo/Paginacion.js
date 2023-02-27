@@ -28,23 +28,22 @@ const CatalogoProductos = ({ data, datosCarrito }) => {
 
   return (
     <div>
-      <Pagination
-        dataPerPage={dataPerPage}
-        totalData={data.length}
-        paginate={paginate}
-        currentPage={reset ? 1 : currentPage}
-      />
-      <Row xs={2} md={4} className="g-4 px-2 py-3">
-        {currentData.map((item, index) => {
-          return (
-            <ProductoCatalogo
-              key={index}
-              producto={item}
-              datosCarrito={datosCarrito}
-            />
-          );
-        })}
-      </Row>
+      <label>
+        Mostrando {currentData.length} de {data.length} resultados
+      </label>
+      <div style={{ minHeight: "50vh" }}>
+        <Row xs={2} sm={3} md={4} lg={5} className="g-4 px-2 py-3">
+          {currentData.map((item, index) => {
+            return (
+              <ProductoCatalogo
+                key={index}
+                producto={item}
+                datosCarrito={datosCarrito}
+              />
+            );
+          })}
+        </Row>
+      </div>
       <Pagination
         dataPerPage={dataPerPage}
         totalData={data.length}
