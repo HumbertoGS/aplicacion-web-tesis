@@ -7,10 +7,8 @@ import Button from "react-bootstrap/Button";
 import Dropdown from "react-bootstrap/Dropdown";
 
 import Tabla from "../components/Tabla";
-import FormCustom from "../Registros/FormCustom";
 import EditarDatos from "../Registros/EditarDatos";
 import AgregarInventario from "./AgregarInventario";
-import BtnCambioOpciones from "../components/OpcionPantalla";
 
 import { ReloadData } from "../../custom-hooks/useFetch";
 import Categoria from "./Categoria";
@@ -19,9 +17,7 @@ const urlCategoria = `${process.env.REACT_APP_API_CORE_URL}categoria`;
 const urlProducto = `${process.env.REACT_APP_API_CORE_URL}producto`;
 
 const Inventario = () => {
-  const [pantallaProd, setPantallaProd] = useState(false);
   const [pantallaCate, setPantallaCate] = useState(false);
-  const [pantallaInv, setPantallaInv] = useState(true);
 
   const [agregarModal, setAgregarModal] = useState(null);
   const [editarModal, setEditarModal] = useState(null);
@@ -61,20 +57,6 @@ const Inventario = () => {
     } else {
       setProducto([]);
     }
-  };
-
-  //-------------------VISUALIZAR IMAGEN A SUBIR-------------------
-
-  const [viewImagen, setViewImagen] = useState(null);
-
-  const view_img = (files, imagen) => {
-    const reader = new FileReader();
-    reader.readAsDataURL(files);
-
-    reader.onload = () => {
-      setViewImagen(reader.result);
-      imagen.imagen = reader.result;
-    };
   };
 
   return (
