@@ -42,15 +42,15 @@ const TablaEmpleados = () => {
           <hr />
         </div>
         <Row>
-          <Col className="mb-3" xs={4}>
-            <div className="m-4" style={{ width: "400px" }}>
-              <Card className="Card" style={{ paddingRight: "35px" }}>
+          <Col className="mb-3" md={4}>
+            <div className="my-4 d-flex justify-content-center">
+              <Card className="Card">
                 <Form.Text>
                   <h6>Agregar Empleado</h6>
                   <hr />
                 </Form.Text>
 
-                <div className="px-3">
+                <div className="px-0">
                   <InputGroup className="mb-3">
                     <InputGroup.Text className="w-25">Cedula:</InputGroup.Text>
                     <Form.Control
@@ -71,7 +71,7 @@ const TablaEmpleados = () => {
                   </InputGroup>
                   <hr />
                 </div>
-                <div className="px-3">
+                <div className="px-0">
                   <InputGroup className="my-3">
                     <InputGroup.Text className="w-25">Nombres:</InputGroup.Text>
                     <InputGroup.Text className="w-75 noEdit">
@@ -104,7 +104,7 @@ const TablaEmpleados = () => {
               </Card>
             </div>
           </Col>
-          <Col className="mb-3">
+          <Col className="mb-3" md={8}>
             <div className="p-4 mx-3">
               <Tabla
                 data={datosEmpleados}
