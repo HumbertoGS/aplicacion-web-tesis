@@ -25,7 +25,10 @@ import {
   // LineChart,
   // Line,
 } from "recharts";
+
 import { PostData } from "../../custom-hooks/useFetch";
+import { PDFDownload } from "../pdfs/FuncionesPdf";
+import InventarioPdf from "../pdfs/Inventario";
 
 const COLORS = [
   "#ce93d8",
@@ -42,7 +45,7 @@ const GraficoBarra = ({ data, fecha }) => {
       <h4 className="pt-4">Productos registrados </h4>
       {fecha && (
         <h5>
-          Desde: {fecha?.fechaDesde} Hasta: {fecha?.fechaHasta}
+          Desde: {fecha?.fechaDesde} - Hasta: {fecha?.fechaHasta}
         </h5>
       )}
       <hr />
@@ -177,10 +180,30 @@ const Graficos = ({ setDatosPDF, fecha }) => {
     <>
       <Row className="justify-content-center pt-3">
         <Col md={7}>
-          <h5>VENTAS</h5>
-          <h5>
-            Desde: {fechaData?.fechaDesde} Hasta: {fechaData?.fechaHasta}
-          </h5>
+          <Row>
+            <Col md={2}></Col>
+            <Col>
+              <h5>VENTAS</h5>
+              <h5>
+                Desde: {fechaData?.fechaDesde} - Hasta: {fechaData?.fechaHasta}
+              </h5>
+            </Col>
+            <Col md={2}>
+              {datos && (
+                <PDFDownload
+                  children={
+                    <InventarioPdf
+                      datos={datos?.datosProductoCantidad}
+                      fecha={fechaData}
+                      datosPDF={datos}
+                    />
+                  }
+                  fileName={`Inventario Desde ${fechaData.fechaDesde} Hasta ${fechaData.fechaHasta}.pdf`}
+                  nameBtn="PDF"
+                />
+              )}
+            </Col>
+          </Row>
           <hr />
         </Col>
       </Row>
