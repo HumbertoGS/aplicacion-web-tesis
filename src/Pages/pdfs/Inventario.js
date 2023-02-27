@@ -118,6 +118,10 @@ const TablaOtrosDetalles = ({ datosPDF }) => {
 };
 
 const InventarioPdf = ({ datos, fecha, datosPDF }) => {
+  datosPDF.datosCategoria = datosPDF?.datosCategoria.filter(
+    (item) => item.conteo !== 0
+  );
+
   return (
     <Document>
       <Page size="A4" style={stylesPdf.pdf} orientation="landscape">
@@ -140,7 +144,7 @@ const InventarioPdf = ({ datos, fecha, datosPDF }) => {
         <TablaDetalles datos={datos} />
 
         <View style={stylesPdf.tableSpace}></View>
-        
+
         <TablaOtrosDetalles datosPDF={datosPDF} />
       </Page>
     </Document>
