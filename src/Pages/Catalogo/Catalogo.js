@@ -16,6 +16,7 @@ import MenuDespe from "./MenuDesplegable";
 import MensajeAlert from "../components/MensajeAlert";
 import BtnCambioOpciones from "../components/OpcionPantalla";
 import { CatalogoProductos } from "./Paginacion";
+import { BtnGuardar } from "../components/BtnAccion";
 import { GetData } from "../../custom-hooks/useFetch";
 
 import "../designer/theme.css";
@@ -40,8 +41,6 @@ const Catalogo = () => {
   const [show, setShow] = useState(false);
   const [datos, setDatos] = useState({ datos: [], totales: [] });
 
-  const [buscar, setBuscar] = useState("");
-
   //----------Valores para datos producto----------
   const [productoTabla, setProductoTabla] = useState([]);
   const [buscarProductos, setBuscarProductos] = useState(true);
@@ -50,7 +49,9 @@ const Catalogo = () => {
   const [productoNew, setProductoNew] = useState(productoTabla);
   const [filtro, setFiltro] = useState("Categoria");
 
-  GetData(urlProducto, buscarProductos, (dato) => {
+  const [busqueda, setBusqueda] = useState("");
+
+  GetData(urlProducto + "&nombre=" + busqueda, buscarProductos, (dato) => {
     setProductoTabla(dato.datos);
     setProducto(dato.datos);
     setProductoNew(dato.datos.filter((data) => data.newProducto === true));
@@ -110,11 +111,14 @@ const Catalogo = () => {
     }
   };
 
-  const busqueda = () => {
-    console.log(buscar);
+  const buscar = (value) => {
+    setBusqueda(value);
+    setBuscarProductos(true);
   };
 
   const BusquedaAvz = () => {
+    let campoBuscar = "";
+
     return (
       <>
         <div className="mx-4 my-2 d-flex">
@@ -140,14 +144,14 @@ const Catalogo = () => {
               })}
             </DropdownButton>
 
-            <DropdownButton
+            {/* <DropdownButton
               id="dropdown-basic-button"
               variant="outline-secondary"
               className="px-3 DropdownButton"
               title={"Talla"}
             >
               <Dropdown.Item>S</Dropdown.Item>
-            </DropdownButton>
+            </DropdownButton> */}
 
             {filtro !== "Categoria" ? (
               <Button
@@ -168,25 +172,24 @@ const Catalogo = () => {
             )}
           </div>
           <div style={{ width: "60%" }}>
-            <Form className="d-flex">
+            <div className="d-flex">
               <Form.Control
                 style={{ width: "300px" }}
-                type="search"
+                type="text"
                 placeholder="Búsqueda..."
                 className="me-2"
-                aria-label="Search"
+                defaultValue={busqueda ?? campoBuscar}
                 onChange={(event) => {
-                  setBuscar(event.target.value);
+                  campoBuscar = event.target.value;
                 }}
               />
               <Button
-                variant="outline-success"
-                onClick={busqueda}
-                disabled={!buscar}
+                variant="outline-secondary"
+                onClick={() => buscar(campoBuscar)}
               >
                 Buscar
               </Button>
-            </Form>
+            </div>
           </div>
         </div>
       </>
