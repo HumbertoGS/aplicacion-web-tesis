@@ -184,7 +184,7 @@ const RegistroP = ({
                         <RiCloseFill />
                       )
                     }
-                    disabled={item.disabled}
+                    disabled={item.disabled ?? true}
                     reload={reload}
                     url={urlPedidos}
                   />
