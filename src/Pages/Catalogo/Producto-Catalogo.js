@@ -1,6 +1,7 @@
 import { useState } from "react";
 import Card from "react-bootstrap/Card";
 import Col from "react-bootstrap/Col";
+import Row from "react-bootstrap/esm/Row";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import InputGroup from "react-bootstrap/InputGroup";
@@ -31,18 +32,19 @@ const ProductoImagen = (props) => {
   return (
     <>
       <Col>
-        <Card style={{ width: "18rem", height: "24rem" }}>
-          <Card className="Card">
+        <Card style={{ minHeight: "25rem" /*maxHeight: "21.5rem"*/ }}>
+          <Card className="Card" style={{ height: "15rem" }}>
             <Card.Img
               variant="top"
               src={producto.imagen}
-              style={{ height: "200px" }}
+              alt=""
+              style={{ height: "210px", borderBottom: "1px solid #c3c3c3" }}
               onClick={() => {
                 setDatos(producto);
                 setModalShow(true);
               }}
             />
-            {producto.newProducto ? (
+            {producto.newProducto && (
               <Badge
                 bg={"#ecf030"}
                 className="w-25"
@@ -54,17 +56,14 @@ const ProductoImagen = (props) => {
               >
                 New
               </Badge>
-            ) : (
-              <></>
             )}
           </Card>
-          <Card.Body>
+          <Card.Body
+            style={{ minHeight: "11rem", position: "relative" }}
+            className="d-flex flex-column justify-content-between"
+          >
             <Card.Title>
-              {/* {producto.producto} */}
-              <div
-                className="d-flex"
-                style={{ justifyContent: "space-around", height: "35px" }}
-              >
+              <Row className="justify-content-center">
                 <div
                   className="d-flex"
                   style={{
@@ -79,43 +78,51 @@ const ProductoImagen = (props) => {
                     Disponible: {producto.cantidad}
                   </label>
                 </div>
-                <label
-                  className="fw-bold"
-                  style={{ fontSize: "16px", paddingLeft: "9px" }}
-                >
-                  ${producto?.precio}
-                </label>
-              </div>
-              <hr />
+                <Row>
+                  <label className="pt-2" style={{ fontSize: "15px" }}>
+                    ${producto?.precio}
+                  </label>
+                </Row>
+              </Row>
+              <hr
+                className="mx-3 detalleCatalogo"
+                style={{
+                  bottom: "53px",
+                }}
+              />
             </Card.Title>
-            <div>
-              <div className="d-flex justify-content-center">
-                <InputGroup style={{ width: "140px" }}>
-                  <Form.Control
-                    onChange={(event) => {
-                      if (event.target.value > producto.cantidad)
-                        setCantidad(producto.cantidad);
-                      else setCantidad(event.target.value);
-                    }}
-                    onKeyDown={(e) => {
-                      validaciones.onlyNumber(e);
-                    }}
-                    placeholder={cantidad}
-                    value={cantidad === 0 ? "" : cantidad}
-                    maxLength={4}
-                  />
-                  <Button
-                    variant="dark"
-                    disabled={cantidad === 0 || cantidad === ""}
-                    style={{
-                      width: "70px",
-                    }}
-                    onClick={addCar}
-                  >
-                    <FaCartPlus />
-                  </Button>
-                </InputGroup>
-              </div>
+
+            <div
+              className="detalleCatalogo d-flex justify-content-center"
+              style={{
+                bottom: "10px",
+              }}
+            >
+              <InputGroup style={{ width: "140px" }}>
+                <Form.Control
+                  onChange={(event) => {
+                    if (event.target.value > producto.cantidad)
+                      setCantidad(producto.cantidad);
+                    else setCantidad(event.target.value);
+                  }}
+                  onKeyDown={(e) => {
+                    validaciones.onlyNumber(e);
+                  }}
+                  placeholder={cantidad}
+                  value={cantidad === 0 ? "" : cantidad}
+                  maxLength={4}
+                />
+                <Button
+                  variant="dark"
+                  disabled={cantidad === 0 || cantidad === ""}
+                  style={{
+                    width: "70px",
+                  }}
+                  onClick={addCar}
+                >
+                  <FaCartPlus />
+                </Button>
+              </InputGroup>
             </div>
           </Card.Body>
         </Card>
