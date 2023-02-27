@@ -32,8 +32,8 @@ const PostData = (url, data, validar, respuesta) => {
   useData(url, "POST", data, validar, respuesta);
 };
 
-const ReloadData = (url, validar, respuesta) => {
+const GetData = (url, validar, respuesta) => {
   useData(url, "GET", null, validar, respuesta);
 };
 
-export { PostData, ReloadData };
+export { PostData, GetData };

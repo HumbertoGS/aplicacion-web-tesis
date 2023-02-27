@@ -10,7 +10,7 @@ import InputGroup from "react-bootstrap/InputGroup";
 import "../designer/theme.css";
 import Tabla from "../components/Tabla";
 
-import { ReloadData, PostData } from "../../custom-hooks/useFetch";
+import { GetData, PostData } from "../../custom-hooks/useFetch";
 import { BtnGuardar } from "../components/BtnAccion";
 
 const urlPersona = `${process.env.REACT_APP_API_CORE_URL}persona`;
@@ -21,7 +21,7 @@ const TablaEmpleados = () => {
   const [datosEmpleados, setDatosEmpleados] = useState([]);
   const [buscar, setBuscar] = useState(true);
 
-  ReloadData(urlPersona + "/buscarEmpleado", buscar, (x) => {
+  GetData(urlPersona + "/buscarEmpleado", buscar, (x) => {
     if (x.datos.length !== 0) setDatosEmpleados([x.datos[0]]);
     setBuscar(false);
   });

@@ -15,7 +15,7 @@ import MenuDespe from "./MenuDesplegable";
 import MensajeAlert from "../components/MensajeAlert";
 import BtnCambioOpciones from "../components/OpcionPantalla";
 import { CatalogoProductos } from "./Paginacion";
-import { ReloadData } from "../../custom-hooks/useFetch";
+import { GetData } from "../../custom-hooks/useFetch";
 
 import "../designer/theme.css";
 
@@ -49,7 +49,7 @@ const Catalogo = () => {
   const [productoNew, setProductoNew] = useState(productoTabla);
   const [filtro, setFiltro] = useState("Categoria");
 
-  ReloadData(urlProducto, buscarProductos, (dato) => {
+  GetData(urlProducto, buscarProductos, (dato) => {
     setProductoTabla(dato.datos);
     setProducto(dato.datos);
     setProductoNew(dato.datos.filter((data) => data.newProducto === true));
@@ -60,7 +60,7 @@ const Catalogo = () => {
   const [Categorias, setCategorias] = useState([]);
   const [reload, setReload] = useState(true);
 
-  ReloadData(urlCategoria, reload, (dato) => {
+  GetData(urlCategoria, reload, (dato) => {
     setCategorias(dato.datos);
     setReload(false);
   });

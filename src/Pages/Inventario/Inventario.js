@@ -10,7 +10,7 @@ import Tabla from "../components/Tabla";
 import EditarDatos from "../Registros/EditarDatos";
 import AgregarInventario from "./AgregarInventario";
 
-import { ReloadData } from "../../custom-hooks/useFetch";
+import { GetData } from "../../custom-hooks/useFetch";
 import Categoria from "./Categoria";
 
 const urlCategoria = `${process.env.REACT_APP_API_CORE_URL}categoria`;
@@ -27,7 +27,7 @@ const Inventario = () => {
   const [Categorias, setCategorias] = useState([]);
   const [reload, setReload] = useState(true);
 
-  ReloadData(urlCategoria, reload, (dato) => {
+  GetData(urlCategoria, reload, (dato) => {
     setCategorias(dato.datos);
     setReload(false);
   });
@@ -38,7 +38,7 @@ const Inventario = () => {
   const [reloadProductos, setReloadProductos] = useState(true);
   const [producto, setProducto] = useState(productoTabla);
 
-  ReloadData(urlProducto, reloadProductos, (dato) => {
+  GetData(urlProducto, reloadProductos, (dato) => {
     setProductoTabla(dato.datos);
     setProducto(dato.datos);
     setReloadProductos(false);

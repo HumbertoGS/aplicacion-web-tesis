@@ -11,7 +11,7 @@ import EditarDatos from "./EditarDatos";
 import FormCustom from "./FormCustom";
 import Tabla from "../components/Tabla";
 
-import { ReloadData } from "../../custom-hooks/useFetch";
+import { GetData } from "../../custom-hooks/useFetch";
 import BtnCambioOpciones from "../components/OpcionPantalla";
 
 const urlCategoria = `${process.env.REACT_APP_API_CORE_URL}categoria`;
@@ -28,7 +28,7 @@ const RegistroProducto = () => {
   const [Categorias, setCategorias] = useState([]);
   const [reload, setReload] = useState(true);
 
-  ReloadData(urlCategoria, reload, (dato) => {
+  GetData(urlCategoria, reload, (dato) => {
     setCategorias(dato.datos);
     setReload(false);
   });
@@ -39,7 +39,7 @@ const RegistroProducto = () => {
   const [reloadProductos, setReloadProductos] = useState(true);
   const [producto, setProducto] = useState(productoTabla);
 
-  ReloadData(urlProducto, reloadProductos, (dato) => {
+  GetData(urlProducto, reloadProductos, (dato) => {
     setProductoTabla(dato.datos);
     setProducto(dato.datos);
     setReloadProductos(false);
