@@ -1,8 +1,5 @@
 import secureLocalStorage from "react-secure-storage";
-
 import { useEffect, useState } from "react";
-
-import { Link } from "react-router-dom";
 
 import Card from "react-bootstrap/Card";
 import Row from "react-bootstrap/Row";
@@ -18,7 +15,9 @@ import validaciones from "../components/Validaciones";
 
 import { PostData } from "../../custom-hooks/useFetch.js";
 import { VisualizarPdf, getPdfBlob } from "../pdfs/FuncionesPdf";
+
 import { Formik } from "formik";
+import { Link } from "react-router-dom";
 
 const tablaCarrito = [
   { name: "PRODUCTO", width: "250px" },
@@ -178,16 +177,18 @@ const Carrito = ({ user }) => {
                               <div className="d-flex align-items-center">
                                 <img
                                   src={item.imagen}
-                                  width="70"
+                                  width="72"
                                   style={{
                                     marginRight: "12px",
                                   }}
                                   alt=""
                                 ></img>
                                 <div className="d-flex align-items-start flex-column w-75">
-                                  <p className="text-start">{item?.nombre}</p>
+                                  <h6 className="text-start mb-2">
+                                    {item?.nombre}
+                                  </h6>
                                   <p className="text-start">
-                                    Talla {item?.talla}
+                                    Talla - {item?.talla}
                                   </p>
                                 </div>
                               </div>
@@ -201,11 +202,9 @@ const Carrito = ({ user }) => {
                     </tbody>
                   </Table>
                 </div>
-                <Row>
-                  <Col md={6}></Col>
-                  <Col>
+                <Row className="justify-content-end">
+                  <Col md={6}>
                     <Table>
-                      <thead></thead>
                       <tbody>
                         {datos?.totales.map((item, index) => {
                           return (
