@@ -14,8 +14,6 @@ import ActualizarDatos from "./Pages/Perfil/ActualizarDatos";
 import { ProtectedRoute } from "./Pages/components/ProtectedRoute";
 import secureLocalStorage from "react-secure-storage";
 
-const permisos = [1, 2];
-
 function App() {
   const user = secureLocalStorage.getItem("user");
 
@@ -49,19 +47,11 @@ function App() {
           <Route
             path="Registro-Ventas"
             element={
-              <ProtectedRoute user={user} permisos={permisos}>
+              <ProtectedRoute user={user} permisos={[1, 2]}>
                 <RegistroVentas user={user?.cedula} />
               </ProtectedRoute>
             }
           />
-          {/* <Route
-            path="Registrar-Productos"
-            element={
-              <ProtectedRoute user={user} permisos={permisos}>
-                <RegistroProducto />
-              </ProtectedRoute>
-            }
-          /> */}
           <Route path="Carrito" element={<Carrito user={user} />} />
           <Route path="Ingresar" element={<Login />} />
           <Route path="Registrar" element={<Registrar />} />
