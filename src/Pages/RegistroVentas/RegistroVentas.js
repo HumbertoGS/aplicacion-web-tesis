@@ -8,9 +8,9 @@ import PedidoDetalles from "./Modal/PedidoDetalles";
 import ClienteDetalles from "./Modal/ClienteDetalles";
 import BusquedaAvz from "../components/Busqueda";
 
-import { ReloadData } from "../../custom-hooks/useFetch";
+import { PostData } from "../../custom-hooks/useFetch";
 
-const urlPedidos = `${process.env.REACT_APP_API_CORE_URL}pedido`;
+const urlPedidos = `${process.env.REACT_APP_API_CORE_URL}pedido/buscar`;
 
 const RegistroVentas = ({ user }) => {
   const [datos, setDatos] = useState(null);
@@ -22,7 +22,7 @@ const RegistroVentas = ({ user }) => {
   const [modalPedido, setModalPedido] = useState(false);
   const [modalCliente, setModalCliente] = useState(false);
 
-  ReloadData(urlPedidos, cargar, (x) => {
+  PostData(urlPedidos, { status: 1 }, cargar, (x) => {
     setDatos(x?.datos);
     setCargar(false);
   });
@@ -56,7 +56,7 @@ const RegistroVentas = ({ user }) => {
             </Accordion.Header>
             <Accordion.Body>
               <BusquedaAvz
-                url={urlPedidos + "/buscar"}
+                url={urlPedidos}
                 datosBuscar={datosBuscar}
                 resetFiltre={(resetData) => {
                   setDatosBuscar(resetData);
