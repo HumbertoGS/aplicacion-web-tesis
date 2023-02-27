@@ -31,9 +31,7 @@ const Reportes = ({ datosPDF, fechaGraf, fechaRep }) => {
 
   useEffect(() => {
     let producto = datosPDF?.datosProductoCantidad;
-    datosPDF.datosCategoria = datosPDF?.datosCategoria.filter(
-      (item) => item.conteo !== 0
-    );
+
     setProductoTabla(producto);
     if (producto.length !== 0) {
       setFecha({
