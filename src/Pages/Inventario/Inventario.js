@@ -154,7 +154,7 @@ const Inventario = () => {
                       setPantallaCate(true);
                     }}
                   >
-                    Agregar Categoria
+                    Categoria
                   </Button>
                 </div>
               </Col>
