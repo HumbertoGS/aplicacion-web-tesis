@@ -7,7 +7,6 @@ import RegistroVentas from "./Pages/RegistroVentas/RegistroVentas";
 import Carrito from "./Pages/Carrito/Carrito";
 import NoPage from "./Pages/components/NoPage";
 import Catalogo from "./Pages/Catalogo/Catalogo";
-import RegistroProducto from "./Pages/Registros/RegistroProducto";
 import Inventario from "./Pages/Inventario/Inventario";
 import StatusPedido from "./Pages/Perfil/StatusPedido";
 import ActualizarDatos from "./Pages/Perfil/ActualizarDatos";
