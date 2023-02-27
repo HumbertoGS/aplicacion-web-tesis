@@ -51,7 +51,7 @@ function App() {
             path="Registro-Ventas"
             element={
               <ProtectedRoute user={user} permisos={permisos}>
-                <RegistroVentas />
+                <RegistroVentas user={user?.cedula} />
               </ProtectedRoute>
             }
           />

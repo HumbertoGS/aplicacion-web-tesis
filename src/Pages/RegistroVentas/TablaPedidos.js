@@ -90,6 +90,7 @@ const RegistroP = ({
   filtro,
   handleChange,
   reload,
+  user,
 }) => {
   return (
     <>
@@ -171,7 +172,8 @@ const RegistroP = ({
                       id_estado: item.status,
                       estado: true,
                       num_venta: item.num_pedido,
-                      num_pedido: item.num_producto
+                      num_pedido: item.num_producto,
+                      persona_registro: user,
                     }}
                     nombreBtn={
                       item.status === 1 ? (
@@ -254,6 +256,7 @@ const TablaPedidos = ({
   reload,
   detallesPedido,
   detallesCliente,
+  user,
 }) => {
   if (!data) data = [];
   const [datos, setDatos] = useState(data);
@@ -362,6 +365,7 @@ const TablaPedidos = ({
                   filtro={filtro}
                   handleChange={handleChange}
                   reload={reload}
+                  user={user}
                 />
               )}
             </tbody>

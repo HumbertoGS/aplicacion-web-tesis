@@ -12,7 +12,7 @@ import { ReloadData } from "../../custom-hooks/useFetch";
 
 const urlPedidos = `${process.env.REACT_APP_API_CORE_URL}pedido`;
 
-const RegistroVentas = () => {
+const RegistroVentas = ({ user }) => {
   const [datos, setDatos] = useState(null);
   const [cargar, setCargar] = useState(true);
 
@@ -86,6 +86,7 @@ const RegistroVentas = () => {
               setIdCliente(item);
               setModalCliente(true);
             }}
+            user={user}
           />
         )}
       </Card>
