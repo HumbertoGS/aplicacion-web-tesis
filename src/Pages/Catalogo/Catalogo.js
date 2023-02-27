@@ -3,6 +3,7 @@ import secureLocalStorage from "react-secure-storage";
 
 import Card from "react-bootstrap/Card";
 import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import Dropdown from "react-bootstrap/Dropdown";
@@ -247,10 +248,7 @@ const Catalogo = () => {
               </Accordion.Item>
             </Accordion>
 
-            <div
-              className="d-flex mb-3"
-              style={{ borderBottom: "1px solid #d2d8dd" }}
-            >
+            <Row className="mb-3" style={{ borderBottom: "1px solid #d2d8dd" }}>
               <BtnCambioOpciones
                 estado={nuevo}
                 onClick={() => {
@@ -267,17 +265,18 @@ const Catalogo = () => {
                 }}
                 nameBtn="Todos"
               />
-              <div className="w-75"></div>
-              <div className="mb-1" style={{ width: "10%" }}>
-                <Button
-                  onClick={() => {
-                    setShow(true);
-                  }}
-                >
-                  <FaShoppingCart />
-                </Button>
-              </div>
-            </div>
+              <Col className="mb-1 d-flex justify-content-end">
+                <div className="mb-1" style={{ width: "10%" }}>
+                  <Button
+                    onClick={() => {
+                      setShow(true);
+                    }}
+                  >
+                    <FaShoppingCart />
+                  </Button>
+                </div>
+              </Col>
+            </Row>
 
             {show && (
               <MenuDespe
