@@ -50,8 +50,9 @@ const Catalogo = () => {
   const [filtro, setFiltro] = useState("Categoria");
 
   const [busqueda, setBusqueda] = useState("");
+  const [params, setParams] = useState("");
 
-  GetData(urlProducto + "&nombre=" + busqueda, buscarProductos, (dato) => {
+  GetData(`${urlProducto}&${params}=${busqueda}`, buscarProductos, (dato) => {
     setProductoTabla(dato.datos);
     setProducto(dato.datos);
     setProductoNew(dato.datos.filter((data) => data.newProducto === true));
@@ -121,8 +122,10 @@ const Catalogo = () => {
 
     return (
       <>
-        <div className="mx-4 my-2 d-flex">
-          <div style={{ width: "75%" }} className="d-flex">
+        {/* <div className="mx-4 my-2 d-flex"> */}
+        <Row>
+          {/* <div style={{ width: "75%" }} className="d-flex"> */}
+          <Col md={2}>
             <DropdownButton
               id="dropdown-basic-button"
               variant="outline-secondary"
@@ -143,17 +146,9 @@ const Catalogo = () => {
                 );
               })}
             </DropdownButton>
-
-            {/* <DropdownButton
-              id="dropdown-basic-button"
-              variant="outline-secondary"
-              className="px-3 DropdownButton"
-              title={"Talla"}
-            >
-              <Dropdown.Item>S</Dropdown.Item>
-            </DropdownButton> */}
-
-            {filtro !== "Categoria" ? (
+          </Col>
+          <Col>
+            {(filtro !== "Categoria" || params !== "") && (
               <Button
                 className="mx-2"
                 variant="outline-secondary"
@@ -163,15 +158,28 @@ const Catalogo = () => {
                   setProductoNew(
                     productoTabla.filter((data) => data.newProducto === true)
                   );
+                  setParams("");
                 }}
               >
                 Limpiar Filtros
               </Button>
-            ) : (
-              <></>
             )}
-          </div>
-          <div style={{ width: "60%" }}>
+          </Col>
+          <Col md={3} className="d-flex justify-content-end">
+            <DropdownButton
+              variant="outline-secondary"
+              style={{ border: "none !important" }}
+              title={params !== "" ? params : "Opciones de búsqueda"}
+            >
+              <Dropdown.Item onClick={() => setParams("nombre")}>
+                Nombre
+              </Dropdown.Item>
+              <Dropdown.Item onClick={() => setParams("talla")}>
+                Talla
+              </Dropdown.Item>
+            </DropdownButton>
+          </Col>
+          <Col md={5}>
             <div className="d-flex">
               <Form.Control
                 style={{ width: "300px" }}
@@ -182,16 +190,18 @@ const Catalogo = () => {
                 onChange={(event) => {
                   campoBuscar = event.target.value;
                 }}
+                disabled={params === ""}
               />
               <Button
                 variant="outline-secondary"
                 onClick={() => buscar(campoBuscar)}
+                disabled={params === ""}
               >
                 Buscar
               </Button>
             </div>
-          </div>
-        </div>
+          </Col>
+        </Row>
       </>
     );
   };
