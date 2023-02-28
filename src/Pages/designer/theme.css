@@ -47,7 +47,7 @@ body {
   /* background-color: #ffffff; */
   background-color: #c1e9ff;
   border-bottom: 1px solid #cdd0d3;
-  height: 70px;
+  min-height: 70px;
 }
 
 .footer-menu {

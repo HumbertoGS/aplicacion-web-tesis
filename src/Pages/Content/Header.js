@@ -3,6 +3,7 @@ import secureLocalStorage from "react-secure-storage";
 import { useState } from "react";
 
 import Container from "react-bootstrap/Container";
+import Row from "react-bootstrap/Row";
 import Navbar from "react-bootstrap/Navbar";
 import NavDropdown from "react-bootstrap/NavDropdown";
 
@@ -32,10 +33,11 @@ const Header = () => {
   const handleShow = () => setShow(true);
 
   return (
-    <div className="App-header py-2">
-      <Navbar className="h-100">
+    // <Row className="App-header py-2">
+    <Navbar expand="sm" className="App-header px-2 justify-content-evenly">
+      <Container className="justify-content-evenly mx-0">
         {/* Esto es para menu desplegable */}
-        <div style={{ width: "10%" }}>
+        <div>
           <Button
             variant="outline-secondary"
             className="mx-3 p-0 my-0"
@@ -43,25 +45,27 @@ const Header = () => {
           >
             <BiFoodMenu className="mx-4 my-2" />
           </Button>
-        </div>
-        <Offcanvas
-          show={show}
-          onHide={handleClose}
-          style={{ width: "13.25rem", background: "#a3d5f1" }}
-        >
-          <Offcanvas.Body className="mx-0 px-0">
-            <MenuDespl onClosed={handleClose} />
-          </Offcanvas.Body>
-        </Offcanvas>
 
+          <Offcanvas
+            show={show}
+            onHide={handleClose}
+            style={{ width: "13.25rem", background: "#a3d5f1" }}
+          >
+            <Offcanvas.Body className="mx-0 px-0">
+              <MenuDespl onClosed={handleClose} />
+            </Offcanvas.Body>
+          </Offcanvas>
+        </div>
         {/* Fin de menu desplegable */}
 
-        <Container>
-          <Navbar.Brand>
-            <Link to="Catalogo" className="nav-element">
-              <label className="mx-2 nav-element">Novedades D'Myla & Ney</label>
-            </Link>
-          </Navbar.Brand>
+        <Navbar.Brand className="d-flex justify-content-between">
+          <Link to="Catalogo" className="nav-element">
+            <label className="mx-2 nav-element">Novedades D'Myla & Ney</label>
+          </Link>
+        </Navbar.Brand>
+
+        <Navbar.Toggle aria-controls="basic-navbar-nav" />
+        <Navbar.Collapse className="me-auto justify-content-end">
           {user ? (
             <Navbar.Collapse className="justify-content-end">
               <Navbar.Text className="px-5">
@@ -154,10 +158,10 @@ const Header = () => {
               </div>
             </Navbar.Collapse>
           ) : (
-            <div className="d-flex">
+            <div className="d-flex justify-content-center">
               <div
                 className="d-flex align-items-center"
-                style={{ paddingRight: "35px" }}
+                style={{ paddingLeft: "35px" }}
               >
                 <RiLogoutBoxRLine />
                 <Navbar.Text className="px-1">
@@ -166,7 +170,7 @@ const Header = () => {
               </div>
               <div
                 className="d-flex align-items-center"
-                style={{ paddingRight: "35px" }}
+                style={{ paddingLeft: "35px" }}
               >
                 <FaRegEdit />
                 <Navbar.Text className="px-1">
@@ -175,9 +179,10 @@ const Header = () => {
               </div>
             </div>
           )}
-        </Container>
-      </Navbar>
-    </div>
+        </Navbar.Collapse>
+      </Container>
+    </Navbar>
+    // </Row>
   );
 };
 
