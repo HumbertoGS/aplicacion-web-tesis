@@ -33,9 +33,19 @@ body {
   width: 100%;
   height: 55px;
   display: inline-table;
-  padding-right: 50px;
-  padding-left: 50px;
+  /* padding-right: 50px;
+  padding-left: 50px; */
   top: 55px;
+}
+
+.input-error {
+  border-color: #fc8181;
+}
+
+.focusInput {
+  border-color: #d50c0c !important;
+  box-shadow: 0 1px 1px #00000013 inset, 0 0 8px #ef786899 !important;
+  outline: 0 none;
 }
 
 .App-header {

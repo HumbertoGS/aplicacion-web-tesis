@@ -30,9 +30,9 @@ export default function Login() {
     <>
       <Card body className="Card">
         <div className="form-padre">
-          <Card className="p-4" style={{ width: "400px" }}>
+          <Card className="p-4" style={{ maxWidth: "370px" }}>
             <Row>
-              <Col className="mb-3 pt-5">
+              <Col className="mb-3 pt-4">
                 <Form.Text>
                   <h5>INICIAR SESION</h5>
                   <hr />
@@ -48,13 +48,13 @@ export default function Login() {
                   }}
                 >
                   {({ handleChange, values, isValid, errors }) => (
-                    <Form className="px-4" noValidate>
-                      <Form.Group className="mb-3 mt-2">
-                        <Col>
+                    <Form className="px-3" noValidate>
+                      <Row>
+                        <Form.Group className="mb-3 mt-2">
                           <Form.Control
                             type="text"
                             autoComplete="off"
-                            placeholder="Número de identificación"
+                            placeholder="Cédula"
                             name="num_identificacion"
                             value={values.num_identificacion}
                             onChange={handleChange}
@@ -63,10 +63,8 @@ export default function Login() {
                             }}
                             maxLength={10}
                           />
-                        </Col>
-                      </Form.Group>
-                      <Form.Group className="mb-3 py-2">
-                        <Col>
+                        </Form.Group>
+                        <Form.Group className="mb-3 py-2">
                           <Form.Control
                             type="password"
                             placeholder="Contraseña"
@@ -74,17 +72,19 @@ export default function Login() {
                             value={values.pass}
                             onChange={handleChange}
                           />
-                        </Col>
-                      </Form.Group>
-                      <BtnGuardar
-                        datos={values}
-                        mensajeResp={"Inicio de Sesion"}
-                        url={url}
-                        handleRespond={comprobarInicio}
-                        nameBtn="Iniciar Sesión"
-                        disabled={!(values.pass && values.num_identificacion)}
-                        width={"50%"}
-                      />
+                        </Form.Group>
+                      </Row>
+                      <Col md={12}>
+                        <BtnGuardar
+                          datos={values}
+                          mensajeResp={"Inicio de Sesion"}
+                          url={url}
+                          handleRespond={comprobarInicio}
+                          nameBtn="Iniciar Sesión"
+                          disabled={!(values.pass && values.num_identificacion)}
+                          width={"200px"}
+                        />
+                      </Col>
                     </Form>
                   )}
                 </Formik>
