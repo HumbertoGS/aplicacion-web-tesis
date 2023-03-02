@@ -6,13 +6,24 @@ const validaciones = {
       event.preventDefault();
     }
   },
-  correo: (values, errors) => {
-    if (!values.correo) errors.correo = false;
-    else if (!/^[A-ZÑ0-9._%+-]+@[A-ZÑ0-9.-]+\.[A-Z]{2,4}$/i.test(values.correo))
-      errors.correo = true;
-    else errors.correo = false;
+  text: (values, errors, campo, expresion) => {
+    if (!values) errors[campo] = false;
+    else if (!expresion.test(values)) errors[campo] = true;
+    else errors[campo] = false;
 
-    return errors.correo;
+    return errors[campo];
+  },
+  textSinEspacio: (values, errors, campo) => {
+    let expresion = /^[a-zñA-ZÑáéíóúÁÉÍÓÚ][a-zñA-ZÑáéíóú]*$/i;
+    return validaciones.text(values, errors, campo, expresion);
+  },
+  textConEspacio: (values, errors, campo) => {
+    let expresion = /^[a-zñA-ZÑáéíóúÁÉÍÓÚ][a-zñA-ZÑáéíóú ]*[\D][a-zA-Záéíóú]$/i;
+    return validaciones.text(values, errors, campo, expresion);
+  },
+  correo: (values, errors, campo) => {
+    let expresion = /^[A-ZÑ0-9._%+-]+@[A-ZÑ0-9.-]+\.[A-Z]{2,4}$/i;
+    return validaciones.text(values[campo], errors, campo, expresion);
   },
   contrasena: (values, opciones) => {
     const options = [];

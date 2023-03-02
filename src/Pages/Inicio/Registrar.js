@@ -67,7 +67,22 @@ const Registrar = () => {
                             <Form.Control
                               type="text"
                               required
-                              isValid={values.primer_nombre.length > 2}
+                              className={
+                                !values.primer_nombre
+                                  ? ""
+                                  : errors.primer_nombre
+                                  ? "focusInput"
+                                  : "border-success"
+                              }
+                              isValid={
+                                !values.primer_nombre
+                                  ? ""
+                                  : validaciones.textSinEspacio(
+                                      values.primer_nombre,
+                                      errors,
+                                      "primer_nombre"
+                                    ) === false
+                              }
                               autoComplete="off"
                               placeholder="Primer nombre"
                               name="primer_nombre"
@@ -80,8 +95,23 @@ const Registrar = () => {
                           <Form.Group className="mb-3">
                             <Form.Control
                               type="text"
+                              className={
+                                !values.segundo_nombre
+                                  ? ""
+                                  : errors.segundo_nombre
+                                  ? "focusInput"
+                                  : "border-success"
+                              }
+                              isValid={
+                                !values.segundo_nombre
+                                  ? ""
+                                  : validaciones.textSinEspacio(
+                                      values.segundo_nombre,
+                                      errors,
+                                      "segundo_nombre"
+                                    ) === false
+                              }
                               autoComplete="off"
-                              isValid={values.segundo_nombre.length > 2}
                               placeholder="Segundo nombre"
                               name="segundo_nombre"
                               value={values.segundo_nombre}
@@ -94,7 +124,22 @@ const Registrar = () => {
                         <Form.Control
                           type="text"
                           required
-                          isValid={values.apellido.length > 5}
+                          className={
+                            !values.apellido
+                              ? ""
+                              : errors.apellido
+                              ? "focusInput"
+                              : "border-success"
+                          }
+                          isValid={
+                            !values.apellido
+                              ? ""
+                              : validaciones.textConEspacio(
+                                  values.apellido,
+                                  errors,
+                                  "apellido"
+                                ) === false
+                          }
                           autoComplete="off"
                           placeholder="Apellidos"
                           name="apellido"
@@ -134,7 +179,11 @@ const Registrar = () => {
                           isValid={
                             !values.correo
                               ? ""
-                              : validaciones.correo(values, errors) === false
+                              : validaciones.correo(
+                                  values,
+                                  errors,
+                                  "correo"
+                                ) === false
                           }
                           autoComplete="off"
                           placeholder="Correo electrónico"
