@@ -266,11 +266,11 @@ const Registrar = () => {
                           nameBtn="Crear Cuenta"
                           disabled={
                             !(
-                              values.apellido &&
-                              values.cedula &&
-                              values.primer_nombre &&
-                              values.correo &&
-                              values.contrasena
+                              !errors.apellido &&
+                              errors.cedula &&
+                              !errors.primer_nombre &&
+                              !errors.correo &&
+                              !errors.contrasena
                             )
                           }
                           width={"200px"}

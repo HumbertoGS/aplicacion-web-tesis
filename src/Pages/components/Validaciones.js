@@ -30,7 +30,7 @@ const validaciones = {
       if (campo.length < 7) {
         options.push("Minimo 7 caracteres");
       }
-      if (!/\digito/.test(campo)) {
+      if (!/\d/.test(campo)) {
         options.push("Minimo un número");
       }
       if (!/[A-Z]/.test(campo)) {
