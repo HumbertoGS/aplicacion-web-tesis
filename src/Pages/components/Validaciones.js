@@ -10,8 +10,7 @@ const validaciones = {
     if (!values) errors[campo] = false;
     else if (!expresion.test(values)) errors[campo] = true;
     else errors[campo] = false;
-
-    console.log(errors)
+    
     return errors[campo];
   },
   textSinEspacio: (values, errors, campo) => {
