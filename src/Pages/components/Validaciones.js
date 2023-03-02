@@ -25,23 +25,23 @@ const validaciones = {
     let expresion = /^[A-ZÑ0-9._%+-]+@[A-ZÑ0-9.-]+\.[A-Z]{2,4}$/i;
     return validaciones.text(values[campo], errors, campo, expresion);
   },
-  contrasena: (values, opciones) => {
+  contrasena: (values, campo, opciones) => {
     const options = [];
 
-    if (values.contrasena) {
-      if (values.contrasena.length < 7) {
+    if (values[campo]) {
+      if (values[campo].length < 7) {
         options.push("Minimo 7 caracteres");
       }
-      if (!/\d/.test(values.contrasena)) {
+      if (!/\d/.test(values[campo])) {
         options.push("Minimo un número");
       }
-      if (!/[A-Z]/.test(values.contrasena)) {
+      if (!/[A-Z]/.test(values[campo])) {
         options.push("Minimo una letra mayúscula");
       }
-      if (/[\W_]/.test(values.contrasena)) {
+      if (/[\W_]/.test(values[campo])) {
         options.push("No debe contener caracteres especiales");
       }
-      if (/\s/.test(values.contrasena)) {
+      if (/\s/.test(values[campo])) {
         options.push("No debe contener espacios");
       }
     }

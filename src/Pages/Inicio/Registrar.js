@@ -234,10 +234,14 @@ const Registrar = () => {
                           value={values.contrasena}
                           onChange={(event) => {
                             values.contrasena = event.target.value;
-                            validaciones.contrasena(values, (x) => {
-                              errors.contrasena = x.length > 0;
-                              setArreglo(x);
-                            });
+                            validaciones.contrasena(
+                              values,
+                              "contrasena",
+                              (x) => {
+                                errors.contrasena = x.length > 0;
+                                setArreglo(x);
+                              }
+                            );
                           }}
                         />
                         <Button
