@@ -11,6 +11,7 @@ const validaciones = {
     else if (!expresion.test(values)) errors[campo] = true;
     else errors[campo] = false;
 
+    console.log(errors)
     return errors[campo];
   },
   textSinEspacio: (values, errors, campo) => {
@@ -22,6 +23,8 @@ const validaciones = {
     return validaciones.text(values, errors, campo, expresion);
   },
   correo: (values, errors, campo) => {
+    let expresion = /^[A-ZÑ0-9._%+-]+@[A-ZÑ0-9.-]+\.[A-Z]{2,4}$/i;
+    return validaciones.text(values, errors, campo, expresion);
     if (!values) errors.correo = false;
     else if (!/^[A-ZÑ0-9._%+-]+@[A-ZÑ0-9.-]+\.[A-Z]{2,4}$/i.test(values))
       errors.correo = true;
