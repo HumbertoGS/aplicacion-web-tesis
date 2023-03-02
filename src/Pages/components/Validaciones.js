@@ -8,23 +8,34 @@ const validaciones = {
   },
   correo: (values, errors) => {
     if (!values.correo) errors.correo = false;
-    else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.correo))
+    else if (!/^[A-ZÑ0-9._%+-]+@[A-ZÑ0-9.-]+\.[A-Z]{2,4}$/i.test(values.correo))
       errors.correo = true;
     else errors.correo = false;
 
     return errors.correo;
   },
-  contrasena: (values, errors) => {
-    if (!values.contrasena) errors.contrasena = false;
-    else if (
-      /^(?=[a-zA-Z]*\d)(?=[a-zA-Z\d]*[A-Z])(?=[A-Z\d]*[a-z])[a-zA-Z\d]{7,}$/i.test(
-        values.contrasena
-      )
-    )
-      errors.contrasena = false;
-    else errors.contrasena = true;
+  contrasena: (values, opciones) => {
+    const options = [];
 
-    return errors.contrasena;
+    if (values.contrasena) {
+      if (values.contrasena.length < 7) {
+        options.push("Minimo 7 caracteres");
+      }
+      if (!/\d/.test(values.contrasena)) {
+        options.push("Minimo un número");
+      }
+      if (!/[A-Z]/.test(values.contrasena)) {
+        options.push("Minimo una letra mayúscula");
+      }
+      if (/[\W_]/.test(values.contrasena)) {
+        options.push("No debe contener caracteres especiales");
+      }
+      if (/\s/.test(values.contrasena)) {
+        options.push("No debe contener espacios");
+      }
+    }
+
+    opciones(options);
   },
 };
 
