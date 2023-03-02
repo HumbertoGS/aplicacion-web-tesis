@@ -192,7 +192,7 @@ const Registrar = () => {
                               ? ""
                               : errors.correo
                               ? "focusInput"
-                              : "focusInputSuccess"
+                              : "border-success"
                           }
                           isValid={
                             !values.correo
