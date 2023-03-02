@@ -78,17 +78,20 @@ const Registrar = () => {
                               isValid={
                                 !values.primer_nombre
                                   ? ""
-                                  : validaciones.textSinEspacio(
-                                      values.primer_nombre,
-                                      errors,
-                                      "primer_nombre"
-                                    ) === false
+                                  : !errors.primer_nombre
                               }
                               autoComplete="off"
                               placeholder="Primer nombre"
                               name="primer_nombre"
                               value={values.primer_nombre}
-                              onChange={handleChange}
+                              onChange={(event) => {
+                                values.primer_nombre = event.target.value;
+                                errors.primer_nombre =
+                                  validaciones.textSinEspacio(
+                                    values.primer_nombre
+                                  );
+                                setErrorInput(!errorInput);
+                              }}
                             />
                           </Form.Group>
                         </Col>
@@ -106,17 +109,20 @@ const Registrar = () => {
                               isValid={
                                 !values.segundo_nombre
                                   ? ""
-                                  : validaciones.textSinEspacio(
-                                      values.segundo_nombre,
-                                      errors,
-                                      "segundo_nombre"
-                                    ) === false
+                                  : !errors.segundo_nombre
                               }
                               autoComplete="off"
                               placeholder="Segundo nombre"
                               name="segundo_nombre"
                               value={values.segundo_nombre}
-                              onChange={handleChange}
+                              onChange={(event) => {
+                                values.segundo_nombre = event.target.value;
+                                errors.segundo_nombre =
+                                  validaciones.textSinEspacio(
+                                    values.segundo_nombre
+                                  );
+                                setErrorInput(!errorInput);
+                              }}
                             />
                           </Form.Group>
                         </Col>
@@ -132,20 +138,18 @@ const Registrar = () => {
                               ? "focusInput"
                               : "border-success"
                           }
-                          isValid={
-                            !values.apellido
-                              ? ""
-                              : validaciones.textConEspacio(
-                                  values.apellido,
-                                  errors,
-                                  "apellido"
-                                ) === false
-                          }
+                          isValid={!values.apellido ? "" : !errors.apellido}
                           autoComplete="off"
                           placeholder="Apellidos"
                           name="apellido"
                           value={values.apellido}
-                          onChange={handleChange}
+                          onChange={(event) => {
+                            values.apellido = event.target.value;
+                            errors.apellido = validaciones.textConEspacio(
+                              values.apellido
+                            );
+                            setErrorInput(!errorInput);
+                          }}
                         />
                       </Form.Group>
 
@@ -160,20 +164,16 @@ const Registrar = () => {
                               ? "focusInput"
                               : "border-success"
                           }
-                          isValid={
-                            !values.cedula
-                              ? ""
-                              : validaciones.cedula(
-                                  values.cedula,
-                                  errors,
-                                  "cedula"
-                                ) === true
-                          }
+                          isValid={!values.cedula ? "" : errors.cedula}
                           autoComplete="off"
                           placeholder="Cédula"
                           name="cedula"
                           value={values.cedula}
-                          onChange={handleChange}
+                          onChange={(event) => {
+                            values.cedula = event.target.value;
+                            errors.cedula = validaciones.cedula(values.cedula);
+                            setErrorInput(!errorInput);
+                          }}
                           onKeyDown={(e) => {
                             validaciones.onlyNumber(e);
                           }}
@@ -202,15 +202,8 @@ const Registrar = () => {
                           value={values.correo}
                           onChange={(event) => {
                             values.correo = event.target.value;
-                            validaciones.correo(
-                              values.correo,
-                              errors,
-                              "correo",
-                              (x) => {
-                                errors.correo = x;
-                                setErrorInput(!errorInput);
-                              }
-                            );
+                            errors.correo = validaciones.correo(values.correo);
+                            setErrorInput(!errorInput);
                           }}
                         />
                       </Form.Group>
@@ -238,14 +231,10 @@ const Registrar = () => {
                           value={values.contrasena}
                           onChange={(event) => {
                             values.contrasena = event.target.value;
-                            validaciones.contrasena(
-                              values,
-                              "contrasena",
-                              (x) => {
-                                errors.contrasena = x.length > 0;
-                                setArreglo(x);
-                              }
-                            );
+                            validaciones.contrasena(values.contrasena, (x) => {
+                              errors.contrasena = x.length > 0;
+                              setArreglo(x);
+                            });
                           }}
                         />
                         <Button
@@ -258,14 +247,14 @@ const Registrar = () => {
                         </Button>
                       </InputGroup>
                       {arreglo.length > 0 && (
-                        <p className="mb-3 text-danger">
+                        <div className="mb-3 text-danger">
                           Contraseña debe tener:
                           <ul className="text-start">
                             {arreglo.map((item, i) => {
                               return <li key={i}>{item}</li>;
                             })}
                           </ul>
-                        </p>
+                        </div>
                       )}
 
                       <Col md={12}>

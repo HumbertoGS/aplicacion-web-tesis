@@ -6,75 +6,60 @@ const validaciones = {
       event.preventDefault();
     }
   },
-  text: (values, errors, campo, expresion) => {
-    if (!values) errors[campo] = false;
-    else if (!expresion.test(values)) errors[campo] = true;
-    else errors[campo] = false;
-
-    return errors[campo];
+  text: (campo, expresion) => {
+    if (!campo) return false;
+    else if (!expresion.test(campo)) return true;
+    else return false;
   },
-  textSinEspacio: (values, errors, campo) => {
+  textSinEspacio: (campo) => {
     let expresion = /^[a-zñA-ZÑáéíóúÁÉÍÓÚ][a-zñA-ZÑáéíóú]*$/i;
-    return validaciones.text(values, errors, campo, expresion);
+    return validaciones.text(campo, expresion);
   },
-  textConEspacio: (values, errors, campo) => {
+  textConEspacio: (campo) => {
     let expresion = /^[a-zñA-ZÑáéíóúÁÉÍÓÚ][a-zñA-ZÑáéíóú ]*[\D][a-zA-Záéíóú]$/i;
-    return validaciones.text(values, errors, campo, expresion);
+    return validaciones.text(campo, expresion);
   },
-  correo: (values, errors, campo, cambioError) => {
+  correo: (campo) => {
     let expresion = /^[A-ZÑ0-9._%+-]+@[A-ZÑ0-9.-]+\.[A-Z]{2,4}$/i;
-    let esValido = validaciones.text(values, errors, campo, expresion);
-    cambioError(esValido);
-    return esValido;
-
-    if (!values) errors.correo = false;
-    else if (!/^[A-ZÑ0-9._%+-]+@[A-ZÑ0-9.-]+\.[A-Z]{2,4}$/i.test(values))
-      errors.correo = true;
-    else errors.correo = false;
-
-    return errors.correo;
+    return validaciones.text(campo, expresion);
   },
-  contrasena: (values, campo, opciones) => {
+  contrasena: (campo, opciones) => {
     const options = [];
 
-    if (values[campo]) {
-      if (values[campo].length < 7) {
+    if (campo) {
+      if (campo.length < 7) {
         options.push("Minimo 7 caracteres");
       }
-      if (!/\d/.test(values[campo])) {
+      if (!/\digito/.test(campo)) {
         options.push("Minimo un número");
       }
-      if (!/[A-Z]/.test(values[campo])) {
+      if (!/[A-Z]/.test(campo)) {
         options.push("Minimo una letra mayúscula");
       }
-      if (/[\W_]/.test(values[campo])) {
+      if (/[\W_]/.test(campo)) {
         options.push("No debe contener caracteres especiales");
       }
-      if (/\s/.test(values[campo])) {
+      if (/\s/.test(campo)) {
         options.push("No debe contener espacios");
       }
     }
 
     opciones(options);
   },
-  cedula: (cedula, errors, campo) => {
-    // Verificar que la cédula tenga 10 dígitos
+  cedula: (cedula) => {
     if (cedula.length !== 10) {
-      errors[campo] = false;
       return false;
     }
 
     // Verificar que los dos primeros dígitos correspondan a una provincia válida
     const provincia = parseInt(cedula.slice(0, 2));
     if (provincia < 1 || provincia > 24) {
-      errors[campo] = false;
       return false;
     }
 
     // Verificar que el tercer dígito sea un número entre 0 y 6
     const tipoPersona = parseInt(cedula[2]);
     if (tipoPersona < 0 || tipoPersona > 6) {
-      errors[campo] = false;
       return false;
     }
 
@@ -97,15 +82,12 @@ const validaciones = {
         total - cedula.split("").reduce((sum, d) => sum + parseInt(d), 0) ===
         10
       ) {
-        errors[campo] = true;
         return true;
       } else {
-        errors[campo] = false;
         return false;
       }
     }
 
-    errors[campo] = true;
     return true;
   },
 };
