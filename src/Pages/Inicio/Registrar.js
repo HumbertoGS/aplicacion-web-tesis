@@ -70,7 +70,7 @@ const Registrar = () => {
                               className={
                                 !values.primer_nombre
                                   ? ""
-                                  : errors.primer_nombre === "true"
+                                  : errors.primer_nombre
                                   ? "focusInput"
                                   : "border-success"
                               }
@@ -88,10 +88,6 @@ const Registrar = () => {
                               name="primer_nombre"
                               value={values.primer_nombre}
                               onChange={handleChange}
-                              onChangeCapture={() => {
-                                console.log(typeof errors.primer_nombre);
-                                console.log(errors.primer_nombre);
-                              }}
                             />
                           </Form.Group>
                         </Col>
