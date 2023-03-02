@@ -48,6 +48,57 @@ const validaciones = {
 
     opciones(options);
   },
+  cedula: (cedula, errors, campo) => {
+    // Verificar que la cédula tenga 10 dígitos
+    if (cedula.length !== 10) {
+      errors[campo] = false;
+      return false;
+    }
+
+    // Verificar que los dos primeros dígitos correspondan a una provincia válida
+    const provincia = parseInt(cedula.slice(0, 2));
+    if (provincia < 1 || provincia > 24) {
+      errors[campo] = false;
+      return false;
+    }
+
+    // Verificar que el tercer dígito sea un número entre 0 y 6
+    const tipoPersona = parseInt(cedula[2]);
+    if (tipoPersona < 0 || tipoPersona > 6) {
+      errors[campo] = false;
+      return false;
+    }
+
+    // Validar el último dígito utilizando el algoritmo de Módulo 10
+    const p = [2, 1, 2, 1, 2, 1, 2, 1, 2, 1];
+    let total = 0;
+    for (let i = 0; i < 10; i++) {
+      let d = parseInt(cedula[i]);
+      if (p[i] === 2) {
+        d *= 2;
+        if (d >= 10) {
+          d -= 9;
+        }
+      }
+      total += d;
+    }
+    if (total % 10 !== 0) {
+      total = Math.ceil(total / 10) * 10;
+      if (
+        total - cedula.split("").reduce((sum, d) => sum + parseInt(d), 0) ===
+        10
+      ) {
+        errors[campo] = true;
+        return true;
+      } else {
+        errors[campo] = false;
+        return false;
+      }
+    }
+
+    errors[campo] = true;
+    return true;
+  },
 };
 
 export default validaciones;

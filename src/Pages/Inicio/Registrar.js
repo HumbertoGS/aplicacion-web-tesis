@@ -18,9 +18,12 @@ import { IoIosEye, IoIosEyeOff } from "react-icons/io";
 
 import validaciones from "../components/Validaciones";
 
-const url = process.env.REACT_APP_API_CORE_URL + "inicio/registro";
+const url = `${process.env.REACT_APP_API_CORE_URL}inicio/registro`;
 
 const Registrar = () => {
+  const [type, setType] = useState("password");
+  const [arreglo, setArreglo] = useState([]);
+
   const comprobarInicio = (respuesta) => {
     if (respuesta) {
       secureLocalStorage.setItem("user", respuesta[0]);
@@ -30,9 +33,6 @@ const Registrar = () => {
       }, 1000);
     }
   };
-
-  const [type, setType] = useState("password");
-  const [arreglo, setArreglo] = useState([]);
 
   return (
     <>
@@ -148,11 +148,26 @@ const Registrar = () => {
                         />
                       </Form.Group>
 
-                      <Form.Group className="mb-3">
+                      <Form.Group className="mb-0">
                         <Form.Control
                           type="text"
                           required
-                          isValid={values.cedula.length == 10}
+                          className={
+                            !values.cedula
+                              ? ""
+                              : !errors.cedula
+                              ? "focusInput"
+                              : "border-success"
+                          }
+                          isValid={
+                            !values.cedula
+                              ? ""
+                              : validaciones.cedula(
+                                  values.cedula,
+                                  errors,
+                                  "cedula"
+                                ) === true
+                          }
                           autoComplete="off"
                           placeholder="Cédula"
                           name="cedula"
@@ -164,8 +179,11 @@ const Registrar = () => {
                           maxLength={10}
                         />
                       </Form.Group>
+                      {!errors.cedula && values.cedula !== "" && (
+                        <p className="mb-1 text-danger">Cédula no válida</p>
+                      )}
 
-                      <Form.Group className="mb-0">
+                      <Form.Group className="mt-3">
                         <Form.Control
                           type="email"
                           required
@@ -194,7 +212,7 @@ const Registrar = () => {
                       </Form.Group>
                       {errors.correo && (
                         <p className="mb-1 text-danger">
-                          Correo electrónico invalido
+                          Correo electrónico inválido
                         </p>
                       )}
 
