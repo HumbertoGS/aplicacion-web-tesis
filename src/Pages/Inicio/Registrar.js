@@ -31,10 +31,8 @@ const Registrar = () => {
     }
   };
 
-  const [pass, setPass] = useState({ oculta: true, value: "", valuePass: "" });
   const [type, setType] = useState("password");
-
-  let datos = "";
+  const [arreglo, setArreglo] = useState([]);
 
   return (
     <>
@@ -83,6 +81,7 @@ const Registrar = () => {
                             <Form.Control
                               type="text"
                               autoComplete="off"
+                              isValid={values.segundo_nombre.length > 2}
                               placeholder="Segundo nombre"
                               name="segundo_nombre"
                               value={values.segundo_nombre}
@@ -150,75 +149,6 @@ const Registrar = () => {
                         </p>
                       )}
 
-                      {/* <InputGroup className="my-3">
-                        <Form.Control
-                          type="text"
-                          required
-                          className={
-                            !values.contrasena
-                              ? ""
-                              : errors.contrasena
-                              ? "focusInput"
-                              : "border-success"
-                          }
-                          isValid={
-                            !values.contrasena
-                              ? ""
-                              : validaciones.contrasena(values, errors) ===
-                                false
-                          }
-                          autoComplete="off"
-                          placeholder="Contraseña"
-                          name="contrasena"
-                          value={pass.oculta ? pass.valuePass : pass.value}
-                          onKeyDown={(e) => {
-                            let datos;
-                            let asteriscos;
-                            if (e.keyCode === 8 || e.keyCode === 46) {
-                              datos = pass.value.slice(0, -1);
-                              asteriscos = pass.valuePass.slice(0, -1);
-                              setPass({
-                                oculta: pass.oculta,
-                                value: datos,
-                                valuePass: asteriscos,
-                              });
-                              e.preventDefault();
-                            }
-                          }}
-                          onChange={(e) => {
-                            if (e.target.value.length === 1)
-                              datos = e.target.value;
-                            else if (e.target.value.length > 1) {
-                              console.log(datos);
-                              datos = pass.value + e.target.value.slice(-1);
-                            }
-
-                            var longitud = e.target.value.length;
-                            var asteriscos = "";
-
-                            for (var i = 0; i < longitud; i++) {
-                              asteriscos += "•";
-                            }
-
-                            setPass({
-                              oculta: pass.oculta,
-                              value: datos,
-                              valuePass: asteriscos,
-                            });
-
-                            values.contrasena = datos;
-                          }}
-                        />
-                        <Button
-                          variant="outline-secondary"
-                          onClick={() => {
-                            setPass({ ...pass, oculta: !pass.oculta });
-                          }}
-                        >
-                          {!pass.oculta ? <IoIosEye /> : <IoIosEyeOff />}
-                        </Button>
-                      </InputGroup> */}
-
                       <InputGroup className="my-3">
                         <Form.Control
                           type={type}
@@ -230,17 +160,18 @@ const Registrar = () => {
                               ? "focusInput"
                               : "border-success"
                           }
-                          isValid={
-                            !values.contrasena
-                              ? ""
-                              : validaciones.contrasena(values, errors) ===
-                                false
-                          }
+                          isValid={!values.contrasena ? "" : !errors.contrasena}
                           autoComplete="new-password"
                           placeholder="Contraseña"
                           name="contrasena"
                           value={values.contrasena}
-                          onChange={handleChange}
+                          onChange={(event) => {
+                            values.contrasena = event.target.value;
+                            validaciones.contrasena(values, (x) => {
+                              errors.contrasena = x.length > 0;
+                              setArreglo(x);
+                            });
+                          }}
                         />
                         <Button
                           variant="outline-secondary"
@@ -248,19 +179,17 @@ const Registrar = () => {
                             setType(type === "password" ? "text" : "password");
                           }}
                         >
-                          {!pass.oculta ? <IoIosEye /> : <IoIosEyeOff />}
+                          {type === "password" ? <IoIosEye /> : <IoIosEyeOff />}
                         </Button>
                       </InputGroup>
-                      {errors.contrasena && (
+                      {arreglo.length > 0 && (
                         <p className="mb-3 text-danger">
                           Contraseña debe tener:
-                          <lu className="text-start">
-                            <li>Minimo 7 caracteres</li>
-                            <li>Minimo un número</li>
-                            <li>Minimo una letra mayúcula</li>
-                            <li>No debe contener caracteres especiales</li>
-                            <li>No debe contener espacios</li>
-                          </lu>
+                          <ul className="text-start">
+                            {arreglo.map((item, i) => {
+                              return <li key={i}>{item}</li>;
+                            })}
+                          </ul>
                         </p>
                       )}
 
