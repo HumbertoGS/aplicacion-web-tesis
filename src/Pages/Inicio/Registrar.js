@@ -199,7 +199,7 @@ const Registrar = () => {
                               ? ""
                               : validaciones.correo(
                                   values,
-                                  errors,
+                                  errors.correo,
                                   "correo"
                                 ) === false
                           }

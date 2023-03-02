@@ -22,12 +22,12 @@ const validaciones = {
     return validaciones.text(values, errors, campo, expresion);
   },
   correo: (values, errors, campo) => {
-    if (!values) errors[campo] = false;
+    if (!values) errors.correo = false;
     else if (!/^[A-ZÑ0-9._%+-]+@[A-ZÑ0-9.-]+\.[A-Z]{2,4}$/i.test(values))
-      errors[campo] = true;
-    else errors[campo] = false;
+      errors.correo = true;
+    else errors.correo = false;
 
-    return errors[campo];
+    return errors.correo;
   },
   contrasena: (values, campo, opciones) => {
     const options = [];
