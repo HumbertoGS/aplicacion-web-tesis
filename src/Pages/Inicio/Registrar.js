@@ -23,6 +23,7 @@ const url = `${process.env.REACT_APP_API_CORE_URL}inicio/registro`;
 const Registrar = () => {
   const [type, setType] = useState("password");
   const [arreglo, setArreglo] = useState([]);
+  const [errorInput, setErrorInput] = useState(false);
 
   const comprobarInicio = (respuesta) => {
     if (respuesta) {
@@ -194,23 +195,23 @@ const Registrar = () => {
                               ? "focusInput"
                               : "border-success"
                           }
-                          isValid={
-                            !values.correo
-                              ? ""
-                              : validaciones.correo(
-                                  values.correo,
-                                  errors,
-                                  "correo",
-                                  (x) => {
-                                    errors.correo = x;
-                                  }
-                                ) === false
-                          }
+                          isValid={!values.correo ? "" : !errors.correo}
                           autoComplete="off"
                           placeholder="Correo electrónico"
                           name="correo"
                           value={values.correo}
-                          onChange={handleChange}
+                          onChange={(event) => {
+                            values.correo = event.target.value;
+                            validaciones.correo(
+                              values.correo,
+                              errors,
+                              "correo",
+                              (x) => {
+                                errors.correo = x;
+                                setErrorInput(!errorInput);
+                              }
+                            );
+                          }}
                         />
                       </Form.Group>
                       {errors.correo && (
