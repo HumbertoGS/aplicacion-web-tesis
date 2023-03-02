@@ -10,18 +10,16 @@ const validaciones = {
     if (!values) errors[campo] = false;
     else if (!expresion.test(values)) errors[campo] = true;
     else errors[campo] = false;
-
+    
     return errors[campo];
   },
   textSinEspacio: (values, errors, campo) => {
     let expresion = /^[a-zñA-ZÑáéíóúÁÉÍÓÚ][a-zñA-ZÑáéíóú]*$/i;
-    let esValido = validaciones.text(values, errors, campo, expresion);
-    return esValido ? true : false;
+    return validaciones.text(values, errors, campo, expresion);
   },
   textConEspacio: (values, errors, campo) => {
     let expresion = /^[a-zñA-ZÑáéíóúÁÉÍÓÚ][a-zñA-ZÑáéíóú ]*[\D][a-zA-Záéíóú]$/i;
-    let esValido = validaciones.text(values, errors, campo, expresion);
-    return esValido;
+    return validaciones.text(values, errors, campo, expresion);
   },
   correo: (values, errors, campo) => {
     let expresion = /^[A-ZÑ0-9._%+-]+@[A-ZÑ0-9.-]+\.[A-Z]{2,4}$/i;

@@ -190,7 +190,11 @@ const Registrar = () => {
                           className={
                             !values.correo
                               ? ""
-                              : errors.correo
+                              : validaciones.correo(
+                                  values.correo,
+                                  errors,
+                                  "correo"
+                                ) === true
                               ? "focusInput"
                               : "border-success"
                           }
