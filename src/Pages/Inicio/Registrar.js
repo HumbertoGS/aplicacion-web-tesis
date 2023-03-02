@@ -198,8 +198,8 @@ const Registrar = () => {
                             !values.correo
                               ? ""
                               : validaciones.correo(
-                                  values,
-                                  errors.correo,
+                                  values.correo,
+                                  errors,
                                   "correo"
                                 ) === false
                           }
