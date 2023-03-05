@@ -36,7 +36,7 @@ function ZoomImage(props) {
 
   const containerStyle = {
     position: "relative",
-    width: props.width,
+    // width: props.width,
     height: "auto",
     maxHeight: props.height,
   };
