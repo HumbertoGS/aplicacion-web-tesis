@@ -34,8 +34,11 @@ const Header = () => {
 
   return (
     // <Row className="App-header py-2">
-    <Navbar expand="sm" className="App-header px-2 justify-content-evenly">
-      <Container className="justify-content-evenly mx-0">
+
+    <Navbar fixed="top" expand="sm" className="App-header">
+  <Container 
+  className="justify-content-center w-100 px-0"
+  >    
         {/* Esto es para menu desplegable */}
         <div>
           <Button
@@ -182,6 +185,7 @@ const Header = () => {
         </Navbar.Collapse>
       </Container>
     </Navbar>
+    
     // </Row>
   );
 };

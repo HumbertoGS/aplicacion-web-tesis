@@ -49,12 +49,9 @@ body {
 }
 
 .App-header {
-  position: fixed !important;
-  z-index: 20;
-  /* left: 185px; */
-  /* width: calc(100% - 180px); */
-  width: 100%;
-  /* background-color: #ffffff; */
+  /* position: fixed !important;  */
+  /* z-index: 20; */
+  /* width: 100%; */
   background-color: #c1e9ff;
   border-bottom: 1px solid #cdd0d3;
   min-height: 70px;

@@ -59,7 +59,8 @@ const BtnTallas = ({ tallasDisponibles, tallaSelect, selectTallas }) => {
           {talla.toUpperCase()}
         </Button>
       ))}
-      <p>Tallas seleccionadas: {tallas.join(", ")}</p>
+      <p>Tallas seleccionadas:</p>
+      <p className="px-3 py-0 my-0">{tallas.join(", ")}</p>
     </div>
   );
 };
@@ -169,7 +170,7 @@ const Catalogo = () => {
       <>
         {/* Primera */}
         <Row>
-          <Col className="d-flex flex-row justify-content-center pb-2">
+          <Col className="d-flex flex-row justify-content-center pb-0">
             <DropdownButton
               id="dropdown-item-button"
               variant="outline-secondary"
@@ -225,8 +226,10 @@ const Catalogo = () => {
         <Row>
           <Col>
             <Row>
-              <Col className="pb-2">
-                <h5>Buscar por categoria: {busqueda.categoria.name}</h5>
+              <Col className="pb-1">
+                <hr />
+                <h6>POR CATEGORIA</h6>
+                <h6>{busqueda.categoria.name}</h6>
               </Col>
             </Row>
             <Row>
@@ -271,8 +274,9 @@ const Catalogo = () => {
         <Row>
           <Col>
             <Row>
-              <Col className="pt-3 pb-2">
-                <h5>Buscar por tallas: </h5>
+              <Col className="pt-2 pb-2">
+                <hr />
+                <h6>POR TALLAS</h6>
               </Col>
             </Row>
             <Row>
@@ -299,8 +303,9 @@ const Catalogo = () => {
         <Row>
           <Col>
             <Row>
-              <Col className="pt-3 pb-2">
-                <h5>Buscar por precio: </h5>
+              <Col className="pt-2 pb-2">
+                <hr />
+                <h6>POR PRECIO</h6>
               </Col>
             </Row>
             <Row>
@@ -350,8 +355,10 @@ const Catalogo = () => {
                         variant="outline-secondary"
                         onClick={() => {
                           setBusqueda({
-                            ...busqueda,
                             categoria: { name: "", id: [] },
+                            orden: { name: "Ordenar por ", orden: [] },
+                            tallas: { name: "", tallas: [] },
+                            stock: true,
                           });
                           setBuscar(true);
                         }}
