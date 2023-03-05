@@ -39,20 +39,14 @@ const ModalCatalogo = (props) => {
             </Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            <Card className="Card flex-row">
-              <Row>
-                <Col md={7}>
-                  <div
-                    className="CardImagen px-2"
-                    style={{
-                      width: "450px",
-                      height: "400px",
-                    }}
-                  >
+            <Card className="Card">
+              <Row className="align-items-center">
+                <Col md={12} lg={7}>
+                  <div className="CardImagen px-2 pb-4">
                     <ZoomImage src={producto.imagen} width={450} height={400} />
                   </div>
                 </Col>
-                <Col md={5}>
+                <Col md={12} lg={5}>
                   <Card.Body className="bg-white">
                     <div className="px-2">
                       <Card.Title>
