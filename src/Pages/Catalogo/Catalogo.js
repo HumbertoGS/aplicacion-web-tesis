@@ -8,26 +8,76 @@ import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import Dropdown from "react-bootstrap/Dropdown";
 import DropdownButton from "react-bootstrap/DropdownButton";
-import Accordion from "react-bootstrap/Accordion";
 
 import { FaShoppingCart } from "react-icons/fa";
+import { AiOutlineClear } from "react-icons/ai";
 
 import MenuDespe from "./MenuDesplegable";
 import MensajeAlert from "../components/MensajeAlert";
 import BtnCambioOpciones from "../components/OpcionPantalla";
+
 import { CatalogoProductos } from "./Paginacion";
-import { BtnGuardar } from "../components/BtnAccion";
-import { GetData } from "../../custom-hooks/useFetch";
+import { GetData, PostData } from "../../custom-hooks/useFetch";
 
 import "../designer/theme.css";
 
 let datosA = { datos: [], totales: [] };
 
-const urlCategoria =
-  process.env.REACT_APP_API_CORE_URL + "categoria?estado=true";
-const urlProducto = process.env.REACT_APP_API_CORE_URL + "producto?stock=true";
+const urlCategoria = `${process.env.REACT_APP_API_CORE_URL}categoria?estado=true`;
+const urlProducto = `${process.env.REACT_APP_API_CORE_URL}producto`;
+
+const BtnTallas = ({ tallasDisponibles, tallaSelect, selectTallas }) => {
+  const tallas = tallaSelect;
+
+  const tallasUnicas = new Set(
+    tallasDisponibles.flatMap((item) => item.map((t) => t.toLowerCase()))
+  );
+  const tallasOrdenadas = Array.from(tallasUnicas).sort();
+
+  return (
+    <div>
+      {tallasOrdenadas.map((talla) => (
+        <Button
+          variant="outline-secondary"
+          style={{
+            background: tallas.some((item) => item === talla) ? "#c1e9ff" : "",
+            width: "auto",
+          }}
+          className="mx-2 my-2"
+          key={talla}
+          onClick={() => {
+            let nuevasTallas;
+            if (!tallas.some((item) => item === talla)) {
+              nuevasTallas = [...tallas, talla];
+            } else {
+              nuevasTallas = tallas.filter((item) => item !== talla);
+            }
+
+            selectTallas(nuevasTallas);
+          }}
+        >
+          {talla.toUpperCase()}
+        </Button>
+      ))}
+      <p>Tallas seleccionadas: {tallas.join(", ")}</p>
+    </div>
+  );
+};
 
 const Catalogo = () => {
+  //-----------Cargar datos de carrito en caso de exitir--------------
+
+  useEffect(() => {
+    const datosCarro = secureLocalStorage.getItem("datosCarrito");
+
+    if (datosCarro) {
+      if (datosCarro.datos.length > 0) {
+        datosA = datosCarro;
+        setDatos(datosA);
+      }
+    } else setDatos({ datos: [], totales: [] });
+  }, []);
+
   //-----------Valores Iniciales----------
   const [mensajeAlert, setMensajeAlert] = useState({
     mostrar: false,
@@ -42,21 +92,24 @@ const Catalogo = () => {
   const [datos, setDatos] = useState({ datos: [], totales: [] });
 
   //----------Valores para datos producto----------
-  const [productoTabla, setProductoTabla] = useState([]);
-  const [buscarProductos, setBuscarProductos] = useState(true);
+  const [buscar, setBuscar] = useState(true);
+  const [busqueda, setBusqueda] = useState({
+    categoria: { name: "", id: [] },
+    orden: { name: "Ordenar por ", orden: [] },
+    tallas: { name: "", tallas: [] },
+    stock: true,
+  });
 
-  const [producto, setProducto] = useState(productoTabla);
-  const [productoNew, setProductoNew] = useState(productoTabla);
-  const [filtro, setFiltro] = useState("Categoria");
+  const [tallasFiltro, setTallasFiltro] = useState([]);
+  const [producto, setProducto] = useState([]);
+  const [productoNew, setProductoNew] = useState([]);
 
-  const [busqueda, setBusqueda] = useState("");
-  const [params, setParams] = useState("");
-
-  GetData(`${urlProducto}&${params}=${busqueda}`, buscarProductos, (dato) => {
-    setProductoTabla(dato.datos);
-    setProducto(dato.datos);
-    setProductoNew(dato.datos.filter((data) => data.newProducto === true));
-    setBuscarProductos(false);
+  PostData(urlProducto, busqueda, buscar, (dato) => {
+    const data = dato.datos;
+    setTallasFiltro(data.tallas);
+    setProducto(data.datos);
+    setProductoNew(data.datos.filter((data) => data.newProducto === true));
+    setBuscar(false);
   });
 
   //---------------------CATEGORIA---------------------
@@ -98,116 +151,7 @@ const Catalogo = () => {
     });
   };
 
-  //----------------Filtros---------------
-  const BuscarFiltro = (idCategoria) => {
-    let filtrado = productoTabla.filter(
-      (data) => data.categoria === idCategoria
-    );
-    if (filtrado.length > 0) {
-      setProducto(filtrado);
-      setProductoNew(filtrado.filter((data) => data.newProducto === true));
-    } else {
-      setProducto([]);
-      setProductoNew([]);
-    }
-  };
-
-  const buscar = (value) => {
-    setBusqueda(value);
-    setBuscarProductos(true);
-  };
-
-  const BusquedaAvz = () => {
-    let campoBuscar = "";
-
-    return (
-      <>
-        {/* <div className="mx-4 my-2 d-flex"> */}
-        <Row>
-          {/* <div style={{ width: "75%" }} className="d-flex"> */}
-          <Col md={2}>
-            <DropdownButton
-              id="dropdown-basic-button"
-              variant="outline-secondary"
-              className="DropdownButton"
-              title={filtro}
-            >
-              {Categorias.map((item, index) => {
-                return (
-                  <Dropdown.Item
-                    key={index}
-                    onClick={() => {
-                      setFiltro(item.nombre);
-                      BuscarFiltro(item.id);
-                    }}
-                  >
-                    {item.nombre}
-                  </Dropdown.Item>
-                );
-              })}
-            </DropdownButton>
-          </Col>
-          <Col>
-            {(filtro !== "Categoria" || params !== "") && (
-              <Button
-                className="mx-2"
-                variant="outline-secondary"
-                onClick={() => {
-                  setFiltro("Categoria");
-                  setProducto(productoTabla);
-                  setProductoNew(
-                    productoTabla.filter((data) => data.newProducto === true)
-                  );
-                  setParams("");
-                }}
-              >
-                Limpiar Filtros
-              </Button>
-            )}
-          </Col>
-          <Col md={3} className="d-flex justify-content-end">
-            <DropdownButton
-              variant="outline-secondary"
-              style={{ border: "none !important" }}
-              title={params !== "" ? params : "Opciones de búsqueda"}
-            >
-              <Dropdown.Item onClick={() => setParams("nombre")}>
-                Nombre
-              </Dropdown.Item>
-              <Dropdown.Item onClick={() => setParams("talla")}>
-                Talla
-              </Dropdown.Item>
-            </DropdownButton>
-          </Col>
-          <Col md={5}>
-            <div className="d-flex">
-              <Form.Control
-                style={{ width: "300px" }}
-                type="text"
-                placeholder="Búsqueda..."
-                className="me-2"
-                defaultValue={busqueda ?? campoBuscar}
-                onChange={(event) => {
-                  campoBuscar = event.target.value;
-                }}
-                disabled={params === ""}
-              />
-              <Button
-                variant="outline-secondary"
-                onClick={() => buscar(campoBuscar)}
-                disabled={params === ""}
-              >
-                Buscar
-              </Button>
-            </div>
-          </Col>
-        </Row>
-      </>
-    );
-  };
-
   //----------Carga de datos iniciales y mensaje---------
-
   useEffect(() => {
     if (mensajeAlert.mostrar) {
       const interval = setTimeout(() => {
@@ -217,16 +161,158 @@ const Catalogo = () => {
     }
   }, [mensajeAlert.mostrar]);
 
-  useEffect(() => {
-    const datosCarro = secureLocalStorage.getItem("datosCarrito");
+  //----------------Filtros---------------
+  const id_categoria = [];
 
-    if (datosCarro) {
-      if (datosCarro.datos.length > 0) {
-        datosA = datosCarro;
-        setDatos(datosA);
-      }
-    } else setDatos({ datos: [], totales: [] });
-  }, []);
+  const BusquedaAvz = () => {
+    return (
+      <>
+        {/* Primera */}
+        <Row>
+          <Col className="d-flex flex-row justify-content-center pb-2">
+            <DropdownButton
+              id="dropdown-item-button"
+              variant="outline-secondary"
+              title={busqueda.orden.name}
+              style={{ width: "200px" }}
+            >
+              <Dropdown.Item
+                onClick={() => {
+                  setBusqueda({
+                    ...busqueda,
+                    orden: {
+                      name: "ORDEN POR DEFECTO",
+                      orden: [],
+                    },
+                  });
+                  setBuscar(true);
+                }}
+              >
+                ORDENAR POR DEFECTO
+              </Dropdown.Item>
+              <Dropdown.Item
+                onClick={() => {
+                  setBusqueda({
+                    ...busqueda,
+                    orden: {
+                      name: "PRECIO: ASCENDENTE",
+                      orden: ["precio", "ASC"],
+                    },
+                  });
+                  setBuscar(true);
+                }}
+              >
+                ORDENAR POR PRECIO: ASCENDENTE
+              </Dropdown.Item>
+              <Dropdown.Item
+                onClick={() => {
+                  setBusqueda({
+                    ...busqueda,
+                    orden: {
+                      name: "PRECIO: DESCENDENTE",
+                      orden: ["precio", "DESC"],
+                    },
+                  });
+                  setBuscar(true);
+                }}
+              >
+                ORDENAR POR PRECIO: DESCENDENTE
+              </Dropdown.Item>
+            </DropdownButton>
+          </Col>
+        </Row>
+        {/* Segunda */}
+        <Row>
+          <Col>
+            <Row>
+              <Col className="pb-2">
+                <h5>Buscar por categoria: {busqueda.categoria.name}</h5>
+              </Col>
+            </Row>
+            <Row>
+              <Col>
+                {Categorias.map((item) => {
+                  return (
+                    <Button
+                      variant="outline-secondary"
+                      style={{
+                        background:
+                          item.nombre === busqueda.categoria.name
+                            ? "#c1e9ff"
+                            : "",
+                        width: "auto",
+                      }}
+                      className="mx-2 my-2"
+                      key={item.id}
+                      onClick={() => {
+                        if (busqueda.categoria.id[0] === item.id)
+                          id_categoria.pop();
+                        else id_categoria.push(item.id);
+
+                        setBusqueda({
+                          ...busqueda,
+                          categoria: {
+                            name: id_categoria.length === 0 ? "" : item.nombre,
+                            id: id_categoria,
+                          },
+                        });
+                        setBuscar(true);
+                      }}
+                    >
+                      {item.nombre}
+                    </Button>
+                  );
+                })}
+              </Col>
+            </Row>
+          </Col>
+        </Row>
+        {/* Tercera */}
+        <Row>
+          <Col>
+            <Row>
+              <Col className="pt-3 pb-2">
+                <h5>Buscar por tallas: </h5>
+              </Col>
+            </Row>
+            <Row>
+              <Col>
+                {tallasFiltro && (
+                  <BtnTallas
+                    tallasDisponibles={tallasFiltro}
+                    tallaSelect={busqueda.tallas.tallas}
+                    selectTallas={(nuevasTallas) => {
+                      setBusqueda({
+                        ...busqueda,
+                        tallas: { name: "", tallas: nuevasTallas },
+                      });
+
+                      setBuscar(true);
+                    }}
+                  />
+                )}
+              </Col>
+            </Row>
+          </Col>
+        </Row>
+        {/* Cuarta */}
+        <Row>
+          <Col>
+            <Row>
+              <Col className="pt-3 pb-2">
+                <h5>Buscar por precio: </h5>
+              </Col>
+            </Row>
+            <Row>
+              <Col>
+                <Button>hola</Button>
+              </Col>
+            </Row>
+          </Col>
+        </Row>
+      </>
+    );
+  };
 
   return (
     <>
@@ -246,75 +332,100 @@ const Catalogo = () => {
                 <hr />
               </div>
             </Row>
-
-            <Accordion className="mb-2">
-              <Accordion.Item eventKey={"0"}>
-                <Accordion.Header>
-                  <Form.Label className="fw-bold w-50 my-0">
-                    Filtro de Búsqueda
-                  </Form.Label>
-                  <hr />
-                </Accordion.Header>
-                <Accordion.Body>
+            <Row>
+              <Col md={2}>
+                <Row
+                  className="align-items-center justify-content-center"
+                  style={{ fontSize: "11px !important" }}
+                >
+                  <Col md={8} xs={5} sm={4}>
+                    <Form.Label className="fw-bold w-100 my-0 py-1 pb-1">
+                      Filtro de Búsqueda
+                    </Form.Label>
+                  </Col>
+                  {busqueda.categoria.id && (
+                    <Col md={4} xs={2} sm={2}>
+                      <Button
+                        className="w-100 my-0 py-0 pb-1"
+                        variant="outline-secondary"
+                        onClick={() => {
+                          setBusqueda({
+                            ...busqueda,
+                            categoria: { name: "", id: [] },
+                          });
+                          setBuscar(true);
+                        }}
+                      >
+                        <AiOutlineClear />
+                      </Button>
+                    </Col>
+                  )}
+                </Row>
+                <hr className="mb-1" />
+                <Card className="py-3 px-3">
                   <BusquedaAvz />
-                </Accordion.Body>
-              </Accordion.Item>
-            </Accordion>
-
-            <Row className="mb-3" style={{ borderBottom: "1px solid #d2d8dd" }}>
-              <BtnCambioOpciones
-                estado={nuevo}
-                onClick={() => {
-                  setNuevo(true);
-                  setTodos(false);
-                }}
-                nameBtn="Nuevos"
-              />
-              <BtnCambioOpciones
-                estado={todos}
-                onClick={() => {
-                  setNuevo(false);
-                  setTodos(true);
-                }}
-                nameBtn="Todos"
-              />
-              <Col className="mb-1 d-flex justify-content-end">
-                <div className="mb-1" style={{ width: "10%" }}>
-                  <Button
+                </Card>
+              </Col>
+              <Col>
+                <Row
+                  className="mb-3"
+                  style={{ borderBottom: "1px solid #d2d8dd" }}
+                >
+                  <BtnCambioOpciones
+                    estado={nuevo}
                     onClick={() => {
-                      setShow(true);
+                      setNuevo(true);
+                      setTodos(false);
                     }}
-                  >
-                    <FaShoppingCart />
-                  </Button>
+                    nameBtn="Nuevos"
+                  />
+                  <BtnCambioOpciones
+                    estado={todos}
+                    onClick={() => {
+                      setNuevo(false);
+                      setTodos(true);
+                    }}
+                    nameBtn="Todos"
+                  />
+                  <Col className="mb-1 d-flex justify-content-end">
+                    <div className="mb-1" style={{ width: "10%" }}>
+                      <Button
+                        onClick={() => {
+                          setShow(true);
+                        }}
+                      >
+                        <FaShoppingCart />
+                      </Button>
+                    </div>
+                  </Col>
+                </Row>
+
+                {show && (
+                  <MenuDespe
+                    show={show}
+                    handleClose={() => setShow(false)}
+                    datos={datos}
+                    guardarDatos={guardarDatos}
+                  />
+                )}
+
+                <div style={{ minHeight: "60vh" }}>
+                  {nuevo && (
+                    <CatalogoProductos
+                      data={productoNew}
+                      datosCarrito={datosCarrito}
+                    />
+                  )}
+
+                  {todos && (
+                    <CatalogoProductos
+                      data={producto}
+                      datosCarrito={datosCarrito}
+                    />
+                  )}
                 </div>
               </Col>
             </Row>
-
-            {show && (
-              <MenuDespe
-                show={show}
-                handleClose={() => setShow(false)}
-                datos={datos}
-                guardarDatos={guardarDatos}
-              />
-            )}
-
-            <div style={{ minHeight: "60vh" }}>
-              {nuevo && (
-                <CatalogoProductos
-                  data={productoNew}
-                  datosCarrito={datosCarrito}
-                />
-              )}
-
-              {todos && (
-                <CatalogoProductos
-                  data={producto}
-                  datosCarrito={datosCarrito}
-                />
-              )}
-            </div>
           </div>
         </Card>
       </Card>
