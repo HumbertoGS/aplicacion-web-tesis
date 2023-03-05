@@ -184,8 +184,8 @@ a:visited {
   padding: 23px;
 }
 
-.DropdownButton button {
-  width: 100px;
+#dropdown-item-button {
+  width: 100% !important;
 }
 
 .noEdit {
