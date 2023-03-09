@@ -5,6 +5,7 @@ import Card from "react-bootstrap/Card";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Form from "react-bootstrap/Form";
+import InputGroup from "react-bootstrap/InputGroup";
 import Button from "react-bootstrap/Button";
 import Dropdown from "react-bootstrap/Dropdown";
 import DropdownButton from "react-bootstrap/DropdownButton";
@@ -20,6 +21,7 @@ import { CatalogoProductos } from "./Paginacion";
 import { GetData, PostData } from "../../custom-hooks/useFetch";
 
 import "../designer/theme.css";
+import validaciones from "../components/Validaciones";
 
 let datosA = { datos: [], totales: [] };
 
@@ -36,30 +38,34 @@ const BtnTallas = ({ tallasDisponibles, tallaSelect, selectTallas }) => {
 
   return (
     <div>
-      {tallasOrdenadas.map((talla) => (
-        <Button
-          variant="outline-secondary"
-          style={{
-            background: tallas.some((item) => item === talla) ? "#c1e9ff" : "",
-            width: "auto",
-          }}
-          className="mx-2 my-2"
-          key={talla}
-          onClick={() => {
-            let nuevasTallas;
-            if (!tallas.some((item) => item === talla)) {
-              nuevasTallas = [...tallas, talla];
-            } else {
-              nuevasTallas = tallas.filter((item) => item !== talla);
-            }
+      <div className="col-height">
+        {tallasOrdenadas.map((talla) => (
+          <Button
+            variant="outline-secondary"
+            style={{
+              background: tallas.some((item) => item === talla)
+                ? "#c1e9ff"
+                : "",
+              width: "auto",
+            }}
+            className="mx-2 my-2"
+            key={talla}
+            onClick={() => {
+              let nuevasTallas;
+              if (!tallas.some((item) => item === talla)) {
+                nuevasTallas = [...tallas, talla];
+              } else {
+                nuevasTallas = tallas.filter((item) => item !== talla);
+              }
 
-            selectTallas(nuevasTallas);
-          }}
-        >
-          {talla.toUpperCase()}
-        </Button>
-      ))}
-      <p>Tallas seleccionadas:</p>
+              selectTallas(nuevasTallas);
+            }}
+          >
+            {talla.toUpperCase()}
+          </Button>
+        ))}
+      </div>
+      <p className="pt-2">Tallas seleccionadas:</p>
       <p className="px-3 py-0 my-0">{tallas.join(", ")}</p>
     </div>
   );
@@ -67,7 +73,6 @@ const BtnTallas = ({ tallasDisponibles, tallaSelect, selectTallas }) => {
 
 const Catalogo = () => {
   //-----------Cargar datos de carrito en caso de exitir--------------
-
   useEffect(() => {
     const datosCarro = secureLocalStorage.getItem("datosCarrito");
 
@@ -96,8 +101,9 @@ const Catalogo = () => {
   const [buscar, setBuscar] = useState(true);
   const [busqueda, setBusqueda] = useState({
     categoria: { name: "", id: [] },
-    orden: { name: "Ordenar por ", orden: [] },
+    orden: { name: "Últimos agregados", orden: [] },
     tallas: { name: "", tallas: [] },
+    precio: { min: "", max: "" },
     stock: true,
   });
 
@@ -164,63 +170,39 @@ const Catalogo = () => {
 
   //----------------Filtros---------------
   const id_categoria = [];
+  const [text, setText] = useState(false);
 
   const BusquedaAvz = () => {
     return (
       <>
         {/* Primera */}
-        <Row>
-          <Col className="d-flex flex-row justify-content-center pb-0">
-            <DropdownButton
-              id="dropdown-item-button"
-              variant="outline-secondary"
-              title={busqueda.orden.name}
-              style={{ width: "200px" }}
-            >
-              <Dropdown.Item
-                onClick={() => {
-                  setBusqueda({
-                    ...busqueda,
-                    orden: {
-                      name: "ORDEN POR DEFECTO",
-                      orden: [],
-                    },
-                  });
-                  setBuscar(true);
-                }}
-              >
-                ORDENAR POR DEFECTO
-              </Dropdown.Item>
-              <Dropdown.Item
-                onClick={() => {
-                  setBusqueda({
-                    ...busqueda,
-                    orden: {
-                      name: "PRECIO: ASCENDENTE",
-                      orden: ["precio", "ASC"],
-                    },
-                  });
-                  setBuscar(true);
-                }}
-              >
-                ORDENAR POR PRECIO: ASCENDENTE
-              </Dropdown.Item>
-              <Dropdown.Item
-                onClick={() => {
-                  setBusqueda({
-                    ...busqueda,
-                    orden: {
-                      name: "PRECIO: DESCENDENTE",
-                      orden: ["precio", "DESC"],
-                    },
-                  });
-                  setBuscar(true);
-                }}
-              >
-                ORDENAR POR PRECIO: DESCENDENTE
-              </Dropdown.Item>
-            </DropdownButton>
+        <Row
+          className="align-items-center justify-content-center"
+          style={{ fontSize: "11px !important" }}
+        >
+          <Col lg={8} md={12} xs={5} sm={4}>
+            <Form.Label className="fw-bold my-0 py-1 pb-1">BÚSQUEDA</Form.Label>
           </Col>
+          {busqueda.categoria.id && (
+            <Col lg={4} md={6} xs={2} sm={2}>
+              <Button
+                className="my-0 py-0 pb-1"
+                variant="outline-secondary"
+                onClick={() => {
+                  setBusqueda({
+                    categoria: { name: "", id: [] },
+                    orden: { name: "Últimos agregados", orden: [] },
+                    tallas: { name: "", tallas: [] },
+                    precio: { min: "", max: "" },
+                    stock: true,
+                  });
+                  setBuscar(true);
+                }}
+              >
+                <AiOutlineClear />
+              </Button>
+            </Col>
+          )}
         </Row>
         {/* Segunda */}
         <Row>
@@ -233,7 +215,7 @@ const Catalogo = () => {
               </Col>
             </Row>
             <Row>
-              <Col>
+              <Col className="col-height">
                 {Categorias.map((item) => {
                   return (
                     <Button
@@ -303,18 +285,166 @@ const Catalogo = () => {
         <Row>
           <Col>
             <Row>
-              <Col className="pt-2 pb-2">
+              <Col className="pt-2 pb-1">
                 <hr />
                 <h6>POR PRECIO</h6>
               </Col>
             </Row>
             <Row>
               <Col>
-                <Button>hola</Button>
+                <Form.Text className="w-25">Min:</Form.Text>
+                <Form.Control
+                  size="sm"
+                  type="text"
+                  autoComplete="off"
+                  maxLength={4}
+                  defaultValue={busqueda.precio.min}
+                  onChange={(e) => {
+                    busqueda.precio.min = e.target.value;
+                  }}
+                  onKeyDown={(e) => {
+                    validaciones.onlyNumber(e);
+                  }}
+                />
               </Col>
+              <Col>
+                <Form.Text className="w-25">Max:</Form.Text>
+                <InputGroup>
+                  <Form.Control
+                    size="sm"
+                    type="number"
+                    autoComplete="off"
+                    defaultValue={busqueda.precio.max}
+                    onChange={(e) => {
+                      busqueda.precio.max = e.target.value;
+                    }}
+                    onKeyDown={(e) => {
+                      validaciones.onlyNumber(e);
+                    }}
+                  />
+                </InputGroup>
+              </Col>
+            </Row>
+            {text && (
+              <span className="text-danger">
+                El campo maximo debe ser mayor o igual al minimo
+              </span>
+            )}
+            <Row className="justify-content-center pt-2">
+              <Button
+                variant="outline-secondary"
+                size="sm"
+                className="w-50"
+                onClick={() => {
+                  let disabledBtn;
+
+                  if (busqueda.precio.min === "" && busqueda.precio.max === "")
+                    disabledBtn = false;
+                  else if (
+                    busqueda.precio.min !== "" &&
+                    busqueda.precio.max === ""
+                  )
+                    disabledBtn = false;
+                  else if (
+                    busqueda.precio.min === "" &&
+                    busqueda.precio.max !== ""
+                  )
+                    disabledBtn = false;
+                  else if (
+                    busqueda.precio.min !== "" &&
+                    busqueda.precio.max !== ""
+                  ) {
+                    if (
+                      Number(busqueda.precio.min) > Number(busqueda.precio.max)
+                    ) {
+                      disabledBtn = true;
+                    } else {
+                      disabledBtn = false;
+                    }
+                  }
+
+                  if (!disabledBtn) {
+                    setBuscar(true);
+                    setText(false);
+                  } else {
+                    setText(true);
+                  }
+                }}
+              >
+                Ir
+              </Button>
             </Row>
           </Col>
         </Row>
+      </>
+    );
+  };
+
+  const OrdenarOpcion = () => {
+    return (
+      <>
+        <DropdownButton
+          id="dropdown-item-button"
+          variant="outline-secondary"
+          title={"Ordenar por: " + busqueda.orden.name}
+        >
+          <Dropdown.Item
+            onClick={() => {
+              setBusqueda({
+                ...busqueda,
+                orden: {
+                  name: "Últimos agregados",
+                  orden: ["id", "DESC"],
+                },
+              });
+              setBuscar(true);
+            }}
+          >
+            Últimos agregados
+          </Dropdown.Item>
+          <Dropdown.Item
+            onClick={() => {
+              setBusqueda({
+                ...busqueda,
+                orden: {
+                  name: "Del más antiguo al más nuevo",
+                  orden: ["id", "ASC"],
+                },
+              });
+              setBuscar(true);
+            }}
+          >
+            Del más antiguo al más nuevo
+          </Dropdown.Item>
+          <Dropdown.Item
+            onClick={() => {
+              setBusqueda({
+                ...busqueda,
+                orden: {
+                  name: "Precio: de más bajo a más alto",
+                  orden: ["precio", "ASC"],
+                },
+              });
+              setBuscar(true);
+            }}
+          >
+            Precio: de más bajo a más alto
+          </Dropdown.Item>
+          <Dropdown.Item
+            onClick={() => {
+              setBusqueda({
+                ...busqueda,
+                orden: {
+                  name: "Precio: de más alto a más bajo",
+                  orden: ["precio", "DESC"],
+                },
+              });
+              setBuscar(true);
+            }}
+          >
+            Precio: de más alto a más bajo
+          </Dropdown.Item>
+        </DropdownButton>
       </>
     );
   };
@@ -331,51 +461,21 @@ const Catalogo = () => {
         <Card className="Card pt-2">
           <div className="px-0">
             <Row>
-              <div className="w-25"></div>
-              <div className="w-50 mb-2">
+              <Col md={4}></Col>
+              <Col md={5}>
                 <h5 className="text-center">Cátologo de productos</h5>
                 <hr />
-              </div>
+              </Col>
             </Row>
             <Row>
               <Col md={2}>
-                <Row
-                  className="align-items-center justify-content-center"
-                  style={{ fontSize: "11px !important" }}
-                >
-                  <Col md={8} xs={5} sm={4}>
-                    <Form.Label className="fw-bold w-100 my-0 py-1 pb-1">
-                      Filtro de Búsqueda
-                    </Form.Label>
-                  </Col>
-                  {busqueda.categoria.id && (
-                    <Col md={4} xs={2} sm={2}>
-                      <Button
-                        className="w-100 my-0 py-0 pb-1"
-                        variant="outline-secondary"
-                        onClick={() => {
-                          setBusqueda({
-                            categoria: { name: "", id: [] },
-                            orden: { name: "Ordenar por ", orden: [] },
-                            tallas: { name: "", tallas: [] },
-                            stock: true,
-                          });
-                          setBuscar(true);
-                        }}
-                      >
-                        <AiOutlineClear />
-                      </Button>
-                    </Col>
-                  )}
-                </Row>
-                <hr className="mb-1" />
                 <Card className="py-3 px-3">
                   <BusquedaAvz />
                 </Card>
               </Col>
               <Col>
                 <Row
-                  className="mb-3"
+                  className="mb-3 mx-0 pt-2 pb-0"
                   style={{ borderBottom: "1px solid #d2d8dd" }}
                 >
                   <BtnCambioOpciones
@@ -394,9 +494,13 @@ const Catalogo = () => {
                     }}
                     nameBtn="Todos"
                   />
-                  <Col className="mb-1 d-flex justify-content-end">
-                    <div className="mb-1" style={{ width: "10%" }}>
+                  <Col
+                    className="my-1 d-flex justify-content-end"
+                    style={{ paddingRight: "30px" }}
+                  >
+                    <div className="mb-0" style={{ width: "10%" }}>
                       <Button
+                        variant="outline-secondary"
                         onClick={() => {
                           setShow(true);
                         }}
@@ -421,6 +525,7 @@ const Catalogo = () => {
                     <CatalogoProductos
                       data={productoNew}
                       datosCarrito={datosCarrito}
+                      Ordenar={<OrdenarOpcion />}
                     />
                   )}
 
@@ -428,6 +533,7 @@ const Catalogo = () => {
                     <CatalogoProductos
                       data={producto}
                       datosCarrito={datosCarrito}
+                      Ordenar={<OrdenarOpcion />}
                     />
                   )}
                 </div>
