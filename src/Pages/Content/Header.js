@@ -3,7 +3,6 @@ import secureLocalStorage from "react-secure-storage";
 import { useState } from "react";
 
 import Container from "react-bootstrap/Container";
-import Row from "react-bootstrap/Row";
 import Navbar from "react-bootstrap/Navbar";
 import NavDropdown from "react-bootstrap/NavDropdown";
 
@@ -33,12 +32,8 @@ const Header = () => {
   const handleShow = () => setShow(true);
 
   return (
-    // <Row className="App-header py-2">
-
     <Navbar fixed="top" expand="sm" className="App-header">
-  <Container 
-  className="justify-content-center w-100 px-0"
-  >    
+      <Container className="justify-content-center w-100 px-0">
         {/* Esto es para menu desplegable */}
         <div>
           <Button
@@ -67,7 +62,7 @@ const Header = () => {
           </Link>
         </Navbar.Brand>
 
-        <Navbar.Toggle aria-controls="basic-navbar-nav" />
+        <Navbar.Toggle aria-controls="basic-navbar-nav"  />
         <Navbar.Collapse className="me-auto justify-content-end">
           {user ? (
             <Navbar.Collapse className="justify-content-end">
@@ -185,8 +180,6 @@ const Header = () => {
         </Navbar.Collapse>
       </Container>
     </Navbar>
-    
-    // </Row>
   );
 };
 
