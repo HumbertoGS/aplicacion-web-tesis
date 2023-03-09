@@ -50,7 +50,7 @@ body {
 
 .App-header {
   /* position: fixed !important;  */
-  /* z-index: 20; */
+  z-index: 20 !important;
   /* width: 100%; */
   background-color: #c1e9ff;
   border-bottom: 1px solid #cdd0d3;
@@ -185,6 +185,27 @@ a:visited {
   width: 100% !important;
 }
 
+.dropdown-toggle {
+  white-space: normal !important;
+}
+
+.col-height{
+  max-height: 270px;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+/* ocultar las flechas en un elemento <input> de tipo número (type="number")  */
+input[type=number]::-webkit-outer-spin-button,
+input[type=number]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type=number] {
+  -moz-appearance: textfield; /* Firefox */
+}
+
 .noEdit {
   cursor: no-drop;
   opacity: 85%;
@@ -211,7 +232,8 @@ a:visited {
 .btnOpcion {
   color: #393b3c !important;
   /* width: 17%; */
-  min-width: 200px;
+  /* min-width: 200px; */
+  width: 100%;
   border-bottom: 0px !important;
   border-radius: 0 !important;
   border-top-right-radius: 4px !important;
