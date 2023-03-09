@@ -36,7 +36,12 @@ const CatalogoProductos = ({ data, datosCarrito, Ordenar }) => {
             Mostrando {currentData.length} de {data.length} resultados
           </label>
         </Col>
-        <Col md={4} className="d-flex flex-row justify-content-end pb-0">
+        <Col
+          md={4}
+          className={`pb-0 d-flex flex-row justify-content-${
+            window.screen.width < 770 ? "center" : "end"
+          }`}
+        >
           {Ordenar}
         </Col>
       </Row>
