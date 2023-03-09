@@ -195,16 +195,6 @@ a:visited {
   overflow-x: hidden;
 }
 
-/* ocultar las flechas en un elemento <input> de tipo número (type="number")  */
-input[type=number]::-webkit-outer-spin-button,
-input[type=number]::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
-}
-
-input[type=number] {
-  -moz-appearance: textfield; /* Firefox */
-}
 
 .noEdit {
   cursor: no-drop;

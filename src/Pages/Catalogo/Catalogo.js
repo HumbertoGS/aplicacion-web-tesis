@@ -312,7 +312,7 @@ const Catalogo = () => {
                 <InputGroup>
                   <Form.Control
                     size="sm"
-                    type="number"
+                    type="text"
                     autoComplete="off"
                     defaultValue={busqueda.precio.max}
                     onChange={(e) => {
