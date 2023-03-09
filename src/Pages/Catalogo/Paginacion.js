@@ -2,12 +2,13 @@ import { useState } from "react";
 import Button from "react-bootstrap/Button";
 import ButtonGroup from "react-bootstrap/ButtonGroup";
 import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
 
 import ProductoCatalogo from "./Producto-Catalogo";
 
 import { GrFormPrevious, GrFormNext } from "react-icons/gr";
 
-const CatalogoProductos = ({ data, datosCarrito }) => {
+const CatalogoProductos = ({ data, datosCarrito, Ordenar }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [dataPerPage] = useState(12);
 
@@ -28,11 +29,19 @@ const CatalogoProductos = ({ data, datosCarrito }) => {
 
   return (
     <div>
-      <label>
-        Mostrando {currentData.length} de {data.length} resultados
-      </label>
-      <div style={{ minHeight: "50vh" }}>
-        <Row xs={2} sm={3} md={3} lg={4} xl={5} className="g-4 px-2 py-3">
+      <Row className="justify-content-center align-items-center px-2">
+        <Col md={4}></Col>
+        <Col md={4}>
+          <label>
+            Mostrando {currentData.length} de {data.length} resultados
+          </label>
+        </Col>
+        <Col md={4} className="d-flex flex-row justify-content-end pb-0">
+          {Ordenar}
+        </Col>
+      </Row>
+      <div style={{ minHeight: "60vh" }}>
+        <Row xs={2} sm={3} md={3} lg={4} xl={5} className="g-3 px-1 py-3">
           {currentData.map((item, index) => {
             return (
               <ProductoCatalogo
