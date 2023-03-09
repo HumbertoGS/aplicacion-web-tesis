@@ -15,7 +15,7 @@ const styleSelect = {
 
 const BtnCambioOpciones = ({ estado, onClick, nameBtn }) => {
   return (
-    <Col md={2}>
+    <Col md={2} sm={4}>
       <Button
         style={estado ? styleSelect : styleNoSelect}
         className="btnOpcion"
