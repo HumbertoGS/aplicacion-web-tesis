@@ -1,13 +1,15 @@
+import { Row, Col } from "react-bootstrap";
 import BtnCambioOpciones from "../components/OpcionPantalla";
 
 export default function HeaderPerfil({ user, state, estados }) {
   let { actualizar, opciones, reporte, grafica } = state;
 
   return (
-    <div className="mt-3">
+    <Row className="mt-3">
+      <Col>
       <h5 className="text-center pb-2">Bienvenido {user?.nombre}</h5>
-      <div
-        className="d-flex my-3"
+      <Row
+        // className="d-flex my-3"
         style={{ borderBottom: "1px solid #d2d8dd" }}
       >
         <BtnCambioOpciones
@@ -67,7 +69,7 @@ export default function HeaderPerfil({ user, state, estados }) {
             nameBtn="Estadistica"
           />
         ) : null}
-      </div>
-    </div>
+      </Row></Col>
+    </Row>
   );
 }

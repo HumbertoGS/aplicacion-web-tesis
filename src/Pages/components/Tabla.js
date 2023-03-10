@@ -89,7 +89,7 @@ const Tabla = ({
 
   return (
     <>
-      <div style={{ height }}>
+      <div style={{ minHeight: height }}>
         <Table className="text-center">
           <thead className="theadTable">
             <tr>

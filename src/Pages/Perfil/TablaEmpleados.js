@@ -105,7 +105,7 @@ const TablaEmpleados = () => {
             </div>
           </Col>
           <Col className="mb-3" md={8}>
-            <div className="p-4 mx-3">
+            <div className="py-4 mx-3">
               <Tabla
                 data={datosEmpleados}
                 tabla="empleado"
