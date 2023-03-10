@@ -38,9 +38,9 @@ const Inventario = () => {
   const [reloadProductos, setReloadProductos] = useState(true);
   const [producto, setProducto] = useState(productoTabla);
 
-  GetData(urlProducto, reloadProductos, (dato) => {
-    setProductoTabla(dato.datos);
-    setProducto(dato.datos);
+  GetData(urlProducto, reloadProductos, ({ datos }) => {
+    setProductoTabla(datos.datos);
+    setProducto(datos.datos);
     setReloadProductos(false);
   });
 
@@ -143,19 +143,21 @@ const Inventario = () => {
             </Row>
           </Card>
           <div className="px-3 mt-3">
-            <Tabla
-              data={producto}
-              tabla="producto"
-              editarModal={(item) => {
-                setDatosModal(item);
-                setEditarModal(true);
-              }}
-              reload={() => {
-                setReloadProductos(true);
-              }}
-              url={urlProducto}
-              height="378px"
-            />
+            {producto && (
+              <Tabla
+                data={producto}
+                tabla="producto"
+                editarModal={(item) => {
+                  setDatosModal(item);
+                  setEditarModal(true);
+                }}
+                reload={() => {
+                  setReloadProductos(true);
+                }}
+                url={urlProducto}
+                height="378px"
+              />
+            )}
           </div>
         </div>
       </Card>
